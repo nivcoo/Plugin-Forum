@@ -92,15 +92,7 @@
                                 <?php foreach ($datas['rank']['rank'] as $key => $rank): ?>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" name="rank_<?= $rank['Group']['id']; ?>"
-                                                   <?php
-                                                   if(!empty($datas['rank']['rankbis'])){
-                                                       foreach ($datas['rank']['rankbis'] as $d){
-                                                           if($d['id'] == $rank['Group']['id']) echo 'checked';
-                                                       }
-                                                   }
-                                                   ?>
-                                            />
+                                            <input type="checkbox" name="rank_<?= $rank['Group']['id']; ?>"<?php if(!empty($datas['rank']['rankbis'])){foreach ($datas['rank']['rankbis'] as $d){if($d['id'] == $rank['Group']['id']) echo 'checked';}} ?> />
                                         </td>
                                         <td><input type="radio" <?php if (!empty($datas['rank']['domin'][0]['Groups_user']['domin']) && $datas['rank']['domin'][0]['Groups_user']['id_group'] == $rank['Group']['id']) echo 'checked'; ?> name="domin" value="<?= $rank['Group']['id']; ?>" /> </td>
                                         <td><div style="background-color:#<?= $rank['Group']['color']; ?>;color: #fff;padding: 2px 5px;margin-top: 5px;display: inline-block"><?= $rank['Group']['group_name']; ?></td>
