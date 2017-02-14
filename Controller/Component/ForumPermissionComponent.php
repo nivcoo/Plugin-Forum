@@ -65,8 +65,8 @@ class ForumPermissionComponent extends Component {
     }
 
     public function getRankColorDomin($id){
-        $group = @$this->model['groupsuser']->getIdGroupDomin($id);
-        return $this->model['groups']->getRankColor($group);
+        $group = $this->model['groupsuser']->getIdGroupDomin($id);
+        return ($group) ? $this->model['groups']->getRankColor($group) : '';
     }
 
     public function getRanks(){

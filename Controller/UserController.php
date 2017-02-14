@@ -47,8 +47,8 @@ class UserController extends ForumAppController {
                 $ranks['color'] = $this->forumRender('style', ['type' => 'background-color', 'data' => $ranks['color']]);
 
                 $userForum = $this->Profile->get($id);
-                if(!isset($userForum['description'])){
-                    $user['description'] = 'Aucune description n\'est disponible.';
+                if(empty($userForum['description'])){
+                    $userForum['description'] = 'Aucune description n\'est disponible.';
                 }
                 $userForum['color'] = $this->ForumPermission->getRankColorDomin($id);
                 //TODO : For a soon update

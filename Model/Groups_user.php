@@ -26,9 +26,11 @@ class Groups_user extends ForumAppModel{
                 $this->deleteAll(['id_user' => $idUser, 'id_group' => $idGroup]);
             }
         }else{
-            $this->create();
-            $this->set(['id_user' => $idUser, 'id_group' => $idGroup, 'domin' => $domin]);
-            return $this->save();
+            if($state){
+                $this->create();
+                $this->set(['id_user' => $idUser, 'id_group' => $idGroup, 'domin' => $domin]);
+                return $this->save();
+            }
         }
     }
 }
