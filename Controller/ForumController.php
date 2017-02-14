@@ -609,7 +609,7 @@ class ForumController extends ForumAppController {
                     $this->Profile->updateProfile($this->request->data['description'], $this->request->data['useredit']);
                     $idGroups = $this->request->data['idgroup'];
                     $groups = explode(',', $idGroups);
-                    $domin = $this->request->data['domin'];
+                    $domin = (isset($this->request->data['domin'])) ? $this->request->data['domin'] : false;
                     foreach ($groups as $key => $value){
                         $this->ForumPermission->updateGroup($this->request->data['rank_'.$value], $domin, $this->request->data['useredit'], $value);
                     }
