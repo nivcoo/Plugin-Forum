@@ -1004,5 +1004,8 @@ class ForumController extends ForumAppController {
     private function perm_l(){
         return $this->ForumPermission->perm_l();
     }
-    // 1000 lignes YESSSS !!! @ Dedi Eywek qui a debug le plugin
+
+    private function remoteAction($type, $value = false){
+
+    }
 }

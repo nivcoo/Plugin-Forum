@@ -74,7 +74,7 @@
                                         <dd><?= $msg['Topic']['author_info']['thumb']['green']; ?></dd>
                                     </dl>
                                     <dl>
-                                        <dt>Pource rouge :</dt>
+                                        <dt>Pouce rouge :</dt>
                                         <dd><?= $msg['Topic']['author_info']['thumb']['red']; ?></dd>
                                     </dl>
                                 </div>

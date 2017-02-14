@@ -30,7 +30,7 @@
                                     <dd><?= $infos['thumb']['green']; ?></dd>
                                 </dl>
                                 <dl>
-                                    <dt>Pource rouge :</dt>
+                                    <dt>Pouce rouge :</dt>
                                     <dd><?= $infos['thumb']['red']; ?></dd>
                                 </dl>
                                 <!--

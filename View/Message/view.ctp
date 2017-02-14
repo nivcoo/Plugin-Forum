@@ -1,6 +1,6 @@
 <?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.3/tinymce.min.js"></script>
-<div class="container">
+<div class="container" style="margin-bottom:40px">
     <div class="mt10">
         <div class="row mt20">
             <div class="col-md-12">
@@ -17,9 +17,11 @@
                                         <img class="center-block topic-avatar" src="<?= $this->Html->url(array('controller' => 'API', 'action' => 'get_head_skin', 'plugin' => false, $mp['Conversation']['author_user'], '120')); ?>" alt="Avatar <?= $mp['Conversation']['author_user']; ?>" />
                                         <p class="text-center"><strong><a style="color:#<?= $mp['Conversation']['author_color']; ?>" href="/user/<?= $mp['Conversation']['author_user']; ?>.<?= $mp['Conversation']['author_id']; ?>/"><?= $mp['Conversation']['author_user']; ?></a></strong></p>
                                         <div class="forum-rank">
-                                            <?php foreach($mp['Conversation']['author_rank']['rank'] as $key => $rank): ?>
-                                                <div style="background-color:#<?= $mp['Conversation']['author_rank']['color'][$key]; ?>" class="forum-badgerank forum-topic-badgerank"><?= $rank; ?></div>
-                                            <?php endforeach; ?>
+                                            <?php if(!empty($mp['Conversation']['author_rank']['rank'])): ?>
+                                                <?php foreach($mp['Conversation']['author_rank']['rank'] as $key => $rank): ?>
+                                                    <div style="background-color:#<?= $mp['Conversation']['author_rank']['color'][$key]; ?>" class="forum-badgerank forum-topic-badgerank"><?= $rank; ?></div>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>

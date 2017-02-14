@@ -99,6 +99,9 @@
   "FORUM__PHRASE__HISTORY__LOCK__TOPIC": " vient de verrouiller un topic",
   "FORUM__PHRASE__HISTORY__UNLOCK__TOPIC": " vient déverrouiller un topic",
 
+  "FORUM__PHRASE__RECIPIENT": "Destinataire(s) (séparé par une virgule)",
+  "FORUM__PHRASE__SENDMYMSG": "Envoyer mon message",
+
   "FORUM__RANK__BASIC": "Membre",
   "FORUM__TOPIC__LOCK": "Le topic a bien été verrouillé",
   "FORUM__TOPIC__UNLOCK": "Le topic a bien été déverrouillé",
