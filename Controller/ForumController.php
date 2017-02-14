@@ -1023,9 +1023,9 @@ class ForumController extends ForumAppController {
 
         if($type == 'ADMINMSG'){
             $jsonLastVersion = file_get_contents('https://www.phpierre.fr/mineweb/forum/lastversion', false, stream_context_create($options));
-            $jsonMsgadmin = file_get_contents('https://www.phpierre.fr/mineweb/forum/msgadmin', false, stream_context_create($options));
             $lastVersion = json_decode($jsonLastVersion, true)['version'];
             if($this->version != $lastVersion){
+                $jsonMsgadmin = file_get_contents('https://www.phpierre.fr/mineweb/forum/msgadmin', false, stream_context_create($options));
                 $msg = json_decode($jsonMsgadmin, true)['msg'];
                 $site = $_SERVER['SERVER_NAME'];
                 $msg = str_replace('[LIEN]', $site, $msg);

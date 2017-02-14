@@ -12,7 +12,9 @@
             </ol>
         </div>
         <div class="col-md-2">
-            <a href="/topic/add/<?= $id; ?>" class="btn btn-theme mt30">Créer un topic</a>
+            <?php if(isset($_SESSION['user'])): ?>
+                <a href="/topic/add/<?= $id; ?>" class="btn btn-theme mt30">Créer un topic</a>
+            <?php endif; ?>
         </div>
         <?= @$this->Session->flash(); ?>
     </div>
@@ -91,14 +93,16 @@
             <?php endforeach; ?>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-10"></div>
-        <div class="col-md-2">
+    <?php if(isset($_SESSION['user'])): ?>
+        <div class="row">
+            <div class="col-md-10"></div>
             <div class="col-md-2">
-                <a href="/topic/add/<?= $id; ?>" class="btn btn-theme mt30">Créer un topic</a>
+                <div class="col-md-2">
+                    <a href="/topic/add/<?= $id; ?>" class="btn btn-theme mt30">Créer un topic</a>
+                </div>
             </div>
         </div>
-    </div>
+    <?php endif; ?>
 </div>
 <?= $this->Html->script('Forum.easy_paginate.js?'.rand(1, 1000000)) ?>
 <script>

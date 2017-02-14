@@ -34,6 +34,8 @@ class MessageController extends ForumAppController {
                 $mps[$key]['Conversation']['user'] = $this->gUBY($mps[$key]['Conversation']['author_id']);
             }
             $this->set(compact('mps'));
+        }else{
+            throw new NotFoundException();
         }
     }
 
