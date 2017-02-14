@@ -39,7 +39,7 @@
                                 <?php foreach($userOnlines as $userOnline): ?>
                                     <li style="width: 10%">
                                         <img src="<?= $this->Html->url(array('controller' => 'API', 'action' => 'get_head_skin', 'plugin' => false, $userOnline['User']['pseudo'], 32, 'admin' => false)); ?>" alt="<?= $userOnline['User']['pseudo']; ?>">
-                                        <a class="users-list-name" href="#"><?= $userOnline['User']['pseudo']; ?></a>
+                                        <a class="users-list-name" href="/user/<?= $userOnline['User']['pseudo']; ?>.<?= $userOnline['User']['id']; ?>/"><?= $userOnline['User']['pseudo']; ?></a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>

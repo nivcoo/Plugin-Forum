@@ -1,7 +1,11 @@
 <?php
 class MsgReport extends ForumAppModel{
-    public function get(){
-        return $this->find('all');
+    public function get($id = false){
+        if($id){
+            return $this->find('all', ['conditions' => ['id_user' => $id], 'order' => ['date' => 'DESC']]);
+        }else{
+            return $this->find('all');
+        }
     }
 
     public function report($idUser, $idMessage, $date, $reason, $content){

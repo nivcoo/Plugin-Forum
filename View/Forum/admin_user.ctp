@@ -19,9 +19,11 @@
                                     <tr>
                                         <td><?= $user['User']['pseudo']; ?></td>
                                         <td>
-                                            <?php foreach ($user['User']['rank'] as $key => $rank): ?>
-                                                <div style="background-color:#<?= $user['User']['color'][$key]; ?>;color: #fff;padding: 2px 5px;margin-top: 5px;display: inline-block;"><?= $rank; ?></div>
-                                            <?php endforeach; ?>
+                                            <?php if (!empty($user['User']['rank'])): ?>
+                                                <?php foreach ($user['User']['rank'] as $key => $rank): ?>
+                                                    <div style="background-color:#<?= $user['User']['color'][$key]; ?>;color: #fff;padding: 2px 5px;margin-top: 5px;display: inline-block;"><?= $rank; ?></div>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </td>
                                         <td><a href="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'edit/user/'.$user['User']['id'], 'admin' => true)) ?>" class="btn btn-primary"><?= $Lang->get('GLOBAL__EDIT'); ?></a></td>
                                     </tr>

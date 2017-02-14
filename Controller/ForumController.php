@@ -590,6 +590,8 @@ class ForumController extends ForumAppController {
         if($this->isConnected AND $this->User->isAdmin()) {
             $this->loadModel('Forum.forums');
             $this->loadModel('Forum.Profile');
+            $this->loadModel('Forum.Historie');
+            $this->loadModel('Forum.MsgReport');
             if($this->request->is('ajax')) {
                 $this->autoRender = false;
                 if(!empty($this->request->data['name']) && !empty($this->request->data['position'])) {
@@ -642,12 +644,20 @@ class ForumController extends ForumAppController {
                         $datas['rank']['rank'] = $this->ForumPermission->getRanks();
                         $datas['profile'] = $this->Profile->get($id);
                         $datas['rank']['allrank'] = $this->ForumPermission->getRanks();
-                        $datas['rank']['r'] = "";
+                        $datas['rank']['r'] = '';
                         foreach ($datas['rank']['allrank'] as $key => $r){
                             $s = (!$key) ? '' : ',';
                             $datas['rank']['r'] .= $s.$r['Group']['id'];
                         }
-                        $this->set(compact('datas', 'type'));
+                        $history = $this->Historie->_list($id);
+                        foreach ($history as $key => $h){
+                            $history[$key]['Historie']['date'] = $this->dateAndTime($h['Historie']['date']);
+                        }
+                        $msgReport = $this->MsgReport->get($id);
+                        foreach ($msgReport as $key => $m){
+                            $msgReport[$key]['MsgReport']['date'] = $this->dateAndTime($m['MsgReport']['date']);
+                        }
+                        $this->set(compact('datas', 'type', 'history', 'msgReport'));
                     }else{
                         throw new ForbiddenException();
                     }

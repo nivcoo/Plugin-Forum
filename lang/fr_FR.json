@@ -115,5 +115,7 @@
   "FORUM__TOPIC__LOCK": "Le topic a bien été verrouillé",
   "FORUM__TOPIC__UNLOCK": "Le topic a bien été déverrouillé",
   "FORUM__TOPIC__STICK": "Le topic a été mis en avant",
-  "FORUM__TOPIC__UNSTICK": "Le topic n'est plus mis en avant"
+  "FORUM__TOPIC__UNSTICK": "Le topic n'est plus mis en avant",
+  "FORUM__LAST__REPORT": "Dernier signalement de l'utilisateur",
+  "FORUM__LAST__ACTIVITY": "Dernière activité"
 }

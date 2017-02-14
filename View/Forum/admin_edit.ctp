@@ -84,9 +84,9 @@
                             </div>
                             <table class="table table-responsive dataTable">
                                 <thead>
-                                <th>Groupe</th>
-                                <th>Dominance</th>
-                                <th>Grade</th>
+                                    <th>Groupe</th>
+                                    <th>Dominance</th>
+                                    <th>Grade</th>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($datas['rank']['rank'] as $key => $rank): ?>
@@ -102,20 +102,72 @@
                             </table>
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea class="form-control" name="description" rows="3"><?= $datas['profile']['description']; ?></textarea>
+                                <textarea class="form-control" name="description" rows="3"><?php if(isset($datas['profile']['description'])) echo $datas['profile']['description']; ?></textarea>
                             </div>
                             <div class="form-group">
                                 <label>Dernier passage sur le forum</label>
                                 <input class="form-control" type="text" value="<?= $datas['user']['lastseen']; ?>" disabled />
                             </div>
-                            <!-- Soon update-->
-                            <!-- last action histoires -->
-                            <!-- Signalement list tableau -->
-                            <!-- stats : thumb / nb message / nbtopic / isbanned / social network -->
+                            <!-- TODO : Soon update-->
+                            <!-- stats : thumb / nb message / nbtopic / isbanned / dessus description social network -->
+                            <!-- social network  Premier bloc stats / -->
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary"><?= $Lang->get('GLOBAL__SUBMIT'); ?></button>
                             </div>
                         </form>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?= $Lang->get('FORUM__LAST__ACTIVITY') ?></h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-responsive dataTable">
+                            <thead>
+                            <th>Date</th>
+                            <th>Ip</th>
+                            <th>Category</th>
+                            <th>Action</th>
+                            <th></th>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($history as $key => $h): ?>
+                                <tr>
+                                    <td><?= $h['Historie']['date']; ?></td>
+                                    <td><?= $h['Historie']['ip']; ?></td>
+                                    <td><?= $h['Historie']['category']; ?></td>
+                                    <td><?= $h['Historie']['action']; ?></td>
+                                    <td><?= $h['Historie']['content']; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?= $Lang->get('FORUM__LAST__REPORT') ?></h3>
+                        <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Ce sont les messages signalé par cet utilisateur</p>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-responsive dataTable">
+                            <thead>
+                                <th>Date</th>
+                                <th>Raison</th>
+                                <th>Content</th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($msgReport as $key => $m): ?>
+                                <tr>
+                                    <td><?= $m['MsgReport']['date']; ?></td>
+                                    <td><?= $m['MsgReport']['reason']; ?></td>
+                                    <td><?= $m['MsgReport']['content']; ?></td>
+                                    <td><a  href="/topic/<?= $m['MsgReport']['href']; ?>/#<?= $m['MsgReport']['id_msg']; ?>" class="btn btn-info"><i class="fa fa-external-link" aria-hidden="true"></i></a></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             <?php endif; ?>

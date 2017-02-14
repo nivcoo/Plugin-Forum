@@ -37,6 +37,10 @@ class Historie extends ForumAppModel {
         $this->save();
     }
 
+    public function _list($id){
+        return $this->find('all', ['conditions' => ['id' => $id], 'order' => ['date' => 'DESC']]);
+    }
+
     public function get($category = false, $param = false){
         if(empty($category)){
             return $this->find('all', ['order' => ['date' => 'DESC']]);
