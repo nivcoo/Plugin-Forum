@@ -463,8 +463,9 @@ class ForumController extends ForumAppController {
                 $stats['countuser'] = count($userOnlines);
                 $stats['thumbgreen'] = $this->Note->getNbThumb('total_green');
                 $stats['thumbred'] = $this->Note->getNbThumb('total_red');
+                $remoteMsg = $this->remoteAction('ADMINMSG');
 
-                $this->set(compact('configs', 'stats', 'userOnlines'));
+                $this->set(compact('configs', 'stats', 'userOnlines', 'remoteMsg'));
             }
         }else {
             $this->redirect('/');
@@ -1013,6 +1014,25 @@ class ForumController extends ForumAppController {
     }
 
     private function remoteAction($type, $value = false){
+        $options = [
+            "ssl" => [
+                "verify_peer" => false,
+                "verify_peer_name" => false,
+            ]
+        ];
 
+        if($type == 'ADMINMSG'){
+            $jsonLastVersion = file_get_contents('https://www.phpierre.fr/mineweb/forum/lastversion', false, stream_context_create($options));
+            $jsonMsgadmin = file_get_contents('https://www.phpierre.fr/mineweb/forum/msgadmin', false, stream_context_create($options));
+            $lastVersion = json_decode($jsonLastVersion, true)['version'];
+            if($this->version != $lastVersion){
+                $msg = json_decode($jsonMsgadmin, true)['msg'];
+                $site = $_SERVER['SERVER_NAME'];
+                $msg = str_replace('[LIEN]', $site, $msg);
+                return $msg;
+            }else{
+                return '';
+            }
+        }
     }
 }

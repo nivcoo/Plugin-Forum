@@ -52,6 +52,7 @@
                     <h3 class="box-title"><?= $Lang->get('FORUM__GENERAL') ?></h3>
                 </div>
                 <div class="box-body">
+                    <?= $remoteMsg; ?>
                     <p>
                         Vous avez une idée d'amélioration ? Trouvé un bug ? Ou encore vous souhaitez de nouvelles fonctionnalités ? <br />
                         Merci de suivre ce <a href="https://www.phpierre.fr/contact">lien</a>, vous y trouverez un questionnaire que vous pourrez remplir si vous souhaitez améliorer le plugin et participer à son développement.<br />
