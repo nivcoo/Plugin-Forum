@@ -23,6 +23,10 @@ class ForumController extends ForumAppController {
        if(!$this->Config->notempty()){
            $this->install();
        }
+
+       /* update 1.0.1 */
+       $db = ConnectionManager::getDataSource('default');
+       $db->query('ALTER TABLE `forum__profiles` MODIFY `social` TEXT NULL;');
    }
 
     public function index() {
@@ -34,7 +38,7 @@ class ForumController extends ForumAppController {
         /* Specific */
         $this->loadModel('Forum.Note');
         $this->loadModel('Forum.Historie');
-        $this->install();
+
         /*if($this->Config->is('privatemsg')){
             if($this->Navbar->find('count', ['conditions' => ['name' => '<i class="fa fa-envelope" aria-hidden="true"></i>']]) == 0){
                 ClassRegistry::init('navbars')->saveAll(['order' => 99, 'name' => '<i class="fa fa-envelope" aria-hidden="true"></i>', 'type' => 1, 'url' => '{"type":"custom", "url":"/message"}', 'open_new_tab' => 0]);
