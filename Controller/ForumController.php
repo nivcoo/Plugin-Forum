@@ -135,11 +135,8 @@ class ForumController extends ForumAppController {
                 $topics[$key]['Topic']['nb_message'] = $this->Topic->getNbMessage('topic', $topic['Topic']['id_topic']);
                 $topics[$key]['Topic']['topic_last_author_color'] = $this->ForumPermission->getRankColorDomin($topics[$key]['Topic']['forum_last_authorid']);
                 $topics[$key]['Topic']['total_view'] = $this->Vieww->count($topic_stick['Topic']['id_topic']);
-                if($key == 0){
-                    $parent['forum_parent']['name'] = $this->Forum->info('parent_title', $topics[$key]['Topic']['id_parent'])['Forum']['forum_name'];
-                    $parent['forum_parent']['href'] = $parent['forum_parent']['name'].".".$this->Forum->info('parent_title', $topics[0]['Topic']['id_parent'])['Forum']['id'];
-                }
             }
+            $parent['forum_parent']['name'] = $this->replaceHyppen($slug);
             $this->set('title_for_layout', $this->replaceHyppen($slug).' | '.$this->Lang->get('FORUM__TITLE'));
             $this->set(compact('forums', 'slug', 'topics', 'topics_stick', 'parent', 'id'));
         }else{
@@ -341,8 +338,8 @@ class ForumController extends ForumAppController {
                     $msgs[$key]['Topic']['author'] = $this->gUBY($user_id);
                     $msgs[$key]['Topic']['date'] = $this->dateAndTime($msg['Topic']['date'], '%d %B %Y');
                     if($key == 0){
-                        $parent['forum_parent']['name'] = $this->Forum->info('parent_title', $msgs[0]['Topic']['id_parent'])['Forum']['forum_name'];
-                        $parent['forum_parent']['href'] = $parent['forum_parent']['name'].".".$this->Forum->info('parent_title', $msgs[0]['Topic']['id_parent'])['Forum']['id'];
+                        $parent['forum_parent']['name'] = ($this->Forum->info('parent_title', $msgs[0]['Topic']['id_parent'])) ? $this->Forum->info('parent_title', $msgs[0]['Topic']['id_parent'])['Forum']['forum_name'] : '';
+                        $parent['forum_parent']['href'] = (!empty($parent['forum_parent']['name'])) ? $parent['forum_parent']['name'].".".$this->Forum->info('parent_title', $msgs[0]['Topic']['id_parent'])['Forum']['id'] : '';
                     }
                     $msgs[$key]['Topic']['thumb']['green'] = $this->Note->getNbThumb('msg_green', $msg['Topic']['id']);
                     $msgs[$key]['Topic']['thumb']['red'] = $this->Note->getNbThumb('msg_red', $msg['Topic']['id']);

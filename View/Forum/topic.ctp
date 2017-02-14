@@ -7,9 +7,11 @@
         <li class="forum-breadcrumb-home">
             <a href="/forum"><i class="fa fa-home" aria-hidden="true"></i></a>
         </li>
-        <li class="forum-breadcrumb-href">
-            <a href="/forum/<?= $parent['forum_parent']['href']; ?>/"><?= $parent['forum_parent']['name']; ?></a>
-        </li>
+        <?php if(!empty($parent['forum_parent']['name'])): ?>
+            <li class="forum-breadcrumb-href">
+                <a href="/forum/<?= $parent['forum_parent']['href']; ?>/"><?= $parent['forum_parent']['name']; ?></a>
+            </li>
+        <?php endif; ?>
         <li class="forum-breadcrumb-child">
             <?= $msgs[0]['Topic']['name']; ?>
         </li>

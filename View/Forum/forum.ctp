@@ -7,7 +7,6 @@
                     <a href="/forum"><i class="fa fa-home" aria-hidden="true"></i></a>
                 </li>
                 <li class="forum-breadcrumb-child">
-                    <!-- TODO : bug here -->
                     <?= $parent['forum_parent']['name']; ?>
                 </li>
             </ol>
