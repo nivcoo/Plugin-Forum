@@ -12,6 +12,13 @@
   "FORUM__IN": "Dans",
   "FORUM__ERROR": "Une erreur s'est produite",
   "FORUM__DROP": "Vider",
+  "FORUM__PRESENTATION": "Présentation",
+  "FORUM__FEEDBACK": "Appréciations",
+  "FORUM__COMMENT": "Commentaires",
+  "FORUM__MSG": "Message",
+  "FORUM__GREENTHUMB": "Pouce vert",
+  "FORUM__REDTHUMB": "Pouce rouge",
+
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",
@@ -101,6 +108,8 @@
 
   "FORUM__PHRASE__RECIPIENT": "Destinataire(s) (séparé par une virgule)",
   "FORUM__PHRASE__SENDMYMSG": "Envoyer mon message",
+  "FORUM__PHRASE__LASTCOMMENT": "Derniers commentaires",
+  "FORUM__PHRASE__LASTFEEDBACK": "Dernières appréciations",
 
   "FORUM__RANK__BASIC": "Membre",
   "FORUM__TOPIC__LOCK": "Le topic a bien été verrouillé",
