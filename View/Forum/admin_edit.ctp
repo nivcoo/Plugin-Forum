@@ -93,9 +93,13 @@
                                     <tr>
                                         <td>
                                             <input type="checkbox" name="rank_<?= $rank['Group']['id']; ?>"
-                                                   <?php foreach ($datas['rank']['rankbis'] as $d){
-                                                        if($d['id'] == $rank['Group']['id']) echo 'checked';
-                                                   } ?>
+                                                   <?php
+                                                   if(!empty($datas['rank']['rankbis'])){
+                                                       foreach ($datas['rank']['rankbis'] as $d){
+                                                           if($d['id'] == $rank['Group']['id']) echo 'checked';
+                                                       }
+                                                   }
+                                                   ?>
                                             />
                                         </td>
                                         <td><input type="radio" <?php if (!empty($datas['rank']['domin'][0]['Groups_user']['domin']) && $datas['rank']['domin'][0]['Groups_user']['id_group'] == $rank['Group']['id']) echo 'checked'; ?> name="domin" value="<?= $rank['Group']['id']; ?>" /> </td>

@@ -74,7 +74,7 @@ class ForumPermissionComponent extends Component {
     }
 
     public function getRank($id, $advanced = false){
-        $groups = @$this->model['groupsuser']->getIdGroup($id);
+        $groups = $this->model['groupsuser']->getIdGroup($id);
         if($groups){
             foreach ($groups as $key => $group){
                 if($advanced){
