@@ -609,8 +609,9 @@ class ForumController extends ForumAppController {
                     $this->Profile->updateProfile($this->request->data['description'], $this->request->data['useredit']);
                     $idGroups = $this->request->data['idgroup'];
                     $groups = explode(',', $idGroups);
+                    $domin = $this->request->data['domin'];
                     foreach ($groups as $key => $value){
-                        $this->ForumPermission->updateGroup($this->request->data['rank_'.$value], $this->request->data['domin'], $this->request->data['useredit'], $value);
+                        $this->ForumPermission->updateGroup($this->request->data['rank_'.$value], $domin, $this->request->data['useredit'], $value);
                     }
                     $this->logforum($this->getIdSession(), 'edit_permission', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDITPERM__USER').$this->gUBY($this->request->data['useredit']), '');
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__USER__EDIT'))));
