@@ -924,8 +924,6 @@ class ForumController extends ForumAppController {
                 ['config_name' => 'userpage', 'config_value' => true, 'lang' => 'Profil utilisateur du forum'],
                 ['config_name' => 'forum', 'config_value' => true, 'lang' => 'Forum']
             ],
-            // 3 table conversation
-
             'forum' => [
                 ['id_parent' => 0, 'id_user' => 1, 'position' => 1, 'forum_name' => 'Mineweb', 'forum_description' => 'Ceci est une description', 'forum_image' => 'folder-open'],
                 ['id_parent' => 0, 'id_user' => 1, 'position' => 2, 'forum_name' => 'Support', 'forum_description' => 'Ceci est une description', 'forum_image' => 'folder-open'],
@@ -978,9 +976,7 @@ class ForumController extends ForumAppController {
                 ['id_user' => 1, 'description' => 'Ceci est un description généré lors de l\'installation du plugin ']
             ],
             'topic' => [
-                ['id_parent' => 4, 'id_user' => 1, 'id_topic' => 1, 'name' => 'Le premier Topic !', 'first' => 1, 'content' => 'Lorems ipsum, blablabla bla bla bla', 'date' => $date, 'last_edit' => $date],
-                ['id_parent' => 4, 'id_user' => 1, 'id_topic' => 1, 'name' => 'Le deuxième topic !', 'content' => 'Lorems ipsum, blablabla bla bla bla', 'date' => $date, 'last_edit' => $date],
-                ['id_parent' => 4, 'id_user' => 1, 'id_topic' => 3, 'name' => 'Stick Topic !', 'first' => 1, 'stick' => 1, 'content' => 'Lorems ipsum, blablabla bla bla bla', 'date' => $date, 'last_edit' => $date],
+                ['id_parent' => 4, 'id_user' => 1, 'id_topic' => 1, 'name' => 'Votre premier Topic !', 'first' => 1, 'content' => 'Ceci est votre premier message. C\'est pour vous montrez un petit parçu du plugin.', 'date' => $date, 'last_edit' => $date],
             ],
         ];
 

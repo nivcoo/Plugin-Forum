@@ -297,3 +297,11 @@ ol > .forum-left.last{
     text-align: center;
     border-right: 0px;
 }
+
+.forum-back{
+    margin: 0 0 0 20px;
+}
+
+.font-min{
+    font-size: 10px;
+}

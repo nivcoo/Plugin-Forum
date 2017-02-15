@@ -42,8 +42,13 @@
             <div class="col-md-8">
                 <div class="p15">
                     <div class="forum-bloc p15">
-                        <h5><?= $Lang->get('FORUM__PRESENTATION'); ?></h5>
-                        <?= $userForum['description']; ?>
+                        <h5 class="inline"><?= $Lang->get('FORUM__PRESENTATION'); ?></h5>
+                        <?php if(isset($_SESSION['user']) && $_SESSION['user'] == $id): ?>
+                            <a class="btn-theme pull-right inline" href="edit"><i class="fa fa-pencil" aria-hidden="true"></i> <?= $Lang->get('GLOBAL__EDIT'); ?></a>
+                        <?php endif; ?>
+                        <div>
+                            <?= $userForum['description']; ?>
+                        </div>
                     </div>
                     <ul class="nav nav-tabs mt15" role="tablist">
                         <li role="presentation" class="active"><a href="#comment" aria-controls="comment" role="tab" data-toggle="tab"><?= $Lang->get('FORUM__COMMENT'); ?></a></li>
@@ -71,7 +76,6 @@
                             <?php endforeach; ?>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

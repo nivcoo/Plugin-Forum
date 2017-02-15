@@ -15,7 +15,7 @@
                         <a href="/forum/report"><i class="fa fa-flag" aria-hidden="true"></i></a>
                     </li>
                 <?php endif; ?>
-                <?php if($active['privatemsg']): ?>
+                <?php if($active['privatemsg'] && isset($_SESSION['user'])): ?>
                     <li class="forum-left">
                         <a href="/message"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
                     </li>

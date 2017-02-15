@@ -5,9 +5,14 @@
         <div class="row mt20">
             <div class="col-md-12">
                 <div class="forum-bloc p10 mt20">
-                    <p class="forum-forum-title"><i class="fa fa-flag" aria-hidden="true"></i> <?= $mps[0]['Conversation']['title']; ?></p>
+                    <p class="forum-forum-title inline"><i class="fa fa-flag" aria-hidden="true"></i> <?= $mps[0]['Conversation']['title']; ?></p>
+                    <p class="inline pull-right forum-back"><a href="<?= $this->Html->url(array('controller' => 'message', 'action' => 'index')) ?>"><i class="fa fa-undo" aria-hidden="true"></i> <?= $Lang->get('FORUM__BACKTO__MSG'); ?></a></p>
                 </div>
+            </div>
+            <div class="col-md-12">
                 <?= @$this->Session->flash(); ?>
+            </div>
+            <div class="col-md-12">
                 <?php foreach ($mps as $mp): ?>
                     <div class="forum-bloc p10 mt20">
                         <div class="row">
@@ -59,7 +64,7 @@
                             <textarea id="editor" name="content" cols="30" rows="7"></textarea>
                         </div>
                         <div class="form-group text-center">
-                            <button type="submit" class="btn-theme">Répondre</button>
+                            <button type="submit" class="btn btn-theme"><i class="fa fa-paper-plane" aria-hidden="true"></i> <?= $Lang->get('FORUM__REPLY'); ?></button>
                         </div>
                     </form>
                 <?php endif; ?>

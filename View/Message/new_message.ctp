@@ -4,6 +4,9 @@
     <div class="mt10">
         <div class="row mt20">
             <div class="col-md-12">
+                <p class="inline pull-right forum-back"><a class="btn btn-theme" href="<?= $this->Html->url(array('controller' => 'message', 'action' => 'index')) ?>"><i class="fa fa-undo" aria-hidden="true"></i> <?= $Lang->get('FORUM__BACKTO__MSG'); ?></a></p>
+            </div>
+            <div class="col-md-12">
                 <form action="" method="post">
                     <?= @$this->Session->flash(); ?>
                     <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />

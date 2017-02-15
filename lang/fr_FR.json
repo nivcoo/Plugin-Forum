@@ -18,7 +18,11 @@
   "FORUM__MSG": "Message",
   "FORUM__GREENTHUMB": "Pouce vert",
   "FORUM__REDTHUMB": "Pouce rouge",
-
+  "FORUM__REPLY": "Répondre",
+  "FORUM__BACKTO__MSG": "Retourner aux messages",
+  "FORUM__WRITE__MSG": "Ecrire un message",
+  "FORUM__MYPROFILE": "Mon profil forum",
+  "FORUM__DESCRIPTION": "Description",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",
@@ -45,6 +49,7 @@
 
   "FORUM__EDIT__FORUM": "Editer un forum",
   "FORUM__EDIT__USER": "Editer un utilisateur",
+  "FORUM__EDIT__MYPROFILE": "Editer mon profil",
   "FORUM__EDIT__PROFILE": "Votre profil a été édité",
   "FORUM__USER__EDIT": "L'utilisateur a été modifié",
   "FORUM__EDIT__CATEGORY": "Editer une catégorie",

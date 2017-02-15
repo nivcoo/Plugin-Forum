@@ -28,10 +28,12 @@ class MessageController extends ForumAppController {
             foreach ($messages as $key => $message){
                 $ids[$key] = $message['Conversation']['id_conversation'];
             }
-            foreach ($ids as $key => $id){
-                $mps[$key] = $this->Conversation->get($id, $id);
-                $mps[$key]['Conversation']['msg_date'] = $this->dateAndTime($mps[$key]['Conversation']['msg_date']);
-                $mps[$key]['Conversation']['user'] = $this->gUBY($mps[$key]['Conversation']['author_id']);
+            if(!empty($ids)){
+                foreach ($ids as $key => $id){
+                    $mps[$key] = $this->Conversation->get($id, $id);
+                    $mps[$key]['Conversation']['msg_date'] = $this->dateAndTime($mps[$key]['Conversation']['msg_date']);
+                    $mps[$key]['Conversation']['user'] = $this->gUBY($mps[$key]['Conversation']['author_id']);
+                }
             }
             $this->set(compact('mps'));
         }else{
@@ -49,7 +51,8 @@ class MessageController extends ForumAppController {
                     foreach ($recipient as $key => $r){
                         if($this->pseudoExist($r)){
                             $idto = $this->User->getFromUser('id', $r);
-                            $this->ConversationRecipient->add($idto, $maxId);
+                            $this->ConversationRecipient->add($maxId, $idto);
+                            $this->ConversationRecipient->add($maxId, $this->getIdSession());
                         }
                     }
                     $title = $this->request->data['title'];
