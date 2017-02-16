@@ -69,8 +69,8 @@ class ForumPermissionComponent extends Component {
         return ($group) ? $this->model['groups']->getRankColor($group) : '';
     }
 
-    public function getRanks(){
-        return $this->model['groups']->get();
+    public function getRanks($id = false){
+        return $this->model['groups']->get($id);
     }
 
     public function getRank($id, $advanced = false){
@@ -103,5 +103,9 @@ class ForumPermissionComponent extends Component {
 
     private function getIdSession(){
         return isset($_SESSION['user']) ? $_SESSION['user'] : false;
+    }
+
+    public function updateRank($name, $description, $color, $id){
+        return $this->model['groups']->updateRank($name, $description, $color, $id);
     }
 }

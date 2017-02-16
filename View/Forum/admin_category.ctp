@@ -9,11 +9,11 @@
 
                     <table class="table table-bordered dataTable">
                         <thead>
-                        <tr>
-                            <th><?= $Lang->get('GLOBAL__NAME') ?></th>
-                            <th>Forum parent</th>
-                            <th class="right"><?= $Lang->get('GLOBAL__ACTIONS') ?></th>
-                        </tr>
+                            <tr>
+                                <th><?= $Lang->get('GLOBAL__NAME') ?></th>
+                                <th><?= $Lang->get('FORUM__FORUM__PARENT'); ?></th>
+                                <th class="right"><?= $Lang->get('GLOBAL__ACTIONS') ?></th>
+                            </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($forums as $forum) { ?>

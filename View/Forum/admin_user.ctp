@@ -10,9 +10,11 @@
                         <div class="col-md-12">
                             <table class="table table-responsive dataTable">
                                 <thead>
-                                    <th><?= $Lang->get('USER__USERNAME'); ?></th>
-                                    <th><?= $Lang->get('FORUM__RANK__ALT'); ?></th>
-                                    <th></th>
+                                    <tr>
+                                        <th><?= $Lang->get('USER__USERNAME'); ?></th>
+                                        <th><?= $Lang->get('FORUM__RANK__ALT'); ?></th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($users as $user): ?>
@@ -25,7 +27,9 @@
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
                                         </td>
-                                        <td><a href="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'edit/user/'.$user['User']['id'], 'admin' => true)) ?>" class="btn btn-primary"><?= $Lang->get('GLOBAL__EDIT'); ?></a></td>
+                                        <td>
+                                            <a href="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'edit/user/'.$user['User']['id'], 'admin' => true)) ?>" class="btn btn-primary"><?= $Lang->get('GLOBAL__EDIT'); ?></a>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>

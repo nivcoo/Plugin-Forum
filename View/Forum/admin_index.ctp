@@ -65,7 +65,7 @@
                     <div class="info-box">
                         <span class="info-box-icon bg-green"><i class="fa fa-thumbs-up"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Pouce<?php if($stats['thumbgreen'] > 1) echo 's'; ?> vert<?php if($stats['thumbgreen'] > 1) echo 's'; ?></span>
+                            <span class="info-box-text"><?= $Lang->get('FORUM__THUMB'); ?><?php if($stats['thumbgreen'] > 1) echo 's'; ?> <?= $Lang->get('FORUM__GREEN'); ?><?php if($stats['thumbgreen'] > 1) echo 's'; ?></span>
                             <span class="info-box-number"><?= $stats['thumbgreen']; ?></span>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                     <div class="info-box">
                         <span class="info-box-icon bg-red"><i class="fa fa-thumbs-down"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Pouce<?php if($stats['thumbred'] > 1) echo 's'; ?> rouge<?php if($stats['thumbred'] > 1) echo 's'; ?></span>
+                            <span class="info-box-text"><?= $Lang->get('FORUM__THUMB'); ?><?php if($stats['thumbred'] > 1) echo 's'; ?> <?= $Lang->get('FORUM__RED'); ?><?php if($stats['thumbred'] > 1) echo 's'; ?></span>
                             <span class="info-box-number"><?= $stats['thumbred']; ?></span>
                         </div>
                     </div>
@@ -110,9 +110,7 @@
             <div class="box">
                 <div class="box-body">
                     <h3 class="box-title"><?= $Lang->get('FORUM__CONFIG__INSTALL') ?></h3>
-                    <p>En appuyant sur ce bouton, cela installera la configuration de base du forum, celle ci est <b>indispensable</b> si vous venez d'installer le forum.</p>
-                    <p>Vous pouvez aussi appuyez sur ce bouton pour restaurer à vide votre forum.</p>
-                    <p style="color: #dc322f">Attention ! Ceci va reset les données du forum.</p>
+                    <p style="color: #dc322f"><?= $Lang->get('FORUM__PHRASE__PAGE__ADMININDEX_5'); ?></p>
                     <form action="" method="post" data-ajax="true">
                         <input type="hidden" name="install" value="42" />
                         <div class="ajax-msg"></div>
@@ -125,7 +123,7 @@
             <div class="box">
                 <div class="box-body">
                     <h3 class="box-title"><?= $Lang->get('FORUM__CONFIG__HISTORY') ?></h3>
-                    <p>Attention, appuyer sur ce bouton supprimera tout l'historique des actions du forum.</p>
+                    <p><?= $Lang->get('FORUM__PHRASE__PAGE__ADMININDEX_6'); ?></p>
                     <form action="" method="post" data-ajax="true">
                         <input type="hidden" name="drop" value="42" />
                         <div class="ajax-msg"></div>

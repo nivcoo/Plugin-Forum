@@ -41,7 +41,14 @@
         <?php if($forum['Forum']['id_parent'] == 0): $p = $forum['Forum']['id']; ?>
             <div class="forum-forum">
                 <div class="forum-forum-header">
-                    <p class="forum-forum-title"> <?= $forum['Forum']['forum_name']; ?></p>
+                    <p class="forum-forum-title inline">
+                        <?php if(filter_var($forum['Forum']['forum_image'], FILTER_VALIDATE_URL)): ?>
+                            <img src="<?= $forum['Forum']['forum_image']; ?>" class="forum-category-icon-min" alt="" />
+                        <?php else: ?>
+                            <i class="fa fa-<?= $forum['Forum']['forum_image']; ?> forum-category-fa-min" aria-hidden="true"></i>
+                        <?php endif; ?>
+                        <?= $forum['Forum']['forum_name']; ?>
+                    </p>
                 </div>
             <?php foreach ($forums as $f => $forum): ?>
                 <?php if($forum['Forum']['id_parent'] != 0 && $forum['Forum']['id_parent'] == $p): ?>

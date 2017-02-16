@@ -32,9 +32,11 @@
                         <div class="col-md-12">
                             <table class="table table-responsive dataTable">
                                 <thead>
-                                    <th><?= $Lang->get('FORUM__WORD'); ?></th>
-                                    <th><?= $Lang->get('FORUM__WORD__REPLACE'); ?></th>
-                                    <th><?= $Lang->get('FORUM__ACTION'); ?></th>
+                                    <tr>
+                                        <th><?= $Lang->get('FORUM__WORD'); ?></th>
+                                        <th><?= $Lang->get('FORUM__WORD__REPLACE'); ?></th>
+                                        <th><?= $Lang->get('FORUM__ACTION'); ?></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($words as $word): ?>

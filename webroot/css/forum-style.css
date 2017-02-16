@@ -31,8 +31,9 @@
     border-top: 1px solid #e7e7e7;
     padding: 5px 5px 5px 15px;
 }
-.forum-category-icone{
-
+.forum-category-icon-min{
+    width: 25px;
+    height: 25px;
 }
 .forum-category-icon{
     width: 50px;
@@ -270,6 +271,10 @@
 
 .forum-category-fa{
     font-size: 45px;
+}
+
+.forum-category-fa-min{
+    font-size: 25px;
 }
 
 .inline{

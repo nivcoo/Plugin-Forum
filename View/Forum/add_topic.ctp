@@ -6,19 +6,19 @@
             <?= @$this->Session->flash(); ?>
             <form method="post" action="/<?= $this->request->url ?>/<?= $idParent; ?>">
                 <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
-                <input name="title" class="form-control" placeholder="Titre du topic" />
+                <input name="title" class="form-control" placeholder="<?= $Lang->get('FORUM__TITLE__TOPIC'); ?>" />
                 <div class="row">
                     <div class="col-md-6">
                         <?php if($configs['stick']): ?>
                             <div class="checkbox">
-                                <label class="checkbox-inline"><input type="checkbox" name="stick" value="stick" /> Epingler le topic</label>
+                                <label class="checkbox-inline"><input type="checkbox" name="stick" value="stick" /> <?= $Lang->get('FORUM__TOPIC__STICK__ALT'); ?></label>
                             </div>
                         <?php endif; ?>
                     </div>
                     <div class="col-md-6">
                         <?php if($configs['lock']): ?>
                             <div class="checkbox">
-                                <label class="checkbox-inline"><input type="checkbox" name="lock" value="lock" /> Empecher l'ajout de réponse</label>
+                                <label class="checkbox-inline"><input type="checkbox" name="lock" value="lock" /> <?= $Lang->get('FORUM__TOPIC__LOCK__ALT'); ?></label>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -40,7 +40,7 @@
                     <textarea id="editor_insert" name="content_insert" cols="30" rows="10"></textarea>
                 </div>
                 <div class="text-center">
-                    <button type="submit" id="submit_update" class="btn btn-primary">Publier mon topic</button>
+                    <button type="submit" id="submit_update" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> <?= $Lang->get('FORUM__SEND__MYTOPIC'); ?></button>
                 </div>
             </form>
         </div>

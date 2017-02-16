@@ -1,7 +1,11 @@
 <?php
 class Group extends ForumAppModel{
-    public function get(){
-        return $this->find('all');
+    public function get($id = false){
+        if($id){
+            return $this->find('first', ['conditions' => ['id' => $id]])['Group'];
+        }else{
+            return $this->find('all');
+        }
     }
 
     public function deleteGroup($id){
@@ -35,5 +39,9 @@ class Group extends ForumAppModel{
 
     public function getName($id){
         return $this->find('all', ['fields' => 'group_name', 'conditions' => ['id' => $id]])[0]['Group']['group_name'];
+    }
+
+    public function updateRank($name, $description, $color, $id){
+        return $this->updateAll(['group_name' => "'".$name."'", 'group_description' => "'".$description."'", 'color' => "'".$color."'"], ['id' => $id]);;
     }
 }

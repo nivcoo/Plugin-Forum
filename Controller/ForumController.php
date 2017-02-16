@@ -626,6 +626,14 @@ class ForumController extends ForumAppController {
                     }
                     $this->logforum($this->getIdSession(), 'edit_permission', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDITPERM__USER').$this->gUBY($this->request->data['useredit']), '');
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__USER__EDIT'))));
+                }elseif (!empty($this->request->data['color']) && !empty($this->request->data['name'])){
+                    $id = $this->request->data['id'];
+                    $name = $this->request->data['name'];
+                    $description = $this->request->data['description'];
+                    $color = $this->request->data['color'];
+                    $this->ForumPermission->updateRank($name, $description, $color, $id);
+                    $this->logforum($this->getIdSession(), 'edit_rank', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__GROUP'), $name);
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
                 }else{
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
                 }
@@ -666,6 +674,9 @@ class ForumController extends ForumAppController {
                             $msgReport[$key]['MsgReport']['date'] = $this->dateAndTime($m['MsgReport']['date']);
                         }
                         $this->set(compact('datas', 'type', 'history', 'msgReport'));
+                    }elseif($type == 'rank'){
+                        $datas = $this->ForumPermission->getRanks($id);
+                        $this->set(compact('datas', 'type'));
                     }else{
                         throw new ForbiddenException();
                     }
@@ -1040,13 +1051,11 @@ class ForumController extends ForumAppController {
         }
     }
 
+    private function reset(){
+
+    }
+
     public function debug(){
        echo 'Forum version : '.$this->version;
     }
-
-    /*
-     * todo list :
-     * forum_image -> index.ctp
-     * Bouton edit Gestion des groupes
-     */
 }

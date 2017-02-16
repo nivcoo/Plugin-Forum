@@ -9,17 +9,17 @@
 
                     <table class="table table-bordered dataTable">
                         <thead>
-                        <tr>
-                            <th><?= $Lang->get('GLOBAL__NAME') ?></th>
-                            <th>Parent</th>
-                            <th class="right"><?= $Lang->get('GLOBAL__ACTIONS') ?></th>
-                        </tr>
+                            <tr>
+                                <th><?= $Lang->get('GLOBAL__NAME') ?></th>
+                                <th><?= $Lang->get('FORUM__PARENT') ?></th>
+                                <th class="right"><?= $Lang->get('GLOBAL__ACTIONS') ?></th>
+                            </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($forums as $forum) { ?>
                             <tr>
                                 <td><?= $forum['Forum']['forum_name'] ?></td>
-                                <td>Aucun parent</td>
+                                <td><?= $Lang->get('FORUM__PARENT__NONE'); ?></td>
                                 <td class="right">
                                     <a href="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'edit/forum/'.$forum['Forum']['id'], 'admin' => true)) ?>" class="btn btn-info"><?= $Lang->get('GLOBAL__EDIT') ?></a>
                                     <a onClick="confirmDel('<?= $this->Html->url(array('controller' => 'forum', 'action' => 'delete/forum/'.$forum['Forum']['id'], 'admin' => true)) ?>')" class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE') ?></a>

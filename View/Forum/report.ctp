@@ -10,11 +10,13 @@
                         <div class="col-md-12">
                             <table class="table table-responsive dataTable">
                                 <thead>
-                                <th><?= $Lang->get('FORUM__BY'); ?></th>
-                                <th><?= $Lang->get('FORUM__DATE__REPORT'); ?></th>
-                                <th><?= $Lang->get('FORUM__REASON'); ?></th>
-                                <th><?= $Lang->get('FORUM__CONTENT'); ?></th>
-                                <th><?= $Lang->get('FORUM__ACTION'); ?></th>
+                                    <tr>
+                                        <th><?= $Lang->get('FORUM__BY'); ?></th>
+                                        <th><?= $Lang->get('FORUM__DATE__REPORT'); ?></th>
+                                        <th><?= $Lang->get('FORUM__REASON'); ?></th>
+                                        <th><?= $Lang->get('FORUM__CONTENT'); ?></th>
+                                        <th><?= $Lang->get('FORUM__ACTION'); ?></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($msgreports as $msgreport): ?>

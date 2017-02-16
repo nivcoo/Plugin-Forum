@@ -21,11 +21,13 @@
                         <div class="col-md-12">
                             <table class="table table-responsive dataTable">
                                 <thead>
-                                    <th>Pseudo</th>
-                                    <th>Date</th>
-                                    <th>Ip</th>
-                                    <th>Categorie</th>
-                                    <th>Action</th>
+                                    <tr>
+                                        <th><?= $Lang->get('USER__USERNAME'); ?></th>
+                                        <th><?= $Lang->get('FORUM__DATE__REPORT'); ?></th>
+                                        <th><?= $Lang->get('FORUM__IP'); ?></th>
+                                        <th><?= $Lang->get('FORUM__CATEGORY__ALT'); ?></th>
+                                        <th><?= $Lang->get('FORUM__ACTION'); ?></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($history as $h): ?>

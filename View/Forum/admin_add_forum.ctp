@@ -9,7 +9,7 @@
                     <form action="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'add_forum', 'admin' => true)) ?>" method="post" data-ajax="true" data-redirect="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'forum', 'admin' => true)) ?>">
                         <div class="ajax-msg"></div>
                         <blockquote>
-                            <p> Un forum est une section qui englobe les sous-forums <a href="https://i.phpierre.fr/Mineweb/Forum/help/help_forum.png" target="_blank">Voir un exemple</a></p>
+                            <p><?= $Lang->get('FORUM__PHRASE__PAGE_ADMINADDFORUM_1'); ?> <a href="https://i.phpierre.fr/Mineweb/Forum/help/help_forum.png" target="_blank"><?= $Lang->get('FORUM__VIEW_EXAMPLE'); ?></a></p>
                         </blockquote>
                         <div class="form-group">
                             <label><?= $Lang->get('GLOBAL__NAME') ?></label>

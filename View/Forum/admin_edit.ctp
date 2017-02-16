@@ -77,16 +77,18 @@
                         <form action="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'admin_edit', 'admin' => true)) ?>" method="post" data-ajax="true" data-redirect="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'admin_edit', 'admin' => true)) ?>">
                             <div class="ajax-msg"></div>
                             <div class="form-group">
-                                <label>Pseudo</label>
+                                <label><?= $Lang->get('FORUM__PSEUDO'); ?></label>
                                 <input type="hidden" name="idgroup" value="<?= $datas['rank']['r']; ?>" />
                                 <input type="hidden" name="useredit" value="<?= $datas['user']['id']; ?>" />
                                 <input class="form-control" type="text" value="<?= $datas['user']['username']; ?>" disabled />
                             </div>
                             <table class="table table-responsive dataTable">
                                 <thead>
-                                    <th>Groupe</th>
-                                    <th>Dominance</th>
-                                    <th>Grade</th>
+                                    <tr>
+                                        <th><?= $Lang->get('FORUM__GROUP'); ?></th>
+                                        <th><?= $Lang->get('FORUM__DOMINANCE'); ?></th>
+                                        <th><?= $Lang->get('FORUM__RANK__ALT'); ?></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($datas['rank']['rank'] as $key => $rank): ?>
@@ -101,11 +103,11 @@
                                 </tbody>
                             </table>
                             <div class="form-group">
-                                <label>Description</label>
+                                <label><?= $Lang->get('FORUM__DESCRIPTION'); ?></label>
                                 <textarea class="form-control" name="description" rows="3"><?php if(isset($datas['profile']['description'])) echo $datas['profile']['description']; ?></textarea>
                             </div>
                             <div class="form-group">
-                                <label>Dernier passage sur le forum</label>
+                                <label><?= $Lang->get('FORUM__LAST__PASSAGE'); ?></label>
                                 <input class="form-control" type="text" value="<?= $datas['user']['lastseen']; ?>" disabled />
                             </div>
                             <!-- TODO : Soon update-->
@@ -124,11 +126,13 @@
                     <div class="box-body">
                         <table class="table table-responsive dataTable">
                             <thead>
-                            <th>Date</th>
-                            <th>Ip</th>
-                            <th>Category</th>
-                            <th>Action</th>
-                            <th></th>
+                                <tr>
+                                    <th><?= $Lang->get('FORUM__DATE__ACTIVITY'); ?></th>
+                                    <th><?= $Lang->get('FORUM_IP'); ?></th>
+                                    <th><?= $Lang->get('FORUM__CATEGORY__ALT'); ?></th>
+                                    <th><?= $Lang->get('FORUM__ACTION'); ?></th>
+                                    <th></th>
+                                </tr>
                             </thead>
                             <tbody>
                             <?php foreach ($history as $key => $h): ?>
@@ -147,15 +151,17 @@
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title"><?= $Lang->get('FORUM__LAST__REPORT') ?></h3>
-                        <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Ce sont les messages signalé par cet utilisateur</p>
+                        <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <?= $Lang->get('FORUM__PHRASE__PAGE__ADMINEDIT_1'); ?></p>
                     </div>
                     <div class="box-body">
                         <table class="table table-responsive dataTable">
                             <thead>
-                                <th>Date</th>
-                                <th>Raison</th>
-                                <th>Content</th>
-                                <th></th>
+                                <tr>
+                                    <th><?= $Lang->get('FORUM__DATE__REPORT'); ?></th>
+                                    <th><?= $Lang->get('FORUM__REASON'); ?></th>
+                                    <th<?= $Lang->get('FORUM__ACTION'); ?></th>
+                                    <th></th>
+                                </tr>
                             </thead>
                             <tbody>
                             <?php foreach ($msgReport as $key => $m): ?>
@@ -168,6 +174,41 @@
                             <?php endforeach; ?>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            <?php elseif($type == 'rank'): ?>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?= $Lang->get('FORUM__EDIT__RANK') ?></h3>
+                        <p class="pull-right"><a href="/admin/forum/forum/rank"><i class="fa fa-undo" aria-hidden="true"></i> <?= $Lang->get('FORUM__BACKTO__RANK'); ?></a></p>
+                    </div>
+                    <div class="box-body">
+                        <form action="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'admin_edit', 'admin' => true)) ?>" method="post" data-ajax="true" data-redirect="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'admin_edit', 'admin' => true)) ?>">
+                            <div class="ajax-msg"></div>
+                            <div class="form-group">
+                                <label><?= $Lang->get('GLOBAL__NAME') ?></label>
+                                <input value="<?= $datas['group_name']; ?>" name="name" class="form-control" type="text" />
+                                <input value="<?= $datas['id']; ?>" name="id" type="hidden" />
+                            </div>
+                            <div class="form-group">
+                                <label><?= $Lang->get('FORUM__DESCRIPTION') ?></label>
+                                <input value="<?= $datas['group_description']; ?>" name="description" class="form-control" type="text" />
+                            </div>
+                            <div class="form-group">
+                                <label><?= $Lang->get('FORUM__COLOR') ?></label>
+                                <div class="row">
+                                    <div class="col-md-11">
+                                        <input value="<?= $datas['color']; ?>" name="color" class="form-control" type="text" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <a target="_blank" href="http://htmlcolorcodes.com/fr/"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary"><?= $Lang->get('GLOBAL__EDIT'); ?></button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             <?php endif; ?>

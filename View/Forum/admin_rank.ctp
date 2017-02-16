@@ -16,8 +16,8 @@
                                             <table class="table table-responsive">
                                                 <tbody>
                                                 <tr>
-                                                    <td><input placeholder="Développeur" name="rank" class="form-control" type="text" /></td>
-                                                    <td><input placeholder="Description ..." name="description" class="form-control" type="text" /></td>
+                                                    <td><input placeholder="Nom du grade (Développeur)" name="rank" class="form-control" type="text" /></td>
+                                                    <td><input placeholder="Description du gade" name="description" class="form-control" type="text" /></td>
                                                     <td>
                                                         <div class="form-inline">
                                                             <input style="width: 90%" type="text" placeholder="ffffff" class="form-control" name="color" />
@@ -38,10 +38,12 @@
                         <div class="col-md-12">
                             <table class="table table-responsive dataTable">
                                 <thead>
-                                    <th><?= $Lang->get('FORUM__RANK__ALT'); ?></th>
-                                    <th><?= $Lang->get('FORUM__DESCRIPTION'); ?></th>
-                                    <th><?= $Lang->get('FORUM__COLOR'); ?></th>
-                                    <th></th>
+                                    <tr>
+                                        <th><?= $Lang->get('FORUM__RANK__ALT'); ?></th>
+                                        <th><?= $Lang->get('FORUM__DESCRIPTION'); ?></th>
+                                        <th><?= $Lang->get('FORUM__COLOR'); ?></th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($groups as $group): ?>
@@ -49,7 +51,10 @@
                                         <td><?= $group['Group']['group_name']; ?></td>
                                         <td><?= $group['Group']['group_description']; ?></td>
                                         <td><div style="background-color:#<?= $group['Group']['color']; ?>;height:16px;width:16px" ?></td>
-                                        <td><a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'forum', 'action' => 'delete/rank/'.$group['Group']['id'], 'admin' => true)) ?>')" class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE'); ?></a></td>
+                                        <td>
+                                            <a href="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'edit/rank/'.$group['Group']['id'], 'admin' => true)) ?>" class="btn btn-primary"><?= $Lang->get('GLOBAL__EDIT'); ?></a>
+                                            <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'forum', 'action' => 'delete/rank/'.$group['Group']['id'], 'admin' => true)) ?>')" class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE'); ?></a>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>

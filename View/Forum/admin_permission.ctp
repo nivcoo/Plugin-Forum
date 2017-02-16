@@ -59,11 +59,13 @@
                         <div class="col-md-12">
                             <table class="table table-responsive dataTable">
                                 <thead>
-                                    <th><?= $Lang->get('FORUM__RANK__ALT'); ?></th>
-                                    <th><?= $Lang->get('FORUM__PERM'); ?></th>
-                                    <th><?= $Lang->get('FORUM__PERM__SLUG'); ?></th>
-                                    <th><?= $Lang->get('FORUM__COLOR'); ?></th>
-                                    <th></th>
+                                    <tr>
+                                        <th><?= $Lang->get('FORUM__RANK__ALT'); ?></th>
+                                        <th><?= $Lang->get('FORUM__PERM'); ?></th>
+                                        <th><?= $Lang->get('FORUM__PERM__SLUG'); ?></th>
+                                        <th><?= $Lang->get('FORUM__COLOR'); ?></th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($permissions as $permission): ?>
