@@ -20,6 +20,10 @@ class ForumAppController extends AppController {
         return $this->format(CakeTime::format($date, '%d %B %Y %H:%M'));
     }
 
+    protected function notification(){
+
+    }
+
     protected function format($format) {
         $enDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         $enMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'Décember'];

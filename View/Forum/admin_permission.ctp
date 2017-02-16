@@ -15,7 +15,7 @@
                                             <div class="ajax-msg"></div>
                                             <div class="col-md-12">
                                                 <blockquote>
-                                                    Cet outil est très pratique lorsque vous ajoutez des nouveaux grades et que vous voulez leur donner des permissions. Par défaut, l'accès est restreint si aucune permission n'est configuré pour le groupe.
+                                                    <?= $Lang->get('FORUM__PHRASE__PAGE__PERM_1'); ?>
                                                 </blockquote>
                                                 <table class="table table-responsive">
                                                     <tbody>
@@ -40,9 +40,9 @@
                                                         </td>
                                                         <td>
                                                             <select name="access" class="form-control">
-                                                                <option selected disabled value="2">Autoriser ?</option>
-                                                                <option value="0">Non</option>
-                                                                <option value="1">Oui</option>
+                                                                <option selected disabled value="2"><?= $Lang->get('FORUM__AUTORISE?'); ?></option>
+                                                                <option value="0"><?= $Lang->get('GLOBAL__NO'); ?></option>
+                                                                <option value="1"><?= $Lang->get('GLOBAL__YES'); ?></option>
                                                             </select>
                                                         </td>
                                                         <td><button class="btn btn-primary" type="submit"><?= $Lang->get('GLOBAL__ADD') ?></button> </td>
@@ -59,11 +59,11 @@
                         <div class="col-md-12">
                             <table class="table table-responsive dataTable">
                                 <thead>
-                                <th>Groupe</th>
-                                <th>Permission</th>
-                                <th>Permission#data</th>
-                                <th>Color</th>
-                                <th></th>
+                                    <th><?= $Lang->get('FORUM__RANK__ALT'); ?></th>
+                                    <th><?= $Lang->get('FORUM__PERM'); ?></th>
+                                    <th><?= $Lang->get('FORUM__PERM__SLUG'); ?></th>
+                                    <th><?= $Lang->get('FORUM__COLOR'); ?></th>
+                                    <th></th>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($permissions as $permission): ?>

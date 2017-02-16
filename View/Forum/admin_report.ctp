@@ -9,15 +9,15 @@
                     <div class="row">
                         <div class="col-md-12">
                             <blockquote>
-                                Les modérateurs peuvent accéder à cette section depuis cette page : <a href="/forum/report">ici</a>
+                                <?= $Lang->get('FORUM__PHRASE__PAGE__REPORT_1'); ?><a href="/forum/report"><?= $Lang->get('FORUM__HERE'); ?></a>
                             </blockquote>
                             <table class="table table-responsive dataTable">
                                 <thead>
-                                <th>Pseudo</th>
-                                <th>Par</th>
-                                <th>Date</th>
-                                <th>Content</th>
-                                <th>Action</th>
+                                    <th><?= $Lang->get('USER__USERNAME'); ?></th>
+                                    <th><?= $Lang->get('FORUM__BY'); ?></th>
+                                    <th><?= $Lang->get('FORUM__DATE__REPORT'); ?></th>
+                                    <th><?= $Lang->get('FORUM__CONTENT'); ?></th>
+                                    <th><?= $Lang->get('FORUM__ACTION'); ?></th>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($msgreports as $msgreport): ?>

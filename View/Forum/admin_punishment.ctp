@@ -27,11 +27,11 @@
                             </form>
                             <table class="table table-responsive dataTable">
                                 <thead>
-                                <th>Par</th>
-                                <th>Pseudo</th>
-                                <th>Date de fin</th>
-                                <th>Raison</th>
-                                <th>Action</th>
+                                <th><?= $Lang->get('FORUM__BY'); ?></th>
+                                <th><?= $Lang->get('USER__USERNAME'); ?></th>
+                                <th><?= $Lang->get('FORUM__DATE__ENDBAN'); ?></th>
+                                <th><?= $Lang->get('FORUM__REASON'); ?></th>
+                                <th><?= $Lang->get('FORUM__ACTION'); ?></th>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($bannis as $banni): ?>

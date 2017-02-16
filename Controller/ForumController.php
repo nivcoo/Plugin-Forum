@@ -873,6 +873,7 @@ class ForumController extends ForumAppController {
     public function admin_report(){
         if($this->isConnected AND $this->User->isAdmin()) {
             $this->loadModel('Forum.MsgReport');
+            $this->loadModel('Forum.MsgReport');
             $this->loadModel('Forum.Topic');
             $this->layout = 'admin';
             $msgreports = $this->MsgReport->get();
@@ -1038,4 +1039,14 @@ class ForumController extends ForumAppController {
             }
         }
     }
+
+    public function debug(){
+       echo 'Forum version : '.$this->version;
+    }
+
+    /*
+     * todo list :
+     * forum_image -> index.ctp
+     * Bouton edit Gestion des groupes
+     */
 }

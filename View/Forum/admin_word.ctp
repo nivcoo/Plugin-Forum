@@ -7,10 +7,10 @@
                 </div>
                 <div class="box-body">
                     <blockquote>
-                        <p>Vous pourrez ici décider des mots interdits ainsi que l'expression par laquelle le mot doit être remplacé.</p>
+                        <p><?= $Lang->get('FORUM__PHRASE__PAGE__WORD_1'); ?></p>
                     </blockquote>
-                    <p>Cet outil est un premier rempart de la modération de votre forum. Celui-ci permet de remplacer automatiquement certains mots dès qu'il y a un nouveau message ou une édition de message. <br/>
-                        Cet outil n'est pas sensible aux majuscules/minuscules. Par conséquant : forum, Forum, FORUM, FoRuM sera remplacé par ce que vous avez indiqué.
+                    <p><?= $Lang->get('FORUM__PHRASE__PAGE__WORD_2'); ?><br/>
+                        <?= $Lang->get('FORUM__PHRASE__PAGE__WORD_3'); ?>
                     </p>
                     <form action="" method="post" data-ajax="true">
                         <div class="ajax-msg"></div>
@@ -32,9 +32,9 @@
                         <div class="col-md-12">
                             <table class="table table-responsive dataTable">
                                 <thead>
-                                    <th>Mot</th>
-                                    <th>Remplacé par</th>
-                                    <th>Action</th>
+                                    <th><?= $Lang->get('FORUM__WORD'); ?></th>
+                                    <th><?= $Lang->get('FORUM__WORD__REPLACE'); ?></th>
+                                    <th><?= $Lang->get('FORUM__ACTION'); ?></th>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($words as $word): ?>

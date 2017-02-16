@@ -10,9 +10,9 @@
                         <div class="col-md-12">
                             <table class="table table-responsive dataTable">
                                 <thead>
-                                <th>Pseudo</th>
-                                <th>Grade</th>
-                                <th></th>
+                                    <th><?= $Lang->get('USER__USERNAME'); ?></th>
+                                    <th><?= $Lang->get('FORUM__RANK__ALT'); ?></th>
+                                    <th></th>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($users as $user): ?>

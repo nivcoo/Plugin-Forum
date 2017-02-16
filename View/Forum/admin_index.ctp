@@ -6,7 +6,7 @@
                     <div class="info-box">
                         <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Message<?php if($stats['total_msg'] > 1) echo 's'; ?></span>
+                            <span class="info-box-text"><?= $Lang->get('FORUM__MSG'); ?><?php if($stats['total_msg'] > 1) echo 's'; ?></span>
                             <span class="info-box-number"><?= $stats['total_msg']; ?></span>
                         </div>
                     </div>
@@ -15,7 +15,7 @@
                     <div class="info-box">
                         <span class="info-box-icon bg-yellow"><i class="fa fa-file-o"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Topic<?php if($stats['total_topic'] > 1) echo 's'; ?></span>
+                            <span class="info-box-text"><?= $Lang->get('FORUM__TOPIC'); ?><?php if($stats['total_topic'] > 1) echo 's'; ?></span>
                             <span class="info-box-number"><?= $stats['total_topic']; ?></span>
                         </div>
                     </div>
@@ -25,9 +25,9 @@
                 <div class="col-md-12">
                     <div class="box box-success">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Membre<?php if($stats['countuser'] > 1) echo 's'; ?> en ligne</h3>
+                            <h3 class="box-title"><?= $Lang->get('USER__RANK_MEMBER'); ?><?php if($stats['countuser'] > 1) echo 's'; ?><?= $Lang->get('FORUM__PHRASE__ONLINE'); ?></h3>
                             <div class="box-tools pull-right">
-                                <span class="label label-success"><?= $stats['countuser']; ?> Membre<?php if($stats['countuser'] > 1) echo 's'; ?> en ligne</span>
+                                <span class="label label-success"><?= $stats['countuser']; ?> <?= $Lang->get('USER__RANK_MEMBER'); ?><?php if($stats['countuser'] > 1) echo 's'; ?><?= $Lang->get('FORUM__PHRASE__ONLINE'); ?></span>
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                 </button>
                                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
@@ -54,9 +54,9 @@
                 <div class="box-body">
                     <?= $remoteMsg; ?>
                     <p>
-                        Vous avez une idée d'amélioration ? Trouvé un bug ? Ou encore vous souhaitez de nouvelles fonctionnalités ? <br />
-                        Merci de suivre ce <a href="https://www.phpierre.fr/contact">lien</a>, vous y trouverez un questionnaire que vous pourrez remplir si vous souhaitez améliorer le plugin et participer à son développement.<br />
-                        Le forum est souvent mis à jour, en fonction des remarques que je reçcois.
+                        <?= $Lang->get('FORUM__PHRASE__PAGE__ADMININDEX_1'); ?><br />
+                        <?= $Lang->get('FORUM__PHRASE__PAGE__ADMININDEX_2'); ?><a href="https://www.phpierre.fr/contact">lien</a><?= $Lang->get('FORUM__PHRASE__PAGE__ADMININDEX_3'); ?><br />
+                        <?= $Lang->get('FORUM__PHRASE__PAGE__ADMININDEX_4'); ?>
                     </p>
                 </div>
             </div>
