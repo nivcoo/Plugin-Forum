@@ -20,12 +20,12 @@ class ForumRenderComponent extends Component{
     public function style($type, $value){
         if($type == 'color'){
             foreach ($value as $key => $val){
-                $value[$key] = ' style="color:#'.$value[$key].'"';
+                $value[$key] = ' style="color:#'.$val.'"';
             }
             return $value;
         }elseif('background-color'){
             foreach ($value as $key => $val){
-                $value[$key] = ' style="background-color:#'.$value[$key].'"';
+                $value[$key] = ' style="background-color:#'.$val.'"';
             }
             return $value;
         }

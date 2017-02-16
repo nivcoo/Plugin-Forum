@@ -8,9 +8,11 @@
                         <h2 class="text-center forum-h2" style="color:#<?= $userForum['color']; ?>"> <?= $slug; ?></h2>
                         <img width="200" class="center-block topic-avatar" src="<?= $this->Html->url(array('controller' => 'API', 'action' => 'get_head_skin', 'plugin' => false, $slug, 200, 42)); ?>" alt="Avatar <?= $id; ?>" />
                         <div class="forum-rank">
-                            <?php foreach($ranks['rank'] as $key => $rank): ?>
-                                <div <?= $ranks['color'][$key]; ?> class="forum-badgerank"><?= $rank; ?></div>
-                            <?php endforeach; ?>
+                            <?php if(!empty($ranks['rank'])): ?>
+                                <?php foreach($ranks['rank'] as $key => $rank): ?>
+                                    <div <?= $ranks['color'][$key]; ?> class="forum-badgerank"><?= $rank; ?></div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="forum-bloc mt15">

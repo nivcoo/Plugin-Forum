@@ -80,6 +80,7 @@ class ForumController extends ForumAppController {
         }
         $my['id'] = $this->getIdSession();
         $my['user'] = $this->gUBY($this->getIdSession());
+        $stats['countuser'] = count($userOnlines);
 
         $this->set(compact('forums', 'stats', 'userOnlines', 'active', 'my', 'perms'));
     }
@@ -166,23 +167,28 @@ class ForumController extends ForumAppController {
                 if($this->isConnected) {
                     $this->autoRender = false;
                     if($this->Config->is('notemsg')){
-                        $datas = json_decode($this->request->data['json']);
-                        $idUser = $this->getIdSession();
-                        $thumb = $this->Note->search($idUser, $datas->toUser, $datas->id);
-                        if ($thumb && $thumb['Note']['type'] == $datas->type) {
+                        if(!empty($this->request->data['json'])){
+                            $idUser = $this->getIdSession();
+                            $datas = json_decode($this->request->data['json']);
+                            $thumb = $this->Note->search($idUser, $datas->toUser, $datas->id);
+                        }
+                        if (isset($thumb) && $thumb['Note']['type'] == $datas->type) {
                             if($this->Config->is('notemsg')) {
                                 $this->logforum($idUser, 'remove_thumb', $this->gUBY($idUser) . $this->Lang->get('FORUM__PHRASE__HISTORY__ADD__THUMB') . strip_tags(substr($this->Topic->getMessage($datas->id)[0]['Topic']['content'], 0, 30)), '');
                                 $this->Note->removeThumb($thumb['Note']['id']);
                             }
                             echo 'reverse';
-                        }elseif($thumb && $thumb['Note']['type'] != $datas->type){
+                        }elseif(isset($thumb) && $thumb['Note']['type'] != $datas->type){
                             if($this->Config->is('notemsg')) {
                                 $this->logforum($idUser, 'remove_thumb', $this->gUBY($idUser).$this->Lang->get('FORUM__PHRASE__HISTORY__DELETE_THUMB').strip_tags(substr($this->Topic->getMessage($datas->id)[0]['Topic']['content'], 0, 30)), '');
                                 $this->Note->removeThumb($thumb['Note']['id']);
                             }
                             echo 'reset';
-                        }
-                        else {
+                        }elseif (!empty($this->request->data['idUpdate'])){
+                            $id = $this->request->data['idUpdate'];
+                            $message = $this->Topic->getUniqMessage($id)['content'];
+                            echo $message;
+                        }else{
                             if($this->Config->is('notemsg')) {
                                 $this->logforum($idUser, 'add_thumb', $this->gUBY($idUser) .$this->Lang->get('FORUM__PHRASE__HISTORY__DELETE_THUMB'). strip_tags(substr($this->Topic->getMessage($datas->id)[0]['Topic']['content'], 0, 30)), '');
                                 $this->Note->addThumb($idUser, $datas->toUser, $datas->id, $datas->type);
@@ -207,7 +213,8 @@ class ForumController extends ForumAppController {
                             }
                         }elseif (!empty($this->request->data['content_update'])){
                             $idMessage = $this->request->data['id'];
-                            $content = $this->word($this->request->data['content_update']);
+                            $content = str_replace("'", "\\'", $this->request->data['content_update']);
+                            $content = $this->word($content);
                             if($this->ForumPermission->has('FORUM_MSG_EDIT') OR $this->ForumPermission->has('FORUM_MSGMY_EDIT')){
                                 if($this->ForumPermission->has('FORUM_MSG_EDIT')){
                                     $state = true;

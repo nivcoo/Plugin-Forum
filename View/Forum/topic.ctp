@@ -58,25 +58,27 @@
                                 <img class="center-block topic-avatar" src="<?= $this->Html->url(array('controller' => 'API', 'action' => 'get_head_skin', 'plugin' => false, $msg['Topic']['author'], '120')); ?>" alt="Avatar <?= $msg['Topic']['author']; ?>" />
                                 <p class="text-center"><strong><a style="color:#<?= $msg['Topic']['author_color']; ?>" href="/user/<?= $msg['Topic']['author']; ?>.<?= $msg['Topic']['id_user']; ?>/"><?= $msg['Topic']['author']; ?></a></strong></p>
                                 <div class="forum-rank">
-                                    <?php foreach($msg['Topic']['author_info']['rank'] as $key => $rank): ?>
-                                        <div style="background-color:#<?= $msg['Topic']['author_info']['color'][$key]; ?>" class="forum-badgerank forum-topic-badgerank"><?= $rank; ?></div>
-                                    <?php endforeach; ?>
+                                    <?php if(!empty($msg['Topic']['author_info']['rank'])): ?>
+                                        <?php foreach($msg['Topic']['author_info']['rank'] as $key => $rank): ?>
+                                            <div style="background-color:#<?= $msg['Topic']['author_info']['color'][$key]; ?>" class="forum-badgerank forum-topic-badgerank"><?= $rank; ?></div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="forum-extrainfo">
                                     <dl>
-                                        <dt>Message :</dt>
+                                        <dt><?= $Lang->get('FORUM__MSG'); ?><?php if($msg['Topic']['author_info']['nb_message'] > 1) echo 's'; ?> :</dt>
                                         <dd><?= $msg['Topic']['author_info']['nb_message']; ?></dd>
                                     </dl>
                                     <dl>
-                                        <dt>Inscription :</dt>
+                                        <dt><?= $Lang->get('USER__REGISTER_DATE'); ?> :</dt>
                                         <dd><?= $msg['Topic']['author_info']['inscription']; ?></dd>
                                     </dl>
                                     <dl>
-                                        <dt>Pouce vert :</dt>
+                                        <dt><?= $Lang->get('FORUM__GREENTHUMB'); ?> :</dt>
                                         <dd><?= $msg['Topic']['author_info']['thumb']['green']; ?></dd>
                                     </dl>
                                     <dl>
-                                        <dt>Pouce rouge :</dt>
+                                        <dt><?= $Lang->get('FORUM__REDTHUMB'); ?> :</dt>
                                         <dd><?= $msg['Topic']['author_info']['thumb']['red']; ?></dd>
                                     </dl>
                                 </div>
@@ -102,7 +104,7 @@
                                     <?php endif; ?>
                                     <?php if($_SESSION['user'] != $msg['Topic']['id_user'] AND isset($_SESSION['user'])): ?>
                                         <?php if($perms['FORUM_MSG_REPORT']): ?>
-                                            <a onclick="report(<?= $msg['Topic']['id']; ?>)" data-toggle="modal" data-target="#ModalReport" class="btn-theme">Signaler</a>
+                                            <a onclick="report(<?= $msg['Topic']['id']; ?>)" data-toggle="modal" data-target="#ModalReport" class="btn-theme"><?= $Lang->get('FORUM__REPORT'); ?></a>
                                         <?php endif; ?>
                                         <?php if($active['notemsg']): ?>
                                             <a id="<?= $msg['Topic']['id']; ?>-1" onclick="forumThumb(1, <?= $msg['Topic']['id']; ?>, <?= $msg['Topic']['id_user']; ?>)" data-toggle="tooltip" data-placement="top" title="<?= $msg['Topic']['thumb']['green']; ?>" class="btn-theme thumb-green <?php if($msg['Topic']['thumb_info']['green'] > 0) echo 'active'; ?>" name="voteup" value=""><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
@@ -140,7 +142,7 @@
                     <textarea id="editor" name="content" cols="30" rows="7"></textarea>
                 </div>
                 <div class="form-group text-center">
-                    <button type="submit" class="btn-theme btn-themehover">Poster mon message</button>
+                    <button type="submit" class="btn-theme btn-themehover"><i class="fa fa-paper-plane" aria-hidden="true"></i> <?= $Lang->get('FORUM__SEND__MYMSG'); ?></button>
                 </div>
             </form>
         <?php endif; ?>
@@ -155,7 +157,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Editer mon message</h4>
+                    <h4 class="modal-title" id="myModalLabel"><?= $Lang->get('FORUM__EDIT__MYMSG'); ?></h4>
                 </div>
                 <form method="post" action="/<?= $this->request->url ?>">
                     <div class="modal-body">
@@ -179,8 +181,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Fermer</button>
-                        <button type="submit" id="submit_update" class="btn btn-primary">Sauvegarder les changements</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> <?= $Lang->get('GLOBAL__CLOSE'); ?></button>
+                        <button type="submit" id="submit_update" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i> <?= $Lang->get('FORUM__EDIT__MYMSG'); ?></button>
                     </div>
                 </form>
             </div>
@@ -194,7 +196,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Signaler ce message</h4>
+                    <h4 class="modal-title" id="myModalLabel"><?= $Lang->get('FORUM__REPORT__THISMSG'); ?></h4>
                 </div>
                 <form method="post" action="/<?= $this->request->url ?>">
                     <div class="modal-body">
@@ -219,8 +221,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Fermer</button>
-                        <button type="submit" id="submit_report" class="btn btn-primary">Envoyer mon signalement</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> <?= $Lang->get('GLOBAL__CLOSE'); ?></button>
+                        <button type="submit" id="submit_report" class="btn btn-primary"><i class="fa fa-paper-plane" aria-hidden="true"></i> <?= $Lang->get('FORUM__SEND__REPORT'); ?></button>
                     </div>
                 </form>
             </div>
@@ -229,54 +231,56 @@
 <?php endif; ?>
 <script type="text/javascript">
     <?php if($active['notemsg']): ?>
-    function forumThumb(type, id, toUser){
-        var json = JSON.stringify({ type: type, id:id, toUser: toUser});
-        $.ajax({
-            type : 'post',
-            url : '/<?= $this->request->url ?>',
-            data : {json : json, 'data[_Token][key]' : '<?= $csrfToken ?>'},
-            success : function(json){
-                var anchor = $('#' + id + '-' + type).attr('data-original-title');
-                if(json == "normal"){
-                    anchor++;
-                    $('#' + id + '-' + type).addClass('active');
-                    $('#' + id + '-' + type).attr('data-original-title', anchor);
-                }else if(json == "reset"){
-                    if(type == 1){
-                        var anchor = $('#' + id + '-2').attr('data-original-title');
+        function forumThumb(type, id, toUser){
+            var json = JSON.stringify({ type: type, id:id, toUser: toUser});
+            $.ajax({
+                type : 'post',
+                url : '/<?= $this->request->url ?>',
+                data : {json : json, 'data[_Token][key]' : '<?= $csrfToken ?>'},
+                success : function(json){
+                    var anchor = $('#' + id + '-' + type).attr('data-original-title');
+                    if(json == "normal"){
+                        anchor++;
+                        $('#' + id + '-' + type).addClass('active');
+                        $('#' + id + '-' + type).attr('data-original-title', anchor);
+                    }else if(json == "reset"){
+                        if(type == 1){
+                            var anchor = $('#' + id + '-2').attr('data-original-title');
+                            anchor--;
+                            $('#' + id + '-2').addClass('active');
+                            $('#' + id + '-2').attr('data-original-title', anchor);
+                        }else{
+                            var anchor = $('#' + id + '-1').attr('data-original-title');
+                            anchor--;
+                            $('#' + id + '-1').addClass('active');
+                            $('#' + id + '-1').attr('data-original-title', anchor);
+                        }
+                    }
+                    else{
                         anchor--;
-                        $('#' + id + '-2').addClass('active');
-                        $('#' + id + '-2').attr('data-original-title', anchor);
-                    }else{
-                        var anchor = $('#' + id + '-1').attr('data-original-title');
-                        anchor--;
-                        $('#' + id + '-1').addClass('active');
-                        $('#' + id + '-1').attr('data-original-title', anchor);
+                        $('#' + id + '-' + type).removeClass('active');
+                        $('#' + id + '-' + type).attr('data-original-title', anchor);
                     }
                 }
-                else{
-                    anchor--;
-                    $('#' + id + '-' + type).removeClass('active');
-                    $('#' + id + '-' + type).attr('data-original-title', anchor);
+            });
+        }
+        <?php endif; ?>
+        function getMessage(id) {
+            $.ajax({
+                type: 'post',
+                url: '/<?= $this->request->url ?>',
+                data: {idUpdate: id, 'data[_Token][key]': '<?= $csrfToken ?>'},
+                success: function (message) {
+                    $('#update_id').val(id);
+                    tinymce.get("editor_update").setContent('');
+                    tinymce.get("editor_update").execCommand('mceInsertContent', false, message);
                 }
-            }
-        });
-    }
-    <?php endif; ?>
-    function getMessage(id) {
-        var message = {
-            <?php foreach ($msgs as $msg): ?>
-            <?= $msg['Topic']['id']; ?>: '<?= $msg['Topic']['content']; ?>',
-            <?php endforeach; ?>
-        };
-        $('#update_id').val(id);
-        tinymce.get("editor_update").setContent('');
-        tinymce.get("editor_update").execCommand('mceInsertContent', false, message[id]);
-    }
-    <?php if($perms['FORUM_MSG_REPORT'] && $active['reportmsg']): ?>
-    function report(id) {
-        $('#report_id').val(id);
-    }
+            });
+        }
+        <?php if($perms['FORUM_MSG_REPORT'] && $active['reportmsg']): ?>
+        function report(id) {
+            $('#report_id').val(id);
+        }
     <?php endif; ?>
 </script>
 <?php endif; ?>

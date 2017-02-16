@@ -6,7 +6,7 @@ class ForumAppController extends AppController {
         'Forum.ForumRender'
     ];
 
-    protected $version = '1.0.4';
+    protected $version = '1.0.5';
 
     protected function date($date){
         return $this->format(CakeTime::format($date, '%d %B %Y'));
