@@ -1,5 +1,5 @@
 <?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
-<div class="container marge">
+<div class="<?= $theme; ?> marge">
     <div class="row">
         <div class="col-md-10">
             <ol class="forum-breadcrumb">

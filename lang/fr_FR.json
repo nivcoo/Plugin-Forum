@@ -144,6 +144,9 @@
   "FORUM_TOPICMY_DELETE__PERM": "Supprimer ses propres topics",
   "FORUM_TOPIC_DELETE__PERM": "Supprimer les topics de tout le monde (modération)",
 
+  "FORUM__INSTALL__DEFAULT": "Config par défault",
+  "FORUM__INSTALL__RESET": "Config vide",
+
   "FORUM__PHRASE__PROFILE__GREENTHUMB": " a mit un pouce vert au message suivant : ",
   "FORUM__PHRASE__PROFILE__REDTHUMB": " a mit un pouce rouge au message suivant : ",
   "FORUM__PHRASE__HISTORY__ADD__THUMB": " retire son appréciation au message : ",

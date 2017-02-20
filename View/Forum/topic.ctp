@@ -1,6 +1,6 @@
 <?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.3/tinymce.min.js"></script>
-<div class="container marge">
+<div class="<?= $theme; ?> marge">
     <div class="row">
         <div class="col-md-10 col-xs-12">
             <ol class="forum-breadcrumb">

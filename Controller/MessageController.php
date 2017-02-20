@@ -35,7 +35,8 @@ class MessageController extends ForumAppController {
                     $mps[$key]['Conversation']['user'] = $this->gUBY($mps[$key]['Conversation']['author_id']);
                 }
             }
-            $this->set(compact('mps'));
+            $theme = $this->theme();
+            $this->set(compact('mps', 'theme'));
         }else{
             throw new NotFoundException();
         }
@@ -64,7 +65,8 @@ class MessageController extends ForumAppController {
                 }
                 $this->redirect('/message/new');
             }else{
-
+                $theme = $this->theme();
+                $this->set(compact('theme'));
             }
         }else{
             throw new NotFoundException();
@@ -98,7 +100,8 @@ class MessageController extends ForumAppController {
                         $mps[$key]['Conversation']['author_rank']['color'] = $this->ForumPermission->getRankColor($mp['Conversation']['author_id']);
                     }
                     $perms = $this->perm_l();
-                    $this->set(compact('perms', 'mps'));
+                    $theme = $this->theme();
+                    $this->set(compact('perms', 'mps', 'theme'));
                 }else{
                     throw new NotFoundException();
                 }

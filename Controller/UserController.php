@@ -51,9 +51,10 @@ class UserController extends ForumAppController {
                     $userForum['description'] = 'Aucune description n\'est disponible.';
                 }
                 $userForum['color'] = $this->ForumPermission->getRankColorDomin($id);
+                $theme = $this->theme();
                 //TODO : For a soon update
                 //$infos['social']['twitter'] = "";
-                $this->set(compact('slug', 'id', 'infos', 'lasts', 'ranks', 'userForum'));
+                $this->set(compact('slug', 'id', 'infos', 'lasts', 'ranks', 'userForum', 'theme'));
             }else{
                 throw new NotFoundException();
             }
@@ -78,7 +79,8 @@ class UserController extends ForumAppController {
                     }
                 }
                 $infos = $this->Profile->get($this->getIdSession());
-                $this->set(compact('infos'));
+                $theme = $this->theme();
+                $this->set(compact('infos', 'theme'));
             }else{
                 throw new NotFoundException();
             }

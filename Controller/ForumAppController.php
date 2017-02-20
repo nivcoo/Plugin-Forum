@@ -6,7 +6,9 @@ class ForumAppController extends AppController {
         'Forum.ForumRender'
     ];
 
-    protected $version = '1.0.5';
+    public $atualTheme;
+
+    protected $version = '1.0.6';
 
     protected function date($date){
         return $this->format(CakeTime::format($date, '%d %B %Y'));
@@ -58,4 +60,15 @@ class ForumAppController extends AppController {
         return $this->ForumRender->index($type, $value);
     }
 
+    public function theme(){
+        //Hack for Justice Thème
+        $theme = ($this->theme != 'Justice') ? 'container' : '';
+        $this->atualTheme = $theme;
+        return $this->theme;
+    }
+
+    /* TODO LIST
+        * Membre ayant la permission de poster dans un channel
+        * Icone Forum -> (edit, ajout, view)
+    */
 }

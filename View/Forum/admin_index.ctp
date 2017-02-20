@@ -111,13 +111,24 @@
                 <div class="box-body">
                     <h3 class="box-title"><?= $Lang->get('FORUM__CONFIG__INSTALL') ?></h3>
                     <p style="color: #dc322f"><?= $Lang->get('FORUM__PHRASE__PAGE__ADMININDEX_5'); ?></p>
-                    <form action="" method="post" data-ajax="true">
-                        <input type="hidden" name="install" value="42" />
-                        <div class="ajax-msg"></div>
-                        <div class="text-center">
-                            <button class="btn btn-primary" type="submit"><?= $Lang->get('PLUGIN__INSTALL') ?></button>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form action="" method="post" data-ajax="true">
+                                <input type="hidden" name="install" value="42" />
+                                <div class="ajax-msg"></div>
+                                <div class="text-center">
+                                    <button class="btn btn-primary" type="submit"><?= $Lang->get('FORUM__INSTALL__DEFAULT') ?></button>
+                                </div>
+                            </form>
+                            <form action="" method="post" data-ajax="true">
+                                <input type="hidden" name="install" value="43" />
+                                <div class="ajax-msg"></div>
+                                <div class="text-center">
+                                    <button class="btn btn-primary" type="submit"><?= $Lang->get('FORUM__INSTALL__RESET') ?></button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
             <div class="box">

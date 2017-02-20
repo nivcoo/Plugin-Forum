@@ -128,7 +128,7 @@
                             <thead>
                                 <tr>
                                     <th><?= $Lang->get('FORUM__DATE__ACTIVITY'); ?></th>
-                                    <th><?= $Lang->get('FORUM_IP'); ?></th>
+                                    <th><?= $Lang->get('FORUM__IP'); ?></th>
                                     <th><?= $Lang->get('FORUM__CATEGORY__ALT'); ?></th>
                                     <th><?= $Lang->get('FORUM__ACTION'); ?></th>
                                     <th></th>

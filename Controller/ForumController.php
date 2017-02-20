@@ -25,8 +25,9 @@ class ForumController extends ForumAppController {
        }
 
        /* update 1.0.1 */
-       $db = ConnectionManager::getDataSource('default');
-       $db->query('ALTER TABLE `forum__profiles` MODIFY `social` TEXT NULL;');
+       //$db = ConnectionManager::getDataSource('default');
+       //$db->query('ALTER TABLE `forum__profiles` MODIFY `social` TEXT NULL;');
+       /* AND update sql */
    }
 
     public function index() {
@@ -81,8 +82,9 @@ class ForumController extends ForumAppController {
         $my['id'] = $this->getIdSession();
         $my['user'] = $this->gUBY($this->getIdSession());
         $stats['countuser'] = count($userOnlines);
+        $theme = $this->theme();
 
-        $this->set(compact('forums', 'stats', 'userOnlines', 'active', 'my', 'perms'));
+        $this->set(compact('forums', 'stats', 'userOnlines', 'active', 'my', 'perms', 'theme'));
     }
 
     public function forum($id, $slug){
@@ -138,8 +140,9 @@ class ForumController extends ForumAppController {
                 $topics[$key]['Topic']['total_view'] = $this->Vieww->count($topic_stick['Topic']['id_topic']);
             }
             $parent['forum_parent']['name'] = $this->replaceHyppen($slug);
+            $theme = $this->theme();
             $this->set('title_for_layout', $this->replaceHyppen($slug).' | '.$this->Lang->get('FORUM__TITLE'));
-            $this->set(compact('forums', 'slug', 'topics', 'topics_stick', 'parent', 'id'));
+            $this->set(compact('forums', 'slug', 'topics', 'topics_stick', 'parent', 'id', 'theme'));
         }else{
             throw new ForbiddenException();
         }
@@ -354,9 +357,10 @@ class ForumController extends ForumAppController {
                 $active['notemsg'] = ($this->Config->is('notemsg')) ? true : false;
                 $active['reportmsg'] = ($this->Config->is('reportmsg')) ? true : false;
                 $perms = $this->perm_l();
+                $theme = $this->theme();
 
                 $this->set('title_for_layout', $this->replaceHyppen($slug).' | '.$this->Lang->get('FORUM__TITLE'));
-                $this->set(compact('msgs', 'parent', 'active', 'perms', 'lock', 'id', 'stick'));
+                $this->set(compact('msgs', 'parent', 'active', 'perms', 'lock', 'id', 'stick', 'theme'));
             }
         }else{
             throw new ForbiddenException();
@@ -394,7 +398,8 @@ class ForumController extends ForumAppController {
         }elseif($this->request->is('get') && $this->isConnected){
             $configs['stick'] = ($this->ForumPermission->has('FORUM_TOPIC_STICK')) ? true : false;
             $configs['lock'] = ($this->ForumPermission->has('FORUM_TOPIC_LOCK')) ? true : false;
-            $this->set(compact('configs'));
+            $theme = $this->theme();
+            $this->set(compact('configs', 'theme'));
         }else{
             throw new ForbiddenException();
         }
@@ -417,7 +422,8 @@ class ForumController extends ForumAppController {
                 $idTopic = $this->Topic->getUniqMessage($msgreport['MsgReport']['id_msg'])['id_topic'];
                 $msgreports[$key]['MsgReport']['href'] = $this->replaceSpace($this->Topic->getTitleTopic($idTopic)).'.'.$this->Topic->getIdTopic($idTopic);
             }
-            $this->set(compact('msgreports'));
+            $theme = $this->theme();
+            $this->set(compact('msgreports', 'theme'));
         }else{
             throw new ForbiddenException();
         }
@@ -429,7 +435,8 @@ class ForumController extends ForumAppController {
             $infos = $this->Punishment->get($this->getIdSession());
             $infos['date'] = $this->dateAndTime($infos['date']);
             $infos['user'] = $this->gUBY($infos['id_user']);
-            $this->set(compact('infos'));
+            $theme = $this->theme();
+            $this->set(compact('infos', 'theme'));
         }else{
             $this->redirect('/forum');
         }
@@ -931,9 +938,87 @@ class ForumController extends ForumAppController {
         $this->$model->query('TRUNCATE TABLE forum__msg_reports');
         $this->$model->query('TRUNCATE TABLE forum__forum_permissions');
 
+        $install = $this->installArray();
 
+        foreach ($models as $model){
+            if($model != 'ForumPermission'){
+                $table = lcfirst($model);
+                $this->$model->saveAll($install[$table]);
+            }else{
+                $this->$model->saveAll($install['forum_permission']);
+            }
+        }
+        $this->ForumPermission = $this->Components->load('Forum.ForumPermission');
+    }
+
+    private function word($string){
+        $this->loadModel('Forum.Insult');
+        $words = $this->Insult->get();
+        foreach ($words as $word){
+            $string = str_ireplace($word['Insult']['word'], $word['Insult']['replace'], $string);
+        }
+        return $string;
+    }
+
+    private function dropHistory(){
+        $this->loadModel('Forum.Historie');
+        $this->Historie->drop($this->Util->getIP(), $this->getIdSession());
+    }
+
+    private function perm_l(){
+        return $this->ForumPermission->perm_l();
+    }
+
+    private function remoteAction($type, $value = false){
+        $options = [
+            "ssl" => [
+                "verify_peer" => false,
+                "verify_peer_name" => false,
+            ]
+        ];
+
+        if($type == 'ADMINMSG'){
+            $jsonLastVersion = file_get_contents('https://www.phpierre.fr/mineweb/forum/lastversion', false, stream_context_create($options));
+            $lastVersion = json_decode($jsonLastVersion, true)['version'];
+            if($this->version != $lastVersion){
+                $jsonMsgadmin = file_get_contents('https://www.phpierre.fr/mineweb/forum/msgadmin', false, stream_context_create($options));
+                $msg = json_decode($jsonMsgadmin, true)['msg'];
+                $site = $_SERVER['SERVER_NAME'];
+                $msg = str_replace('[LIEN]', $site, $msg);
+                return $msg;
+            }else{
+                return '';
+            }
+        }
+    }
+
+    private function reset(){
+        $models = ['Config', 'Conversation', 'ConversationRecipient', 'Forum', 'Group', 'Groups_user', 'Historie', 'Insult', 'MsgReport', 'Note', 'Profile', 'ForumPermission', 'Punishment', 'Topic', 'Vieww'];
+        foreach ($models as $model){
+            $this->loadModel('Forum.'.$model);
+            $table = lcfirst($model);
+            if($model != 'ForumPermission' OR $model != 'MsgReport' OR $model != 'ConversationRecipient'){
+                $this->$model->query('TRUNCATE TABLE forum__'.$table.'s');
+            }
+        }
+        $this->$model->query('TRUNCATE TABLE forum__msg_reports');
+        $this->$model->query('TRUNCATE TABLE forum__forum_permissions');
+        $this->$model->query('TRUNCATE TABLE forum__conversation_recipients');
+
+        $install = $this->installArray();
+        $this->ForumPermission->saveAll($install['forum_permission']);
+        $this->Config->saveAll($install['config']);
+
+        $this->ForumPermission = $this->Components->load('Forum.ForumPermission');
+    }
+
+    public function debug(){
+       echo 'Forum version : '.$this->version;
+    }
+
+    public function installArray(){
         $date = date("Y-m-d H:i:s");
-        $install = [
+        $array = [
             'config' => [
                 ['config_name' => 'useronline', 'config_value' => true, 'lang' => 'Utilisateur en ligne'],
                 ['config_name' => 'statistics', 'config_value' => true, 'lang' => 'Statistiques'],
@@ -998,64 +1083,6 @@ class ForumController extends ForumAppController {
                 ['id_parent' => 4, 'id_user' => 1, 'id_topic' => 1, 'name' => 'Votre premier Topic !', 'first' => 1, 'content' => 'Ceci est votre premier message. C\'est pour vous montrez un petit parçu du plugin.', 'date' => $date, 'last_edit' => $date],
             ],
         ];
-
-        foreach ($models as $model){
-            if($model != 'ForumPermission'){
-                $table = lcfirst($model);
-                $this->$model->saveAll($install[$table]);
-            }else{
-                $this->$model->saveAll($install['forum_permission']);
-            }
-        }
-        $this->ForumPermission = $this->Components->load('Forum.ForumPermission');
-    }
-
-    private function word($string){
-        $this->loadModel('Forum.Insult');
-        $words = $this->Insult->get();
-        foreach ($words as $word){
-            $string = str_ireplace($word['Insult']['word'], $word['Insult']['replace'], $string);
-        }
-        return $string;
-    }
-
-    private function dropHistory(){
-        $this->loadModel('Forum.Historie');
-        $this->Historie->drop($this->Util->getIP(), $this->getIdSession());
-    }
-
-    private function perm_l(){
-        return $this->ForumPermission->perm_l();
-    }
-
-    private function remoteAction($type, $value = false){
-        $options = [
-            "ssl" => [
-                "verify_peer" => false,
-                "verify_peer_name" => false,
-            ]
-        ];
-
-        if($type == 'ADMINMSG'){
-            $jsonLastVersion = file_get_contents('https://www.phpierre.fr/mineweb/forum/lastversion', false, stream_context_create($options));
-            $lastVersion = json_decode($jsonLastVersion, true)['version'];
-            if($this->version != $lastVersion){
-                $jsonMsgadmin = file_get_contents('https://www.phpierre.fr/mineweb/forum/msgadmin', false, stream_context_create($options));
-                $msg = json_decode($jsonMsgadmin, true)['msg'];
-                $site = $_SERVER['SERVER_NAME'];
-                $msg = str_replace('[LIEN]', $site, $msg);
-                return $msg;
-            }else{
-                return '';
-            }
-        }
-    }
-
-    private function reset(){
-
-    }
-
-    public function debug(){
-       echo 'Forum version : '.$this->version;
+        return $array;
     }
 }
