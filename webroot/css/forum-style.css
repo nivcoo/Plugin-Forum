@@ -149,10 +149,6 @@
     color: #ffffff !important;
 }
 
-.mt20{
-    margin-top: 20px;
-}
-
 .forum-breadcrumb{
     margin-top: 20px;
     border: 1px solid #e7e7e7;
@@ -210,12 +206,32 @@
     margin-top: 30px;
 }
 
+.mt20{
+    margin-top: 20px;
+}
+
 .mt15{
     margin-top: 15px;
 }
 
-.mt15{
+.mt10{
     margin-top: 10px;
+}
+
+.mb30{
+    margin-bottom: 30px;
+}
+
+.mb20{
+    margin-bottom: 20px;
+}
+
+.mb15{
+    margin-bottom: 15px;
+}
+
+.mb10{
+    margin-bottom: 10px;
 }
 
 .forum-bloc{

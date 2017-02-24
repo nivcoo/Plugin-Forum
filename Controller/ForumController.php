@@ -137,7 +137,7 @@ class ForumController extends ForumAppController {
                 $topics[$key]['Topic']['date'] = $this->date($topic['Topic']['date'], '%d %B %Y');
                 $topics[$key]['Topic']['nb_message'] = $this->Topic->getNbMessage('topic', $topic['Topic']['id_topic']);
                 $topics[$key]['Topic']['topic_last_author_color'] = $this->ForumPermission->getRankColorDomin($topics[$key]['Topic']['forum_last_authorid']);
-                $topics[$key]['Topic']['total_view'] = $this->Vieww->count($topic_stick['Topic']['id_topic']);
+                $topics[$key]['Topic']['total_view'] = $this->Vieww->count($topic['Topic']['id_topic']);
             }
             $parent['forum_parent']['name'] = $this->replaceHyppen($slug);
             $theme = $this->theme();

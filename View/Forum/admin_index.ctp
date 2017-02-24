@@ -120,7 +120,7 @@
                                     <button class="btn btn-primary" type="submit"><?= $Lang->get('FORUM__INSTALL__DEFAULT') ?></button>
                                 </div>
                             </form>
-                            <form action="" method="post" data-ajax="true">
+                            <form action="" method="post" style="margin-top:30px" data-ajax="true">
                                 <input type="hidden" name="install" value="43" />
                                 <div class="ajax-msg"></div>
                                 <div class="text-center">

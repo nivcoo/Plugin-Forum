@@ -83,7 +83,7 @@
                         </div>
                         <div class="hidden-mob col-md-2 forum-category-last">
                             <div class="forum-category-description"><span><?= $Lang->get('FORUM__MSG'); ?> :</span> <?= $topic['Topic']['nb_message']; ?></div>
-                            <div class="forum-category-description"><span><?= $Lang->get('FORUM__VIEW'); ?><?php if($topic_stick['Topic']['total_view'] > 1) echo 's'; ?> :</span> <?= $topic['Topic']['total_view']; ?></div>
+                            <div class="forum-category-description"><span><?= $Lang->get('FORUM__VIEW'); ?><?php if($topic['Topic']['total_view'] > 1) echo 's'; ?> :</span> <?= $topic['Topic']['total_view']; ?></div>
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
                             <a style="color:#<?= $topic['Topic']['topic_last_author_color']; ?>" href="/user/<?= $topic['Topic']['forum_last_author']; ?>.<?= $topic['Topic']['forum_last_authorid']; ?>/"><?= $topic['Topic']['forum_last_author']; ?></a>, <?= $topic['Topic']['forum_last_date']; ?>
