@@ -80,9 +80,18 @@ class ForumAppController extends AppController {
         return $url;
     }
 
+    protected function core(){
+        $array = [
+            'version' => $this->version,
+            'host' => env('SERVER_NAME')
+        ];
+
+        $json = json_encode($array);
+        return $json;
+    }
+
     /* TODO LIST
         * Membre ayant la permission de poster dans un channel -> case "perm" json avec toute les perms group id_uniq_group:true
-        * Icone Forum -> (edit, ajout, view)
         * Notif mp + msg (new table -> type, id, to, notif)
     */
 }

@@ -6,16 +6,16 @@ class Forum extends ForumAppModel {
                 return $this->find('first', ['conditions' => ['id' => $id]]);
                 break;
             case 'forum' :
-                return $this->find('all', ['conditions' => ['id_parent' => 0]]);
+                return $this->find('all', ['conditions' => ['id_parent' => 0], 'order' => ['position' => 'ASC']]);
                 break;
             case 'withoutforum' :
-                return $this->find('all', ['conditions' => ['id_parent >' => 0]]);
+                return $this->find('all', ['conditions' => ['id_parent >' => 0], 'order' => ['position' => 'ASC']]);
                 break;
             case 'categorie' :
-                return $this->find('all', ['conditions' => ['id_parent' => $id]]);
+                return $this->find('all', ['conditions' => ['id_parent' => $id], 'order' => ['position' => 'ASC']]);
                 break;
             default :
-                return $this->find('all');
+                return $this->find('all', ['order' => ['position' => 'ASC']]);
         }
     }
 
