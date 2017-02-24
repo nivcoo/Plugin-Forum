@@ -47,6 +47,7 @@
   "FORUM__REPORT__THISMSG": "Signaler ce message",
   "FORUM__STATISTIC": "Statistiques",
   "FORUM__TOPIC": "Topic",
+  "FORUM__TOPIC__ALT": "Gestion des topics",
   "FORUM__TOPICS": "Topics",
   "FORUM__TOTAL__TOPIC": "Topics total",
   "FORUM__TOTAL__MSG": "Messages total",
@@ -73,6 +74,8 @@
   "FORUM__GROUPS": "Groupes",
   "FORUM__DOMINANCE": "Dominance",
   "FORUM__LAST__PASSAGE": "Dernier passage sur le forum",
+  "FORUM__WARNING!": "Attention !",
+  "FORUM__AUTHOR": "Auteur",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",
@@ -188,6 +191,7 @@
   "FORUM__PHRASE__LASTCOMMENT": "Derniers commentaires",
   "FORUM__PHRASE__LASTFEEDBACK": "Dernières appréciations",
   "FORUM__PHRASE__PAGE__ADMINEDIT_1": "Ce sont les messages signalés par cet utilisateur",
+  "FORUM__PHRASE__PAGE__ADDTOPIC_1": "Attenetion, le titre est très important car il est utilisé pour déterminer l'url, veillez donc à utiliser un titre cohérant.",
 
   "FORUM__RANK__BASIC": "Membre",
   "FORUM__TOPIC__LOCK": "Le topic a bien été verrouillé",

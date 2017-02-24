@@ -67,7 +67,7 @@
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
                                 <?php if($forum['Forum']['nb_discussion'] != 0 && $forum['Forum']['nb_message'] != 0): ?>
-                                <a href="/topic/<?= $this->requestAction('Forum/replaceSpace/'.$forum['Forum']['topic_last_title']); ?>.<?= $forum['Forum']['topic_last_id']; ?>"><?= $forum['Forum']['topic_last_title']; ?></a><br/>
+                                <a href="/topic/<?= $this->requestAction('Forum/replaceSpace/'.$forum['Forum']['topic_last_title']); ?>.<?= $forum['Forum']['topic_last_id']; ?>/"><?= $forum['Forum']['topic_last_title']; ?></a><br/>
                                 <a style="color:#<?= $forum['Forum']['topic_last_author_color']; ?>" href="/user/<?= $forum['Forum']['topic_last_author']; ?>.<?= $forum['Forum']['topic_last_authorid']; ?>"><?= $forum['Forum']['topic_last_author']; ?></a>, <?= $forum['Forum']['topic_last_date']; ?>
                                 <?php endif; ?>
                             </div>
@@ -105,6 +105,7 @@
             <?php foreach($userOnlines as $userOnline): ?>
                 <a href="/user/<?= $userOnline['User']['pseudo']; ?>.<?= $userOnline['User']['id']; ?>/" style="color: #<?= $userOnline['User']['color']; ?>"><?= $userOnline['User']['pseudo']; ?></a>
             <?php endforeach; ?>
+            <?php if($stats['countuser'] == 0) echo 'Aucun'; ?>
         </div>
     </div>
     <?php endif; ?>

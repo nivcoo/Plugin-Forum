@@ -24,10 +24,10 @@ class Forum extends ForumAppModel {
         return $userModel->find('all', ['fields' => ['id', 'pseudo'], 'conditions' => ['forum-last_activity >' => $date]]);
     }
 
-    public function addForum($idUser, $name, $position){
+    public function addForum($idUser, $name, $position, $image){
         //TODO LONGDATE: + description
         $this->create();
-        $this->set(['id_user' => $idUser, 'id_parent' => 0, 'forum_name' => $name, 'position' => $position]);
+        $this->set(['id_user' => $idUser, 'id_parent' => 0, 'forum_name' => $name, 'position' => $position, 'forum_image' => $image]);
         return $this->save();
     }
 
@@ -59,7 +59,7 @@ class Forum extends ForumAppModel {
 
     public function update($type = false, $id = false, $datas = false){
         if($type == 'forum'){
-            return $this->updateAll(['forum_name' => "'".$datas['name']."'", 'position' => "'".$datas['position']."'"], ['id' => $id]);;
+            return $this->updateAll(['forum_name' => "'".$datas['name']."'", 'position' => "'".$datas['position']."'", 'forum_image' => "'".$datas['image']."'"], ['id' => $id]);;
         }elseif ($type == 'category'){
             return $this->updateAll(['forum_name' => "'".$datas['name']."'", 'id_parent' => "'".$datas['id_parent']."'", 'position' => $datas['position'], 'forum_image' => "'".$datas['forum_image']."'"], ['id' => $id]);;
         }

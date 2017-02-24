@@ -23,6 +23,11 @@
       "url": "/admin/forum/forum/category"
     },
     {
+      "name": "Gérer les topics",
+      "icon": "commenting",
+      "url": "/admin/forum/forum/topic"
+    },
+    {
       "name": "Gérer les utilisateurs",
       "icon": "users",
       "url": "/admin/forum/forum/user"

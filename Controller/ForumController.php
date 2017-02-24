@@ -385,7 +385,8 @@ class ForumController extends ForumAppController {
                     if(!empty($this->request->data['lock'])) $lock = 1;
                 }
                 $content = $this->word($this->request->data['content_insert']);
-                $params = $this->Topic->addTopic($idParent, $this->getIdSession(), $this->request->data['title'], $stick, $lock, $content);
+                $title = $this->urlRew($this->request->data['title']);
+                $params = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
                 $this->logforum($this->getIdSession(), 'create_topic', $this->gUBY($this->getIdSession()).' vient de créer un nouveau topic : '.strip_tags(substr($content, 0, 30)), $content);
                 return $this->redirect('/topic/'.$this->replaceSpace($params['title']).'.'.$params['id'].'/');
             }else{
@@ -522,8 +523,8 @@ class ForumController extends ForumAppController {
             $forums = $this->Forum->getForum('forum');
             if($this->request->is('ajax')) {
                 $this->autoRender = false;
-                if(!empty($this->request->data['name']) && !empty($this->request->data['position'])) {
-                    $this->Forum->addForum($this->getIdSession(), $this->request->data['name'], $this->request->data['position']);
+                if(!empty($this->request->data['name']) && !empty($this->request->data['position']) && !empty($this->request->data['image'])) {
+                    $this->Forum->addForum($this->getIdSession(), $this->request->data['name'], $this->request->data['position'], $this->request->data['image']);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
                 }else{
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
@@ -564,6 +565,7 @@ class ForumController extends ForumAppController {
                     $this->loadModel('Forum.forums');
                     $this->loadModel('Forum.Insult');
                     $this->loadModel('Forum.Group');
+                    $this->loadModel('Forum.Topic');
                     $this->loadModel('Forum.ForumPermission');
                     $this->loadModel('Forum.MsgReport');
                     $this->loadModel('Forum.Punishment');
@@ -588,6 +590,9 @@ class ForumController extends ForumAppController {
                     }elseif ($type == 'punishment'){
                         $this->logforum($this->getIdSession(), 'delete_punishment', $this->gUBY($this->getIdSession()).' vient de supprimer une sanction', $id);
                         $this->Punishment->deletePunish($id);
+                    }elseif ($type == 'topic'){
+                        $this->logforum($this->getIdSession(), 'delete_topic', $this->gUBY($this->getIdSession()).' vient de supprimer un topic', $id);
+                        $this->Topic->deleteMessages($id);
                     }
                     $this->redirect('/admin/forum/forum/'.$type);
                 }else {
@@ -609,11 +614,12 @@ class ForumController extends ForumAppController {
             $this->loadModel('Forum.MsgReport');
             if($this->request->is('ajax')) {
                 $this->autoRender = false;
-                if(!empty($this->request->data['name']) && !empty($this->request->data['position'])) {
+                if(!empty($this->request->data['name']) && !empty($this->request->data['position']) && !empty($this->request->data['image'])) {
                     $name = $this->request->data['name'];
                     $position = $this->request->data['position'];
-                    $this->Forum->update('forum', $this->request->data['id'], ['name' => $name, 'position' => $position]);
-                    $this->logforum($this->getIdSession(), 'create_forum', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__CREATE__FORUM').strip_tags(substr($name, 0, 30)).' en position : '.$position, $name);
+                    $image = $this->request->data['image'];
+                    $this->Forum->update('forum', $this->request->data['id'], ['name' => $name, 'position' => $position, 'image' => $image]);
+                    $this->logforum($this->getIdSession(), 'create_forum', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__CREATE__FORUM').strip_tags(substr($name, 0, 30)).' en position : '.$position, $name, $image);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
                 }elseif(!empty($this->request->data['name_category'])) {
                     $name = $this->request->data['name_category'];
@@ -908,6 +914,23 @@ class ForumController extends ForumAppController {
         }
     }
 
+    public function admin_topic(){
+        if($this->isConnected AND $this->User->isAdmin()){
+            $this->loadModel('Forum.Topic');
+            $this->layout = 'admin';
+            $topics = $this->Topic->getTopic(0, 'topic');
+            foreach ($topics as $key => $topic){
+                $topics[$key]['Topic']['author'] = $this->gUBY($topic['Topic']['id_user']);
+                $topics[$key]['Topic']['date'] = $this->dateAndTime($topic['Topic']['date']);
+                $topics[$key]['Topic']['href'] = $this->replaceSpace($topic['Topic']['name']).'.'.$topic['Topic']['id'];
+            }
+
+            $this->set(compact('topics'));
+        }else {
+            $this->redirect('/');
+        }
+    }
+
     /*
      * Function calc, back end ...
      */
@@ -1013,7 +1036,9 @@ class ForumController extends ForumAppController {
     }
 
     public function debug(){
-       echo 'Forum version : '.$this->version;
+        $this->autoRender = null;
+        header('Content-Type: application/json');
+        echo '{"forum_version":"'.$this->version.'"}';
     }
 
     public function installArray(){

@@ -45,6 +45,7 @@ class ForumAppController extends AppController {
     protected function getIdSession(){
         return isset($_SESSION['user']) ? $_SESSION['user'] : false;
     }
+
     protected function logforum($idUser, $category, $action, $content){
         $this->loadModel('Forum.Historie');
         $this->Historie->add($this->Util->getIP(), $idUser, $category, $action, $content);
@@ -64,11 +65,24 @@ class ForumAppController extends AppController {
         //Hack for Justice Thème
         $theme = ($this->theme != 'Justice') ? 'container' : '';
         $this->atualTheme = $theme;
-        return $this->theme;
+        return $theme;
+    }
+
+    protected function urlRew($url){
+        $array = [
+            '/' => '',
+            '"' => '\'',
+            '{' => '',
+            '}' => '',
+            '-' => '.'
+        ];
+        $url = strtr($url, $array);
+        return $url;
     }
 
     /* TODO LIST
-        * Membre ayant la permission de poster dans un channel
+        * Membre ayant la permission de poster dans un channel -> case "perm" json avec toute les perms group id_uniq_group:true
         * Icone Forum -> (edit, ajout, view)
+        * Notif mp + msg (new table -> type, id, to, notif)
     */
 }

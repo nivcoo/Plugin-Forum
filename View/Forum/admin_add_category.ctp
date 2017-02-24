@@ -24,12 +24,32 @@
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label><?= $Lang->get('GLOBAL__IMAGE') ?> <a style="font-size: 9px" target="_blank" href="http://fontawesome.io/cheatsheet/"><i class="fa fa-question-circle" aria-hidden="true"></i></a></label>
-                            <div class="input-group">
-                                <span class="input-group-addon">fa-</span>
-                                <input value="<?= $datas['Forum']['forum_image']; ?>" name="image" class="form-control" type="text" />
-                            </div>
+                        <div class="form-group text-center">
+                            <label class="radio-inline">
+                                <input type="radio" name="ii_type" id="ii_type_icone"> Icone
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="ii_type" id="ii_type_image"> Image
+                            </label>
+                        </div>
+                        <script type="text/javascript">
+                            $("#ii_type_icone").click(function () {
+                                var html = '<div class="form-group">';
+                                html += '<div class="input-group">';
+                                html += '<span class="input-group-addon">fa-</span>';
+                                html += '<input value="<?= $datas["Forum"]["forum_image"]; ?>" name="image" class="form-control" type="text" placeholder="times" />';
+                                html += '</div>';
+                                html += '</div>';
+                                $('#zone').html(html);
+                            });
+                            $("#ii_type_image").click(function () {
+                                var html = '<div class="form-group">';
+                                html += '<input value="<?= $datas["forum"]["forum_image"]; ?>" name="image" class="form-control" type="text" placeholder="https://bing.com/image.png" />';
+                                html += '</div>';
+                                $('#zone').html(html);
+                            });
+                        </script>
+                        <div id="zone">
                         </div>
                         <div class="pull-right">
                             <a href="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'index', 'admin' => true)) ?>" class="btn btn-default"><?= $Lang->get('GLOBAL__CANCEL') ?></a>

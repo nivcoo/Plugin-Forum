@@ -6,7 +6,15 @@
             <?= @$this->Session->flash(); ?>
             <form method="post" action="/<?= $this->request->url ?>/<?= $idParent; ?>">
                 <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
-                <input name="title" class="form-control" placeholder="<?= $Lang->get('FORUM__TITLE__TOPIC'); ?>" />
+                <div class="input-group">
+                    <input name="title" class="form-control" placeholder="<?= $Lang->get('FORUM__TITLE__TOPIC'); ?>" />
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default" aria-label="Help" data-toggle="collapse" data-target="#collapseInfo" aria-expanded="false" aria-controls="collapseInfo"><span class="glyphicon glyphicon-question-sign"></span></button>
+                    </div>
+                </div>
+                <div class="collapse mt20" id="collapseInfo">
+                    <div class="alert alert-warning" role="alert"><strong><?= $Lang->get('FORUM__WARNING!'); ?></strong> <?= $Lang->get('FORUM__PHRASE__PAGE__ADDTOPIC_1'); ?></div>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <?php if($configs['stick']): ?>

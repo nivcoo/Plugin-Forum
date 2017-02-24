@@ -19,6 +19,8 @@ class Topic extends ForumAppModel {
                 return $this->find('all', ['conditions' => ['id_parent' => $id, 'first' => 1, 'stick' => true]]);
             }elseif($method == 'nostick'){
                 return $this->find('all', ['conditions' => ['id_parent' => $id, 'first' => 1, 'stick' => false]]);
+            }elseif($method == 'topic'){
+                return $this->find('all', ['conditions' => [ 'first' => 1]]);
             }
         }else{
             return $this->find('all', ['conditions' => ['id_parent' => $id, 'first' => 1]]);
