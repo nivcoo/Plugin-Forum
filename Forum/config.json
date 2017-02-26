@@ -1,0 +1,80 @@
+{
+  "name": "Forum",
+  "slug": "forum",
+  "nav": true,
+  "admin": true,
+  "admin_group_menu": "general",
+  "admin_name": "Forum",
+  "admin_icon": "comments",
+  "admin_menus": [
+    {
+      "name": "Général",
+      "icon": "home",
+      "url": "/admin/forum"
+    },
+    {
+      "name": "Gérer les forums",
+      "icon": "list",
+      "url": "/admin/forum/forum/forum"
+    },
+    {
+      "name": "Gérer les catégories",
+      "icon": "list",
+      "url": "/admin/forum/forum/category"
+    },
+    {
+      "name": "Gérer les topics",
+      "icon": "commenting",
+      "url": "/admin/forum/forum/topic"
+    },
+    {
+      "name": "Gérer les utilisateurs",
+      "icon": "users",
+      "url": "/admin/forum/forum/user"
+    },
+    {
+      "name": "Gérer les grades",
+      "icon": "users",
+      "url": "/admin/forum/forum/rank"
+    },
+    {
+      "name": "Gérer les permissions",
+      "icon": "users",
+      "url": "/admin/forum/forum/permission"
+    },
+    {
+      "name": "Gérer les mots interdits",
+      "icon": "quote-left",
+      "url": "/admin/forum/forum/word"
+    },
+    {
+      "name": "Gérer les sanctions",
+      "icon": "times",
+      "url": "/admin/forum/forum/punishment"
+    },
+    {
+      "name": "Message signalé",
+      "icon": "times",
+      "url": "/admin/forum/forum/report"
+    },
+    {
+      "name": "Log du forum",
+      "icon": "history",
+      "url": "/admin/forum/forum/history"
+    }
+  ],
+  "author": "PHPierre",
+  "version": "1.1.0",
+  "apiID": -1,
+  "useEvents": false,
+  "permissions": {
+    "available": [],
+    "default": {
+      "0": [],
+      "2": []
+    }
+  },
+  "requirements": {
+    "CMS": ">= 1.0.0"
+  }
+}
