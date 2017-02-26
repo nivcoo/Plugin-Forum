@@ -63,7 +63,7 @@
                             <?php foreach ($lasts['Comment'] as $last): ?>
                                 <hr />
                                 <div class="forum-profile-comment">
-                                    <h4><a href="/topic/<?= $this->requestAction('Forum/replaceSpace/'.$last['Topic']['title'], ['plugin' => 'forum']); ?>.<?= $last['Topic']['id']; ?>/"><?= $last['Topic']['title']; ?></a></h4>
+                                    <h4><a href="<?= $last['Topic']['href']; ?>"><?= $last['Topic']['title']; ?></a></h4>
                                     <p><?= $this->Text->truncate($last['Topic']['content'], 150); ?></p>
                                 </div>
                             <?php endforeach; ?>
@@ -73,7 +73,7 @@
                             <?php foreach ($lasts['Note'] as $last): ?>
                                 <hr />
                                 <div class="forum-profile-appreciate">
-                                    <p><i class="fa fa-thumbs-<?= $last['Note']['fa']; ?> thumb-<?= $last['Note']['class']; ?>" aria-hidden="true"></i> <?= $slug.$last['Note']['txt']; ?><a href="/topic/<?= $this->requestAction('Forum/replaceSpace/'.$last['Note']['msg']['title'], ['plugin' => 'forum']); ?>.<?= $last['Note']['msg']['id']; ?>/#<?= $last['Note']['id_message']; ?>"><?= $last['Note']['message']; ?></a></p>
+                                    <p><i class="fa fa-thumbs-<?= $last['Note']['fa']; ?> thumb-<?= $last['Note']['class']; ?>" aria-hidden="true"></i> <?= $slug.$last['Note']['txt']; ?><a href="<?= $last['Note']['msg']['href']; ?>"><?= $last['Note']['message']; ?></a></p>
                                 </div>
                             <?php endforeach; ?>
                         </div>

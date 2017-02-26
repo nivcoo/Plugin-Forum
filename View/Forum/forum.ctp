@@ -34,11 +34,11 @@
                         <?php endif; ?>
                     </div>
                     <div class="col-xs-7 col-md-7 col-sm-6">
-                        <h3 class="forum-category-title"><a href="/forum/<?= $this->requestAction('Forum/replaceSpace/'.$forum['Forum']['forum_name']); ?>.<?= $forum['Forum']['id']; ?>/"><?= $forum['Forum']['forum_name']; ?></a></h3>
+                        <h3 class="forum-category-title"><a href="<?= $forum['Forum']['href']; ?>"><?= h($forum['Forum']['forum_name']); ?></a></h3>
                         <div class="forum-category-description"><span><?= $Lang->get('FORUM__FORUMS__ALT'); ?> :</span> <?= $forum['Forum']['nb_discussion']; ?> <span><?= $Lang->get('FORUM__MSG'); ?> :</span> <?= $forum['Forum']['nb_message']; ?></div>
                     </div>
                     <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
-                        <a href="/forum/<?= $this->requestAction('Forum/replaceSpace/'.$forum['Forum']['forum_last_title']); ?>.<?= $forum['Forum']['forum_last_id']; ?>/"><?= $forum['Forum']['forum_last_title']; ?></a><br/>
+                        <a href="<?= $forum['Forum']['forum_last_href']; ?>"><?= $forum['Forum']['forum_last_title']; ?></a><br/>
                         <a style="color:#<?= $forum['Forum']['forum_last_author_color']; ?>" href="/user/<?= $forum['Forum']['forum_last_author']; ?>.<?= $forum['Forum']['forum_last_authorid']; ?>/"><?= $forum['Forum']['forum_last_author']; ?></a>, <?= $forum['Forum']['forum_last_date']; ?>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                         <i class="fa fa-comment forum-category-fa" aria-hidden="true"></i>
                     </div>
                     <div class="col-xs-7 col-md-5 col-sm-6">
-                        <h3 class="forum-category-title"><a href="/topic/<?= $this->requestAction('Forum/replaceSpace/'.$topic_stick['Topic']['name']); ?>.<?= $topic_stick['Topic']['id']; ?>/"><?= $topic_stick['Topic']['name']; ?></a></h3>
+                        <h3 class="forum-category-title"><a href="<?= $topic_stick['Topic']['href']; ?>"><?= h($topic_stick['Topic']['name']); ?></a></h3>
                         <div class="forum-category-description"><a href="/user/<?= $topic_stick['Topic']['author']; ?>.<?= $topic_stick['Topic']['id_user']; ?>/"><?= $topic_stick['Topic']['author']; ?></a>, <?= $topic_stick['Topic']['date']; ?></div>
                     </div>
                     <div class="hidden-mob col-md-2 forum-category-last">
@@ -70,28 +70,26 @@
         <?php if(!empty($topics_stick) && !empty($topics)): ?>
             <div class="forum-separator"><?= $Lang->get('FORUM__TOPICS'); ?></div>
         <?php endif; ?>
-        <div id="easyPaginate">
-            <?php foreach ($topics as $topic): ?>
-                <div class="forum-category">
-                    <div class="row">
-                        <div class="forum-category-icone col-xs-2 col-md-1 text-center">
-                            <i class="fa fa-comment forum-category-fa" aria-hidden="true"></i>
-                        </div>
-                        <div class="col-xs-7 col-md-5 col-sm-6">
-                            <h3 class="forum-category-title"><a href="/topic/<?= $this->requestAction('Forum/replaceSpace/'.$topic['Topic']['name']); ?>.<?= $topic['Topic']['id']; ?>/"><?= $topic['Topic']['name']; ?></a></h3>
-                            <div class="forum-category-description"><a href="/user/<?= $topic['Topic']['author']; ?>.<?= $topic['Topic']['id_user']; ?>/"><?= $topic['Topic']['author']; ?></a>, <?= $topic['Topic']['date']; ?></div>
-                        </div>
-                        <div class="hidden-mob col-md-2 forum-category-last">
-                            <div class="forum-category-description"><span><?= $Lang->get('FORUM__MSG'); ?> :</span> <?= $topic['Topic']['nb_message']; ?></div>
-                            <div class="forum-category-description"><span><?= $Lang->get('FORUM__VIEW'); ?><?php if($topic['Topic']['total_view'] > 1) echo 's'; ?> :</span> <?= $topic['Topic']['total_view']; ?></div>
-                        </div>
-                        <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
-                            <a style="color:#<?= $topic['Topic']['topic_last_author_color']; ?>" href="/user/<?= $topic['Topic']['forum_last_author']; ?>.<?= $topic['Topic']['forum_last_authorid']; ?>/"><?= $topic['Topic']['forum_last_author']; ?></a>, <?= $topic['Topic']['forum_last_date']; ?>
-                        </div>
+        <?php foreach ($topics as $topic): ?>
+            <div class="forum-category">
+                <div class="row">
+                    <div class="forum-category-icone col-xs-2 col-md-1 text-center">
+                        <i class="fa fa-comment forum-category-fa" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-xs-7 col-md-5 col-sm-6">
+                        <h3 class="forum-category-title"><a href="<?= h($topic['Topic']['href']); ?>"><?= h($topic['Topic']['name']); ?></a></h3>
+                        <div class="forum-category-description"><a href="/user/<?= $topic['Topic']['author']; ?>.<?= $topic['Topic']['id_user']; ?>/"><?= $topic['Topic']['author']; ?></a>, <?= $topic['Topic']['date']; ?></div>
+                    </div>
+                    <div class="hidden-mob col-md-2 forum-category-last">
+                        <div class="forum-category-description"><span><?= $Lang->get('FORUM__MSG'); ?> :</span> <?= $topic['Topic']['nb_message']; ?></div>
+                        <div class="forum-category-description"><span><?= $Lang->get('FORUM__VIEW'); ?><?php if($topic['Topic']['total_view'] > 1) echo 's'; ?> :</span> <?= $topic['Topic']['total_view']; ?></div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
+                        <a style="color:#<?= $topic['Topic']['topic_last_author_color']; ?>" href="/user/<?= $topic['Topic']['forum_last_author']; ?>.<?= $topic['Topic']['forum_last_authorid']; ?>/"><?= $topic['Topic']['forum_last_author']; ?></a>, <?= $topic['Topic']['forum_last_date']; ?>
                     </div>
                 </div>
-            <?php endforeach; ?>
-        </div>
+            </div>
+        <?php endforeach; ?>
     </div>
     <?php if(isset($_SESSION['user'])): ?>
         <div class="row">
@@ -104,10 +102,3 @@
         </div>
     <?php endif; ?>
 </div>
-<?= $this->Html->script('Forum.easy_paginate.js?'.rand(1, 1000000)) ?>
-<script>
-    $('#easyPaginate').easyPaginate({
-        paginateElement: 'div',
-        step:20,
-    });
-</script>

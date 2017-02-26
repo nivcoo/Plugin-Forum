@@ -33,6 +33,7 @@ class MessageController extends ForumAppController {
                     $mps[$key] = $this->Conversation->get($id, $id);
                     $mps[$key]['Conversation']['msg_date'] = $this->dateAndTime($mps[$key]['Conversation']['msg_date']);
                     $mps[$key]['Conversation']['user'] = $this->gUBY($mps[$key]['Conversation']['author_id']);
+                    $mps[$key]['Conversation']['href'] = $this->buildUri('message', $mps[$key]['Conversation']['title'], $mps[$key]['Conversation']['id_conversation']);
                 }
             }
             $theme = $this->theme();
@@ -56,7 +57,7 @@ class MessageController extends ForumAppController {
                             $this->ConversationRecipient->add($maxId, $this->getIdSession());
                         }
                     }
-                    $title = $this->request->data['title'];
+                    $title = trim($this->request->data['title']);
                     $content = $this->request->data['content'];
                     $this->Conversation->add($maxId, 1, $title, $this->getIdSession(), $this->Util->getIP(), $content);
                     $this->Session->setFlash($this->Lang->get('FORUM__MESSAGE__SEND'), 'default.success');
@@ -111,10 +112,6 @@ class MessageController extends ForumAppController {
         }else{
             throw new NotFoundException();
         }
-    }
-
-    public function replaceHyppen($string){
-        return str_replace("-", " ", $string);
     }
 
     private function pseudoExist($slug){

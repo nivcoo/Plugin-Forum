@@ -13,7 +13,7 @@
             </li>
         <?php endif; ?>
         <li class="forum-breadcrumb-child">
-            <?= $msgs[0]['Topic']['name']; ?>
+            <?= h($msgs[0]['Topic']['name']); ?>
         </li>
     </ol>
         </div>
@@ -43,74 +43,74 @@
     <?= @$this->Session->flash(); ?>
     <div class="forum-forum">
         <div class="forum-forum-header">
-            <p class="forum-forum-title"><i class="fa fa-flag" aria-hidden="true"></i> <?= $msgs[0]['Topic']['name']; ?></p>
+            <p class="forum-forum-title"><i class="fa fa-flag" aria-hidden="true"></i> <?= h($msgs[0]['Topic']['name']); ?></p>
         </div>
     </div>
-    <div id="easyPaginate">
-        <?php foreach ($msgs as $msg): ?>
-    <div id="<?= $msg['Topic']['id']; ?>" class="forum-forum-withoutmarge">
-        <div class="row">
-            <div class="col-xs-12 col-md-12 col-sm-12">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="forum-topic-left">
-                            <div class="forum-forum-withoutmarge">
-                                <img class="center-block topic-avatar" src="<?= $this->Html->url(array('controller' => 'API', 'action' => 'get_head_skin', 'plugin' => false, $msg['Topic']['author'], '120')); ?>" alt="Avatar <?= $msg['Topic']['author']; ?>" />
-                                <p class="text-center"><strong><a style="color:#<?= $msg['Topic']['author_color']; ?>" href="/user/<?= $msg['Topic']['author']; ?>.<?= $msg['Topic']['id_user']; ?>/"><?= $msg['Topic']['author']; ?></a></strong></p>
-                                <div class="forum-rank">
-                                    <?php if(!empty($msg['Topic']['author_info']['rank'])): ?>
-                                        <?php foreach($msg['Topic']['author_info']['rank'] as $key => $rank): ?>
-                                            <div style="background-color:#<?= $msg['Topic']['author_info']['color'][$key]; ?>" class="forum-badgerank forum-topic-badgerank"><?= $rank; ?></div>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="forum-extrainfo">
-                                    <dl>
-                                        <dt><?= $Lang->get('FORUM__MSG'); ?><?php if($msg['Topic']['author_info']['nb_message'] > 1) echo 's'; ?> :</dt>
-                                        <dd><?= $msg['Topic']['author_info']['nb_message']; ?></dd>
-                                    </dl>
-                                    <dl>
-                                        <dt><?= $Lang->get('USER__REGISTER_DATE'); ?> :</dt>
-                                        <dd><?= $msg['Topic']['author_info']['inscription']; ?></dd>
-                                    </dl>
-                                    <dl>
-                                        <dt><?= $Lang->get('FORUM__GREENTHUMB'); ?> :</dt>
-                                        <dd><?= $msg['Topic']['author_info']['thumb']['green']; ?></dd>
-                                    </dl>
-                                    <dl>
-                                        <dt><?= $Lang->get('FORUM__REDTHUMB'); ?> :</dt>
-                                        <dd><?= $msg['Topic']['author_info']['thumb']['red']; ?></dd>
-                                    </dl>
+    <?php foreach ($msgs as $msg): ?>
+        <div id="<?= $msg['Topic']['id']; ?>" class="forum-forum-withoutmarge">
+            <div class="row">
+                <div class="col-xs-12 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="forum-topic-left">
+                                <div class="forum-forum-withoutmarge">
+                                    <img class="center-block topic-avatar" src="<?= $this->Html->url(array('controller' => 'API', 'action' => 'get_head_skin', 'plugin' => false, $msg['Topic']['author'], '120')); ?>" alt="Avatar <?= $msg['Topic']['author']; ?>" />
+                                    <p class="text-center"><strong><a style="color:#<?= $msg['Topic']['author_color']; ?>" href="/user/<?= $msg['Topic']['author']; ?>.<?= $msg['Topic']['id_user']; ?>/"><?= $msg['Topic']['author']; ?></a></strong></p>
+                                    <div class="forum-rank">
+                                        <?php if(!empty($msg['Topic']['author_info']['rank'])): ?>
+                                            <?php foreach($msg['Topic']['author_info']['rank'] as $key => $rank): ?>
+                                                <div style="background-color:#<?= $msg['Topic']['author_info']['color'][$key]; ?>" class="forum-badgerank forum-topic-badgerank"><?= $rank; ?></div>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="forum-extrainfo">
+                                        <dl>
+                                            <dt><?= $Lang->get('FORUM__MSG'); ?><?php if($msg['Topic']['author_info']['nb_message'] > 1) echo 's'; ?> :</dt>
+                                            <dd><?= $msg['Topic']['author_info']['nb_message']; ?></dd>
+                                        </dl>
+                                        <dl>
+                                            <dt><?= $Lang->get('USER__REGISTER_DATE'); ?> :</dt>
+                                            <dd><?= $msg['Topic']['author_info']['inscription']; ?></dd>
+                                        </dl>
+                                        <dl>
+                                            <dt><?= $Lang->get('FORUM__GREENTHUMB'); ?> :</dt>
+                                            <dd><?= $msg['Topic']['author_info']['thumb']['green']; ?></dd>
+                                        </dl>
+                                        <dl>
+                                            <dt><?= $Lang->get('FORUM__REDTHUMB'); ?> :</dt>
+                                            <dd><?= $msg['Topic']['author_info']['thumb']['red']; ?></dd>
+                                        </dl>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="topic-content">
-                            <?= $msg['Topic']['content']; ?>
-                        </div>
-                        <div class="topic-content-footer">
-                            <div class="topic-footer-info">
-                                <a href="/user/<?= $msg['Topic']['author']; ?>.<?= $msg['Topic']['id_user']; ?>/"><?= $msg['Topic']['author']; ?></a>, <?= $msg['Topic']['date']; ?>
-                                <div class="topic-footer-rate">
-                                    <?php if($_SESSION['user'] == $msg['Topic']['id_user'] && $perms['FORUM_MSGMY_EDIT'] || $perms['FORUM_MSG_EDIT']): ?>
-                                        <a href="#" onclick="getMessage(<?= $msg['Topic']['id']; ?>)" data-toggle="modal" data-target="#ModalEdit" class="btn-theme"><?= $Lang->get('GLOBAL__EDIT'); ?></a>
-                                    <?php endif; ?>
-                                    <?php if($_SESSION['user'] == $msg['Topic']['id_user'] && $perms['FORUM_MSGMY_DELETE'] || $perms['FORUM_MSG_DELETE']): ?>
-                                        <form action="" method="post">
-                                            <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden">
-                                            <button type="submit" name="delete" value="<?= $msg['Topic']['id']; ?>" class="btn-theme"><?= $Lang->get('GLOBAL__DELETE'); ?></button>
-                                        </form>
-                                    <?php endif; ?>
-                                    <?php if($_SESSION['user'] != $msg['Topic']['id_user'] AND isset($_SESSION['user'])): ?>
-                                        <?php if($perms['FORUM_MSG_REPORT']): ?>
-                                            <a onclick="report(<?= $msg['Topic']['id']; ?>)" data-toggle="modal" data-target="#ModalReport" class="btn-theme"><?= $Lang->get('FORUM__REPORT'); ?></a>
+                        <div class="col-md-9">
+                            <div class="topic-content">
+                                <?= $msg['Topic']['content']; ?>
+                            </div>
+                            <div class="topic-content-footer">
+                                <div class="topic-footer-info">
+                                    <a href="/user/<?= $msg['Topic']['author']; ?>.<?= $msg['Topic']['id_user']; ?>/"><?= $msg['Topic']['author']; ?></a>, <?= $msg['Topic']['date']; ?>
+                                    <div class="topic-footer-rate">
+                                        <?php if($_SESSION['user'] == $msg['Topic']['id_user'] && $perms['FORUM_MSGMY_EDIT'] || $perms['FORUM_MSG_EDIT']): ?>
+                                            <a href="#" onclick="getMessage(<?= $msg['Topic']['id']; ?>)" data-toggle="modal" data-target="#ModalEdit" class="btn-theme"><?= $Lang->get('GLOBAL__EDIT'); ?></a>
                                         <?php endif; ?>
-                                        <?php if($active['notemsg']): ?>
-                                            <a id="<?= $msg['Topic']['id']; ?>-1" onclick="forumThumb(1, <?= $msg['Topic']['id']; ?>, <?= $msg['Topic']['id_user']; ?>)" data-toggle="tooltip" data-placement="top" title="<?= $msg['Topic']['thumb']['green']; ?>" class="btn-theme thumb-green <?php if($msg['Topic']['thumb_info']['green'] > 0) echo 'active'; ?>" name="voteup" value=""><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
-                                            <a id="<?= $msg['Topic']['id']; ?>-2" onclick="forumThumb(2, <?= $msg['Topic']['id']; ?>, <?= $msg['Topic']['id_user']; ?>)" data-toggle="tooltip" data-placement="top" title="<?= $msg['Topic']['thumb']['red']; ?>" class="btn-theme thumb-red <?php if($msg['Topic']['thumb_info']['red'] > 0) echo 'active'; ?>" name="votedown" value=""><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
+                                        <?php if($_SESSION['user'] == $msg['Topic']['id_user'] && $perms['FORUM_MSGMY_DELETE'] || $perms['FORUM_MSG_DELETE']): ?>
+                                            <form action="" method="post">
+                                                <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden">
+                                                <button type="submit" name="delete" value="<?= $msg['Topic']['id']; ?>" class="btn-theme"><?= $Lang->get('GLOBAL__DELETE'); ?></button>
+                                            </form>
                                         <?php endif; ?>
-                                    <?php endif; ?>
+                                        <?php if($_SESSION['user'] != $msg['Topic']['id_user'] AND isset($_SESSION['user'])): ?>
+                                            <?php if($perms['FORUM_MSG_REPORT']): ?>
+                                                <a onclick="report(<?= $msg['Topic']['id']; ?>)" data-toggle="modal" data-target="#ModalReport" class="btn-theme"><?= $Lang->get('FORUM__REPORT'); ?></a>
+                                            <?php endif; ?>
+                                            <?php if($active['notemsg']): ?>
+                                                <a id="<?= $msg['Topic']['id']; ?>-1" onclick="forumThumb(1, <?= $msg['Topic']['id']; ?>, <?= $msg['Topic']['id_user']; ?>)" data-toggle="tooltip" data-placement="top" title="<?= $msg['Topic']['thumb']['green']; ?>" class="btn-theme thumb-green <?php if($msg['Topic']['thumb_info']['green'] > 0) echo 'active'; ?>" name="voteup" value=""><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
+                                                <a id="<?= $msg['Topic']['id']; ?>-2" onclick="forumThumb(2, <?= $msg['Topic']['id']; ?>, <?= $msg['Topic']['id_user']; ?>)" data-toggle="tooltip" data-placement="top" title="<?= $msg['Topic']['thumb']['red']; ?>" class="btn-theme thumb-red <?php if($msg['Topic']['thumb_info']['red'] > 0) echo 'active'; ?>" name="votedown" value=""><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -118,9 +118,7 @@
                 </div>
             </div>
         </div>
-    </div>
     <?php endforeach; ?>
-    </div>
     <?php if(isset($_SESSION['user'])): ?>
         <?php if(!$lock || $perms['FORUM_TOPIC_LOCK']): ?>
             <form method="post" action="/<?= $this->request->url ?>">
@@ -288,12 +286,5 @@
 <script type="text/javascript">
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
-    });
-</script>
-<?= $this->Html->script('Forum.easy_paginate.js?'.rand(1, 1000000)) ?>
-<script>
-    $('#easyPaginate').easyPaginate({
-        paginateElement: 'div',
-        step:15,
     });
 </script>

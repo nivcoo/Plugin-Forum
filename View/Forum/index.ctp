@@ -62,12 +62,12 @@
                                 <?php endif; ?>
                             </div>
                             <div class="col-xs-7 col-md-7 col-sm-6">
-                                <h3 class="forum-category-title"><a href="/forum/<?= $this->requestAction('Forum/replaceSpace/'.$forum['Forum']['forum_name']); ?>.<?= $forum['Forum']['id']; ?>/"><?= $forum['Forum']['forum_name']; ?></a></h3>
+                                <h3 class="forum-category-title"><a href="<?= $forum['Forum']['href']; ?>"><?= $forum['Forum']['forum_name']; ?></a></h3>
                                 <div class="forum-category-description"><span><?= $Lang->get('FORUM__FORUMS__ALT'); ?> :</span> <?= $forum['Forum']['nb_discussion']; ?> <span><?= $Lang->get('FORUM__MSGS'); ?> :</span> <?= $forum['Forum']['nb_message']; ?></div>
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
                                 <?php if($forum['Forum']['nb_discussion'] != 0 && $forum['Forum']['nb_message'] != 0): ?>
-                                <a href="/topic/<?= $this->requestAction('Forum/replaceSpace/'.$forum['Forum']['topic_last_title']); ?>.<?= $forum['Forum']['topic_last_id']; ?>/"><?= $forum['Forum']['topic_last_title']; ?></a><br/>
+                                <a href="<?= $forum['Forum']['topic_last_href']; ?>"><?= $forum['Forum']['topic_last_title']; ?></a><br/>
                                 <a style="color:#<?= $forum['Forum']['topic_last_author_color']; ?>" href="/user/<?= $forum['Forum']['topic_last_author']; ?>.<?= $forum['Forum']['topic_last_authorid']; ?>"><?= $forum['Forum']['topic_last_author']; ?></a>, <?= $forum['Forum']['topic_last_date']; ?>
                                 <?php endif; ?>
                             </div>

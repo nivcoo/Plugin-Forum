@@ -54,6 +54,7 @@ class ForumController extends ForumAppController {
         $perms = $this->perm_l();
         $forums = $this->Forum->getForum();
         foreach ($forums as $key => $forum) {
+            $forums[$key]['Forum']['href'] = $this->buildUri('forum', $forum['Forum']['forum_name'], $forum['Forum']['id']);
             if(isset($this->Topic->determine($forum['Forum']['id'])['Topic']['id_parent'])){
                 $forums[$key]['Forum']['nb_discussion'] = $this->Topic->info('nb_topic', $forum['Forum']['id']);
                 $forums[$key]['Forum']['nb_message'] = $this->Topic->info('nb_msg', $forum['Forum']['id']);
@@ -63,6 +64,7 @@ class ForumController extends ForumAppController {
                 $forums[$key]['Forum']['topic_last_authorid'] = $this->Topic->info('topic_last_authorid', $forum['Forum']['id']);
                 $forums[$key]['Forum']['topic_last_author_color'] = $this->ForumPermission->getRankColorDomin($forums[$key]['Forum']['topic_last_authorid']);
                 $forums[$key]['Forum']['topic_last_author'] = $this->gUBY($forums[$key]['Forum']['topic_last_authorid']);
+                $forums[$key]['Forum']['topic_last_href'] = $this->buildUri('topic', $forums[$key]['Forum']['topic_last_title'], $forums[$key]['Forum']['topic_last_id']);
             }else{
                 $forums[$key]['Forum']['nb_discussion'] = $forums[$key]['Forum']['nb_message'] = 0;
             }
@@ -99,6 +101,7 @@ class ForumController extends ForumAppController {
         if($this->Forum->forumExist($id, $this->replaceHyppen($slug))){
             $forums = $this->Forum->getForum('categorie', $id);
             foreach ($forums as $key => $forum) {
+                $forums[$key]['Forum']['href'] = $this->buildUri('forum', $forum['Forum']['forum_name'], $forum['Forum']['id']);
                 if(isset($this->Topic->determine($forum['Forum']['id'])['Topic']['id_parent'])){
                     $forums[$key]['Forum']['nb_discussion'] = $this->Topic->info('nb_topic', $forums[$key]['Forum']['id']);
                     $forums[$key]['Forum']['nb_message'] = $this->Topic->info('nb_msg', $forums[$key]['Forum']['id']);
@@ -108,6 +111,7 @@ class ForumController extends ForumAppController {
                     $forums[$key]['Forum']['forum_last_authorid'] = $this->Topic->info('topic_last_authorid', $forums[$key]['Forum']['id']);
                     $forums[$key]['Forum']['forum_last_author'] = $this->gUBY($forums[$key]['Forum']['forum_last_authorid']);
                     $forums[$key]['Forum']['forum_last_author_color'] = $this->ForumPermission->getRankColorDomin($forums[$key]['Forum']['forum_last_authorid']);
+                    $forums[$key]['Forum']['forum_last_href'] = $this->buildUri('topic', $forums[$key]['Forum']['forum_last_title'], $forums[$key]['Forum']['forum_last_id']);
                 }else{
                     $forums[$key]['Forum']['nb_discussion'] = $forums[$key]['Forum']['nb_message'] = 0;
                     $forums[$key]['Forum']['forum_last_id'] = $forums[$key]['Forum']['forum_last_title'] = $forums[$key]['Forum']['forum_last_date'] = $forums[$key]['Forum']['forum_last_authorid'] = $forums[$key]['Forum']['forum_last_author'] = $forums[$key]['Forum']['forum_last_author_color'] = '';
@@ -125,6 +129,7 @@ class ForumController extends ForumAppController {
                 $topics_stick[$key]['Topic']['nb_message'] = $this->Topic->getNbMessage('topic', $topic_stick['Topic']['id_topic']);
                 $topics_stick[$key]['Topic']['topic_last_author_color'] = $this->ForumPermission->getRankColorDomin($topics_stick[$key]['Topic']['forum_last_authorid']);
                 $topics_stick[$key]['Topic']['total_view'] = $this->Vieww->count($topic_stick['Topic']['id_topic']);
+                $topics_stick[$key]['Topic']['href'] = $this->buildUri('topic', $topic_stick['Topic']['name'], $topic_stick['Topic']['id_topic']);
             }
 
             $topics = $this->Topic->getTopic($id, 'nostick');
@@ -138,6 +143,7 @@ class ForumController extends ForumAppController {
                 $topics[$key]['Topic']['nb_message'] = $this->Topic->getNbMessage('topic', $topic['Topic']['id_topic']);
                 $topics[$key]['Topic']['topic_last_author_color'] = $this->ForumPermission->getRankColorDomin($topics[$key]['Topic']['forum_last_authorid']);
                 $topics[$key]['Topic']['total_view'] = $this->Vieww->count($topic['Topic']['id_topic']);
+                $topics[$key]['Topic']['href'] = $this->buildUri('topic', $topic['Topic']['name'], $topic['Topic']['id_topic']);
             }
             $parent['forum_parent']['name'] = $this->replaceHyppen($slug);
             $theme = $this->theme();
@@ -385,7 +391,7 @@ class ForumController extends ForumAppController {
                     if(!empty($this->request->data['lock'])) $lock = 1;
                 }
                 $content = $this->word($this->request->data['content_insert']);
-                $title = $this->urlRew($this->request->data['title']);
+                $title = $this->urlRew(trim($this->request->data['title']));
                 $params = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
                 $this->logforum($this->getIdSession(), 'create_topic', $this->gUBY($this->getIdSession()).' vient de créer un nouveau topic : '.strip_tags(substr($content, 0, 30)), $content);
                 return $this->redirect('/topic/'.$this->replaceSpace($params['title']).'.'.$params['id'].'/');
@@ -934,14 +940,6 @@ class ForumController extends ForumAppController {
     /*
      * Function calc, back end ...
      */
-
-    public function replaceSpace($string = false){
-        return str_replace(" ", "-", $string);
-    }
-
-    public function replaceHyppen($string = false){
-        return str_replace("-", " ", $string);
-    }
 
     private function install(){
         /*

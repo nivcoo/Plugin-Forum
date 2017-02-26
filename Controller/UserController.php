@@ -31,6 +31,7 @@ class UserController extends ForumAppController {
                 $lasts['Comment'] = $this->Topic->userLastMessage($id);
                 foreach($lasts['Comment'] as $key => $last){
                     $lasts['Comment'][$key]['Topic']['title'] = $this->Topic->info('title_parent', $last['Topic']['id_topic']);
+                    $lasts['Comment'][$key]['Topic']['href'] = $this->buildUri('topic', $lasts['Comment'][$key]['Topic']['title'], $lasts['Comment'][$key]['Topic']['id_topic']);
                 }
                 $lasts['Note'] = $this->Note->userLastNote($id);
                 foreach($lasts['Note'] as $key => $last){
@@ -40,6 +41,7 @@ class UserController extends ForumAppController {
                     $lasts['Note'][$key]['Note']['message'] = $this->Topic->getUniqMessage($last['Note']['id_message'])['content'];
                     $lasts['Note'][$key]['Note']['msg']['id'] = $this->Topic->info('id_topic', $last['Note']['id_message']);
                     $lasts['Note'][$key]['Note']['msg']['title'] = $this->Topic->info('title_parent', $last['Note']['id_message']);
+                    $lasts['Note'][$key]['Note']['msg']['href'] = $this->buildUri('topic', $lasts['Note'][$key]['Note']['msg']['title'], $lasts['Note'][$key]['Note']['msg']['id'], $last['Note']['id_message']);
                 }
 
                 $ranks['rank'] = $this->ForumPermission->getRank($id);

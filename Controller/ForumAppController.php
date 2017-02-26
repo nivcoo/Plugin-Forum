@@ -8,7 +8,7 @@ class ForumAppController extends AppController {
 
     public $atualTheme;
 
-    protected $version = '1.0.6';
+    protected $version = '1.1.0';
 
     protected function date($date){
         return $this->format(CakeTime::format($date, '%d %B %Y'));
@@ -71,10 +71,22 @@ class ForumAppController extends AppController {
     protected function urlRew($url){
         $array = [
             '/' => '',
-            '"' => '\'',
             '{' => '',
             '}' => '',
-            '-' => '.'
+            '-' => '.',
+            ':' => '',
+            '?' => '',
+            '#' => '',
+            '@' => '',
+            '~' => '',
+            '`' => '',
+            '\\' => '',
+            ';' => '',
+            'http://' => '',
+            'www' => '',
+            '<script' => '',
+            '<?php' => '',
+            '<?=' => ''
         ];
         $url = strtr($url, $array);
         return $url;
@@ -88,6 +100,22 @@ class ForumAppController extends AppController {
 
         $json = json_encode($array);
         return $json;
+    }
+
+    protected function replaceSpace($string){
+        return str_replace(" ", "-", $string);
+    }
+
+    protected function replaceHyppen($string){
+        return str_replace("-", " ", $string);
+    }
+
+    protected function buildUri($type, $name, $id, $anchor =  ''){
+        if(!empty($anchor)){
+            return $this->base.'/'.$type.'/'.$this->replaceSpace($name).'.'.$id.'/#'.$anchor;
+        }else{
+            return $this->base.'/'.$type.'/'.$this->replaceSpace($name).'.'.$id.'/';
+        }
     }
 
     /* TODO LIST

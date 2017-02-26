@@ -6,7 +6,15 @@ class Conversation extends ForumAppModel{
         }elseif (is_numeric($x) && is_numeric($y)){
             return $this->find('first', ['conditions' => ['id_conversation' => $x], 'order' => ['msg_date' => 'ASC']]);
         }elseif ($x == 'first'){
-            return $this->find('all', ['conditions' => ['first' => 1]]);
+            $convs = $this->find('all', ['fields' => ['DISTINCT id_conversation']]);
+            foreach ($convs as $key => $conv){
+                $returns[$key] = $this->find('first', ['conditions' => ['id_conversation' => $conv['Conversation']['id_conversation']], 'order' => ['msg_date' => 'DESC']]);
+            }
+            foreach ($returns as $key => $return){
+                $order[$key] = $return['Conversation']['msg_date'];
+            }
+            array_multisort($order, SORT_DESC, $returns);
+            return $returns;
         }else{
             return $this->find('all');
         }

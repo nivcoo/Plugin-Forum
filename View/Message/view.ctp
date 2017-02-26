@@ -9,7 +9,7 @@
                     <p class="inline pull-right forum-back"><a href="<?= $this->Html->url(array('controller' => 'message', 'action' => 'index')) ?>"><i class="fa fa-undo" aria-hidden="true"></i> <?= $Lang->get('FORUM__BACKTO__MSG'); ?></a></p>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12 mt20">
                 <?= @$this->Session->flash(); ?>
             </div>
             <div class="col-md-12">
