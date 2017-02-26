@@ -32,12 +32,14 @@ class MessageController extends ForumAppController {
                 foreach ($ids as $key => $id){
                     $mps[$key] = $this->Conversation->get($id, $id);
                     $mps[$key]['Conversation']['msg_date'] = $this->dateAndTime($mps[$key]['Conversation']['msg_date']);
+                    $mps[$key]['Conversation']['last_msg_date'] = $this->dateAndTime($messages[$key]['Conversation']['msg_date']);
                     $mps[$key]['Conversation']['user'] = $this->gUBY($mps[$key]['Conversation']['author_id']);
                     $mps[$key]['Conversation']['href'] = $this->buildUri('message', $mps[$key]['Conversation']['title'], $mps[$key]['Conversation']['id_conversation']);
+                    $mps[$key]['Conversation']['user_color'] = $this->ForumPermission->getRankColorDomin($mps[$key]['Conversation']['author_id']);
                 }
             }
             $theme = $this->theme();
-            $this->set(compact('mps', 'theme'));
+            $this->set(compact('mps', 'theme', 'messages'));
         }else{
             throw new NotFoundException();
         }

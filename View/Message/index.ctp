@@ -12,7 +12,7 @@
         <div class="row mt20">
             <div class="col-md-12">
                 <?php if(!empty($mps)): ?>
-                    <?php foreach ($mps as $mp): ?>
+                    <?php foreach ($mps as $key => $mp): ?>
                         <div class="forum-bloc p10">
                             <div class="row">
                                 <div class="forum-category-icone col-xs-2 col-md-1 text-center">
@@ -26,7 +26,8 @@
                                     <h3 class="forum-category-title"><a href="<?= $mp['Conversation']['href']; ?>"><?= h($mp['Conversation']['title']); ?></a></h3>
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
-                                    De : <?= $mp['Conversation']['user']; ?>
+                                    <?= $Lang->get('FORUM__AUTHOR'); ?> : <a style="color:#<?= $mp['Conversation']['user_color']; ?>" href="/user/<?= $mp['Conversation']['user']; ?>.<?= $mp['Conversation']['author_id']; ?>/"><?= $mp['Conversation']['user']; ?></a><br />
+                                    <?= $Lang->get('FORUM__LASTMSG'); ?> : <?= $mp['Conversation']['last_msg_date']; ?>
                                 </div>
                             </div>
                         </div>
