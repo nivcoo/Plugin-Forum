@@ -6,7 +6,8 @@ class ForumController extends ForumAppController {
         'Security' => [
             'csrfExpires' => '+1 hour'
         ],
-        'Forum.ForumPermission'
+        'Forum.ForumPermission',
+        'Paginator'
     ];
 
    public function beforeFilter(){
@@ -32,7 +33,6 @@ class ForumController extends ForumAppController {
 
     public function index() {
         $this->set('title_for_layout', $this->Lang->get('FORUM__TITLE'));
-        $this->loadModel('Navbar');
         $this->loadModel('Forum.forums');
         $this->loadModel('Forum.Topic');
 
@@ -40,6 +40,7 @@ class ForumController extends ForumAppController {
         $this->loadModel('Forum.Note');
         $this->loadModel('Forum.Historie');
 
+        //$this->loadModel('Navbar');
         /*if($this->Config->is('privatemsg')){
             if($this->Navbar->find('count', ['conditions' => ['name' => '<i class="fa fa-envelope" aria-hidden="true"></i>']]) == 0){
                 ClassRegistry::init('navbars')->saveAll(['order' => 99, 'name' => '<i class="fa fa-envelope" aria-hidden="true"></i>', 'type' => 1, 'url' => '{"type":"custom", "url":"/message"}', 'open_new_tab' => 0]);
@@ -59,12 +60,13 @@ class ForumController extends ForumAppController {
                 $forums[$key]['Forum']['nb_discussion'] = $this->Topic->info('nb_topic', $forum['Forum']['id']);
                 $forums[$key]['Forum']['nb_message'] = $this->Topic->info('nb_msg', $forum['Forum']['id']);
                 $forums[$key]['Forum']['topic_last_id'] = $this->Topic->info('topic_last_id', $forum['Forum']['id']);
+                $forums[$key]['Forum']['topic_last_idtopic'] = $this->Topic->info('topic_last_idtopic', $forum['Forum']['id']);
                 $forums[$key]['Forum']['topic_last_title'] = $this->Topic->info('topic_last_title', $forum['Forum']['id']);
                 $forums[$key]['Forum']['topic_last_date'] = $this->date($this->Topic->info('topic_last_date', $forum['Forum']['id']), '%d %B %Y');
                 $forums[$key]['Forum']['topic_last_authorid'] = $this->Topic->info('topic_last_authorid', $forum['Forum']['id']);
                 $forums[$key]['Forum']['topic_last_author_color'] = $this->ForumPermission->getRankColorDomin($forums[$key]['Forum']['topic_last_authorid']);
                 $forums[$key]['Forum']['topic_last_author'] = $this->gUBY($forums[$key]['Forum']['topic_last_authorid']);
-                $forums[$key]['Forum']['topic_last_href'] = $this->buildUri('topic', $forums[$key]['Forum']['topic_last_title'], $forums[$key]['Forum']['topic_last_id']);
+                $forums[$key]['Forum']['topic_last_href'] = $this->buildUri('topic', $forums[$key]['Forum']['topic_last_title'], $forums[$key]['Forum']['topic_last_idtopic']);
             }else{
                 $forums[$key]['Forum']['nb_discussion'] = $forums[$key]['Forum']['nb_message'] = 0;
             }
@@ -89,7 +91,7 @@ class ForumController extends ForumAppController {
         $this->set(compact('forums', 'stats', 'userOnlines', 'active', 'my', 'perms', 'theme'));
     }
 
-    public function forum($id, $slug){
+    public function forum($id, $slug, $page = 1){
         $this->loadModel('Forum.forums');
         $this->loadModel('Forum.Topic');
         $this->loadModel('Forum.Vieww');
@@ -131,9 +133,11 @@ class ForumController extends ForumAppController {
                 $topics_stick[$key]['Topic']['total_view'] = $this->Vieww->count($topic_stick['Topic']['id_topic']);
                 $topics_stick[$key]['Topic']['href'] = $this->buildUri('topic', $topic_stick['Topic']['name'], $topic_stick['Topic']['id_topic']);
             }
-
-            $topics = $this->Topic->getTopic($id, 'nostick');
+            $paginationDb = $this->Topic->pagination();
+            $pagination['html'] = $this->forumRender('pagination', ['data' => 'e', 'style' => 'sm', 'page' => $page, 'nbpage' => $paginationDb['nbpage']]);
+            $topics = $this->Topic->getTopic($id, 'nostick', $page);
             foreach ($topics as $key => $topic){
+                $topics[$key]['Topic']['name'] = $this->Topic->info('title_parent', $topic['Topic']['id_topic']);
                 $topics[$key]['Topic']['forum_last_authorid'] = $this->Topic->getLastedTopic('id', $topic['Topic']['id_topic'])['id_user'];
                 $topics[$key]['Topic']['forum_last_author'] =  $this->gUBY($topics[$key]['Topic']['forum_last_authorid']);
                 $topics[$key]['Topic']['forum_last_title'] = $this->Topic->getLastedTopic('id', $topics[$key]['Topic']['id_topic'])['name'];
@@ -143,18 +147,18 @@ class ForumController extends ForumAppController {
                 $topics[$key]['Topic']['nb_message'] = $this->Topic->getNbMessage('topic', $topic['Topic']['id_topic']);
                 $topics[$key]['Topic']['topic_last_author_color'] = $this->ForumPermission->getRankColorDomin($topics[$key]['Topic']['forum_last_authorid']);
                 $topics[$key]['Topic']['total_view'] = $this->Vieww->count($topic['Topic']['id_topic']);
-                $topics[$key]['Topic']['href'] = $this->buildUri('topic', $topic['Topic']['name'], $topic['Topic']['id_topic']);
+                $topics[$key]['Topic']['href'] = $this->buildUri('topic', $topics[$key]['Topic']['name'], $topic['Topic']['id_topic']);
             }
             $parent['forum_parent']['name'] = $this->replaceHyppen($slug);
             $theme = $this->theme();
             $this->set('title_for_layout', $this->replaceHyppen($slug).' | '.$this->Lang->get('FORUM__TITLE'));
-            $this->set(compact('forums', 'slug', 'topics', 'topics_stick', 'parent', 'id', 'theme'));
+            $this->set(compact('forums', 'slug', 'topics', 'topics_stick', 'parent', 'id', 'theme', 'pagination'));
         }else{
             throw new ForbiddenException();
         }
     }
 
-    public function topic($id, $slug){
+    public function topic($id, $slug, $page = 1){
         $this->loadModel('Forum.forums');
         $this->loadModel('Forum.Topic');
         $this->loadModel('Forum.Note');
@@ -338,7 +342,8 @@ class ForumController extends ForumAppController {
                     }
                 }
 
-                $msgs = $this->Topic->getMessage($id);
+                $params['page'] = $page;
+                $msgs = $this->Topic->getMessage($id, $params);
                 foreach ($msgs as $key => $msg){
                     $user_id = $msg['Topic']['id_user'];
                     $msgs[$key]['Topic']['thumb_info']['green'] = $this->Note->isNoted('green', $msg['Topic']['id'] , $this->getIdSession());
@@ -369,7 +374,7 @@ class ForumController extends ForumAppController {
                 $this->set(compact('msgs', 'parent', 'active', 'perms', 'lock', 'id', 'stick', 'theme'));
             }
         }else{
-            throw new ForbiddenException();
+            throw new NotFoundException('Le topic n\'existe pas !', 404);
         }
     }
 
@@ -394,7 +399,7 @@ class ForumController extends ForumAppController {
                 $title = $this->urlRew(trim($this->request->data['title']));
                 $params = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
                 $this->logforum($this->getIdSession(), 'create_topic', $this->gUBY($this->getIdSession()).' vient de créer un nouveau topic : '.strip_tags(substr($content, 0, 30)), $content);
-                return $this->redirect('/topic/'.$this->replaceSpace($params['title']).'.'.$params['id'].'/');
+                return $this->redirect('/topic/'.$this->replaceSpace($params['title']).'.'.$params['id_topic'].'/');
             }else{
                 if(!empty($this->request->data['title'])){
                     $this->Session->setFlash('Vous devez insérer un titre à votre topic !', 'default.error');
@@ -445,7 +450,7 @@ class ForumController extends ForumAppController {
             $theme = $this->theme();
             $this->set(compact('infos', 'theme'));
         }else{
-            $this->redirect('/forum');
+            throw new NotFoundException();
         }
     }
 
@@ -1040,7 +1045,7 @@ class ForumController extends ForumAppController {
         echo '{"forum_version":"'.$this->version.'"}';
     }
 
-    public function installArray(){
+    private function installArray(){
         $date = date("Y-m-d H:i:s");
         $array = [
             'config' => [

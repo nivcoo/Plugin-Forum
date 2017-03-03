@@ -8,23 +8,39 @@ class Topic extends ForumAppModel {
 
     /*
      * La variable $nbTopic correspond au nombre max de commentaire qui doit être affiché sur les profils utilisateurs.
-     * Défault : 5
+     * Défault : 15
      */
 
-    private $nbMessage = 5;
+    private $nbMessage = 10;
+    private $nbTopic = 15;
 
-    public function getTopic($id, $method = false){
+    public function getTopic($id, $method = false, $params = false){
         if($method){
             if($method == 'stick'){
                 return $this->find('all', ['conditions' => ['id_parent' => $id, 'first' => 1, 'stick' => true]]);
             }elseif($method == 'nostick'){
-                return $this->find('all', ['conditions' => ['id_parent' => $id, 'first' => 1, 'stick' => false]]);
+                //$topics = $this->query('SELECT DISTINCT id_topic, MAX(date) FROM forum__topics GROUP BY id_topic ORDER BY MAX(date) DESC, id_topic');
+                $topics = $this->find('all', ['conditions' => ['first' => 1], 'recursive' => 1, 'order'  => ['date' => 'DESC'], 'limit' => $this->nbTopic, 'page' => $params]);
+                foreach ($topics  as $key => $topic){
+                    $returns[$key] = $this->find('first', ['conditions' => ['id_topic' => $topic['Topic']['id_topic']], 'order' => ['date' => 'DESC']]);
+                }
+                foreach ($returns as $key => $return){
+                    $order[$key] = $return['Topic']['date'];
+                }
+                array_multisort($order, SORT_DESC, $returns);
+                return $returns;
             }elseif($method == 'topic'){
-                return $this->find('all', ['conditions' => [ 'first' => 1]]);
+                return $this->find('all', ['conditions' => ['first' => 1]]);
             }
         }else{
             return $this->find('all', ['conditions' => ['id_parent' => $id, 'first' => 1]]);
         }
+    }
+
+    public function pagination(){
+        $nbtopics = $this->find('count', ['conditions' => ['first' => 1]]);
+        $nbpages = ceil($nbtopics / $this->nbTopic);
+        return ['nbtopic' => $nbtopics, 'nbelement' => $this->nbTopic, 'nbpage' => $nbpages];
     }
 
     public function info($type = false, $id = false){
@@ -46,6 +62,9 @@ class Topic extends ForumAppModel {
                 break;
             case 'topic_last_id' :
                 return $this->find('first', ['fields' => 'id', 'conditions' => ['id_parent' => $id], 'order' => ['date' => 'DESC']])['Topic']['id'];
+                break;
+            case 'topic_last_idtopic' :
+                return $this->find('first', ['fields' => 'id_topic', 'conditions' => ['id_parent' => $id], 'order' => ['date' => 'DESC']])['Topic']['id_topic'];
                 break;
             case 'topic_last_title' :
                 $idTopic = $this->find('first', ['fields' => 'id_topic', 'conditions' => ['id_parent' => $id], 'order' => ['date' => 'DESC']])['Topic']['id_topic'];
@@ -93,11 +112,11 @@ class Topic extends ForumAppModel {
     }
 
     public function topicExist($id, $slug){
-        if($this->hasAny(['id' => $id, 'name' => $slug])) return true;
+        if($this->hasAny(['id_topic' => $id, 'name' => $slug])) return true;
     }
 
-    public function getMessage($id){
-        return $this->find('all', ['conditions' => ['id_topic' => $id], ['order' => ['date' => 'DESC']]]);
+    public function getMessage($id, $params){
+        return $this->find('all', ['conditions' => ['id_topic' => $id], 'order' => ['date' => 'ASC'], 'limit' => $this->nbMessage, 'page' => $params['page']]);
     }
 
     public function getUniqMessage($id){
