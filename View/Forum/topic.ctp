@@ -13,7 +13,7 @@
             </li>
         <?php endif; ?>
         <li class="forum-breadcrumb-child">
-            <?= h($msgs[0]['Topic']['name']); ?>
+            <?= h($title); ?>
         </li>
     </ol>
         </div>
@@ -28,7 +28,7 @@
                 <?php if($perms['FORUM_TOPIC_STICK']): ?>
                     <form style="width: 46px" class="inline" action="" method="post">
                         <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden">
-                        <button type="submit" data-toggle="tooltip" data-placement="bottom" title="<?php if(!$lock): ?>Détacher<?php else: ?>Epingler<?php endif; ?>" name="stick" value="<?= $id; ?>" class="btn btn-theme mt30"><i class="fa fa-paperclip" aria-hidden="true"></i></button>
+                        <button type="submit" data-toggle="tooltip" data-placement="bottom" title="<?php if($stick): ?>Détacher<?php else: ?>Epingler<?php endif; ?>" name="stick" value="<?= $id; ?>" class="btn btn-theme mt30"><i class="fa fa-paperclip" aria-hidden="true"></i></button>
                     </form>
                 <?php endif; ?>
                 <?php if($perms['FORUM_TOPICMY_DELETE'] || $perms['FORUM_TOPIC_DELETE']): ?>
@@ -43,7 +43,7 @@
     <?= @$this->Session->flash(); ?>
     <div class="forum-forum">
         <div class="forum-forum-header">
-            <p class="forum-forum-title"><i class="fa fa-flag" aria-hidden="true"></i> <?= h($msgs[0]['Topic']['name']); ?></p>
+            <p class="forum-forum-title"><i class="fa fa-flag" aria-hidden="true"></i> <?= h($title); ?></p>
         </div>
     </div>
     <?php foreach ($msgs as $msg): ?>
@@ -119,6 +119,7 @@
             </div>
         </div>
     <?php endforeach; ?>
+    <?= $pagination['html']; ?>
     <?php if(isset($_SESSION['user'])): ?>
         <?php if(!$lock || $perms['FORUM_TOPIC_LOCK']): ?>
             <form method="post" action="/<?= $this->request->url ?>">

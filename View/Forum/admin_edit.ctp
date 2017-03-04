@@ -112,6 +112,10 @@
                             </script>
                             <div id="zone">
                             </div>
+                            <div class="form-group">
+                                <input value="lock" name="lock" type="checkbox" />
+                                <label> <?= $Lang->get('FORUM__LOCK__CATEGORY') ?></label>
+                            </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary"><?= $Lang->get('GLOBAL__SUBMIT'); ?></button>
                             </div>

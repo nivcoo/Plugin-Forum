@@ -77,6 +77,8 @@
   "FORUM__WARNING!": "Attention !",
   "FORUM__AUTHOR": "Auteur",
   "FORUM__LASTMSG": "Dernier message",
+  "FORUM__NEXT__UPDATE": "Prochains ajouts",
+  "FORUM__LOCK__CATEGORY": "Empecher la publication de topic dans cette catégorie ?",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",
@@ -186,6 +188,7 @@
   "FORUM__PHRASE__PAGE__ADMININDEX_4": "Le forum à un rythme de mise à jour très soutenu, un message apparaitra ci-dessus s'il existe une version plus récente du plugin.",
   "FORUM__PHRASE__PAGE__ADMININDEX_5": "Attention ! Ces boutons supprimeront tous les posts, topics, forums !",
   "FORUM__PHRASE__PAGE__ADMININDEX_6": "Attention, appuyer sur ce bouton supprimera tout l'historique des actions du forum.",
+  "FORUM__PHRASE__PAGE__ADMININDEX_7": "Ci dessous, vous pourrez trouver la liste de vos suggestions. Ces suggestions seront ajoutés dans des versions ultérieuse du plugin Forum.",
   "FORUM__PHRASE__PAGE_ADMINADDFORUM_1": "Un forum est une section qui englobe les sous-forums.",
   "FORUM__PHRASE__RECIPIENT": "Destinataire(s) (séparé par une virgule)",
   "FORUM__PHRASE__SENDMYMSG": "Envoyer mon message",

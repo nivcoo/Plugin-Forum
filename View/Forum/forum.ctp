@@ -12,8 +12,10 @@
             </ol>
         </div>
         <div class="col-md-2">
-            <?php if(isset($_SESSION['user'])): ?>
-                <a href="/topic/add/<?= $id; ?>" class="btn btn-theme mt30">Créer un topic</a>
+            <?php if($isConnected): ?>
+                <?php if(!$isLock OR $perms['FORUM_TOPIC_LOCK']): ?>
+                    <a href="/topic/add/<?= $id; ?>" class="btn btn-theme mt30">Créer un topic</a>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
         <?= @$this->Session->flash(); ?>
@@ -70,38 +72,42 @@
         <?php if(!empty($topics_stick) && !empty($topics)): ?>
             <div class="forum-separator"><?= $Lang->get('FORUM__TOPICS'); ?></div>
         <?php endif; ?>
-        <?php foreach ($topics as $topic): ?>
-            <div class="forum-category">
-                <div class="row">
-                    <div class="forum-category-icone col-xs-2 col-md-1 text-center">
-                        <i class="fa fa-comment forum-category-fa" aria-hidden="true"></i>
-                    </div>
-                    <div class="col-xs-7 col-md-5 col-sm-6">
-                        <h3 class="forum-category-title"><a href="<?= h($topic['Topic']['href']); ?>"><?= h($topic['Topic']['name']); ?></a></h3>
-                        <div class="forum-category-description"><a href="/user/<?= $topic['Topic']['author']; ?>.<?= $topic['Topic']['id_user']; ?>/"><?= $topic['Topic']['author']; ?></a>, <?= $topic['Topic']['date']; ?></div>
-                    </div>
-                    <div class="hidden-mob col-md-2 forum-category-last">
-                        <div class="forum-category-description"><span><?= $Lang->get('FORUM__MSG'); ?> :</span> <?= $topic['Topic']['nb_message']; ?></div>
-                        <div class="forum-category-description"><span><?= $Lang->get('FORUM__VIEW'); ?><?php if($topic['Topic']['total_view'] > 1) echo 's'; ?> :</span> <?= $topic['Topic']['total_view']; ?></div>
-                    </div>
-                    <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
-                        <a style="color:#<?= $topic['Topic']['topic_last_author_color']; ?>" href="/user/<?= $topic['Topic']['forum_last_author']; ?>.<?= $topic['Topic']['forum_last_authorid']; ?>/"><?= $topic['Topic']['forum_last_author']; ?></a>, <?= $topic['Topic']['forum_last_date']; ?>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
+       <?php if(!empty($topics)): ?>
+           <?php foreach ($topics as $topic): ?>
+               <div class="forum-category">
+                   <div class="row">
+                       <div class="forum-category-icone col-xs-2 col-md-1 text-center">
+                           <i class="fa fa-comment forum-category-fa" aria-hidden="true"></i>
+                       </div>
+                       <div class="col-xs-7 col-md-5 col-sm-6">
+                           <h3 class="forum-category-title"><a href="<?= h($topic['Topic']['href']); ?>"><?= h($topic['Topic']['name']); ?></a></h3>
+                           <div class="forum-category-description"><a href="/user/<?= $topic['Topic']['author']; ?>.<?= $topic['Topic']['id_user']; ?>/"><?= $topic['Topic']['author']; ?></a>, <?= $topic['Topic']['date']; ?></div>
+                       </div>
+                       <div class="hidden-mob col-md-2 forum-category-last">
+                           <div class="forum-category-description"><span><?= $Lang->get('FORUM__MSG'); ?> :</span> <?= $topic['Topic']['nb_message']; ?></div>
+                           <div class="forum-category-description"><span><?= $Lang->get('FORUM__VIEW'); ?><?php if($topic['Topic']['total_view'] > 1) echo 's'; ?> :</span> <?= $topic['Topic']['total_view']; ?></div>
+                       </div>
+                       <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
+                           <a style="color:#<?= $topic['Topic']['topic_last_author_color']; ?>" href="/user/<?= $topic['Topic']['forum_last_author']; ?>.<?= $topic['Topic']['forum_last_authorid']; ?>/"><?= $topic['Topic']['forum_last_author']; ?></a>, <?= $topic['Topic']['forum_last_date']; ?>
+                       </div>
+                   </div>
+               </div>
+           <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 
     <?= $pagination['html']; ?>
 
-    <?php if(isset($_SESSION['user'])): ?>
-        <div class="row">
-            <div class="col-md-10"></div>
-            <div class="col-md-2">
+    <?php if($isConnected): ?>
+        <?php if(!$isLock OR $perms['FORUM_TOPIC_LOCK']): ?>
+            <div class="row">
+                <div class="col-md-10"></div>
                 <div class="col-md-2">
-                    <a href="/topic/add/<?= $id; ?>" class="btn btn-theme mt30"><?= $Lang->get('FORUM__TOPIC__CREATE'); ?></a>
+                    <div class="col-md-2">
+                        <a href="/topic/add/<?= $id; ?>" class="btn btn-theme mt30"><?= $Lang->get('FORUM__TOPIC__CREATE'); ?></a>
+                    </div>
                 </div>
             </div>
-        </div>
+        <?php endif; ?>
     <?php endif; ?>
 </div>

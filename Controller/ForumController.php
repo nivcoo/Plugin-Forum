@@ -25,9 +25,19 @@ class ForumController extends ForumAppController {
            $this->install();
        }
 
-       /* update 1.0.1 */
-       //$db = ConnectionManager::getDataSource('default');
-       //$db->query('ALTER TABLE `forum__profiles` MODIFY `social` TEXT NULL;');
+       /* update 1.1.0 */
+       $db = ConnectionManager::getDataSource('default');
+       $exist = $db->query('SHOW COLUMNS FROM `forum__forums` LIKE "lock"');
+       if(empty($exist)){
+           $db->query('
+                ALTER TABLE `forum__forums` ADD COLUMN `lock` TINYINT(1) NULL DEFAULT "0" AFTER `forum_image`;
+                ALTER TABLE `forum__forums` ADD COLUMN `permission` TEXT(4000) NULL AFTER `lock`;
+                ALTER TABLE `forum__forums` ADD COLUMN `visible` TINYINT(1) NULL AFTER `permission`;
+                ALTER TABLE `forum__forums` ADD COLUMN `automatic_lock` TINYINT(1) NULL AFTER `visible`;
+                ALTER TABLE `forum__topics` ADD COLUMN `permission` TEXT(4000) NULL AFTER `last_edit`;
+                ALTER TABLE `forum__topics` ADD COLUMN `visible` TINYINT(1) NULL AFTER `permission`;
+           ');
+       }
        /* AND update sql */
    }
 
@@ -133,26 +143,31 @@ class ForumController extends ForumAppController {
                 $topics_stick[$key]['Topic']['total_view'] = $this->Vieww->count($topic_stick['Topic']['id_topic']);
                 $topics_stick[$key]['Topic']['href'] = $this->buildUri('topic', $topic_stick['Topic']['name'], $topic_stick['Topic']['id_topic']);
             }
-            $paginationDb = $this->Topic->pagination();
+            $paginationDb = $this->Topic->pagination('forum', $id);
             $pagination['html'] = $this->forumRender('pagination', ['data' => 'e', 'style' => 'sm', 'page' => $page, 'nbpage' => $paginationDb['nbpage']]);
             $topics = $this->Topic->getTopic($id, 'nostick', $page);
-            foreach ($topics as $key => $topic){
-                $topics[$key]['Topic']['name'] = $this->Topic->info('title_parent', $topic['Topic']['id_topic']);
-                $topics[$key]['Topic']['forum_last_authorid'] = $this->Topic->getLastedTopic('id', $topic['Topic']['id_topic'])['id_user'];
-                $topics[$key]['Topic']['forum_last_author'] =  $this->gUBY($topics[$key]['Topic']['forum_last_authorid']);
-                $topics[$key]['Topic']['forum_last_title'] = $this->Topic->getLastedTopic('id', $topics[$key]['Topic']['id_topic'])['name'];
-                $topics[$key]['Topic']['forum_last_date'] =  $this->date($this->Topic->getLastedTopic('id', $topic['Topic']['id_topic'])['date']);
-                $topics[$key]['Topic']['author'] = $this->gUBY($topic['Topic']['id_user']);
-                $topics[$key]['Topic']['date'] = $this->date($topic['Topic']['date'], '%d %B %Y');
-                $topics[$key]['Topic']['nb_message'] = $this->Topic->getNbMessage('topic', $topic['Topic']['id_topic']);
-                $topics[$key]['Topic']['topic_last_author_color'] = $this->ForumPermission->getRankColorDomin($topics[$key]['Topic']['forum_last_authorid']);
-                $topics[$key]['Topic']['total_view'] = $this->Vieww->count($topic['Topic']['id_topic']);
-                $topics[$key]['Topic']['href'] = $this->buildUri('topic', $topics[$key]['Topic']['name'], $topic['Topic']['id_topic']);
+            if(!empty($topics)){
+                foreach ($topics as $key => $topic){
+                    $topics[$key]['Topic']['name'] = $this->Topic->info('title_parent', $topic['Topic']['id_topic']);
+                    $topics[$key]['Topic']['forum_last_authorid'] = $this->Topic->getLastedTopic('id', $topic['Topic']['id_topic'])['id_user'];
+                    $topics[$key]['Topic']['forum_last_author'] =  $this->gUBY($topics[$key]['Topic']['forum_last_authorid']);
+                    $topics[$key]['Topic']['forum_last_title'] = $this->Topic->getLastedTopic('id', $topics[$key]['Topic']['id_topic'])['name'];
+                    $topics[$key]['Topic']['forum_last_date'] =  $this->date($this->Topic->getLastedTopic('id', $topic['Topic']['id_topic'])['date']);
+                    $topics[$key]['Topic']['author'] = $this->gUBY($topic['Topic']['id_user']);
+                    $topics[$key]['Topic']['date'] = $this->date($topic['Topic']['date'], '%d %B %Y');
+                    $topics[$key]['Topic']['nb_message'] = $this->Topic->getNbMessage('topic', $topic['Topic']['id_topic']);
+                    $topics[$key]['Topic']['topic_last_author_color'] = $this->ForumPermission->getRankColorDomin($topics[$key]['Topic']['forum_last_authorid']);
+                    $topics[$key]['Topic']['total_view'] = $this->Vieww->count($topic['Topic']['id_topic']);
+                    $topics[$key]['Topic']['href'] = $this->buildUri('topic', $topics[$key]['Topic']['name'], $topic['Topic']['id_topic']);
+                }
             }
             $parent['forum_parent']['name'] = $this->replaceHyppen($slug);
             $theme = $this->theme();
+            $perms = $this->perm_l();
+            $isLock = $this->Forum->isLock($id);
+
             $this->set('title_for_layout', $this->replaceHyppen($slug).' | '.$this->Lang->get('FORUM__TITLE'));
-            $this->set(compact('forums', 'slug', 'topics', 'topics_stick', 'parent', 'id', 'theme', 'pagination'));
+            $this->set(compact('forums', 'slug', 'topics', 'topics_stick', 'parent', 'id', 'theme', 'pagination', 'perms', 'isLock'));
         }else{
             throw new ForbiddenException();
         }
@@ -172,6 +187,8 @@ class ForumController extends ForumAppController {
         if(!$this->Vieww->exist($this->Util->getIP(), $id)){
            $this->Vieww->addView($this->Util->getIP(), $id);
         }
+
+        // Detect is forum is lock
 
         if($this->Topic->topicExist($id, $this->replaceHyppen($slug))){
             $lock = $this->Topic->isLock($id);
@@ -341,9 +358,10 @@ class ForumController extends ForumAppController {
                         throw new ForbiddenException();
                     }
                 }
-
-                $params['page'] = $page;
-                $msgs = $this->Topic->getMessage($id, $params);
+                $paginationDb = $this->Topic->pagination('topic', $id);
+                $pagination['html'] = $this->forumRender('pagination', ['data' => 'e', 'style' => 'sm', 'page' => $page, 'nbpage' => $paginationDb['nbpage']]);
+                $msgs = $this->Topic->getMessage($id, $page);
+                $title = $this->Topic->info('title_parent', $id);
                 foreach ($msgs as $key => $msg){
                     $user_id = $msg['Topic']['id_user'];
                     $msgs[$key]['Topic']['thumb_info']['green'] = $this->Note->isNoted('green', $msg['Topic']['id'] , $this->getIdSession());
@@ -371,7 +389,7 @@ class ForumController extends ForumAppController {
                 $theme = $this->theme();
 
                 $this->set('title_for_layout', $this->replaceHyppen($slug).' | '.$this->Lang->get('FORUM__TITLE'));
-                $this->set(compact('msgs', 'parent', 'active', 'perms', 'lock', 'id', 'stick', 'theme'));
+                $this->set(compact('msgs', 'parent', 'active', 'perms', 'lock', 'id', 'stick', 'theme', 'pagination', 'title'));
             }
         }else{
             throw new NotFoundException('Le topic n\'existe pas !', 404);
@@ -381,37 +399,45 @@ class ForumController extends ForumAppController {
     public function addTopic($idParent = false){
         $this->set('title_for_layout', $this->Lang->get('FORUM__ADD__TOPIC'));
         $this->loadModel('Forum.Topic');
+        $this->loadModel('Forum.Forums');
 
         if(!$this->Config->is('forum') OR !$this->ForumPermission->has('FORUM_TOPIC_SEND')){
             throw new NotFoundException();
         }
 
-        if($this->request->is('post') && $this->isConnected){
-            if(!empty($this->request->data['title']) && !empty($this->request->data['content_insert'])){
-                $stick = $lock = 0;
-                if($this->ForumPermission->has('FORUM_TOPIC_STICK')){
-                    if(!empty($this->request->data['stick']))$stick = 1;
+        $isLock = $this->Forum->isLock($idParent);
+        $perms = $this->perm_l();
+
+        if(!$isLock OR $perms['FORUM_TOPIC_LOCK']){
+            if($this->request->is('post') && $this->isConnected){
+                if(!empty($this->request->data['title']) && !empty($this->request->data['content_insert'])){
+                    $stick = $lock = 0;
+                    if($this->ForumPermission->has('FORUM_TOPIC_STICK')){
+                        if(!empty($this->request->data['stick']))$stick = 1;
+                    }
+                    if($this->ForumPermission->has('FORUM_TOPIC_LOCK')){
+                        if(!empty($this->request->data['lock'])) $lock = 1;
+                    }
+                    $content = $this->word($this->request->data['content_insert']);
+                    $title = $this->urlRew(trim($this->request->data['title']));
+                    $params = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
+                    $this->logforum($this->getIdSession(), 'create_topic', $this->gUBY($this->getIdSession()).' vient de créer un nouveau topic : '.strip_tags(substr($content, 0, 30)), $content);
+                    return $this->redirect('/topic/'.$this->replaceSpace($params['title']).'.'.$params['id_topic'].'/');
+                }else{
+                    if(!empty($this->request->data['title'])){
+                        $this->Session->setFlash('Vous devez insérer un titre à votre topic !', 'default.error');
+                    }elseif(!empty($this->request->data['content_insert'])){
+                        $this->Session->setFlash('Votre topic doit contenir un message !', 'default.error');
+                    }
                 }
-                if($this->ForumPermission->has('FORUM_TOPIC_LOCK')){
-                    if(!empty($this->request->data['lock'])) $lock = 1;
-                }
-                $content = $this->word($this->request->data['content_insert']);
-                $title = $this->urlRew(trim($this->request->data['title']));
-                $params = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
-                $this->logforum($this->getIdSession(), 'create_topic', $this->gUBY($this->getIdSession()).' vient de créer un nouveau topic : '.strip_tags(substr($content, 0, 30)), $content);
-                return $this->redirect('/topic/'.$this->replaceSpace($params['title']).'.'.$params['id_topic'].'/');
+            }elseif($this->request->is('get') && $this->isConnected){
+                $configs['stick'] = ($this->ForumPermission->has('FORUM_TOPIC_STICK')) ? true : false;
+                $configs['lock'] = ($this->ForumPermission->has('FORUM_TOPIC_LOCK')) ? true : false;
+                $theme = $this->theme();
+                $this->set(compact('configs', 'theme'));
             }else{
-                if(!empty($this->request->data['title'])){
-                    $this->Session->setFlash('Vous devez insérer un titre à votre topic !', 'default.error');
-                }elseif(!empty($this->request->data['content_insert'])){
-                    $this->Session->setFlash('Votre topic doit contenir un message !', 'default.error');
-                }
+                throw new ForbiddenException();
             }
-        }elseif($this->request->is('get') && $this->isConnected){
-            $configs['stick'] = ($this->ForumPermission->has('FORUM_TOPIC_STICK')) ? true : false;
-            $configs['lock'] = ($this->ForumPermission->has('FORUM_TOPIC_LOCK')) ? true : false;
-            $theme = $this->theme();
-            $this->set(compact('configs', 'theme'));
         }else{
             throw new ForbiddenException();
         }
@@ -489,7 +515,9 @@ class ForumController extends ForumAppController {
                 $stats['countuser'] = count($userOnlines);
                 $stats['thumbgreen'] = $this->Note->getNbThumb('total_green');
                 $stats['thumbred'] = $this->Note->getNbThumb('total_red');
-                $remoteMsg = $this->remoteAction('ADMINMSG');
+                $remoteMsg['info'] = $this->remoteAction('ADMINMSG');
+                $remoteMsg['changelog'] = $this->remoteAction('CHANGELOG');
+                $remoteMsg['nextupdate'] = $this->remoteAction('NEXTUPDATE');
 
                 $this->set(compact('configs', 'stats', 'userOnlines', 'remoteMsg'));
             }
@@ -556,7 +584,12 @@ class ForumController extends ForumAppController {
             if($this->request->is('ajax')) {
                 $this->autoRender = false;
                 if(!empty($this->request->data['name']) && !empty($this->request->data['position']) && !empty($this->request->data['parent']) && !empty($this->request->data['image'])) {
-                    $this->Forum->addCategory($this->getIdSession(), $this->request->data['name'], $this->request->data['position'], $this->request->data['parent'], $this->request->data['image']);
+                    $name = $this->urlRew($this->request->data['name']);
+                    $position = $this->request->data['position'];
+                    $parent = $this->request->data['parent'];
+                    $image = $this->request->data['image'];
+                    $lock = (isset($this->request->data['name'])) ? 1 : 0;
+                    $this->Forum->addCategory($this->getIdSession(), $name, $position, $parent, $image, $lock);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
                 }else{
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
@@ -633,11 +666,12 @@ class ForumController extends ForumAppController {
                     $this->logforum($this->getIdSession(), 'create_forum', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__CREATE__FORUM').strip_tags(substr($name, 0, 30)).' en position : '.$position, $name, $image);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
                 }elseif(!empty($this->request->data['name_category'])) {
-                    $name = $this->request->data['name_category'];
+                    $name = $this->urlRew($this->request->data['name_category']);
                     $parent = $this->request->data['parent'];
                     $position = $this->request->data['position'];
                     $image = $this->request->data['image'];
-                    $this->Forum->update('category', $this->request->data['id'], ['name' => $name, 'id_parent' => $parent, 'position' => $position, 'forum_image' => $image]);
+                    $lock = $this->request->data['lock'];
+                    $this->Forum->update('category', $this->request->data['id'], ['name' => $name, 'id_parent' => $parent, 'position' => $position, 'forum_image' => $image, 'lock' => $lock]);
                     $this->logforum($this->getIdSession(), 'create_forum', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__CATEGORY'), $name);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
                 }elseif(!empty($this->request->data['useredit'])){
@@ -1016,6 +1050,14 @@ class ForumController extends ForumAppController {
             }else{
                 return '';
             }
+        }elseif($type == 'CHANGELOG'){
+            return true;
+        }elseif($type == 'NEXTUPDATE'){
+            $json = file_get_contents('https://www.phpierre.fr/mineweb/forum/nextupdate/e/', false, stream_context_create($options));
+            $msg = json_decode($json, true);
+            return $msg;
+        }else{
+
         }
     }
 

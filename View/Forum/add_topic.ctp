@@ -1,6 +1,6 @@
 <?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.3/tinymce.min.js"></script>
-<div class="container mt30 marge">
+<div class="<?= $theme; ?> mt30 marge">
     <div class="row">
         <div class="col-xs-12 col-md-12 col-sm-12">
             <?= @$this->Session->flash(); ?>

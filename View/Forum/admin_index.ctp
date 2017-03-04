@@ -52,7 +52,7 @@
                     <h3 class="box-title"><?= $Lang->get('FORUM__GENERAL') ?></h3>
                 </div>
                 <div class="box-body">
-                    <?= $remoteMsg; ?>
+                    <?= $remoteMsg['info']; ?>
                     <p>
                         <?= $Lang->get('FORUM__PHRASE__PAGE__ADMININDEX_1'); ?><br />
                         <?= $Lang->get('FORUM__PHRASE__PAGE__ADMININDEX_2'); ?><a href="https://www.phpierre.fr/contact">lien</a><?= $Lang->get('FORUM__PHRASE__PAGE__ADMININDEX_3'); ?><br />
@@ -142,6 +142,17 @@
                             <button class="btn btn-danger" type="submit"><?= $Lang->get('FORUM__DROP') ?></button>
                         </div>
                     </form>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?= $Lang->get('FORUM__NEXT__UPDATE') ?></h3>
+                </div>
+                <div class="box-body">
+                    <?= $Lang->get('FORUM__PHRASE__PAGE__ADMININDEX_7'); ?>
+                    <?php foreach ($remoteMsg['nextupdate'] as $msg): ?>
+                        <?= $msg; ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>

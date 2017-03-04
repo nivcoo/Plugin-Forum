@@ -51,6 +51,10 @@
                         </script>
                         <div id="zone">
                         </div>
+                        <div class="form-group">
+                            <input value="lock" name="lock" type="checkbox" />
+                            <label> <?= $Lang->get('FORUM__LOCK__CATEGORY') ?></label>
+                        </div>
                         <div class="pull-right">
                             <a href="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'index', 'admin' => true)) ?>" class="btn btn-default"><?= $Lang->get('GLOBAL__CANCEL') ?></a>
                             <button class="btn btn-primary" type="submit"><?= $Lang->get('GLOBAL__SUBMIT') ?></button>

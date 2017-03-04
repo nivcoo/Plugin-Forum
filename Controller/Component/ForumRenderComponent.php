@@ -39,68 +39,69 @@ class ForumRenderComponent extends Component{
     // $render .= '';
 
     public function pagination($style, $page, $nbpage){
-        if($page > $nbpage){
+        if($page > $nbpage && $page != 1){
             $slug = $this->_Collection->getController()->request->{"params"}['slug'];
             $id = $this->_Collection->getController()->request->{"params"}['id'];
 
             $this->_Collection->getController()->redirect('/forum/'.$slug.'.'.$id.'/');
         }
+        if($nbpage > 1){
+            $link = './';
+            $total = $nbpage;
+            $current = $page;
+            $adj = 2;
 
-        $link = './';
-        $total = $nbpage;
-        $current = $page;
-        $adj = 2;
+            $prev = $current - 1;
+            $next = $current + 1;
+            $penultimate = $total - 1;
 
-        $prev = $current - 1;
-        $next = $current + 1;
-        $penultimate = $total - 1;
+            $render = '<div class="row">';
+            $render .= '<div class="col-md-12">';
+            $render .= '<nav aria-label="Page navigation">';
+            $render .= '<ul class="pagination pagination-'.$style.' pull-right">';
 
-        $render = '<div class="row">';
-        $render .= '<div class="col-md-12">';
-        $render .= '<nav aria-label="Page navigation">';
-        $render .= '<ul class="pagination pagination-'.$style.' pull-right">';
+            if($total > 1) {
+                if($current == 2) $render .= '<li><a href="'.$link.'">«</a></li>';
+                elseif($current > 2) $render .= '<li><a href="'.$link.$prev.'"  aria-label="Previous">«</a></li>';
+                else $render .= '<li><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>';
 
-        if($total > 1) {
-            if($current == 2) $render .= '<li><a href="'.$link.'">«</a></li>';
-            elseif($current > 2) $render .= '<li><a href="'.$link.$prev.'"  aria-label="Previous">«</a></li>';
-            else $render .= '<li><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>';
-
-            if($total < 7 + ($adj * 2)){
-                $render .= ($current == 1) ? '<li class="active"><a>1</a></li>' : '<li><a href="'.$link.'">1</a></li>';
-                for($i = 2; $i <= $total; $i++) $render .= ($i == $current) ? '<li class="active"><a href="#">'.$i.'</a></li>' : '<li><a href="'.$link.$i.'">'.$i.'</a></li>';
-            }else{
-                if($current < 2 + ($adj * 2)){
+                if($total < 7 + ($adj * 2)){
                     $render .= ($current == 1) ? '<li class="active"><a>1</a></li>' : '<li><a href="'.$link.'">1</a></li>';
-                    for ($i = 2; $i < 4 + ($adj * 2); $i++) $render .= ($current == $i) ? '<li class="active"><a>'.$i.'</a></li>' : '<li><a href="'.$link.$i.'">'.$i.'</a></li>';
-
-                    $render .= '<li><a>…</a></li>';
-                    $render .= '<li><a href="'.$link.$penultimate.'">'.$penultimate.'</a></li>';
-                    $render .= '<li><a href="'.$link.$total.'">'.$total.'</a></li>';
-                }elseif((($adj * 2) + 1 < $current) && ($current < $total - ($adj * 2))){
-                    $render .= '<li><a href="'.$link.'">1</a></li>';
-                    $render .= '<li><a href="'.$link.'2">2</a></li>';
-                    $render .= '<li><a>…</a></li>';
-
-                    for ($i = $current - $adj; $i <= $current + $adj; $i++) $render .= ($current == $i) ? '<li class="active"><a>'.$i.'</a></li>' : '<li><a href="'.$link.$i.'">'.$i.'</a></li>';
-
-                    $render .= '<li><a>…</a></li>';
-                    $render .= '<li><a href="'.$link.$penultimate.'">'.$penultimate.'</a></li>';
-                    $render .= '<li><a href="'.$link.$total.'">'.$total.'</a></li>';
+                    for($i = 2; $i <= $total; $i++) $render .= ($i == $current) ? '<li class="active"><a href="#">'.$i.'</a></li>' : '<li><a href="'.$link.$i.'">'.$i.'</a></li>';
                 }else{
-                    $render .= '<li><a href="'.$url.'">1</a></li>';
-                    $render .= '<li><a href="'.$url.$link.'2">2</a></li>';
-                    $render .= '<li><a>…</a></li>';
-                    for ($i = $total - (2 + ($adj * 2)); $i <= $total; $i++) $render .= ($i == $current) ? '<li class="active"><a href="#">'.$i.'</a></li>' : '<li><a href="'.$link.$i.'">'.$i.'</a></li>';
-                }
-            }
-            $render .= ($current == $total) ? '<li class="disabled"><a href="#" aria-label="Next"><span>»</span></a></li>' : '<li><a href="'.$link.$next.'" aria-label="Next"><span>»</span></a></li>';
+                    if($current < 2 + ($adj * 2)){
+                        $render .= ($current == 1) ? '<li class="active"><a>1</a></li>' : '<li><a href="'.$link.'">1</a></li>';
+                        for ($i = 2; $i < 4 + ($adj * 2); $i++) $render .= ($current == $i) ? '<li class="active"><a>'.$i.'</a></li>' : '<li><a href="'.$link.$i.'">'.$i.'</a></li>';
 
-            $render .= '</ul>';
-            $render .= '</nav>';
-            $render .= '</div>';
-            $render .= '</div>';
+                        $render .= '<li><a>…</a></li>';
+                        $render .= '<li><a href="'.$link.$penultimate.'">'.$penultimate.'</a></li>';
+                        $render .= '<li><a href="'.$link.$total.'">'.$total.'</a></li>';
+                    }elseif((($adj * 2) + 1 < $current) && ($current < $total - ($adj * 2))){
+                        $render .= '<li><a href="'.$link.'">1</a></li>';
+                        $render .= '<li><a href="'.$link.'2">2</a></li>';
+                        $render .= '<li><a>…</a></li>';
+
+                        for ($i = $current - $adj; $i <= $current + $adj; $i++) $render .= ($current == $i) ? '<li class="active"><a>'.$i.'</a></li>' : '<li><a href="'.$link.$i.'">'.$i.'</a></li>';
+
+                        $render .= '<li><a>…</a></li>';
+                        $render .= '<li><a href="'.$link.$penultimate.'">'.$penultimate.'</a></li>';
+                        $render .= '<li><a href="'.$link.$total.'">'.$total.'</a></li>';
+                    }else{
+                        $render .= '<li><a href="'.$url.'">1</a></li>';
+                        $render .= '<li><a href="'.$url.$link.'2">2</a></li>';
+                        $render .= '<li><a>…</a></li>';
+                        for ($i = $total - (2 + ($adj * 2)); $i <= $total; $i++) $render .= ($i == $current) ? '<li class="active"><a href="#">'.$i.'</a></li>' : '<li><a href="'.$link.$i.'">'.$i.'</a></li>';
+                    }
+                }
+                $render .= ($current == $total) ? '<li class="disabled"><a href="#" aria-label="Next"><span>»</span></a></li>' : '<li><a href="'.$link.$next.'" aria-label="Next"><span>»</span></a></li>';
+
+                $render .= '</ul>';
+                $render .= '</nav>';
+                $render .= '</div>';
+                $render .= '</div>';
+            }
+            return $render;
         }
-        return $render;
     }
 
 }
