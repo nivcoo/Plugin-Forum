@@ -1,0 +1,16 @@
+{
+  "FORUM__TITLE": "Forum",
+  "FORUM__FORUMS": "Forums",
+
+  "FORUM__PERMISSION_NECESSARY": "You haven't the permission to do this",
+  "FORUM__SWITCH": "Switch",
+  "FORUM__FIRST__POSITION": "First position",
+  "FORUM__CREATE": "Creation date",
+  "FORUM__DATE__REPORT": "Report date",
+  "FORUM__REASON": "Reason",
+  "FORUM__POSITION": "Position",
+  "FORUM__PARENT": "Parent",
+  "FORUM__AFTER": "After",
+  "FORUM__IN": "In",
+  "FORUM__BY": "By"
+}
