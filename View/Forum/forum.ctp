@@ -56,6 +56,12 @@
                         <i class="fa fa-comment forum-category-fa" aria-hidden="true"></i>
                     </div>
                     <div class="col-xs-7 col-md-5 col-sm-6">
+                        <div class="pull-right">
+                            <i class="fa fa-thumb-tack" style="color:#348fef" aria-hidden="true"></i>
+                            <?php if($topic_stick['Topic']['lock']): ?>
+                                <i class="fa fa-lock" style="color:#9f191f" aria-hidden="true"></i>
+                            <?php endif; ?>
+                        </div>
                         <h3 class="forum-category-title"><a href="<?= $topic_stick['Topic']['href']; ?>"><?= h($topic_stick['Topic']['name']); ?></a></h3>
                         <div class="forum-category-description"><a href="/user/<?= $topic_stick['Topic']['author']; ?>.<?= $topic_stick['Topic']['id_user']; ?>/"><?= $topic_stick['Topic']['author']; ?></a>, <?= $topic_stick['Topic']['date']; ?></div>
                     </div>
@@ -80,6 +86,11 @@
                            <i class="fa fa-comment forum-category-fa" aria-hidden="true"></i>
                        </div>
                        <div class="col-xs-7 col-md-5 col-sm-6">
+                            <?php if($topic['Topic']['lock']): ?>
+                               <div class="pull-right">
+                                   <i class="fa fa-lock" style="color:#9f191f" aria-hidden="true"></i>
+                               </div>
+                            <?php endif; ?>
                            <h3 class="forum-category-title"><a href="<?= h($topic['Topic']['href']); ?>"><?= h($topic['Topic']['name']); ?></a></h3>
                            <div class="forum-category-description"><a href="/user/<?= $topic['Topic']['author']; ?>.<?= $topic['Topic']['id_user']; ?>/"><?= $topic['Topic']['author']; ?></a>, <?= $topic['Topic']['date']; ?></div>
                        </div>

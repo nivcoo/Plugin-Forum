@@ -56,7 +56,9 @@ class ForumAppSchema extends CakeSchema {
         'forum_description' => ['type' => 'text', 'null' => true, 'default' => null, 'length' => 200, 'unsigned' => false],
         'forum_image' => ['type' => 'text', 'null' => true, 'default' => null, 'length' => 500, 'unsigned' => false],
         'lock' => ['type' => 'boolean', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false],
-        'permission' => ['type' => 'text', 'null' => false, 'default' => null, 'length' => 4000, 'unsigned' => false]
+        'permission' => ['type' => 'text', 'null' => true, 'default' => null, 'length' => 4000, 'unsigned' => false],
+        'automatic_lock' => ['type' => 'boolean', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false],
+        'visible' => ['type' => 'boolean', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false]
     ];
 
     public $forum__groups = [
@@ -142,7 +144,8 @@ class ForumAppSchema extends CakeSchema {
         'content' => ['type' => 'text', 'null' => false, 'default' => null, 'length' => 4000, 'unsigned' => false],
         'date' => ['type' => 'datetime', 'null' => false, 'default' => null],
         'last_edit' => ['type' => 'datetime', 'null' => true, 'default' => null],
-        'permission' => ['type' => 'text', 'null' => false, 'default' => null, 'length' => 4000, 'unsigned' => false]
+        'permission' => ['type' => 'text', 'null' => true, 'default' => null, 'length' => 4000, 'unsigned' => false],
+        'visible' => ['type' => 'boolean', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false]
     ];
 
     public $users = [
