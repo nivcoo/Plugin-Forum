@@ -79,6 +79,13 @@
   "FORUM__LASTMSG": "Dernier message",
   "FORUM__NEXT__UPDATE": "Prochains ajouts",
   "FORUM__LOCK__CATEGORY": "Empecher la publication de topic dans cette catégorie ?",
+  "FORUM__AUTOLOCK__CATEGORY": "Verrouiller les topics dès leurs création",
+  "FORUM__PROPERTIES": "Propriétés",
+  "FORUM__LOCK": "Verrouiller",
+  "FORUM__UNLOCK": "Deverrouiller",
+  "FORUM__STICK": "Epingler",
+  "FORUM__UNSTICK": "Détacher",
+  "FORUM__MOOVE": "Déplacer",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",
@@ -119,7 +126,7 @@
   "FORUM__CONFIG__NOTEMSG": "Noter les commentaires",
   "FORUM__CONFIG__SUCCESS": "Config édité avec succès",
   "FORUM__CONFIG__HISTORY": "Vider l'historique",
-  "FORUM__CONFIG__INSTALL": "Installer la configuration forum",
+  "FORUM__CONFIG__INSTALL": "Installer la configuration de base du forum",
   "FORUM__CONFIG__INSTALLED": "La configuration a bien été installée",
 
   "FORUM__MESSAGE__DELETE": "Votre message à bien été supprimé",
@@ -195,7 +202,7 @@
   "FORUM__PHRASE__LASTCOMMENT": "Derniers commentaires",
   "FORUM__PHRASE__LASTFEEDBACK": "Dernières appréciations",
   "FORUM__PHRASE__PAGE__ADMINEDIT_1": "Ce sont les messages signalés par cet utilisateur",
-  "FORUM__PHRASE__PAGE__ADDTOPIC_1": "Attenetion, le titre est très important car il est utilisé pour déterminer l'url, veillez donc à utiliser un titre cohérant.",
+  "FORUM__PHRASE__PAGE__ADDTOPIC_1": "Le titre est très important car il est utilisé pour déterminer l'url, veillez donc à utiliser un titre cohérant.",
 
   "FORUM__RANK__BASIC": "Membre",
   "FORUM__TOPIC__LOCK": "Le topic a bien été verrouillé",

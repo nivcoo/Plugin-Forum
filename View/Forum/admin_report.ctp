@@ -14,7 +14,6 @@
                             <table class="table table-responsive dataTable">
                                 <thead>
                                     <tr>
-                                        <th><?= $Lang->get('USER__USERNAME'); ?></th>
                                         <th><?= $Lang->get('FORUM__BY'); ?></th>
                                         <th><?= $Lang->get('FORUM__DATE__REPORT'); ?></th>
                                         <th><?= $Lang->get('FORUM__CONTENT'); ?></th>

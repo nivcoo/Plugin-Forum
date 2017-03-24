@@ -21,8 +21,8 @@ class UserController extends ForumAppController {
             $this->loadModel('Forum.Topic');
             $this->loadModel('Forum.Note');
             $this->loadModel('Forum.Profile');
-            $active['userpage'] = ($this->Config->is('userpage')) ? true : false;
-            if($active['userpage']){
+
+            if($this->Config->is('userpage')){
                 $infos['nb_message'] = $this->Topic->getNbMessage('user', $id);
                 $infos['inscription'] = $this->date($this->dateInscription($id));
                 $infos['thumb']['green'] = $this->Note->getNbThumb('green', $id);

@@ -8,7 +8,11 @@
             </div>
             <div class="col-md-12">
                 <form action="" method="post">
-                    <?= @$this->Session->flash(); ?>
+                    <div class="row mt20">
+                        <div class="col-md-12">
+                            <?= @$this->Session->flash(); ?>
+                        </div>
+                    </div>
                     <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
                     <div class="form-group mt20">
                         <input type="text" name="recipient" class="form-control" placeholder="<?= $Lang->get('FORUM__PHRASE__RECIPIENT'); ?>" />
@@ -20,7 +24,7 @@
                         <script type="text/javascript">
                             tinymce.init({
                                 external_plugins: {
-                                    "emoticons": "/forum/js/plugins/emoticons/plugin.min.js"
+                                    "emoticons": "<?= $this->Html->url('/') ?>forum/js/plugins/emoticons/plugin.min.js"
                                 },
                                 selector: "textarea",
                                 height : 200,

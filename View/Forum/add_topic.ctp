@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-xs-12 col-md-12 col-sm-12">
             <?= @$this->Session->flash(); ?>
-            <form method="post" action="/<?= $this->request->url ?>/<?= $idParent; ?>">
+            <form method="post" action="/<?= $this->request->url ?>">
                 <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
                 <div class="input-group">
                     <input name="title" class="form-control" placeholder="<?= $Lang->get('FORUM__TITLE__TOPIC'); ?>" />

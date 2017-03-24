@@ -98,6 +98,7 @@
 
 .topic-content{
     margin: 10px;
+    word-wrap: break-word;
     min-height: 270px;
 }
 

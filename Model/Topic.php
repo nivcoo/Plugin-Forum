@@ -15,6 +15,8 @@ class Topic extends ForumAppModel {
 
     private $nbTopic = 15;
 
+    private $nbMessageProfil = 5;
+
     public function getTopic($id, $method = false, $params = false){
         if($method){
             if($method == 'stick'){
@@ -90,6 +92,9 @@ class Topic extends ForumAppModel {
                 break;
             case 'thumb_red' :
                 return $this->find('all', ['fields' => ['sum(thumb_red)'], 'conditions' => ['id_user' => $id]])[0][0]["sum(thumb_red)"];
+                break;
+            case 'topic_author' :
+                return $this->find('first', ['fields' => ['id_user'], 'conditions' => ['id_topic' => $id, 'first' => 1]])['Topic']['id_user'];
                 break;
             default :
                 return false;
@@ -171,7 +176,7 @@ class Topic extends ForumAppModel {
     }
 
     public function userLastMessage($id){
-        return $this->find('all', ['order' => ['date' => 'DESC'], 'limit' => $this->nbMessage, 'conditions' => ['id_user' => $id]]);
+        return $this->find('all', ['order' => ['date' => 'DESC'], 'limit' => $this->nbMessageProfil, 'conditions' => ['id_user' => $id]]);
     }
 
     public function determineIsTopic($id){
@@ -204,5 +209,17 @@ class Topic extends ForumAppModel {
         }elseif($type == 'unstick'){
             return $this->updateAll(['stick' => 0], ['id_topic' => $id]);
         }
+    }
+
+    public function moove($id, $to){
+        /*
+         * $id = Topic id
+         * $to = Forum Id destination
+         */
+        return $this->updateAll(['id_parent' => "'".$to."'"], ['id_topic' => $id]);
+    }
+
+    public function rename($id, $newName){
+        return $this->updateAll(['name' => "'".$newName."'"], ['id_topic' => $id]);
     }
 }

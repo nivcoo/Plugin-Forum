@@ -25,17 +25,19 @@ class MessageController extends ForumAppController {
     public function index(){
         if($this->isConnected && $this->Config->is('privatemsg')){
             $messages = $this->Conversation->get('first');
-            foreach ($messages as $key => $message){
-                $ids[$key] = $message['Conversation']['id_conversation'];
-            }
-            if(!empty($ids)){
-                foreach ($ids as $key => $id){
-                    $mps[$key] = $this->Conversation->get($id, $id);
-                    $mps[$key]['Conversation']['msg_date'] = $this->dateAndTime($mps[$key]['Conversation']['msg_date']);
-                    $mps[$key]['Conversation']['last_msg_date'] = $this->dateAndTime($messages[$key]['Conversation']['msg_date']);
-                    $mps[$key]['Conversation']['user'] = $this->gUBY($mps[$key]['Conversation']['author_id']);
-                    $mps[$key]['Conversation']['href'] = $this->buildUri('message', $mps[$key]['Conversation']['title'], $mps[$key]['Conversation']['id_conversation']);
-                    $mps[$key]['Conversation']['user_color'] = $this->ForumPermission->getRankColorDomin($mps[$key]['Conversation']['author_id']);
+            if($messages){
+                foreach ($messages as $key => $message){
+                    $ids[$key] = $message['Conversation']['id_conversation'];
+                }
+                if(!empty($ids)){
+                    foreach ($ids as $key => $id){
+                        $mps[$key] = $this->Conversation->get($id, $id);
+                        $mps[$key]['Conversation']['msg_date'] = $this->dateAndTime($mps[$key]['Conversation']['msg_date']);
+                        $mps[$key]['Conversation']['last_msg_date'] = $this->dateAndTime($messages[$key]['Conversation']['msg_date']);
+                        $mps[$key]['Conversation']['user'] = $this->gUBY($mps[$key]['Conversation']['author_id']);
+                        $mps[$key]['Conversation']['href'] = $this->buildUri('message', $mps[$key]['Conversation']['title'], $mps[$key]['Conversation']['id_conversation']);
+                        $mps[$key]['Conversation']['user_color'] = $this->ForumPermission->getRankColorDomin($mps[$key]['Conversation']['author_id']);
+                    }
                 }
             }
             $theme = $this->theme();

@@ -1,5 +1,5 @@
 <?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
-<div class="container marge">
+<div class="<?= $theme; ?> marge">
     <div class="forum-forum">
         <div class="row">
             <div class="col-md-4">
@@ -64,7 +64,7 @@
                                 <hr />
                                 <div class="forum-profile-comment">
                                     <h4><a href="<?= $last['Topic']['href']; ?>"><?= $last['Topic']['title']; ?></a></h4>
-                                    <p><?= $this->Text->truncate($last['Topic']['content'], 150); ?></p>
+                                    <p><?= $this->Text->truncate(strip_tags($last['Topic']['content']), 150); ?></p>
                                 </div>
                             <?php endforeach; ?>
                         </div>

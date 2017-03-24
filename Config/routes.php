@@ -15,6 +15,7 @@ Router::connect('/topic/add/:id', ['controller' => 'forum', 'action' => 'addTopi
 Router::connect('/forum/report', ['controller' => 'forum', 'action' => 'report', 'plugin' => 'forum']);
 Router::connect('/forum/debug', ['controller' => 'forum', 'action' => 'debug', 'plugin' => 'forum']);
 Router::connect('/forum/banned', ['controller' => 'forum', 'action' => 'banned', 'plugin' => 'forum']);
+Router::connect('/forum/action/:type/:act/:params', ['controller' => 'forum', 'action' => 'forumAction', 'plugin' => 'forum'], ['pass' => ['type', 'act', 'params']]);
 
 Router::connect('/message', ['controller' => 'message', 'action' => 'index', 'plugin' => 'forum']);
 Router::connect('/message/new', ['controller' => 'message', 'action' => 'newMessage', 'plugin' => 'forum']);

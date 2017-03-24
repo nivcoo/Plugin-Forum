@@ -22,13 +22,13 @@
                 <?php if($perms['FORUM_TOPIC_LOCK']): ?>
                     <form style="width: 46px" class="inline" action="" method="post">
                         <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden">
-                        <button type="submit" data-toggle="tooltip" data-placement="bottom" name="lock" value="<?= $id; ?>" title="<?php if($lock): ?>Dévérouiller<?php else: ?>Vérouiller<?php endif; ?>" class="btn btn-theme mt30"><?php if(!$lock): ?><i class="fa fa-lock" aria-hidden="true"></i><?php else: ?><i class="fa fa-unlock" aria-hidden="true"></i><?php endif; ?></button>
+                        <button type="submit" data-toggle="tooltip" data-placement="bottom" name="lock" value="<?= $id; ?>" title="<?php if($lock): ?><?= $Lang->get('FORUM__UNLOCK'); ?><?php else: ?><?= $Lang->get('FORUM__LOCK'); ?><?php endif; ?>" class="btn btn-theme mt30"><?php if(!$lock): ?><i class="fa fa-lock" aria-hidden="true"></i><?php else: ?><i class="fa fa-unlock" aria-hidden="true"></i><?php endif; ?></button>
                     </form>
                 <?php endif; ?>
                 <?php if($perms['FORUM_TOPIC_STICK']): ?>
                     <form style="width: 46px" class="inline" action="" method="post">
                         <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden">
-                        <button type="submit" data-toggle="tooltip" data-placement="bottom" title="<?php if($stick): ?>Détacher<?php else: ?>Epingler<?php endif; ?>" name="stick" value="<?= $id; ?>" class="btn btn-theme mt30"><i class="fa fa-paperclip" aria-hidden="true"></i></button>
+                        <button type="submit" data-toggle="tooltip" data-placement="bottom" title="<?php if($stick): ?><?= $Lang->get('FORUM__UNSTICK'); ?><?php else: ?><?= $Lang->get('FORUM__STICK'); ?><?php endif; ?>" name="stick" value="<?= $id; ?>" class="btn btn-theme mt30"><i class="fa fa-paperclip" aria-hidden="true"></i></button>
                     </form>
                 <?php endif; ?>
                 <?php if($perms['FORUM_TOPICMY_DELETE'] || $perms['FORUM_TOPIC_DELETE']): ?>
@@ -97,7 +97,7 @@
                                         <?php endif; ?>
                                         <?php if($_SESSION['user'] == $msg['Topic']['id_user'] && $perms['FORUM_MSGMY_DELETE'] || $perms['FORUM_MSG_DELETE']): ?>
                                             <form action="" method="post">
-                                                <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden">
+                                                <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
                                                 <button type="submit" name="delete" value="<?= $msg['Topic']['id']; ?>" class="btn-theme"><?= $Lang->get('GLOBAL__DELETE'); ?></button>
                                             </form>
                                         <?php endif; ?>
@@ -232,9 +232,11 @@
     <?php if($active['notemsg']): ?>
         function forumThumb(type, id, toUser){
             var json = JSON.stringify({ type: type, id:id, toUser: toUser});
+            var url = window.location.href;
+            console.log(url);
             $.ajax({
                 type : 'post',
-                url : '/<?= $this->request->url ?>',
+                url : url,
                 data : {json : json, 'data[_Token][key]' : '<?= $csrfToken ?>'},
                 success : function(json){
                     var anchor = $('#' + id + '-' + type).attr('data-original-title');
@@ -243,15 +245,16 @@
                         $('#' + id + '-' + type).addClass('active');
                         $('#' + id + '-' + type).attr('data-original-title', anchor);
                     }else if(json == "reset"){
+                        /* When a msg is always noted */
                         if(type == 1){
                             var anchor = $('#' + id + '-2').attr('data-original-title');
                             anchor--;
-                            $('#' + id + '-2').addClass('active');
+                            $('#' + id + '-2').removeClass('active');
                             $('#' + id + '-2').attr('data-original-title', anchor);
                         }else{
                             var anchor = $('#' + id + '-1').attr('data-original-title');
                             anchor--;
-                            $('#' + id + '-1').addClass('active');
+                            $('#' + id + '-1').removeClass('active');
                             $('#' + id + '-1').attr('data-original-title', anchor);
                         }
                     }
@@ -265,9 +268,10 @@
         }
         <?php endif; ?>
         function getMessage(id) {
+            var url = window.location.href;
             $.ajax({
                 type: 'post',
-                url: '/<?= $this->request->url ?>',
+                url: url,
                 data: {idUpdate: id, 'data[_Token][key]': '<?= $csrfToken ?>'},
                 success: function (message) {
                     $('#update_id').val(id);

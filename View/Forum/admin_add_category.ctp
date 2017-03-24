@@ -37,14 +37,14 @@
                                 var html = '<div class="form-group">';
                                 html += '<div class="input-group">';
                                 html += '<span class="input-group-addon">fa-</span>';
-                                html += '<input value="<?= $datas["Forum"]["forum_image"]; ?>" name="image" class="form-control" type="text" placeholder="times" />';
+                                html += '<input name="image" class="form-control" type="text" placeholder="times" />';
                                 html += '</div>';
                                 html += '</div>';
                                 $('#zone').html(html);
                             });
                             $("#ii_type_image").click(function () {
                                 var html = '<div class="form-group">';
-                                html += '<input value="<?= $datas["forum"]["forum_image"]; ?>" name="image" class="form-control" type="text" placeholder="https://bing.com/image.png" />';
+                                html += '<input name="image" class="form-control" type="text" placeholder="https://bing.com/image.png" />';
                                 html += '</div>';
                                 $('#zone').html(html);
                             });
@@ -52,8 +52,12 @@
                         <div id="zone">
                         </div>
                         <div class="form-group">
-                            <input value="lock" name="lock" type="checkbox" />
+                            <input name="lock" type="checkbox" />
                             <label> <?= $Lang->get('FORUM__LOCK__CATEGORY') ?></label>
+                        </div>
+                        <div class="form-group">
+                            <input name="automatic_lock" type="checkbox"  />
+                            <label> <?= $Lang->get('FORUM__AUTOLOCK__CATEGORY') ?></label>
                         </div>
                         <div class="pull-right">
                             <a href="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'index', 'admin' => true)) ?>" class="btn btn-default"><?= $Lang->get('GLOBAL__CANCEL') ?></a>

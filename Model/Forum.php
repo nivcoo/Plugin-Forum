@@ -1,6 +1,6 @@
 <?php
 class Forum extends ForumAppModel {
-    public function getForum($type = "", $id = false){
+    public function getForum($type = '', $id = false){
         switch ($type){
             case 'id' :
                 return $this->find('first', ['conditions' => ['id' => $id]]);
@@ -31,10 +31,10 @@ class Forum extends ForumAppModel {
         return $this->save();
     }
 
-    public function addCategory($idUser, $name, $position, $parent, $image, $lock){
+    public function addCategory($idUser, $name, $position, $parent, $image, $lock, $automaticLock){
         //TODO future maj: + description
         $this->create();
-        $this->set(['id_user' => $idUser, 'forum_name' => $name, 'position' => $position, 'id_parent' => $parent,  'forum_image' => $image, 'lock' => $lock]);
+        $this->set(['id_user' => $idUser, 'forum_name' => $name, 'position' => $position, 'id_parent' => $parent,  'forum_image' => $image, 'lock' => $lock, 'automatic_lock' => $automaticLock]);
         return $this->save();
     }
 
@@ -61,7 +61,7 @@ class Forum extends ForumAppModel {
         if($type == 'forum'){
             return $this->updateAll(['forum_name' => "'".$datas['name']."'", 'position' => "'".$datas['position']."'", 'forum_image' => "'".$datas['image']."'"], ['id' => $id]);;
         }elseif ($type == 'category'){
-            return $this->updateAll(['forum_name' => "'".$datas['name']."'", 'id_parent' => "'".$datas['id_parent']."'", 'position' => $datas['position'], 'forum_image' => "'".$datas['forum_image']."'", 'lock' => $datas['lock']], ['id' => $id]);;
+            return $this->updateAll(['forum_name' => "'".$datas['name']."'", 'id_parent' => "'".$datas['id_parent']."'", 'position' => $datas['position'], 'forum_image' => "'".$datas['forum_image']."'", 'lock' => $datas['lock'], 'automatic_lock' => $datas['automatic_lock']], ['id' => $id]);;
         }
     }
 
@@ -78,5 +78,9 @@ class Forum extends ForumAppModel {
 
     public function isLock($id){
         return ($this->hasAny(['id' => $id, 'lock' => true])) ? true : false;
+    }
+
+    public function isAutoLock($id){
+        return $this->find('first', ['conditions' => ['id' => $id]])['Forum']['automatic_lock'];
     }
 }
