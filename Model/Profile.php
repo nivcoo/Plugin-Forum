@@ -3,7 +3,7 @@ class Profile extends ForumAppModel{
     public function get($id = false){
         if($id){
             if($this->hasAny(['id_user' => $id])){
-                return $this->find('first', ['id_user' => $id])['Profile'];
+                return $this->find('first', ['conditions' => ['id_user' => $id]])['Profile'];
             }
             return '';
         }else{

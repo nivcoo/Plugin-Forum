@@ -73,14 +73,15 @@ class UserController extends ForumAppController {
             if($active['userpage']){
                 if($this->request->is('post')){
                     if(!empty($this->request->data['description'])){
-                        $this->Profile->updateProfile($this->request->data['description'], $this->getIdSession());
+                        $description = $this->request->data['description'];
+                        $this->Profile->updateProfile($description, $this->getIdSession());
                         $this->logforum($this->getIdSession(), 'edit_profile', $this->gUBY($this->getIdSession()).' vient d\'editer son profil ', $this->request->data['description']);
                         $this->Session->setFlash($this->Lang->get('FORUM__EDIT__PROFILE'), 'default.success');
                     }else{
                         $this->Session->setFlash($this->Lang->get('FORUM__ERROR'), 'default.error');
                     }
                 }
-                $infos = $this->Profile->get($this->getIdSession());
+                $infos = $this->Profile->get($id);
                 $theme = $this->theme();
                 $this->set(compact('infos', 'theme'));
             }else{

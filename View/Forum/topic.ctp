@@ -31,7 +31,7 @@
                         <button type="submit" data-toggle="tooltip" data-placement="bottom" title="<?php if($stick): ?><?= $Lang->get('FORUM__UNSTICK'); ?><?php else: ?><?= $Lang->get('FORUM__STICK'); ?><?php endif; ?>" name="stick" value="<?= $id; ?>" class="btn btn-theme mt30"><i class="fa fa-paperclip" aria-hidden="true"></i></button>
                     </form>
                 <?php endif; ?>
-                <?php if($perms['FORUM_TOPICMY_DELETE'] || $perms['FORUM_TOPIC_DELETE']): ?>
+                <?php if(($perms['FORUM_TOPICMY_DELETE'] &&  $_SESSION['user'] == $msgs[0]['Topic']['id_user'])|| $perms['FORUM_TOPIC_DELETE']): ?>
                 <form style="width: 46px" class="inline" action="" method="post">
                     <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden">
                     <button type="submit" data-toggle="tooltip" data-placement="bottom" title="Supprimer" name="deleteall" value="<?= $id; ?>" class="btn btn-theme mt30"><i class="fa fa-times" aria-hidden="true"></i></button>

@@ -30,11 +30,6 @@ class ForumController extends ForumAppController {
        if(empty($exist)){
            $db->query('
                 ALTER TABLE `forum__forums` ADD COLUMN `lock` TINYINT(1) NULL DEFAULT "0" AFTER `forum_image`;
-                ALTER TABLE `forum__forums` ADD COLUMN `permission` TEXT(4000) NULL AFTER `lock`;
-                ALTER TABLE `forum__forums` ADD COLUMN `visible` TINYINT(1) NULL AFTER `permission`;
-                ALTER TABLE `forum__forums` ADD COLUMN `automatic_lock` TINYINT(1) NULL AFTER `visible`;
-                ALTER TABLE `forum__topics` ADD COLUMN `permission` TEXT(4000) NULL AFTER `last_edit`;
-                ALTER TABLE `forum__topics` ADD COLUMN `visible` TINYINT(1) NULL AFTER `permission`;
            ');
        }*/
        /* AND update sql */
@@ -308,7 +303,7 @@ class ForumController extends ForumAppController {
                                 }
                             }
                         }elseif(!empty($this->request->data['deleteall'])){
-                            if($this->ForumPermission->has('FORUM_TOPIC_DELETE') OR $this->ForumPermission->has('FORUM_TOPICMY_DELETE')){
+                            if($this->ForumPermission->has('FORUM_TOPIC_DELETE') OR ($this->ForumPermission->has('FORUM_TOPICMY_DELETE') && $this->Topic->getUserId('id_user', 'id_topic',  $id) == $this->getIdSession())){
                                 $this->Topic->deleteMessages($id);
                                 $this->logforum($this->getIdSession(), 'delete_topic', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__DELETE__TOPIC'), $this->replaceHyppen($slug));
                                 $this->redirect('/forum');
