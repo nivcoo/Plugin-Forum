@@ -28,6 +28,9 @@ class MessageController extends ForumAppController {
             if($messages){
                 foreach ($messages as $key => $message){
                     $ids[$key] = $message['Conversation']['id_conversation'];
+                    if(!$this->ConversationRecipient->perm($ids[$key], $this->getIdSession())){
+                        unset($ids[$key]);
+                    }
                 }
                 if(!empty($ids)){
                     foreach ($ids as $key => $id){

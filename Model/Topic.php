@@ -96,6 +96,9 @@ class Topic extends ForumAppModel {
             case 'topic_author' :
                 return $this->find('first', ['fields' => ['id_user'], 'conditions' => ['id_topic' => $id, 'first' => 1]])['Topic']['id_user'];
                 break;
+            case 'visible' :
+                return $this->find('first', ['fields' => ['visible'], 'conditions' => ['id_topic' => $id, 'first' => 1]])['Topic']['visible'];
+                break;
             default :
                 return false;
                 break;
@@ -220,6 +223,11 @@ class Topic extends ForumAppModel {
     }
 
     public function rename($id, $newName){
-        return $this->updateAll(['name' => "'".$newName."'"], ['id_topic' => $id]);
+        $newName = $this->getDataSource()->value($newName, 'string');
+        return $this->updateAll(['name' => $newName], ['id_topic' => $id, 'first' => 1]);
+    }
+
+    public function updateVisible($id, $visible){
+        return $this->updateAll(['visible' => "'".$visible."'"], ['id_topic' => $id, 'first' => 1]);
     }
 }

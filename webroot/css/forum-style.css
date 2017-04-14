@@ -327,3 +327,13 @@ ol > .forum-left.last{
 .font-min{
     font-size: 10px;
 }
+
+.forum-topic-badgerank.none{
+    border: 1px solid #e7e7e7;
+    color: #000;
+    display: inline-block;
+}
+
+.inline{
+    display: inline;
+}

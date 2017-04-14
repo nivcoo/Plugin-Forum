@@ -29,7 +29,6 @@ class ForumPermissionComponent extends Component {
     public function __construct(){
         $this->model['permission'] = ClassRegistry::init('Forum.ForumPermission');
         $this->model['groups'] = ClassRegistry::init('Forum.Group');
-        ///NICKE LA CONVENTION  ! !! !! ! !!
         $this->model['groupsuser'] = ClassRegistry::init('Forum.Groups_user');
     }
 
@@ -39,6 +38,21 @@ class ForumPermissionComponent extends Component {
             $perms[$test['ForumPermission']['name']] = $this->has($test['ForumPermission']['name']);
         }
         return $perms;
+    }
+
+    public function visible($type, $id){
+        $this->model['topic'] = ClassRegistry::init('Forum.Topic');
+        $this->model['forum'] = ClassRegistry::init('Forum.Forum');
+        $datas = unserialize($this->model[$type]->info('visible', $id));
+        if($datas == NULL) return true;
+
+        $ranks = $this->getRank($this->getIdSession(), true);
+        if(empty($ranks)) return false;
+
+        foreach ($ranks as $key => $r){
+            if(isset($datas[$key+1]) && $datas[$key+1] == 'on') return true;
+        }
+        return false;
     }
 
     public function has($permission){

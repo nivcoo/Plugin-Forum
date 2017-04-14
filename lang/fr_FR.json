@@ -86,6 +86,8 @@
   "FORUM__STICK": "Epingler",
   "FORUM__UNSTICK": "Détacher",
   "FORUM__MOOVE": "Déplacer",
+  "FORUM__SEEBY": "Visible par : ",
+  "FORUM__ALL": "Tous",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",

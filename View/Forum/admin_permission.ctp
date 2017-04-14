@@ -6,84 +6,35 @@
                     <h3 class="box-title"><?= $Lang->get('FORUM__PERMISSION') ?></h3>
                 </div>
                 <div class="box-body">
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <form action="" method="post" data-ajax="true">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="ajax-msg"></div>
-                                            <div class="col-md-12">
-                                                <blockquote>
-                                                    <?= $Lang->get('FORUM__PHRASE__PAGE__PERM_1'); ?>
-                                                </blockquote>
-                                                <table class="table table-responsive">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <select name="rank" class="form-control">
-                                                                <?php foreach ($groups as $group): ?>
-                                                                    <option value="<?= $group['Group']['id']; ?>"><?= $group['Group']['group_name']; ?></option>
-                                                                <?php endforeach; ?>
-                                                                <option value="99"><?= $Lang->get('FORUM__RANK__BASIC'); ?></option>
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <select name="permission" class="form-control">
-                                                                <?php foreach ($permissions as $permission): ?>
-                                                                    <?php if($permission['ForumPermission']['name'] != $lastperm): ?>
-                                                                        <option value="<?= $permission['ForumPermission']['name']; ?>"><?= $Lang->get($permission['ForumPermission']['name'].'__PERM'); ?></option>
-                                                                    <?php endif; ?>
-                                                                    <?php $lastperm = $permission['ForumPermission']['name']; ?>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <select name="access" class="form-control">
-                                                                <option selected disabled value="2"><?= $Lang->get('FORUM__AUTORISE?'); ?></option>
-                                                                <option value="0"><?= $Lang->get('GLOBAL__NO'); ?></option>
-                                                                <option value="1"><?= $Lang->get('GLOBAL__YES'); ?></option>
-                                                            </select>
-                                                        </td>
-                                                        <td><button class="btn btn-primary" type="submit"><?= $Lang->get('GLOBAL__ADD') ?></button> </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table table-responsive dataTable">
-                                <thead>
-                                    <tr>
-                                        <th><?= $Lang->get('FORUM__RANK__ALT'); ?></th>
-                                        <th><?= $Lang->get('FORUM__PERM'); ?></th>
-                                        <th><?= $Lang->get('FORUM__PERM__SLUG'); ?></th>
-                                        <th><?= $Lang->get('FORUM__COLOR'); ?></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <?php foreach ($permissions as $permission): ?>
-                                    <tr>
-                                        <td><?= $permission['ForumPermission']['group_name']; ?></td>
-                                        <td><?= $Lang->get($permission['ForumPermission']['name'].'__PERM'); ?></td>
-                                        <td><?= $permission['ForumPermission']['name']; ?></td>
-                                        <td><?= $permission['ForumPermission']['state']; ?></td>
-                                        <td>
-                                            <a href="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'switch/permission/'.$permission['ForumPermission']['id'], 'admin' => true)) ?>" class="btn btn-primary"><?= $Lang->get('FORUM__SWITCH'); ?></a>
-                                            <a href="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'delete/permission/'.$permission['ForumPermission']['id'], 'admin' => true)) ?>" class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE'); ?></a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <form action="" method="post">
+                        <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th><?= $Lang->get('PERMISSIONS__LABEL') ?></th>
+                                    <?php foreach ($groups as $group): ?>
+                                        <th class="text-center"><?= $group['Group']['group_name']; ?></th>
+                                    <?php endforeach; ?>
+                                    <th class="text-center"><?= $Lang->get('FORUM__USER'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php $i = 0; foreach ($permissions as $permission): ?>
+                                <tr>
+                                    <?php if($permission['ForumPermission']['name'] != $lastperm): ?>
+                                        <th><?= $Lang->get($permission['ForumPermission']['name'].'__PERM'); ?></th>
+                                        <?php foreach ($groups as $group): ?>
+                                            <th class="text-center"><input type="checkbox" name="<?= $group['Group']['id']; ?>-<?= $permissions[$i]['ForumPermission']['id']; ?>" <?php if($permissions[$i]['ForumPermission']['value'] == 1) echo 'checked'; ?> /></th>
+                                        <?php $i++; endforeach; ?>
+                                        <th class="text-center"><input type="checkbox" name="99-<?= $permissions[$i]['ForumPermission']['id']; ?>" <?php if($permissions[$i]['ForumPermission']['value'] == 1) echo 'checked'; ?> /><?php $i++; ?></th>
+                                    <?php endif; ?>
+                                    <?php $lastperm = $permission['ForumPermission']['name']; ?>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-primary pull-right" type="submit"><?= $Lang->get('GLOBAL__SUBMIT') ?></button>
+                    </form>
                 </div>
             </div>
         </div>

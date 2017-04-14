@@ -38,7 +38,8 @@ class Group extends ForumAppModel{
     }
 
     public function getName($id){
-        return $this->find('all', ['fields' => 'group_name', 'conditions' => ['id' => $id]])[0]['Group']['group_name'];
+        $names = $this->find('all', ['fields' => 'group_name', 'conditions' => ['id' => $id]]);
+        if(!empty($names)) return $names[0]['Group']['group_name'];
     }
 
     public function updateRank($name, $description, $color, $id){
