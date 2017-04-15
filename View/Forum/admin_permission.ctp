@@ -6,7 +6,7 @@
                     <h3 class="box-title"><?= $Lang->get('FORUM__PERMISSION') ?></h3>
                 </div>
                 <div class="box-body">
-                    <form action="" method="post">
+                    <form action="" method="post" data-ajax="true">
                         <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden">
                         <table class="table table-bordered">
                             <thead>

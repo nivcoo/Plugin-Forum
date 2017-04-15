@@ -832,42 +832,41 @@ class ForumController extends ForumAppController {
         if($this->isConnected AND $this->User->isAdmin()) {
             $this->loadModel('Forum.ForumPermission');
             $this->loadModel('Forum.Group');
+
+            $permissions = $this->ForumPermission->get();
+            $groups = $this->Group->get();
+            $lastperm = '';
+            $this->ForumPermission = $this->Components->load('Forum.ForumPermission');
+
             if($this->request->is('ajax')){
                 $this->autoRender = false;
-                if(!empty($this->request->data['rank']) && !empty($this->request->data['permission']) && isset($this->request->data['access'])){
-                    $newRank = $this->request->data['rank'];
-                    $newPermission = $this->request->data['permission'];
-                    $newAccess = $this->request->data['access'];
-                    if($newAccess == 0 OR $newAccess == 1){
-                        if(!$this->ForumPermission->permissionExist($newRank, $newPermission)){
-                            $permissions = $this->ForumPermission->get();
-                            $state = false;
-                            foreach ($permissions as $permission){
-                                if($permission['ForumPermission']['name'] == $this->request->data['permission']) $state = true;
-                            }
-                            if($state){
-                                $this->logforum($this->getIdSession(), 'add_permission', $this->gUBY($this->getIdSession()).' vient d\'ajouter une permission à un groupe : '.$newRank.' '.$newPermission, '');
-                                $this->ForumPermission->addPermission($newRank, $newPermission, $newAccess);
-                                $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__PERMISSION__ADD'))));
-                            }else{
-                                $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__PERMISSION__ADD__FAILED'))));
-                            }
-                        }else{
-                            $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__PERMISSION__EXIST'))));
+                $i = 0;
+                foreach ($permissions as $permission){
+                    if($permission['ForumPermission']['name'] != $lastperm){
+                        foreach ($groups as $group){
+                            $index = $group['Group']['id'].'-'.$permissions[$i]['ForumPermission']['id'];
+                            $this->log([$index, $permissions[$i]['ForumPermission']['id']]);
+                            if(empty($this->request->data[$index])) $this->request->data[$index] = 0;
+                            $this->ForumPermission->updatePermission($this->request->data[$index], $permissions[$i]['ForumPermission']['id']);
+                            $i++;
                         }
+
+                        $index = '99-'.$permissions[$i]['ForumPermission']['id'];
+                        if(empty($this->request->data[$index])) $this->request->data[$index] = 5;
+                        $this->ForumPermission->updatePermission($this->request->data[$index], $permissions[$i]['ForumPermission']['id']);
+                        $i++;
+
                     }
-                }else{
-                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
+                    $lastperm = $permission['ForumPermission']['name'];
                 }
+                return $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
+
             }else{
                 $this->layout = 'admin';
-                $permissions = $this->ForumPermission->get();
-                $groups = $this->Group->get();
                 foreach ($permissions as $key => $permission){
                     $rank = $this->Group->getName($permission['ForumPermission']['group_id']);
                     $permissions[$key]['ForumPermission']['group_name'] = ($rank) ? $rank : $this->Lang->get('FORUM__RANK__BASIC');
                 }
-                $lastperm = '';
                 $this->set(compact('permissions', 'groups', 'lastperm'));
             }
         }else {

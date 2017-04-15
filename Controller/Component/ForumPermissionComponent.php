@@ -122,4 +122,8 @@ class ForumPermissionComponent extends Component {
     public function updateRank($name, $description, $color, $id){
         return $this->model['groups']->updateRank($name, $description, $color, $id);
     }
+
+    public function updatePermission($value, $id){
+        return $this->model['permission']->updatePermission($id, $value);
+    }
 }

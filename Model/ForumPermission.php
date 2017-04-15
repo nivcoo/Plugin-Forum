@@ -25,6 +25,10 @@ class ForumPermission extends ForumAppModel{
         return $this->updateAll(['value' => "'".$newValue."'"], ['id' => $id]);
     }
 
+    public function updatePermission($id, $value){
+        return $this->updateAll(['value' => $value], ['id' => $id]);
+    }
+
     public function permissionExist($groupId, $name){
         if($this->hasAny(['group_id' => $groupId, 'name' => $name])) return true;
     }
