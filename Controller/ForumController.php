@@ -845,7 +845,6 @@ class ForumController extends ForumAppController {
                     if($permission['ForumPermission']['name'] != $lastperm){
                         foreach ($groups as $group){
                             $index = $group['Group']['id'].'-'.$permissions[$i]['ForumPermission']['id'];
-                            $this->log([$index, $permissions[$i]['ForumPermission']['id']]);
                             if(empty($this->request->data[$index])) $this->request->data[$index] = 0;
                             $this->ForumPermission->updatePermission($this->request->data[$index], $permissions[$i]['ForumPermission']['id']);
                             $i++;
