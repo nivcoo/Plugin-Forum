@@ -88,6 +88,12 @@
   "FORUM__MOOVE": "Déplacer",
   "FORUM__SEEBY": "Visible par : ",
   "FORUM__ALL": "Tous",
+  "FORUM__SOCIAL__NETWORK": "Réseaux sociaux",
+  "FORUM__SOCIAL__FACEBOOK":"Facebook",
+  "FORUM__SOCIAL__TWITTER":"Twitter",
+  "FORUM__SOCIAL__YOUTUBE":"Youtube",
+  "FORUM__SOCIAL__GOOGLEPLUS":"Google +",
+  "FORUM__SOCIAL__SNAPCHAT":"Snapchat",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",

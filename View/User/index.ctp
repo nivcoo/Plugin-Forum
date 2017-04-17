@@ -1,4 +1,5 @@
 <?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <div class="<?= $theme; ?> marge">
     <div class="forum-forum">
         <div class="row">
@@ -36,6 +37,43 @@
                                     <dd><?= $infos['thumb']['red']; ?></dd>
                                 </dl>
                                 <!-- TODO : soon update -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="forum-bloc mt15">
+                        <div class="forum-bloc-header p15">
+                            <h3 class="forum-h3"><i class="fa fa-share-square-o" aria-hidden="true"></i> <?= $Lang->get('FORUM__SOCIAL__NETWORK'); ?></h3>
+                            <div class="text-center">
+                                <a class="media media-facebook" href="<?= $socialNetworks['facebook']; ?>">
+                                    <span class="fa-stack fa-lg">
+                                          <i class="fa fa-square-o fa-stack-2x"></i>
+                                          <i class="fa fa-facebook fa-stack-1x"></i>
+                                    </span>
+                                </a>
+                                <a class="media media-twitter" href="<?= $socialNetworks['twitter']; ?>">
+                                    <span class="fa-stack fa-lg">
+                                          <i class="fa fa-square-o fa-stack-2x"></i>
+                                          <i class="fa fa-twitter fa-stack-1x"></i>
+                                    </span>
+                                </a>
+                                <a class="media media-youtube" href="<?= $socialNetworks['youtube']; ?>">
+                                    <span class="fa-stack fa-lg">
+                                          <i class="fa fa-square-o fa-stack-2x"></i>
+                                          <i class="fa fa-youtube-play fa-stack-1x"></i>
+                                    </span>
+                                </a>
+                                <a class="media media-google-plus" href="<?= $socialNetworks['googleplus']; ?>">
+                                    <span class="fa-stack fa-lg">
+                                          <i class="fa fa-square-o fa-stack-2x"></i>
+                                          <i class="fa fa-google-plus fa-stack-1x"></i>
+                                    </span>
+                                </a>
+                                <a class="media media-snapchat" href="<?= $socialNetworks['snapchat']; ?>">
+                                    <span class="fa-stack fa-lg">
+                                          <i class="fa fa-square-o fa-stack-2x"></i>
+                                          <i class="fa fa-snapchat-ghost fa-stack-1x"></i>
+                                    </span>
+                                </a>
                             </div>
                         </div>
                     </div>

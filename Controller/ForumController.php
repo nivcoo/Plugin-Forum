@@ -707,7 +707,23 @@ class ForumController extends ForumAppController {
                     $this->ForumPermission->updateRank($name, $description, $color, $id, $position);
                     $this->logforum($this->getIdSession(), 'edit_rank', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__GROUP'), $name);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
-                }else{
+                }elseif (!empty($this->request->data['social'])){
+                    $facebook = $this->request->data['facebook'];
+                    $twitter = $this->request->data['twitter'];
+                    $youtube = $this->request->data['youtube'];
+                    $googleplus = $this->request->data['googleplus'];
+                    $snapchat = $this->request->data['snapchat'];
+                    $socials = json_encode([
+                        'facebook' => $facebook,
+                        'twitter' => $twitter,
+                        'youtube' => $youtube,
+                        'googleplus' => $googleplus,
+                        'snapchat' => $snapchat
+                    ]);
+                    $this->Profile->updateSocials($id, $socials);
+                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
+                }
+                else{
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
                 }
             }else{
@@ -746,7 +762,8 @@ class ForumController extends ForumAppController {
                         foreach ($msgReport as $key => $m){
                             $msgReport[$key]['MsgReport']['date'] = $this->dateAndTime($m['MsgReport']['date']);
                         }
-                        $this->set(compact('datas', 'type', 'history', 'msgReport'));
+                        $socialNetworks = $this->socialNetwork($id);
+                        $this->set(compact('datas', 'type', 'history', 'msgReport', 'socialNetworks'));
                     }elseif($type == 'rank'){
                         $datas = $this->ForumPermission->getRanks($id);
                         $this->set(compact('datas', 'type'));

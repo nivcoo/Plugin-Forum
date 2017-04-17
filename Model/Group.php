@@ -4,7 +4,7 @@ class Group extends ForumAppModel{
         if($id){
             return $this->find('first', ['conditions' => ['id' => $id]])['Group'];
         }else{
-            return $this->find('all');
+            return $this->find('all', ['order' => ['position' => 'ASC']]);
         }
     }
 

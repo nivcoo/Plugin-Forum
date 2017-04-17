@@ -23,7 +23,7 @@
                                         <td>
                                             <?php if (!empty($user['User']['rank'])): ?>
                                                 <?php foreach ($user['User']['rank'] as $key => $rank): ?>
-                                                    <div style="background-color:#<?= $user['User']['color'][$key]; ?>;color: #fff;padding: 2px 5px;margin-top: 5px;display: inline-block;"><?= $rank; ?></div>
+                                                    <div style="background-color:#<?= $user['User']['color'][$key]['color']; ?>;color: #fff;padding: 2px 5px;margin-top: 5px;display: inline-block;"><?= $rank['group_name']; ?></div>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
                                         </td>

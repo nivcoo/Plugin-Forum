@@ -197,7 +197,41 @@
                             </div>
                             <!-- TODO : Soon update-->
                             <!-- stats : thumb / nb message / nbtopic / isbanned / dessus description social network -->
-                            <!-- social network  Premier bloc stats / -->
+                            <!-- Premier bloc stats / -->
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary"><?= $Lang->get('GLOBAL__SUBMIT'); ?></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?= $Lang->get('FORUM__SOCIAL__NETWORK') ?></h3>
+                    </div>
+                    <div class="box-body">
+                        <form action="" method="post" data-ajax="true">
+                            <div class="ajax-msg"></div>
+                            <div class="form-group">
+                                <label><?= $Lang->get('FORUM__SOCIAL__FACEBOOK'); ?></label>
+                                <input class="form-control" type="text" name="facebook" value="<?= $socialNetworks['facebook']; ?>" />
+                                <input class="form-control" type="hidden" name="social" value="social" />
+                            </div>
+                            <div class="form-group">
+                                <label><?= $Lang->get('FORUM__SOCIAL__TWITTER'); ?></label>
+                                <input class="form-control" type="text" name="twitter" value="<?= $socialNetworks['twitter']; ?>" />
+                            </div>
+                            <div class="form-group">
+                                <label><?= $Lang->get('FORUM__SOCIAL__YOUTUBE'); ?></label>
+                                <input class="form-control" type="text" name="youtube" value="<?= $socialNetworks['youtube']; ?>" />
+                            </div>
+                            <div class="form-group">
+                                <label><?= $Lang->get('FORUM__SOCIAL__GOOGLEPLUS'); ?></label>
+                                <input class="form-control" type="text" name="googleplus" value="<?= $socialNetworks['googleplus']; ?>" />
+                            </div>
+                            <div class="form-group">
+                                <label><?= $Lang->get('FORUM__SOCIAL__SNAPCHAT'); ?></label>
+                                <input class="form-control" type="text" name="snapchat" value="<?= $socialNetworks['snapchat']; ?>" />
+                            </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary"><?= $Lang->get('GLOBAL__SUBMIT'); ?></button>
                             </div>

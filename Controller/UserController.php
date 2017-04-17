@@ -54,9 +54,9 @@ class UserController extends ForumAppController {
                 }
                 $userForum['color'] = $this->ForumPermission->getRankColorDomin($id);
                 $theme = $this->theme();
-                //TODO : For a soon update
-                //$infos['social']['twitter'] = "";
-                $this->set(compact('slug', 'id', 'infos', 'lasts', 'ranks', 'userForum', 'theme'));
+                $socialNetworks = json_decode($this->socialNetwork($id), true);
+
+                $this->set(compact('slug', 'id', 'infos', 'lasts', 'ranks', 'userForum', 'theme', 'socialNetworks'));
             }else{
                 throw new NotFoundException();
             }

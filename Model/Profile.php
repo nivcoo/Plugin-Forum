@@ -20,4 +20,12 @@ class Profile extends ForumAppModel{
             return $this->save();
         }
     }
+
+    public function getSocial($id){
+        return $this->find('first', ['conditions' => ['id_user' => $id]])['Profile']['social'];
+    }
+
+    public function updateSocials($id, $social){
+        return $this->updateAll(['social' => "'".$social."'"], ['id_user' => $id]);
+    }
 }

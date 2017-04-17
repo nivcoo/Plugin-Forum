@@ -118,8 +118,13 @@ class ForumAppController extends AppController {
         }
     }
 
+    protected function socialNetwork($id){
+        $this->loadModel('Forum.Profile');
+        $socialNetworks = $this->Profile->getSocial($id);
+        return json_decode($socialNetworks, true);
+    }
+
     /* TODO LIST
-        * Membre ayant la permission de poster dans un channel -> case "perm" json avec toute les perms group id_uniq_group:true
         * Notif mp + msg (new table -> type, id, to, notif)
     */
 }

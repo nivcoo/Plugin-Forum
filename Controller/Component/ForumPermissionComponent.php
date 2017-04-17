@@ -72,13 +72,13 @@ class ForumPermissionComponent extends Component {
             foreach ($groups as $key => $group){
                 $groups[$key] = $this->model['groups']->getRankColor($group['Groups_user']['id_group']);
             }
+            foreach ($groups as $key => $group){
+                $order[$key] = $group['position'];
+            }
+            array_multisort($order, SORT_ASC, $groups);
         }else{
             $groups = '';
         }
-        foreach ($groups as $key => $group){
-            $order[$key] = $group['position'];
-        }
-        array_multisort($order, SORT_ASC, $groups);
         return $groups;
     }
 
@@ -101,13 +101,13 @@ class ForumPermissionComponent extends Component {
                     $groups[$key] = $this->model['groups']->getRank($group['Groups_user']['id_group']);
                 }
             }
+            foreach ($groups as $key => $group){
+                $order[$key] = $group['position'];
+            }
+            array_multisort($order, SORT_ASC, $groups);
         }else{
             $groups = '';
         }
-        foreach ($groups as $key => $group){
-            $order[$key] = $group['position'];
-        }
-        array_multisort($order, SORT_ASC, $groups);
         return $groups;
     }
 

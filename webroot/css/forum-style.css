@@ -337,3 +337,81 @@ ol > .forum-left.last{
 .inline{
     display: inline;
 }
+
+.media:hover{
+    list-style: none;
+    text-decoration: none;
+    text-underline: none;
+}
+
+.media-youtube, .media-youtube:hover{
+    color: #e52d27;
+}
+
+.media-facebook, .media-facebook:hover{
+    color: #3b5998;
+}
+
+.media-twitter, .media-twitter:hover{
+    color: #00aced;
+}
+
+.media-snapchat, .media-snapchat:hover{
+    color: #fffc00;
+}
+
+.media-google-plus, .media-google-plus:hover{
+    color: #dd4b39;
+}
+
+.media-vine, .media-vine:hover{
+    color: #00bf8f;
+}
+
+.media-instagram, .media-instagram:hover{
+    color:  #fb3958;
+}
+
+.media-instagram-old, .media-instagram-old:hover{
+    color:  #125688;
+}
+
+.media-linkedin, .media-linkedin:hover{
+    color: #007bb5;
+}
+
+.media-whatsapp, .media-whatsapp:hover{
+    color: #4dc247;
+}
+
+.media-pinterest, .media-pinterest:hover{
+    color: #cb2027;
+}
+
+.media-dropbox, .media-dropbox:hover{
+    color: #007ee5;
+}
+
+.media-flickr, .media-flickr:hover{
+    color: #ff0084;
+}
+
+.media-tumblr, .media-tumblr:hover{
+    color: #32506d;
+}
+
+.media-vimeo, .media-vimeo:hover{
+    color: #aad450;
+}
+
+.media-spotify, .media-spotify:hover{
+    color: #00e461;
+}
+
+.media-github, .media-github:hover{
+    color: #000000;
+}
+
+.media-behance, .media-behance:hover{
+    color: #1769ff;
+}
