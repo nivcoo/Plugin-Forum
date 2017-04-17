@@ -10,7 +10,7 @@
                         <div class="forum-rank">
                             <?php if(!empty($ranks['rank'])): ?>
                                 <?php foreach($ranks['rank'] as $key => $rank): ?>
-                                    <div <?= $ranks['color'][$key]; ?> class="forum-badgerank"><?= $rank; ?></div>
+                                    <div <?= $ranks['color'][$key]; ?> class="forum-badgerank"><?= $rank['group_name']; ?></div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </div>

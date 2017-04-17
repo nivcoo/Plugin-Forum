@@ -5,7 +5,7 @@
         <div class="col-md-10 col-xs-12">
             <ol class="forum-breadcrumb">
         <li class="forum-breadcrumb-home">
-            <a href="/forum"><i class="fa fa-home" aria-hidden="true"></i></a>
+            <a href="<?= $this->Html->url('/forum') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
         </li>
         <?php if(!empty($parent['forum_parent']['name'])): ?>
             <li class="forum-breadcrumb-href">
@@ -59,7 +59,7 @@
                                     <div class="forum-rank">
                                         <?php if(!empty($msg['Topic']['author_info']['rank'])): ?>
                                             <?php foreach($msg['Topic']['author_info']['rank'] as $key => $rank): ?>
-                                                <div style="background-color:#<?= $msg['Topic']['author_info']['color'][$key]; ?>" class="forum-badgerank forum-topic-badgerank"><?= $rank; ?></div>
+                                                <div style="background-color:#<?= $msg['Topic']['author_info']['color'][$key]['color']; ?>" class="forum-badgerank forum-topic-badgerank"><?= $rank['group_name']; ?></div>
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     </div>

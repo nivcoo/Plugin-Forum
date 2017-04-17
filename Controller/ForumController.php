@@ -27,10 +27,11 @@ class ForumController extends ForumAppController {
 
        $db = ConnectionManager::getDataSource('default');
        $exist = $db->query('SELECT column_type FROM information_schema.columns WHERE table_name = "forum__forums"');
-       if($exist[10]['columns']['column_type'] == 'tinyint(1)'){
+       if($exist[8]['columns']['column_type'] == 'tinyint(1)'){
            $db->query('
                 ALTER TABLE forum__forums MODIFY visible TEXT;
-                ALTER TABLE forum__topics MODIFY visible TEXT
+                ALTER TABLE forum__topics MODIFY visible TEXT;
+                ALTER TABLE forum__groups ADD position INT;
            ');
        }
        /* AND update sql */
@@ -696,12 +697,14 @@ class ForumController extends ForumAppController {
                     }
                     $this->logforum($this->getIdSession(), 'edit_permission', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDITPERM__USER').$this->gUBY($this->request->data['useredit']), '');
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__USER__EDIT'))));
-                }elseif (!empty($this->request->data['color']) && !empty($this->request->data['name'])){
+                }elseif (!empty($this->request->data['color']) && !empty($this->request->data['name']) && !empty($this->request->data['position'])){
                     $id = $this->request->data['id'];
                     $name = $this->request->data['name'];
                     $description = $this->request->data['description'];
                     $color = $this->request->data['color'];
-                    $this->ForumPermission->updateRank($name, $description, $color, $id);
+                    $position = $this->request->data['position'];
+
+                    $this->ForumPermission->updateRank($name, $description, $color, $id, $position);
                     $this->logforum($this->getIdSession(), 'edit_rank', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__GROUP'), $name);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
                 }else{
@@ -878,9 +881,18 @@ class ForumController extends ForumAppController {
             $this->loadModel('Forum.Group');
            if($this->request->is('ajax')){
                $this->autoRender = false;
-               if(!empty($this->request->data['rank']) && !empty($this->request->data['description']) && !empty($this->request->data['color'])){
-                    $this->Group->addGroup($this->request->data['rank'], $this->request->data['description'], $this->request->data['color']);
-                   $this->logforum($this->getIdSession(), 'add_group', $this->gUBY($this->getIdSession()).' vient d\'ajouter un groupe : '.$this->request->data['name'], $this->request->data['description']);
+               if(!empty($this->request->data['rank']) && !empty($this->request->data['description']) && !empty($this->request->data['color']) && !empty($this->request->data['position'])){
+                   $rank = $this->request->data['rank'];
+                   $description = $this->request->data['description'];
+                   $color = $this->request->data['color'];
+                   $position = $this->request->data['position'];
+
+                   if(!is_numeric($position)){
+                       $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
+                   }
+
+                   $this->Group->addGroup($rank, $description, $color, $position);
+                   $this->logforum($this->getIdSession(), 'add_group', $this->gUBY($this->getIdSession()).' vient d\'ajouter un groupe : '.$rank);
                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__GROUP'))));
                }else{
                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));

@@ -75,6 +75,10 @@ class ForumPermissionComponent extends Component {
         }else{
             $groups = '';
         }
+        foreach ($groups as $key => $group){
+            $order[$key] = $group['position'];
+        }
+        array_multisort($order, SORT_ASC, $groups);
         return $groups;
     }
 
@@ -100,6 +104,10 @@ class ForumPermissionComponent extends Component {
         }else{
             $groups = '';
         }
+        foreach ($groups as $key => $group){
+            $order[$key] = $group['position'];
+        }
+        array_multisort($order, SORT_ASC, $groups);
         return $groups;
     }
 
@@ -119,8 +127,8 @@ class ForumPermissionComponent extends Component {
         return isset($_SESSION['user']) ? $_SESSION['user'] : false;
     }
 
-    public function updateRank($name, $description, $color, $id){
-        return $this->model['groups']->updateRank($name, $description, $color, $id);
+    public function updateRank($name, $description, $color, $id, $position){
+        return $this->model['groups']->updateRank($name, $description, $color, $id, $position);
     }
 
     public function updatePermission($value, $id){

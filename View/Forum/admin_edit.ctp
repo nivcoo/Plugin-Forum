@@ -261,6 +261,14 @@
                         </table>
                     </div>
                 </div>
+            <?= $this->Html->css('dataTables.bootstrap.css'); ?>
+            <?= $this->Html->script('jquery.dataTables.min.js') ?>
+            <?= $this->Html->script('dataTables.bootstrap.min.js') ?>
+            <script type="text/javascript">
+                $('.dataTable').dataTable( {
+                    "paging": false
+                } );
+            </script>
             <?php elseif($type == 'rank'): ?>
                 <div class="box">
                     <div class="box-header with-border">
@@ -272,12 +280,12 @@
                             <div class="ajax-msg"></div>
                             <div class="form-group">
                                 <label><?= $Lang->get('GLOBAL__NAME') ?></label>
-                                <input value="<?= $datas['group_name']; ?>" name="name" class="form-control" type="text" />
+                                <input value="<?= $datas['group_name']; ?>" placeholder="Développeur" name="name" class="form-control" type="text" />
                                 <input value="<?= $datas['id']; ?>" name="id" type="hidden" />
                             </div>
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__DESCRIPTION') ?></label>
-                                <input value="<?= $datas['group_description']; ?>" name="description" class="form-control" type="text" />
+                                <input value="<?= $datas['group_description']; ?>" placeholder="Description du groupe" name="description" class="form-control" type="text" />
                             </div>
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__COLOR') ?></label>
@@ -289,6 +297,10 @@
                                         <a target="_blank" href="http://htmlcolorcodes.com/fr/"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label><?= $Lang->get('FORUM__POSITION') ?></label>
+                                <input value="<?= $datas['position']; ?>" placeholder="Position ( 1 à 99 )" name="position" class="form-control" type="text" />
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary"><?= $Lang->get('GLOBAL__EDIT'); ?></button>

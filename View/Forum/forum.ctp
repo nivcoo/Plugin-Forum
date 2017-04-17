@@ -14,7 +14,7 @@
         <div class="col-md-2">
             <?php if($isConnected): ?>
                 <?php if(!$isLock OR $perms['FORUM_TOPIC_LOCK']): ?>
-                    <a href="<?= $this->Html->url('/topic/add/') ?><?= $id; ?>" class="btn btn-theme mt30"><i class="fa fa-plus" aria-hidden="true"></i> <?= $Lang->get('FORUM__TOPIC__CREATE'); ?></a>
+                    <a href="<?= $this->Html->url('/topic/add/'.$id) ?>" class="btn btn-theme mt30"><i class="fa fa-plus" aria-hidden="true"></i> <?= $Lang->get('FORUM__TOPIC__CREATE'); ?></a>
                 <?php endif; ?>
             <?php endif; ?>
         </div>

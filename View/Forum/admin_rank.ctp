@@ -20,10 +20,11 @@
                                                     <td><input placeholder="Description du gade" name="description" class="form-control" type="text" /></td>
                                                     <td>
                                                         <div class="form-inline">
-                                                            <input style="width: 90%" type="text" placeholder="ffffff" class="form-control" name="color" />
+                                                            <input style="width: 95%" type="text" placeholder="ffffff" class="form-control" name="color" />
                                                             <a target="_blank" href="http://htmlcolorcodes.com/fr/"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
                                                         </div>
                                                     </td>
+                                                    <td><input placeholder="Position (1..99)" name="position" class="form-control" type="text" /></td>
                                                     <td><button class="btn btn-primary" type="submit"><?= $Lang->get('GLOBAL__ADD') ?></button> </td>
                                                 </tr>
                                                 </tbody>
@@ -42,6 +43,7 @@
                                         <th><?= $Lang->get('FORUM__RANK__ALT'); ?></th>
                                         <th><?= $Lang->get('FORUM__DESCRIPTION'); ?></th>
                                         <th><?= $Lang->get('FORUM__COLOR'); ?></th>
+                                        <th><?= $Lang->get('FORUM__POSITION'); ?></th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -51,6 +53,7 @@
                                         <td><?= $group['Group']['group_name']; ?></td>
                                         <td><?= $group['Group']['group_description']; ?></td>
                                         <td><div style="background-color:#<?= $group['Group']['color']; ?>;height:16px;width:16px" ?></td>
+                                        <td><?= $group['Group']['position']; ?></td>
                                         <td>
                                             <a href="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'edit/rank/'.$group['Group']['id'], 'admin' => true)) ?>" class="btn btn-primary"><?= $Lang->get('GLOBAL__EDIT'); ?></a>
                                             <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'forum', 'action' => 'delete/rank/'.$group['Group']['id'], 'admin' => true)) ?>')" class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE'); ?></a>
@@ -59,6 +62,14 @@
                                 <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <?= $this->Html->css('dataTables.bootstrap.css'); ?>
+                            <?= $this->Html->script('jquery.dataTables.min.js') ?>
+                            <?= $this->Html->script('dataTables.bootstrap.min.js') ?>
+                            <script type="text/javascript">
+                                $('.dataTable').dataTable( {
+                                    "paging": false
+                                } );
+                            </script>
                         </div>
                     </div>
                 </div>

@@ -28,7 +28,7 @@ class ForumRenderComponent extends Component{
             return $value;
         }elseif('background-color'){
             foreach ($value as $key => $val){
-                $value[$key] = ' style="background-color:#'.$val.'"';
+                $value[$key] = ' style="background-color:#'.$val['color'].'"';
             }
             return $value;
         }

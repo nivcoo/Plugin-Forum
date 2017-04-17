@@ -4,7 +4,7 @@
         <div class="col-md-10">
             <ol class="forum-breadcrumb">
                 <li class="forum-breadcrumb-home">
-                    <a href="/forum"><i class="fa fa-home" aria-hidden="true"></i></a>
+                    <a href="<?= $this->Html->url('/forum') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
                 </li>
             </ol>
         </div>
@@ -12,20 +12,20 @@
             <ol class="forum-breadcrumb">
                 <?php if($perms['FORUM_VIEW_REPORT']): ?>
                     <li class="forum-left">
-                        <a href="/forum/report"><i class="fa fa-flag" aria-hidden="true"></i></a>
+                        <a href="<?= $this->Html->url('/forum/report') ?>"><i class="fa fa-flag" aria-hidden="true"></i></a>
                     </li>
                 <?php endif; ?>
                 <?php if($active['privatemsg'] && isset($_SESSION['user'])): ?>
                     <li class="forum-left">
-                        <a href="/message"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+                        <a href="<?= $this->Html->url('/message') ?>"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
                     </li>
                 <?php endif; ?>
                 <?php if(isset($_SESSION['user'])): ?>
                     <li class="forum-left">
-                        <a href="/user/<?= $my['user']; ?>.<?= $my['id']; ?>/"><i class="fa fa-user" aria-hidden="true"></i></a>
+                        <a href="<?= $this->Html->url('/user/'.$my['user'].'.'.$my['id'].'/') ?>"><i class="fa fa-user" aria-hidden="true"></i></a>
                     </li>
                     <li class="forum-left last">
-                        <a href="/user/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                        <a href="<?= $this->Html->url('/user/logout') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                     </li>
                 <?php else: ?>
                     <li class="forum-left last">
@@ -105,7 +105,7 @@
             <?php foreach($userOnlines as $userOnline): ?>
                 <a href="/user/<?= $userOnline['User']['pseudo']; ?>.<?= $userOnline['User']['id']; ?>/" style="color: #<?= $userOnline['User']['color']; ?>"><?= $userOnline['User']['pseudo']; ?></a>
             <?php endforeach; ?>
-            <?php if($stats['countuser'] == 0) echo 'Aucun'; ?>
+            <?php if($stats['countuser'] == 0) echo 'Aucun utilisateur en ligne actuellement'; ?>
         </div>
     </div>
     <?php endif; ?>

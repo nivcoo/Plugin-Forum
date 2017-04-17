@@ -65,7 +65,8 @@ class ForumAppSchema extends CakeSchema {
         'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'unsigned' => false, 'key' => 'primary'],
         'group_name' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 20, 'unsigned' => false],
         'group_description' => ['type' => 'text', 'null' => true, 'default' => null, 'length' => 200, 'unsigned' => false],
-        'color' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 6, 'unsigned' => false]
+        'color' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 6, 'unsigned' => false],
+        'position' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 2, 'unsigned' => false]
     ];
 
     public $forum__groups_users = [

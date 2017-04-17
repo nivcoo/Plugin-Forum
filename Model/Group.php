@@ -15,13 +15,13 @@ class Group extends ForumAppModel{
     // 99  is a group of members, it's not defined
     public function getRankColor($id){
         if($id != 99) {
-            return $this->find('first', ['fields' => 'color', 'conditions' => ['id' => $id]])['Group']['color'];
+            return $this->find('first', ['fields' => ['color', 'position'], 'conditions' => ['id' => $id]])['Group'];
         }
     }
 
     public function getRank($id){
        if($id != 99){
-           return $this->find('first', ['fields' => 'group_name', 'conditions' => ['id' => $id]])['Group']['group_name'];
+           return $this->find('first', ['fields' => ['group_name', 'position'], 'conditions' => ['id' => $id]])['Group'];
        }
     }
 
@@ -31,9 +31,9 @@ class Group extends ForumAppModel{
         }
     }
 
-    public function addGroup($rank, $description, $color){
+    public function addGroup($rank, $description, $color, $position){
         $this->create();
-        $this->set(['group_name' => $rank, 'group_description' => $description, 'color' => $color]);
+        $this->set(['group_name' => $rank, 'group_description' => $description, 'color' => $color, 'position' => $position]);
         return $this->save();
     }
 
@@ -42,7 +42,7 @@ class Group extends ForumAppModel{
         if(!empty($names)) return $names[0]['Group']['group_name'];
     }
 
-    public function updateRank($name, $description, $color, $id){
-        return $this->updateAll(['group_name' => "'".$name."'", 'group_description' => "'".$description."'", 'color' => "'".$color."'"], ['id' => $id]);;
+    public function updateRank($name, $description, $color, $id, $position){
+        return $this->updateAll(['group_name' => "'".$name."'", 'group_description' => "'".$description."'", 'color' => "'".$color."'", 'position' => "'".$position."'"], ['id' => $id]);;
     }
 }
