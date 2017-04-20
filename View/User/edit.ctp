@@ -20,6 +20,37 @@
                         </div>
                     </div>
                 </div>
+                <div class="forum-forum mt20">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="forum-forum-header">
+                                <p class="forum-forum-title"> <i class="fa fa-id-card" aria-hidden="true"></i> <?= $Lang->get('FORUM__SOCIAL__NETWORK'); ?></p>
+                            </div>
+                            <div class="forum-category">
+                                <div class="form-group">
+                                    <label><?= $Lang->get('FORUM__SOCIAL__FACEBOOK'); ?></label>
+                                    <input name="facebook" value="<?= $socialNetworks['facebook']; ?>" class="form-control" placeholder="https://www.facebook.com/FacebookFrance" type="text" />
+                                </div>
+                                <div class="form-group">
+                                    <label><?= $Lang->get('FORUM__SOCIAL__TWITTER'); ?></label>
+                                    <input name="twitter" value="<?= $socialNetworks['twitter']; ?>" class="form-control" placeholder="https://twitter.com/TwitterFrance" type="text" />
+                                </div>
+                                <div class="form-group">
+                                    <label><?= $Lang->get('FORUM__SOCIAL__YOUTUBE'); ?></label>
+                                    <input name="youtube" value="<?= $socialNetworks['youtube']; ?>" class="form-control" placeholder="https://www.youtube.com/user/GoogleFrance" type="text" />
+                                </div>
+                                <div class="form-group">
+                                    <label><?= $Lang->get('FORUM__SOCIAL__GOOGLEPLUS'); ?></label>
+                                    <input name="googleplus" value="<?= $socialNetworks['googleplus']; ?>" class="form-control" placeholder="https://plus.google.com/+GoogleFrance" type="text" />
+                                </div>
+                                <div class="form-group">
+                                    <label><?= $Lang->get('FORUM__SOCIAL__SNAPCHAT'); ?></label>
+                                    <input name="snapchat" value="<?= $socialNetworks['snapchat']; ?>" class="form-control" placeholder="snapchat" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row mt30">
                     <div class="col-md-12">
                         <div class="text-center">

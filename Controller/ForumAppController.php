@@ -121,7 +121,8 @@ class ForumAppController extends AppController {
     protected function socialNetwork($id){
         $this->loadModel('Forum.Profile');
         $socialNetworks = $this->Profile->getSocial($id);
-        return json_decode($socialNetworks, true);
+        $socialNetworks = json_decode($socialNetworks, true);
+        return $socialNetworks;
     }
 
     /* TODO LIST

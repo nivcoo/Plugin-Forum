@@ -54,7 +54,7 @@ class UserController extends ForumAppController {
                 }
                 $userForum['color'] = $this->ForumPermission->getRankColorDomin($id);
                 $theme = $this->theme();
-                $socialNetworks = json_decode($this->socialNetwork($id), true);
+                $socialNetworks = $this->socialNetwork($id);
 
                 $this->set(compact('slug', 'id', 'infos', 'lasts', 'ranks', 'userForum', 'theme', 'socialNetworks'));
             }else{
@@ -67,25 +67,41 @@ class UserController extends ForumAppController {
 
     public function edit($id, $slug){
         if($this->userExist($id, $slug)){
-            $this->loadModel('Forum.Config');
-            $this->loadModel('Forum.Profile');
-            $active['userpage'] = ($this->Config->is('userpage')) ? true : false;
-            if($active['userpage']){
-                if($this->request->is('post')){
-                    if(!empty($this->request->data['description'])){
+            if($this->getIdSession() == $id){
+                $this->loadModel('Forum.Config');
+                $this->loadModel('Forum.Profile');
+                $active['userpage'] = ($this->Config->is('userpage')) ? true : false;
+                if($active['userpage']) {
+                    if ($this->request->is('post')) {
                         $description = $this->request->data['description'];
                         $this->Profile->updateProfile($description, $this->getIdSession());
-                        $this->logforum($this->getIdSession(), 'edit_profile', $this->gUBY($this->getIdSession()).' vient d\'editer son profil ', $this->request->data['description']);
+                        $this->logforum($this->getIdSession(), 'edit_profile', $this->gUBY($this->getIdSession()) . ' vient d\'editer son profil ', $this->request->data['description']);
+
+                        $facebook = $this->request->data['facebook'];
+                        $twitter = $this->request->data['twitter'];
+                        $youtube = $this->request->data['youtube'];
+                        $googleplus = $this->request->data['googleplus'];
+                        $snapchat = $this->request->data['snapchat'];
+                        $socials = json_encode([
+                            'facebook' => $facebook,
+                            'twitter' => $twitter,
+                            'youtube' => $youtube,
+                            'googleplus' => $googleplus,
+                            'snapchat' => $snapchat
+                        ]);
+                        $this->Profile->updateSocials($id, $socials);
+
                         $this->Session->setFlash($this->Lang->get('FORUM__EDIT__PROFILE'), 'default.success');
-                    }else{
-                        $this->Session->setFlash($this->Lang->get('FORUM__ERROR'), 'default.error');
                     }
+                    $infos = $this->Profile->get($id);
+                    $socialNetworks = $this->socialNetwork($id);
+                    $theme = $this->theme();
+                    $this->set(compact('infos', 'theme', 'socialNetworks'));
+                }else{
+                    throw new NotFoundException();
                 }
-                $infos = $this->Profile->get($id);
-                $theme = $this->theme();
-                $this->set(compact('infos', 'theme'));
             }else{
-                throw new NotFoundException();
+                throw new ForbiddenException();
             }
         }else{
             throw new NotFoundException();

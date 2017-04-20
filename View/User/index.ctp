@@ -42,38 +42,61 @@
                     </div>
                     <div class="forum-bloc mt15">
                         <div class="forum-bloc-header p15">
-                            <h3 class="forum-h3"><i class="fa fa-share-square-o" aria-hidden="true"></i> <?= $Lang->get('FORUM__SOCIAL__NETWORK'); ?></h3>
+                            <h3 class="forum-h3">
+                                <i class="fa fa-share-square-o" aria-hidden="true"></i> <?= $Lang->get('FORUM__SOCIAL__NETWORK'); ?>
+                                <?php if(isset($_SESSION['user']) && $_SESSION['user'] == $id): ?>
+                                    <a class="btn-theme pull-right inline" href="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                <?php endif; ?>
+                            </h3>
                             <div class="text-center">
-                                <a class="media media-facebook" href="<?= $socialNetworks['facebook']; ?>">
-                                    <span class="fa-stack fa-lg">
-                                          <i class="fa fa-square-o fa-stack-2x"></i>
-                                          <i class="fa fa-facebook fa-stack-1x"></i>
-                                    </span>
-                                </a>
-                                <a class="media media-twitter" href="<?= $socialNetworks['twitter']; ?>">
-                                    <span class="fa-stack fa-lg">
-                                          <i class="fa fa-square-o fa-stack-2x"></i>
-                                          <i class="fa fa-twitter fa-stack-1x"></i>
-                                    </span>
-                                </a>
-                                <a class="media media-youtube" href="<?= $socialNetworks['youtube']; ?>">
-                                    <span class="fa-stack fa-lg">
-                                          <i class="fa fa-square-o fa-stack-2x"></i>
-                                          <i class="fa fa-youtube-play fa-stack-1x"></i>
-                                    </span>
-                                </a>
-                                <a class="media media-google-plus" href="<?= $socialNetworks['googleplus']; ?>">
-                                    <span class="fa-stack fa-lg">
-                                          <i class="fa fa-square-o fa-stack-2x"></i>
-                                          <i class="fa fa-google-plus fa-stack-1x"></i>
-                                    </span>
-                                </a>
-                                <a class="media media-snapchat" href="<?= $socialNetworks['snapchat']; ?>">
-                                    <span class="fa-stack fa-lg">
-                                          <i class="fa fa-square-o fa-stack-2x"></i>
-                                          <i class="fa fa-snapchat-ghost fa-stack-1x"></i>
-                                    </span>
-                                </a>
+                                <?php if(!empty($socialNetworks['facebook'])): ?>
+                                    <a class="media media-facebook" target="_blank" onclick="el('<?= $socialNetworks['facebook']; ?>')">
+                                        <span class="fa-stack fa-lg">
+                                              <i class="fa fa-square-o fa-stack-2x"></i>
+                                              <i class="fa fa-facebook fa-stack-1x"></i>
+                                        </span>
+                                    </a>
+                                <?php endif; ?>
+                                <?php if(!empty($socialNetworks['twitter'])): ?>
+                                    <a class="media media-twitter" target="_blank" onclick="el('<?= $socialNetworks['twitter']; ?>')">
+                                        <span class="fa-stack fa-lg">
+                                              <i class="fa fa-square-o fa-stack-2x"></i>
+                                              <i class="fa fa-twitter fa-stack-1x"></i>
+                                        </span>
+                                    </a>
+                                <?php endif; ?>
+                                <?php if(!empty($socialNetworks['youtube'])): ?>
+                                    <a class="media media-youtube" target="_blank" onclick="el('<?= $socialNetworks['youtube']; ?>')">
+                                        <span class="fa-stack fa-lg">
+                                              <i class="fa fa-square-o fa-stack-2x"></i>
+                                              <i class="fa fa-youtube-play fa-stack-1x"></i>
+                                        </span>
+                                    </a>
+                                <?php endif; ?>
+                                <?php if(!empty($socialNetworks['googleplus'])): ?>
+                                    <a class="media media-google-plus" target="_blank" onclick="el('<?= $socialNetworks['googleplus']; ?>')">
+                                        <span class="fa-stack fa-lg">
+                                              <i class="fa fa-square-o fa-stack-2x"></i>
+                                              <i class="fa fa-google-plus fa-stack-1x"></i>
+                                        </span>
+                                    </a>
+                                <?php endif; ?>
+                                <?php if(!empty($socialNetworks['snapchat'])): ?>
+                                    <a class="media media-snapchat" data-toggle="tooltip" data-placement="top" title="<?= $socialNetworks['snapchat']; ?>">
+                                        <span class="fa-stack fa-lg">
+                                              <i class="fa fa-square-o fa-stack-2x"></i>
+                                              <i class="fa fa-snapchat-ghost fa-stack-1x"></i>
+                                        </span>
+                                    </a>
+                                <?php endif; ?>
+                                <?php if(empty($socialNetworks['facebook']) && empty($socialNetworks['twitter']) && empty($socialNetworks['youtube']) && empty($socialNetworks['googleplus']) && empty($socialNetworks['snapchat'])): ?>
+                                    <a class="media">
+                                        <span class="fa-stack fa-lg">
+                                              <i class="fa fa-square-o fa-stack-2x"></i>
+                                              <i class="fa fa-times fa-stack-1x"></i>
+                                        </span>
+                                    </a>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -121,3 +144,36 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Attention</h4>
+            </div>
+            <div class="modal-body">
+                <p>Vous allez quitter le site <b><?= $_SERVER['SERVER_NAME']; ?></b> pour vous rendre sur cette url :</p>
+                <div class="text-center"><a class="js-link" href=""></a></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="next" class="btn btn-primary">Continuer</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    function el(site) {
+        $('#myModal').modal('show');
+        $('.js-link').attr('href', site);
+        $('.js-link').append(site);
+        $(document).on("click", "#next", function(event){
+            var uri = window.open(site, '_blank');
+            uri.focus();
+            $('#myModal').modal('hide');
+        });
+    }
+</script>
