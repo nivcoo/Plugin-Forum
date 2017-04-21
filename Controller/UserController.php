@@ -53,10 +53,11 @@ class UserController extends ForumAppController {
                     $userForum['description'] = 'Aucune description n\'est disponible.';
                 }
                 $userForum['color'] = $this->ForumPermission->getRankColorDomin($id);
+                $active['socialnetwork'] = ($this->Config->is('socialnetwork')) ? true : false;
                 $theme = $this->theme();
                 $socialNetworks = $this->socialNetwork($id);
 
-                $this->set(compact('slug', 'id', 'infos', 'lasts', 'ranks', 'userForum', 'theme', 'socialNetworks'));
+                $this->set(compact('slug', 'id', 'infos', 'lasts', 'ranks', 'userForum', 'theme', 'socialNetworks', 'active'));
             }else{
                 throw new NotFoundException();
             }
@@ -71,32 +72,36 @@ class UserController extends ForumAppController {
                 $this->loadModel('Forum.Config');
                 $this->loadModel('Forum.Profile');
                 $active['userpage'] = ($this->Config->is('userpage')) ? true : false;
+                $active['socialnetwork'] = ($this->Config->is('socialnetwork')) ? true : false;
                 if($active['userpage']) {
                     if ($this->request->is('post')) {
                         $description = $this->request->data['description'];
                         $this->Profile->updateProfile($description, $this->getIdSession());
                         $this->logforum($this->getIdSession(), 'edit_profile', $this->gUBY($this->getIdSession()) . ' vient d\'editer son profil ', $this->request->data['description']);
 
-                        $facebook = $this->request->data['facebook'];
-                        $twitter = $this->request->data['twitter'];
-                        $youtube = $this->request->data['youtube'];
-                        $googleplus = $this->request->data['googleplus'];
-                        $snapchat = $this->request->data['snapchat'];
-                        $socials = json_encode([
-                            'facebook' => $facebook,
-                            'twitter' => $twitter,
-                            'youtube' => $youtube,
-                            'googleplus' => $googleplus,
-                            'snapchat' => $snapchat
-                        ]);
-                        $this->Profile->updateSocials($id, $socials);
+                        if($active['socialnetwork']){
+                            $facebook = $this->request->data['facebook'];
+                            $twitter = $this->request->data['twitter'];
+                            $youtube = $this->request->data['youtube'];
+                            $googleplus = $this->request->data['googleplus'];
+                            $snapchat = $this->request->data['snapchat'];
+                            $socials = json_encode([
+                                'facebook' => $facebook,
+                                'twitter' => $twitter,
+                                'youtube' => $youtube,
+                                'googleplus' => $googleplus,
+                                'snapchat' => $snapchat
+                            ]);
+                            $this->Profile->updateSocials($id, $socials);
+                        }
 
                         $this->Session->setFlash($this->Lang->get('FORUM__EDIT__PROFILE'), 'default.success');
                     }
                     $infos = $this->Profile->get($id);
                     $socialNetworks = $this->socialNetwork($id);
                     $theme = $this->theme();
-                    $this->set(compact('infos', 'theme', 'socialNetworks'));
+
+                    $this->set(compact('infos', 'theme', 'socialNetworks', 'active'));
                 }else{
                     throw new NotFoundException();
                 }

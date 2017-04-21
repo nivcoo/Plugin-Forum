@@ -4,8 +4,7 @@ class MessageController extends ForumAppController {
         'Security' => [
             'csrfExpires' => '+1 hour'
         ],
-        'Forum.ForumPermission',
-        'Paginator'
+        'Forum.ForumPermission'
     ];
 
     public function beforeFilter(){

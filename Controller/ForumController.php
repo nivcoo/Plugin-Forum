@@ -6,8 +6,7 @@ class ForumController extends ForumAppController {
         'Security' => [
             'csrfExpires' => '+1 hour'
         ],
-        'Forum.ForumPermission',
-        'Paginator'
+        'Forum.ForumPermission'
     ];
 
    public function beforeFilter(){
@@ -25,16 +24,7 @@ class ForumController extends ForumAppController {
            $this->install();
        }
 
-       $db = ConnectionManager::getDataSource('default');
-       $exist = $db->query('SELECT column_type FROM information_schema.columns WHERE table_name = "forum__forums"');
-       if($exist[8]['columns']['column_type'] == 'tinyint(1)'){
-           $db->query('
-                ALTER TABLE forum__forums MODIFY visible TEXT;
-                ALTER TABLE forum__topics MODIFY visible TEXT;
-                ALTER TABLE forum__groups ADD position INT;
-           ');
-       }
-       /* AND update sql */
+       $this->forumUpdate();
    }
 
     public function index() {
@@ -1135,7 +1125,8 @@ class ForumController extends ForumAppController {
                 ['config_name' => 'reportmsg', 'config_value' => true, 'lang' => 'Signaler les messages'],
                 ['config_name' => 'notemsg', 'config_value' => true, 'lang' => 'Noter les messages'],
                 ['config_name' => 'userpage', 'config_value' => true, 'lang' => 'Profil utilisateur du forum'],
-                ['config_name' => 'forum', 'config_value' => true, 'lang' => 'Forum']
+                ['config_name' => 'forum', 'config_value' => true, 'lang' => 'Forum'],
+                ['config_name' => 'socialnetwork', 'config_value' => true, 'lang' => 'Réseaux sociaux']
             ],
             'forum' => [
                 ['id_parent' => 0, 'id_user' => 1, 'position' => 1, 'forum_name' => 'Mineweb', 'forum_description' => 'Ceci est une description', 'forum_image' => 'folder-open'],

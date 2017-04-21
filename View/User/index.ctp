@@ -36,70 +36,71 @@
                                     <dt><?= $Lang->get('FORUM__REDTHUMB'); ?> :</dt>
                                     <dd><?= $infos['thumb']['red']; ?></dd>
                                 </dl>
-                                <!-- TODO : soon update -->
                             </div>
                         </div>
                     </div>
-                    <div class="forum-bloc mt15">
-                        <div class="forum-bloc-header p15">
-                            <h3 class="forum-h3">
-                                <i class="fa fa-share-square-o" aria-hidden="true"></i> <?= $Lang->get('FORUM__SOCIAL__NETWORK'); ?>
-                                <?php if(isset($_SESSION['user']) && $_SESSION['user'] == $id): ?>
-                                    <a class="btn-theme pull-right inline" href="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                <?php endif; ?>
-                            </h3>
-                            <div class="text-center">
-                                <?php if(!empty($socialNetworks['facebook'])): ?>
-                                    <a class="media media-facebook" target="_blank" onclick="el('<?= $socialNetworks['facebook']; ?>')">
-                                        <span class="fa-stack fa-lg">
-                                              <i class="fa fa-square-o fa-stack-2x"></i>
-                                              <i class="fa fa-facebook fa-stack-1x"></i>
-                                        </span>
-                                    </a>
-                                <?php endif; ?>
-                                <?php if(!empty($socialNetworks['twitter'])): ?>
-                                    <a class="media media-twitter" target="_blank" onclick="el('<?= $socialNetworks['twitter']; ?>')">
-                                        <span class="fa-stack fa-lg">
-                                              <i class="fa fa-square-o fa-stack-2x"></i>
-                                              <i class="fa fa-twitter fa-stack-1x"></i>
-                                        </span>
-                                    </a>
-                                <?php endif; ?>
-                                <?php if(!empty($socialNetworks['youtube'])): ?>
-                                    <a class="media media-youtube" target="_blank" onclick="el('<?= $socialNetworks['youtube']; ?>')">
-                                        <span class="fa-stack fa-lg">
-                                              <i class="fa fa-square-o fa-stack-2x"></i>
-                                              <i class="fa fa-youtube-play fa-stack-1x"></i>
-                                        </span>
-                                    </a>
-                                <?php endif; ?>
-                                <?php if(!empty($socialNetworks['googleplus'])): ?>
-                                    <a class="media media-google-plus" target="_blank" onclick="el('<?= $socialNetworks['googleplus']; ?>')">
-                                        <span class="fa-stack fa-lg">
-                                              <i class="fa fa-square-o fa-stack-2x"></i>
-                                              <i class="fa fa-google-plus fa-stack-1x"></i>
-                                        </span>
-                                    </a>
-                                <?php endif; ?>
-                                <?php if(!empty($socialNetworks['snapchat'])): ?>
-                                    <a class="media media-snapchat" data-toggle="tooltip" data-placement="top" title="<?= $socialNetworks['snapchat']; ?>">
-                                        <span class="fa-stack fa-lg">
-                                              <i class="fa fa-square-o fa-stack-2x"></i>
-                                              <i class="fa fa-snapchat-ghost fa-stack-1x"></i>
-                                        </span>
-                                    </a>
-                                <?php endif; ?>
-                                <?php if(empty($socialNetworks['facebook']) && empty($socialNetworks['twitter']) && empty($socialNetworks['youtube']) && empty($socialNetworks['googleplus']) && empty($socialNetworks['snapchat'])): ?>
-                                    <a class="media">
-                                        <span class="fa-stack fa-lg">
-                                              <i class="fa fa-square-o fa-stack-2x"></i>
-                                              <i class="fa fa-times fa-stack-1x"></i>
-                                        </span>
-                                    </a>
-                                <?php endif; ?>
+                    <?php if($active['socialnetwork']): ?>
+                        <div class="forum-bloc mt15">
+                            <div class="forum-bloc-header p15">
+                                <h3 class="forum-h3">
+                                    <i class="fa fa-share-square-o" aria-hidden="true"></i> <?= $Lang->get('FORUM__SOCIAL__NETWORK'); ?>
+                                    <?php if(isset($_SESSION['user']) && $_SESSION['user'] == $id): ?>
+                                        <a class="btn-theme pull-right inline" href="<?= $this->Html->url('/user/'.$slug.'.'.$id.'/edit') ?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    <?php endif; ?>
+                                </h3>
+                                <div class="text-center">
+                                    <?php if(!empty($socialNetworks['facebook'])): ?>
+                                        <a class="media media-facebook" target="_blank" onclick="el('<?= $socialNetworks['facebook']; ?>')">
+                                            <span class="fa-stack fa-lg">
+                                                  <i class="fa fa-square-o fa-stack-2x"></i>
+                                                  <i class="fa fa-facebook fa-stack-1x"></i>
+                                            </span>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php if(!empty($socialNetworks['twitter'])): ?>
+                                        <a class="media media-twitter" target="_blank" onclick="el('<?= $socialNetworks['twitter']; ?>')">
+                                            <span class="fa-stack fa-lg">
+                                                  <i class="fa fa-square-o fa-stack-2x"></i>
+                                                  <i class="fa fa-twitter fa-stack-1x"></i>
+                                            </span>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php if(!empty($socialNetworks['youtube'])): ?>
+                                        <a class="media media-youtube" target="_blank" onclick="el('<?= $socialNetworks['youtube']; ?>')">
+                                            <span class="fa-stack fa-lg">
+                                                  <i class="fa fa-square-o fa-stack-2x"></i>
+                                                  <i class="fa fa-youtube-play fa-stack-1x"></i>
+                                            </span>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php if(!empty($socialNetworks['googleplus'])): ?>
+                                        <a class="media media-google-plus" target="_blank" onclick="el('<?= $socialNetworks['googleplus']; ?>')">
+                                            <span class="fa-stack fa-lg">
+                                                  <i class="fa fa-square-o fa-stack-2x"></i>
+                                                  <i class="fa fa-google-plus fa-stack-1x"></i>
+                                            </span>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php if(!empty($socialNetworks['snapchat'])): ?>
+                                        <a class="media media-snapchat" data-toggle="tooltip" data-placement="top" title="<?= $socialNetworks['snapchat']; ?>">
+                                            <span class="fa-stack fa-lg">
+                                                  <i class="fa fa-square-o fa-stack-2x"></i>
+                                                  <i class="fa fa-snapchat-ghost fa-stack-1x"></i>
+                                            </span>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php if(empty($socialNetworks['facebook']) && empty($socialNetworks['twitter']) && empty($socialNetworks['youtube']) && empty($socialNetworks['googleplus']) && empty($socialNetworks['snapchat'])): ?>
+                                        <a class="media">
+                                            <span class="fa-stack fa-lg">
+                                                  <i class="fa fa-square-o fa-stack-2x"></i>
+                                                  <i class="fa fa-times fa-stack-1x"></i>
+                                            </span>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="col-md-8">
@@ -107,7 +108,7 @@
                     <div class="forum-bloc p15">
                         <h5 class="inline"><?= $Lang->get('FORUM__PRESENTATION'); ?></h5>
                         <?php if(isset($_SESSION['user']) && $_SESSION['user'] == $id): ?>
-                            <a class="btn-theme pull-right inline" href="edit"><i class="fa fa-pencil" aria-hidden="true"></i> <?= $Lang->get('GLOBAL__EDIT'); ?></a>
+                            <a class="btn-theme pull-right inline" href="<?= $this->Html->url('/user/'.$slug.'.'.$id.'/edit') ?>"><i class="fa fa-pencil" aria-hidden="true"></i> <?= $Lang->get('GLOBAL__EDIT'); ?></a>
                         <?php endif; ?>
                         <div>
                             <?= $userForum['description']; ?>
@@ -144,6 +145,7 @@
         </div>
     </div>
 </div>
+<?php if($active['socialnetwork']): ?>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -162,10 +164,13 @@
         </div>
     </div>
 </div>
+<?php endif; ?>
+
 <script type="text/javascript">
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
+    <?php if($active['socialnetwork']): ?>
     function el(site) {
         $('#myModal').modal('show');
         $('.js-link').attr('href', site);
@@ -176,4 +181,5 @@
             $('#myModal').modal('hide');
         });
     }
+    <?php endif; ?>
 </script>

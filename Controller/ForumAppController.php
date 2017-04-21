@@ -8,7 +8,7 @@ class ForumAppController extends AppController {
 
     public $atualTheme;
 
-    protected $version = '1.1.4';
+    protected $version = '1.1.5';
 
     protected function date($date){
         return $this->format(CakeTime::format($date, '%d %B %Y'));
@@ -128,4 +128,28 @@ class ForumAppController extends AppController {
     /* TODO LIST
         * Notif mp + msg (new table -> type, id, to, notif)
     */
+
+    protected function forumUpdate(){
+
+        //1.1.4
+        $db = ConnectionManager::getDataSource('default');
+        $exist[0] = $db->query('SELECT column_type FROM information_schema.columns WHERE table_name = "forum__forums"');
+        if($exist[0][8]['columns']['column_type'] == 'tinyint(1)'){
+            $db->query('
+                ALTER TABLE forum__forums MODIFY visible TEXT;
+                ALTER TABLE forum__topics MODIFY visible TEXT;
+                INSERT INTO forum__configs (config_name, config_value, lang) VALUES ("socialnetwork", 1, "Réseaux sociaux")
+           ');
+        }
+
+        //1.1.5
+        $exist[1] = $db->query('SHOW COLUMNS FROM forum__groups LIKE "position"');
+        if(empty($exist[1])){
+            $db->query('
+                ALTER TABLE forum__groups ADD position INT;
+           ');
+        }
+
+        return true;
+    }
 }

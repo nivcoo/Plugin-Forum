@@ -68,7 +68,7 @@
                             <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
                                 <?php if($forum['Forum']['nb_discussion'] != 0 && $forum['Forum']['nb_message'] != 0): ?>
                                 <a href="<?= $forum['Forum']['topic_last_href']; ?>"><?= h($forum['Forum']['topic_last_title']); ?></a><br/>
-                                <a style="color:#<?= $forum['Forum']['topic_last_author_color']; ?>" href="/user/<?= $forum['Forum']['topic_last_author']; ?>.<?= $forum['Forum']['topic_last_authorid']; ?>"><?= $forum['Forum']['topic_last_author']; ?></a>, <?= $forum['Forum']['topic_last_date']; ?>
+                                <a style="color:#<?= $forum['Forum']['topic_last_author_color']; ?>" href="/user/<?= $forum['Forum']['topic_last_author']; ?>.<?= $forum['Forum']['topic_last_authorid']; ?>/"><?= $forum['Forum']['topic_last_author']; ?></a>, <?= $forum['Forum']['topic_last_date']; ?>
                                 <?php endif; ?>
                             </div>
                         </div>
