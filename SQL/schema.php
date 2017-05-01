@@ -58,7 +58,7 @@ class ForumAppSchema extends CakeSchema {
         'lock' => ['type' => 'boolean', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false],
         'permission' => ['type' => 'text', 'null' => true, 'default' => null, 'length' => 4000, 'unsigned' => false],
         'automatic_lock' => ['type' => 'boolean', 'null' => true, 'default' => 0, 'length' => 1, 'unsigned' => false],
-        'visible' => ['type' => 'text', 'null' => true, 'default' => 0, 'length' => 200, 'unsigned' => false]
+        'visible' => ['type' => 'text', 'null' => true, 'default' => null, 'length' => 200, 'unsigned' => false]
     ];
 
     public $forum__groups = [

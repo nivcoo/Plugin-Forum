@@ -25,6 +25,8 @@ class ForumController extends ForumAppController {
        }
 
        $this->forumUpdate();
+
+
    }
 
     public function index() {
@@ -843,30 +845,18 @@ class ForumController extends ForumAppController {
             $this->loadModel('Forum.ForumPermission');
             $this->loadModel('Forum.Group');
 
-            $permissions = $this->ForumPermission->get();
+            $permissions = $this->ForumPermission->get(1);
+            $permissionsAll = $this->ForumPermission->get();
             $groups = $this->Group->get();
-            $lastperm = '';
             $this->ForumPermission = $this->Components->load('Forum.ForumPermission');
 
             if($this->request->is('ajax')){
                 $this->autoRender = false;
-                $i = 0;
-                foreach ($permissions as $permission){
-                    if($permission['ForumPermission']['name'] != $lastperm){
-                        foreach ($groups as $group){
-                            $index = $group['Group']['id'].'-'.$permissions[$i]['ForumPermission']['id'];
-                            if(empty($this->request->data[$index])) $this->request->data[$index] = 0;
-                            $this->ForumPermission->updatePermission($this->request->data[$index], $permissions[$i]['ForumPermission']['id']);
-                            $i++;
-                        }
-
-                        $index = '99-'.$permissions[$i]['ForumPermission']['id'];
-                        if(empty($this->request->data[$index])) $this->request->data[$index] = 5;
-                        $this->ForumPermission->updatePermission($this->request->data[$index], $permissions[$i]['ForumPermission']['id']);
-                        $i++;
-
-                    }
-                    $lastperm = $permission['ForumPermission']['name'];
+                foreach ($permissionsAll as $permission){
+                    $indexA = $permission['ForumPermission']['id'];
+                    $idGroup = $permission['ForumPermission']['group_id'];
+                    $index = $idGroup.'-'.$indexA;
+                    $this->ForumPermission->updatePermission($this->request->data[$index], $indexA);
                 }
                 return $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
 
@@ -876,7 +866,7 @@ class ForumController extends ForumAppController {
                     $rank = $this->Group->getName($permission['ForumPermission']['group_id']);
                     $permissions[$key]['ForumPermission']['group_name'] = ($rank) ? $rank : $this->Lang->get('FORUM__RANK__BASIC');
                 }
-                $this->set(compact('permissions', 'groups', 'lastperm'));
+                $this->set(compact('permissions', 'groups'));
             }
         }else {
             $this->redirect('/');
@@ -898,7 +888,16 @@ class ForumController extends ForumAppController {
                        $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
                    }
 
-                   $this->Group->addGroup($rank, $description, $color, $position);
+                   $id = $this->Group->addGroup($rank, $description, $color, $position);
+
+                   $this->loadModel('Forum.ForumPermission');
+                   $permissions = $this->ForumPermission->get(1);
+                   foreach ($permissions as $permission){
+                        $name = $permission['ForumPermission']['name'];
+                        $this->ForumPermission->addPermission($id, $name, 0);
+                   }
+                   $this->ForumPermission = $this->Components->load('Forum.ForumPermission');
+
                    $this->logforum($this->getIdSession(), 'add_group', $this->gUBY($this->getIdSession()).' vient d\'ajouter un groupe : '.$rank);
                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__GROUP'))));
                }else{

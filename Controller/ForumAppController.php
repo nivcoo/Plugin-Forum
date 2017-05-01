@@ -8,7 +8,7 @@ class ForumAppController extends AppController {
 
     public $atualTheme;
 
-    protected $version = '1.1.5';
+    protected $version = '1.1.6';
 
     protected function date($date){
         return $this->format(CakeTime::format($date, '%d %B %Y'));
@@ -147,6 +147,14 @@ class ForumAppController extends AppController {
         if(empty($exist[1])){
             $db->query('
                 ALTER TABLE forum__groups ADD position INT;
+           ');
+        }
+
+        //1.1.7
+        $exist[2] = $db->query('SELECT config_name FROM forum__configs WHERE config_name="socialnetwork"');
+        if(empty($exist[2])){
+            $db->query('
+                INSERT INTO forum__configs (config_name, config_value, lang) VALUES ("socialnetwork", 1, "Réseaux sociaux")
            ');
         }
 

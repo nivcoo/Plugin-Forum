@@ -34,7 +34,7 @@ class Group extends ForumAppModel{
     public function addGroup($rank, $description, $color, $position){
         $this->create();
         $this->set(['group_name' => $rank, 'group_description' => $description, 'color' => $color, 'position' => $position]);
-        return $this->save();
+        return $this->save()['Group']['id'];
     }
 
     public function getName($id){

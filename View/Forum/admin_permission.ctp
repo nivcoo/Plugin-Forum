@@ -19,16 +19,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php $i = 0; foreach ($permissions as $permission): ?>
+                            <?php $db = ConnectionManager::getDataSource('default'); foreach ($permissions as $permission): ?>
                                 <tr>
-                                    <?php if($permission['ForumPermission']['name'] != $lastperm): ?>
-                                        <th><?= $Lang->get($permission['ForumPermission']['name'].'__PERM'); ?></th>
-                                        <?php foreach ($groups as $group): ?>
-                                            <th class="text-center"><input type="checkbox" name="<?= $group['Group']['id']; ?>-<?= $permissions[$i]['ForumPermission']['id']; ?>" <?php if($permissions[$i]['ForumPermission']['value'] == 1) echo 'checked'; ?> /></th>
-                                        <?php $i++; endforeach; ?>
-                                        <th class="text-center"><input type="checkbox" name="99-<?= $permissions[$i]['ForumPermission']['id']; ?>" <?php if($permissions[$i]['ForumPermission']['value'] == 1) echo 'checked'; ?> /><?php $i++; ?></th>
-                                    <?php endif; ?>
-                                    <?php $lastperm = $permission['ForumPermission']['name']; ?>
+                                    <th><?= $Lang->get($permission['ForumPermission']['name'].'__PERM'); ?></th>
+                                    <?php foreach ($groups as $group): ?>
+                                        <th class="text-center">
+                                            <?php $idGroup = $group['Group']['id']; ?>
+                                            <?php $name = $permission['ForumPermission']['name']; ?>
+                                            <?php $p = $db->query("SELECT * FROM forum__forum_permissions WHERE group_id ='$idGroup' AND name ='$name'")[0]['forum__forum_permissions'];
+                                                if(is_null($p)){
+                                                    $db->query("INSERT INTO forum__forum_permissions (group_id, name, value) VALUES ('$idGroup', '$name', 0)");
+                                                } ?>
+                                            <input type="checkbox" name="<?= $idGroup; ?>-<?= $p['id']; ?>" <?php if($p['value'] == 1) echo 'checked'; ?> />
+                                        </th>
+                                    <?php endforeach; ?>
+                                    <?php $p = $db->query("SELECT * FROM forum__forum_permissions WHERE group_id = 99 AND name ='$name'")[0]['forum__forum_permissions']; ?>
+                                    <th class="text-center"><input type="checkbox" name="99-<?= $p['id']; ?>" <?php if($p['value'] == 1) echo 'checked'; ?> /></th>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
