@@ -61,6 +61,11 @@
       "name": "Log du forum",
       "icon": "history",
       "url": "/admin/forum/forum/history"
+    },
+    {
+      "name": "Sauvegarde",
+      "icon": "hdd-o",
+      "url": "/admin/forum/forum/backup"
     }
   ],
   "author": "PHPierre",

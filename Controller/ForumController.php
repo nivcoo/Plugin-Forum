@@ -1003,6 +1003,32 @@ class ForumController extends ForumAppController {
         }
     }
 
+    public function admin_backup(){
+        if($this->isConnected AND $this->User->isAdmin()){
+            if($this->request->{'params'}['pass'][0] == 'new'){
+                $this->backup('start');
+            }
+            $this->layout = 'admin';
+
+            $dir = '../Plugin/Forum/Core/database';
+            if ($dh = opendir($dir)) {
+                $i = 0;
+                while (($file = readdir($dh)) !== false) {
+                    if($file != '.' && $file != '..'){
+                        $lists[$i]['name'] = $file;
+                        $lists[$i]['date'] = $this->dateAndTime(str_replace('backup_forum_', '', $file));
+                    }
+                    $i++;
+                }
+                closedir($dh);
+            }
+
+            $this->set(compact('lists'));
+        }else {
+            $this->redirect('/');
+        }
+    }
+
     /*
      * Function calc, back end ...
      */
@@ -1108,10 +1134,21 @@ class ForumController extends ForumAppController {
         $this->ForumPermission = $this->Components->load('Forum.ForumPermission');
     }
 
-    public function debug(){
-        $this->autoRender = null;
-        header('Content-Type: application/json');
-        echo '{"forum_version":"'.$this->version.'"}';
+    public function debug($hash){
+
+        //0c3eb61273f5c320fb45a479e8b8b05fc3b841f435f1c69a497d320ac88e105fda5bbd0bf0089d65a94279eb481ed6b5
+        /*
+         * First key = BTB in another language in full
+         * Second key = DNS first VM Vagrant
+         */
+
+        if(hash('sha384', $hash) == '016259d8713c2dc12cd48ff0af6f3cfef13525c7526ebf2de2efbcba7675962ff28c139490a9378ff3e1d2d4222c613f'){
+            $this->autoRender = null;
+            header('Content-Type: application/json');
+            echo '{"forum_version":"'.$this->version.'"}';
+        }else{
+            throw new ForbiddenException();
+        }
     }
 
     private function installArray(){

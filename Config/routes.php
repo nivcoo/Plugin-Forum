@@ -13,7 +13,7 @@ Router::connect('/user/:slug.:id/edit', ['controller' => 'user', 'action' => 'ed
 Router::connect('/topic/add/:id', ['controller' => 'forum', 'action' => 'addTopic', 'plugin' => 'forum'], ['pass' => ['id'], 'id' => '[0-9]+']);
 
 Router::connect('/forum/report', ['controller' => 'forum', 'action' => 'report', 'plugin' => 'forum']);
-Router::connect('/forum/debug', ['controller' => 'forum', 'action' => 'debug', 'plugin' => 'forum']);
+Router::connect('/forum/debug/:hash', ['controller' => 'forum', 'action' => 'debug', 'plugin' => 'forum'], ['pass' => ['hash']]);
 Router::connect('/forum/banned', ['controller' => 'forum', 'action' => 'banned', 'plugin' => 'forum']);
 Router::connect('/forum/action/:type/:act/:params', ['controller' => 'forum', 'action' => 'forumAction', 'plugin' => 'forum'], ['pass' => ['type', 'act', 'params']]);
 

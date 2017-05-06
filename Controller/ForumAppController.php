@@ -3,7 +3,8 @@ App::uses('CakeTime', 'Utility');
 class ForumAppController extends AppController {
 
     public $components = [
-        'Forum.ForumRender'
+        'Forum.ForumRender',
+        'Forum.ForumBackup'
     ];
 
     public $atualTheme;
@@ -159,5 +160,19 @@ class ForumAppController extends AppController {
         }
 
         return true;
+    }
+
+    protected function backup($type, $value = false){
+        switch ($type){
+            case 'start':
+                $this->ForumBackup->start();
+                break;
+            case 'delete':
+                $this->ForumBackup->delete($value);
+                break;
+            case 'deleteall':
+                $this->ForumBackup->deleteall();
+                break;
+        }
     }
 }
