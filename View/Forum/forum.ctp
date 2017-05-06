@@ -44,15 +44,17 @@
                             <h3 class="forum-category-title"><a href="<?= $forum['Forum']['href']; ?>"><?= h($forum['Forum']['forum_name']); ?></a></h3>
                             <div class="forum-category-description"><span><?= $Lang->get('FORUM__FORUMS__ALT'); ?> :</span> <?= $forum['Forum']['nb_discussion']; ?> <span><?= $Lang->get('FORUM__MSG'); ?> :</span> <?= $forum['Forum']['nb_message']; ?></div>
                         </div>
-                        <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
-                            <a href="<?= $forum['Forum']['forum_last_href']; ?>"><?= $forum['Forum']['forum_last_title']; ?></a><br/>
-                            <a style="color:#<?= $forum['Forum']['forum_last_author_color']; ?>" href="<?= $this->Html->url('/user/'.$forum['Forum']['forum_last_author']).'.'.$forum['Forum']['forum_last_authorid'].'/' ?>"><?= $forum['Forum']['forum_last_author']; ?></a>, <?= $forum['Forum']['forum_last_date']; ?>
-                        </div>
+                        <?php if(isset($forum['Forum']['forum_last_href'])): ?>
+                            <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
+                                <a href="<?= $forum['Forum']['forum_last_href']; ?>"><?= $forum['Forum']['forum_last_title']; ?></a><br/>
+                                <a style="color:#<?= $forum['Forum']['forum_last_author_color']; ?>" href="<?= $this->Html->url('/user/'.$forum['Forum']['forum_last_author']).'.'.$forum['Forum']['forum_last_authorid'].'/' ?>"><?= $forum['Forum']['forum_last_author']; ?></a>, <?= $forum['Forum']['forum_last_date']; ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             <?php endif; ?>
         <?php endforeach; ?>
-        <?php if(!empty($forums)): ?>
+        <?php if(!empty($topics_stick)): ?>
         <div class="forum-separator"><i class="fa fa-bell-o" aria-hidden="true"></i> <?= $Lang->get('FORUM__TOPIC__STICKED'); ?></div>
         <?php endif; ?>
         <?php foreach ($topics_stick as $topic_stick): ?>
@@ -89,7 +91,7 @@
             <?php endif; ?>
             <?php echo $this->element('modal', ['type' => 'propertiesTopic', 'perms' => $perms, 'topic' => $topic_stick, 'ranks' => $ranks, 'csrfToken' => $csrfToken]); ?>
         <?php endforeach; ?>
-        <?php if(!empty($topics_stick) && !empty($topics)): ?>
+        <?php if(!empty($topics) && !empty($topics)): ?>
             <div class="forum-separator"><?= $Lang->get('FORUM__TOPICS'); ?></div>
         <?php endif; ?>
        <?php if(!empty($topics)): ?>

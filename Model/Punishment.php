@@ -3,7 +3,8 @@ class Punishment extends ForumAppModel{
 
     public function get($id = false){
         if($id){
-            return @$this->find('first', ['conditions' => ['id_to_user' => $id, 'date >' => date('Y-m-d H:i:s')], 'order' => ['date' => 'DESC']])['Punishment'];
+            $punishment = $this->find('first', ['conditions' => ['id_to_user' => $id, 'date >' => date('Y-m-d H:i:s')], 'order' => ['date' => 'DESC']]);
+            if(!empty($punishment)) return $punishment['Punishment'];
         }else{
             return $this->find('all');
         }

@@ -14,13 +14,13 @@
                         </div>
                         <div class="form-group">
                             <label><?= $Lang->get('FORUM__POSITION') ?></label>
-                            <input value="<?= $datas['Forum']['position']; ?>" name="position" class="form-control" type="text" />
+                            <input name="position" class="form-control" type="text" />
                         </div>
                         <div class="form-group">
                             <label><?= $Lang->get('FORUM__PARENT') ?></label>
                             <select class="form-control" name="parent">
                                 <?php foreach ($forums as $key => $forum) { ?>
-                                    <option value="<?= $forum['Forum']['id']; ?>" <?php if($forum['Forum']['id'] == $datas['Forum']['id_parent']) echo 'selected'; ?>><?= $Lang->get('FORUM__IN') ?> : <?= $forum['Forum']['forum_name'] ?></option>
+                                    <option value="<?= $forum['Forum']['id']; ?>"><?= $Lang->get('FORUM__IN') ?> : <?= $forum['Forum']['forum_name'] ?></option>
                                 <?php } ?>
                             </select>
                         </div>

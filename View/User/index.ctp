@@ -135,7 +135,7 @@
                             <?php foreach ($lasts['Note'] as $last): ?>
                                 <hr />
                                 <div class="forum-profile-appreciate">
-                                    <p><i class="fa fa-thumbs-<?= $last['Note']['fa']; ?> thumb-<?= $last['Note']['class']; ?>" aria-hidden="true"></i> <?= $slug.$last['Note']['txt']; ?><a href="<?= $last['Note']['msg']['href']; ?>"><?= $last['Note']['message']; ?></a></p>
+                                    <p><i class="fa fa-thumbs-<?= $last['Note']['fa']; ?> thumb-<?= $last['Note']['class']; ?>" aria-hidden="true"></i> <?= $slug.$last['Note']['txt']; ?><a href="<?= $last['Note']['msg']['href']; ?>"><?= $this->Text->truncate(strip_tags($last['Note']['message']), 150); ?></a></p>
                                 </div>
                             <?php endforeach; ?>
                         </div>

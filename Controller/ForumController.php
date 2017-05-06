@@ -116,11 +116,11 @@ class ForumController extends ForumAppController {
                     $forums[$key]['Forum']['forum_last_author'] = $this->gUBY($forums[$key]['Forum']['forum_last_authorid']);
                     $forums[$key]['Forum']['forum_last_author_color'] = $this->ForumPermission->getRankColorDomin($forums[$key]['Forum']['forum_last_authorid']);
                     $forums[$key]['Forum']['forum_last_href'] = $this->buildUri('topic', $forums[$key]['Forum']['forum_last_title'], $forums[$key]['Forum']['forum_last_id']);
-                    $forums[$key]['Forum']['visible'] = $this->ForumPermission->visible('forum', $forum['Forum']['id']);
                 }else{
                     $forums[$key]['Forum']['nb_discussion'] = $forums[$key]['Forum']['nb_message'] = 0;
                     $forums[$key]['Forum']['forum_last_id'] = $forums[$key]['Forum']['forum_last_title'] = $forums[$key]['Forum']['forum_last_date'] = $forums[$key]['Forum']['forum_last_authorid'] = $forums[$key]['Forum']['forum_last_author'] = $forums[$key]['Forum']['forum_last_author_color'] = '';
                 }
+                $forums[$key]['Forum']['visible'] = $this->ForumPermission->visible('forum', $forum['Forum']['id']);
             }
 
             $topics_stick = $this->Topic->getTopic($id, 'stick');

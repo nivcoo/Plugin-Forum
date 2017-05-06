@@ -34,6 +34,7 @@
 .forum-category-icon-min{
     width: 25px;
     height: 25px;
+    display: inline-block;
 }
 .forum-category-icon{
     width: 50px;
@@ -99,7 +100,7 @@
 .topic-content{
     margin: 10px;
     word-wrap: break-word;
-    min-height: 293px;
+    min-height: 283px;
 }
 
 .topic-content-min{

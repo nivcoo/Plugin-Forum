@@ -8,7 +8,7 @@ class ForumAppController extends AppController {
 
     public $atualTheme;
 
-    protected $version = '1.1.6';
+    protected $version = '1.1.7';
 
     protected function date($date){
         return $this->format(CakeTime::format($date, '%d %B %Y'));

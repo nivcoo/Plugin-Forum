@@ -54,7 +54,7 @@
                         <div class="col-md-3">
                             <div class="forum-topic-left">
                                 <div class="forum-forum-withoutmarge">
-                                    <img class="center-block topic-avatar" src="<?= $this->Html->url(array('controller' => 'API', 'action' => 'get_head_skin', 'plugin' => false, $msg['Topic']['author'], '120')); ?>" alt="Avatar <?= $msg['Topic']['author']; ?>" />
+                                    <img class="center-block topic-avatar" src="<?= $this->Html->url(array('controller' => 'API', 'action' => 'get_head_skin', 'plugin' => false, $msg['Topic']['author'], '120', '42')); ?>" alt="Avatar <?= $msg['Topic']['author']; ?>" />
                                     <p class="text-center"><strong><a style="color:#<?= $msg['Topic']['author_color']; ?>" href="/user/<?= $msg['Topic']['author']; ?>.<?= $msg['Topic']['id_user']; ?>/"><?= $msg['Topic']['author']; ?></a></strong></p>
                                     <div class="forum-rank">
                                         <?php if(!empty($msg['Topic']['author_info']['rank'])): ?>
