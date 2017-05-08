@@ -5,7 +5,8 @@
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h4><i class="icon fa fa-ban"></i> <?= $Lang->get('FORUM__WARNING!'); ?></h4>
-                    <?= $Lang->get('FORUM__BACKUP__INCOMPATIBLE'); ?>
+                    <?= $Lang->get('FORUM__BACKUP__INCOMPATIBLE'); ?><br />
+                    <span style="font-size: 11px"><?= $Lang->get('FORUM__BACKUP__INCOMPATIBLE__MORE'); ?></span>
                 </div>
             <?php endif; ?>
             <div class="box">

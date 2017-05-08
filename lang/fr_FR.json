@@ -153,6 +153,7 @@
   "FORUM__PERMISSION__EXIST":"Cette permission existe déjà",
   "FORUM__PERMISSION__ADD": "Votre permission a été ajouté",
   "FORUM__BACKUP__INCOMPATIBLE": "Votre hébergueur est imcompatible avec cette fonction",
+  "FORUM__BACKUP__INCOMPATIBLE__MORE": "Cette fonctionnalité a besoin de la fonction PHP exec() celle-ci n'est disponible que sur les machines dédiées comme les VPS.",
 
   "FORUM_MP_SEND__PERM": "Envoyer des messages privés",
   "FORUM_MP_REPLY__PERM": "Répondre aux messages privés",

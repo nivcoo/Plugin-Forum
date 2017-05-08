@@ -1015,8 +1015,11 @@ class ForumController extends ForumAppController {
                         case 'delete':
                             $this->backup('delete', $this->request->{'params'}['pass'][1]);
                             break;
-                        case  'deleteall':
+                        case 'deleteall':
                             $this->backup('deleteall');
+                            break;
+                        case 'set' :
+                            $this->backup('set', $this->request->{'params'}['pass'][1]);
                             break;
                     }
                     $this->redirect('/admin/forum/forum/backup');

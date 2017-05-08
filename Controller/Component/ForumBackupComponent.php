@@ -42,6 +42,47 @@ class ForumBackupComponent extends Component{
     }
 
     public function set($value){
+        $file = dirname(__DIR__).'/Core/database/'.$value;
+        $file = str_replace('Controller/', '', $file);
 
+        $zip = new ZipArchive;
+        $res = $zip->open($file);
+        if($res === TRUE) {
+            $path = dirname(__DIR__).'/Core/database';
+            $path = str_replace('Controller/', '', $path);
+            $zip->extractTo($path);
+            $zip->close();
+        }else{
+            $this->log('Cannot unzip archive');
+        }
+
+        $sql = file_get_contents($path.'/backup.sql');
+        $db = ConnectionManager::getDataSource('default');
+
+        $tables = [
+            'forum__configs',
+            'forum__conversations',
+            'forum__conversation_recipients',
+            'forum__forums',
+            'forum__forum_permissions',
+            'forum__groups',
+            'forum__groups_users',
+            'forum__histories',
+            'forum__insults',
+            'forum__msg_reports',
+            'forum__notes',
+            'forum__profiles',
+            'forum__punishments',
+            'forum__topics',
+            'forum__viewws'
+                ];
+
+        foreach ($tables as $table) {
+            $db->query('DROP TABLE '.$table);
+        }
+
+        $db->query($sql);
+
+        unlink($path.'/backup.sql');
     }
 }
