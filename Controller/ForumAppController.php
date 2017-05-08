@@ -173,6 +173,14 @@ class ForumAppController extends AppController {
             case 'deleteall':
                 $this->ForumBackup->deleteall();
                 break;
+            case 'set':
+                $this->ForumBackup->set($value);
+                break;
         }
+    }
+
+    protected function isExec(){
+        if(exec('echo EXEC') == 'EXEC') return true;
+        return false;
     }
 }

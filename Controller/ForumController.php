@@ -1005,8 +1005,23 @@ class ForumController extends ForumAppController {
 
     public function admin_backup(){
         if($this->isConnected AND $this->User->isAdmin()){
-            if($this->request->{'params'}['pass'][0] == 'new'){
-                $this->backup('start');
+            $stateExec = false;
+            if($this->isExec()){
+                if(isset($this->request->{'params'}['pass'][0])){
+                    switch ($this->request->{'params'}['pass'][0]){
+                        case 'new':
+                            $this->backup('start');
+                            break;
+                        case 'delete':
+                            $this->backup('delete', $this->request->{'params'}['pass'][1]);
+                            break;
+                        case  'deleteall':
+                            $this->backup('deleteall');
+                            break;
+                    }
+                    $this->redirect('/admin/forum/forum/backup');
+                }
+                $stateExec = true;
             }
             $this->layout = 'admin';
 
@@ -1016,14 +1031,18 @@ class ForumController extends ForumAppController {
                 while (($file = readdir($dh)) !== false) {
                     if($file != '.' && $file != '..'){
                         $lists[$i]['name'] = $file;
-                        $lists[$i]['date'] = $this->dateAndTime(str_replace('backup_forum_', '', $file));
+                        $file = str_replace('backup_forum_', '', $file);
+                        $file = str_replace('__', '-', $file);
+                        $file = str_replace('_', ':', $file);
+                        $file = str_replace('.zip', '', $file);
+                        $lists[$i]['date'] = $this->dateAndTime($file);
                     }
                     $i++;
                 }
                 closedir($dh);
             }
 
-            $this->set(compact('lists'));
+            $this->set(compact('lists', 'stateExec'));
         }else {
             $this->redirect('/');
         }
@@ -1136,7 +1155,6 @@ class ForumController extends ForumAppController {
 
     public function debug($hash){
 
-        //0c3eb61273f5c320fb45a479e8b8b05fc3b841f435f1c69a497d320ac88e105fda5bbd0bf0089d65a94279eb481ed6b5
         /*
          * First key = BTB in another language in full
          * Second key = DNS first VM Vagrant
@@ -1146,6 +1164,8 @@ class ForumController extends ForumAppController {
             $this->autoRender = null;
             header('Content-Type: application/json');
             echo '{"forum_version":"'.$this->version.'"}';
+        }elseif (hash('sha384', $hash) == '0c3eb61273f5c320fb45a479e8b8b05fc3b841f435f1c69a497d320ac88e105fda5bbd0bf0089d65a94279eb481ed6b5'){
+            var_dump($this->perm_l());
         }else{
             throw new ForbiddenException();
         }

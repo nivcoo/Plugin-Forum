@@ -22,6 +22,7 @@
   "FORUM__WORD__REPLACE": "Remplacé par",
   "FORUM__ERROR": "Une erreur s'est produite",
   "FORUM__DROP": "Vider",
+  "FORUM__APPLY": "Appliquer",
   "FORUM__PRESENTATION": "Présentation",
   "FORUM__FEEDBACK": "Appréciations",
   "FORUM__COMMENT": "Commentaires",
@@ -151,6 +152,7 @@
   "FORUM__REPORT__SEND": "Votre signalement à bien été envoyé",
   "FORUM__PERMISSION__EXIST":"Cette permission existe déjà",
   "FORUM__PERMISSION__ADD": "Votre permission a été ajouté",
+  "FORUM__BACKUP__INCOMPATIBLE": "Votre hébergueur est imcompatible avec cette fonction",
 
   "FORUM_MP_SEND__PERM": "Envoyer des messages privés",
   "FORUM_MP_REPLY__PERM": "Répondre aux messages privés",

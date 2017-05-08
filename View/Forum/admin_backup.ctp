@@ -1,6 +1,13 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
+            <?php if(!$stateExec): ?>
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> <?= $Lang->get('FORUM__WARNING!'); ?></h4>
+                    <?= $Lang->get('FORUM__BACKUP__INCOMPATIBLE'); ?>
+                </div>
+            <?php endif; ?>
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?= $Lang->get('FORUM__BACKUPS') ?></h3>
@@ -25,7 +32,8 @@
                                 <td><?= $list['name']; ?></td>
                                 <td><?= $list['date']; ?></td>
                                 <td class="right">
-                                    <a onClick="confirmDel('<?= $this->Html->url(array('controller' => 'forum', 'action' => '', 'admin' => true)) ?>')" class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE') ?></a>
+                                    <a onClick="confirmDel('<?= $this->Html->url(['controller' => 'forum', 'action' => 'backup', 'admin' => true, 'set', $list['name']]) ?>')" class="btn btn-primary"><?= $Lang->get('FORUM__APPLY') ?></a>
+                                    <a onClick="confirmDel('<?= $this->Html->url(['controller' => 'forum', 'action' => 'backup', 'admin' => true, 'delete', $list['name']]) ?>')" class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE') ?></a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -35,7 +43,7 @@
             </div>
             <div class="box">
                 <div class="box-body">
-                    <a class="btn btn-large btn-block btn-danger" href="/admin/forum/forum/backup/new"><?= $Lang->get('FORUM__DELETEALL__BACKUP') ?></a>
+                    <a class="btn btn-large btn-block btn-danger" href="/admin/forum/forum/backup/deleteall"><?= $Lang->get('FORUM__DELETEALL__BACKUP') ?></a>
                 </div>
             </div>
 
