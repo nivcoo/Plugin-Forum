@@ -24,7 +24,7 @@
                                         <div class="forum-rank">
                                             <?php if(!empty($mp['Conversation']['author_rank']['rank'])): ?>
                                                 <?php foreach($mp['Conversation']['author_rank']['rank'] as $key => $rank): ?>
-                                                    <div style="background-color:#<?= $mp['Conversation']['author_rank']['color'][$key]; ?>" class="forum-badgerank forum-topic-badgerank"><?= $rank; ?></div>
+                                                    <div style="background-color:#<?= $mp['Conversation']['author_rank']['color'][$key]['color']; ?>" class="forum-badgerank forum-topic-badgerank"><?= $rank['group_name']; ?></div>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
                                         </div>

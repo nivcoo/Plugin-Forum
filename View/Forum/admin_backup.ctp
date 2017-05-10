@@ -28,16 +28,18 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($lists as $list): ?>
-                            <tr>
-                                <td><?= $list['name']; ?></td>
-                                <td><?= $list['date']; ?></td>
-                                <td class="right">
-                                    <a onClick="confirmDel('<?= $this->Html->url(['controller' => 'forum', 'action' => 'backup', 'admin' => true, 'set', $list['name']]) ?>')" class="btn btn-primary"><?= $Lang->get('FORUM__APPLY') ?></a>
-                                    <a onClick="confirmDel('<?= $this->Html->url(['controller' => 'forum', 'action' => 'backup', 'admin' => true, 'delete', $list['name']]) ?>')" class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE') ?></a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
+                        <?php if(!empty($lists)): ?>
+                            <?php foreach ($lists as $list): ?>
+                                <tr>
+                                    <td><?= $list['name']; ?></td>
+                                    <td><?= $list['date']; ?></td>
+                                    <td class="right">
+                                        <a onClick="confirmDel('<?= $this->Html->url(['controller' => 'forum', 'action' => 'backup', 'admin' => true, 'set', $list['name']]) ?>')" class="btn btn-primary"><?= $Lang->get('FORUM__APPLY') ?></a>
+                                        <a onClick="confirmDel('<?= $this->Html->url(['controller' => 'forum', 'action' => 'backup', 'admin' => true, 'delete', $list['name']]) ?>')" class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE') ?></a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                         </tbody>
                     </table>
                 </div>

@@ -268,7 +268,7 @@
         }
         <?php endif; ?>
         function getMessage(id) {
-            var url = window.location.href;
+            var url = '/forum/action/topic/message/'.id;
             $.ajax({
                 type: 'post',
                 url: url,

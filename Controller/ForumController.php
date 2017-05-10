@@ -1029,6 +1029,7 @@ class ForumController extends ForumAppController {
             $this->layout = 'admin';
 
             $dir = '../Plugin/Forum/Core/database';
+            $lists = '';
             if ($dh = opendir($dir)) {
                 $i = 0;
                 while (($file = readdir($dh)) !== false) {
@@ -1251,7 +1252,14 @@ class ForumController extends ForumAppController {
 
         $perm_l = $this->perm_l();
         if($this->request->is('ajax')){
-
+            if($type == 'topic'){
+                $this->loadModel('Forum.Topic');
+                switch ($act){
+                    case 'message':
+                            return $this->Topic->getUniqMessage($params);
+                        break;
+                }
+            }
         }elseif($this->request->is('post')){
             if($type == 'topic'){
                 $this->loadModel('Forum.Topic');
