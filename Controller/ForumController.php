@@ -1025,7 +1025,7 @@ class ForumController extends ForumAppController {
                     $this->redirect('/admin/forum/forum/backup');
                 }
                 $stateExec = true;
-            }
+            }else
             $this->layout = 'admin';
 
             $dir = '../Plugin/Forum/Core/database';
