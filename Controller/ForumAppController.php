@@ -159,6 +159,8 @@ class ForumAppController extends AppController {
            ');
         }
 
+        //1.1.8
+
         return true;
     }
 
