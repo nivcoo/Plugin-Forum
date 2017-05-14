@@ -19,6 +19,8 @@ class MessageController extends ForumAppController {
         $this->loadModel('Forum.Config');
         $this->loadModel('Forum.Conversation');
         $this->loadModel('Forum.ConversationRecipient');
+
+        if($this->theme == 'Justice') $this->layout = 'forum';
     }
 
     public function index(){

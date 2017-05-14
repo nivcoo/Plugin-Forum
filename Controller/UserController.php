@@ -13,6 +13,8 @@ class UserController extends ForumAppController {
         $this->loadModel('User');
         $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
         $this->Security->csrfExpires = '+1 hour';
+
+        if($this->theme == 'Justice') $this->layout = 'forum';
     }
 
     public function index($id, $slug){

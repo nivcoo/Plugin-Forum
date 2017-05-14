@@ -87,6 +87,12 @@
                         <div class="col-md-9">
                             <div class="topic-content">
                                 <?= $msg['Topic']['content']; ?>
+
+                                <?php if(!empty($msg['Topic']['author_info']['sign'])): ?>
+                                <hr />
+                                    <?= $msg['Topic']['author_info']['sign']; ?>
+                                <?php endif; ?>
+
                             </div>
                             <div class="topic-content-footer">
                                 <div class="topic-footer-info">
@@ -162,21 +168,21 @@
                     <div class="modal-body">
                         <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
                         <input id="update_id" name="id" value="" type="hidden" />
-                        <div class="form-group mt20">
+                        <div class="form-group mt20 div-edit">
                             <script type="text/javascript">
                                 tinymce.init({
                                     external_plugins: {
                                         "emoticons": "/forum/js/plugins/emoticons/plugin.min.js"
                                     },
                                     selector: "textarea",
-                                    height : 200,
+                                    height : 300,
                                     width : '100%',
                                     menubar: false,
                                     plugins: "textcolor table code image link contextmenu emoticons",
                                     toolbar: "fontselect fontsizeselect | styleselect | insert | bold italic underline strikethrough | forecolor backcolort | alignleft aligncenter alignright alignjustifyt | cut copy paste | bullist numlist outdent | emoticons indent blockquote code table"
                                 });
                             </script>
-                            <textarea id="editor_update" name="content_update" cols="30" rows="7"></textarea>
+                            <textarea id="editor_update" name="content_update" cols="30" rows="14"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

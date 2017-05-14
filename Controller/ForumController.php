@@ -26,7 +26,7 @@ class ForumController extends ForumAppController {
 
        $this->forumUpdate();
 
-
+       if($this->theme == 'Justice') $this->layout = 'forum';
    }
 
     public function index() {
@@ -179,6 +179,7 @@ class ForumController extends ForumAppController {
         $this->loadModel('Forum.Topic');
         $this->loadModel('Forum.Note');
         $this->loadModel('Forum.MsgReport');
+        $this->loadModel('Forum.Profile');
         $this->loadModel('Forum.Vieww');
 
         if(!$this->Config->is('forum')){
@@ -371,6 +372,7 @@ class ForumController extends ForumAppController {
                     $msgs[$key]['Topic']['author_info']['inscription'] = $this->date($this->dateInscription($user_id));
                     $msgs[$key]['Topic']['author_info']['rank'] = $this->ForumPermission->getRank($user_id);
                     $msgs[$key]['Topic']['author_info']['color'] = $this->ForumPermission->getRankColor($user_id);
+                    $msgs[$key]['Topic']['author_info']['sign'] = $this->Profile->get($user_id)['description'];
                     $msgs[$key]['Topic']['author_color'] = $this->ForumPermission->getRankColorDomin($user_id);
 
                     $msgs[$key]['Topic']['author'] = $this->gUBY($user_id);
@@ -1025,7 +1027,9 @@ class ForumController extends ForumAppController {
                     $this->redirect('/admin/forum/forum/backup');
                 }
                 $stateExec = true;
-            }else
+            }else{
+                // Use Mysqldump vendor
+            }
             $this->layout = 'admin';
 
             $dir = '../Plugin/Forum/Core/database';
