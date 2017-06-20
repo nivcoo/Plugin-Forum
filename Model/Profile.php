@@ -5,7 +5,7 @@ class Profile extends ForumAppModel{
             if($this->hasAny(['id_user' => $id])){
                 return $this->find('first', ['conditions' => ['id_user' => $id]])['Profile'];
             }
-            return '';
+            return ['description' => ''];
         }else{
             return $this->find('all');
         }

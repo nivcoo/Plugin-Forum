@@ -1203,9 +1203,9 @@ class ForumController extends ForumAppController {
                 ['id_parent' => 4, 'id_user' => 1, 'position' => 1, 'forum_name' => 'Catégorie random', 'forum_description' => 'Ceci est une description', 'forum_image' => 'folder-open'],
             ],
             'group' => [
-                ['group_name' => 'Administrateur', 'group_description' => 'Ceci est le groupe des administrateurs du serveur Minecraft', 'color' => 'e74c3c'],
-                ['group_name' => 'Modérateur', 'group_description' => 'Ceci est le groupe des modérateurs du serveur Minecraft', 'color' => 'e67e22'],
-                ['group_name' => 'Développeur', 'group_description' => 'Ceci est le groupe des développeurs du serveur Minecraft', 'color' => '2ecc71'],
+                ['group_name' => 'Administrateur', 'group_description' => 'Ceci est le groupe des administrateurs du serveur Minecraft', 'color' => 'e74c3c', 'position' => 1],
+                ['group_name' => 'Modérateur', 'group_description' => 'Ceci est le groupe des modérateurs du serveur Minecraft', 'color' => 'e67e22', 'position' => 2],
+                ['group_name' => 'Développeur', 'group_description' => 'Ceci est le groupe des développeurs du serveur Minecraft', 'color' => '2ecc71', 'position' => 3],
             ],
             'groups_user' => [
                 ['id_user' => 1, 'id_group' => 1, 'domin' => true],
