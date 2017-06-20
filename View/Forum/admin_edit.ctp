@@ -307,7 +307,7 @@
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title"><?= $Lang->get('FORUM__EDIT__RANK') ?></h3>
-                        <p class="pull-right"><a href="/admin/forum/forum/rank"><i class="fa fa-undo" aria-hidden="true"></i> <?= $Lang->get('FORUM__BACKTO__RANK'); ?></a></p>
+                        <p class="pull-right"><a href="<?= $this->Html->url('/admin/forum/forum/rank'); ?>"><i class="fa fa-undo" aria-hidden="true"></i> <?= $Lang->get('FORUM__BACKTO__RANK'); ?></a></p>
                     </div>
                     <div class="box-body">
                         <form action="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'admin_edit', 'admin' => true)) ?>" method="post" data-ajax="true" data-redirect="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'admin_edit', 'admin' => true)) ?>">

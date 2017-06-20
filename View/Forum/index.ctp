@@ -68,7 +68,7 @@
                             <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
                                 <?php if($forum['Forum']['nb_discussion'] != 0 && $forum['Forum']['nb_message'] != 0): ?>
                                 <a href="<?= $forum['Forum']['topic_last_href']; ?>"><?= h($forum['Forum']['topic_last_title']); ?></a><br/>
-                                <a style="color:#<?= $forum['Forum']['topic_last_author_color']; ?>" href="/user/<?= $forum['Forum']['topic_last_author']; ?>.<?= $forum['Forum']['topic_last_authorid']; ?>/"><?= $forum['Forum']['topic_last_author']; ?></a>, <?= $forum['Forum']['topic_last_date']; ?>
+                                <a style="color:#<?= $forum['Forum']['topic_last_author_color']; ?>" href="<?= $this->Html->url('/user/'.$forum['Forum']['topic_last_author'].'.'.$forum['Forum']['topic_last_authorid'].'/'); ?>"><?= $forum['Forum']['topic_last_author']; ?></a>, <?= $forum['Forum']['topic_last_date']; ?>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -103,9 +103,9 @@
         <div class="col-md-12">
             <span><?= $Lang->get('FORUM__USER'); ?><?php if($stats['countuser'] > 1) echo 's'; ?> <?= $Lang->get('FORUM__CONNECTED'); ?><?php if($stats['countuser'] > 1) echo 's'; ?> : </span>
             <?php foreach($userOnlines as $userOnline): ?>
-                <a href="/user/<?= $userOnline['User']['pseudo']; ?>.<?= $userOnline['User']['id']; ?>/" style="color: #<?= $userOnline['User']['color']; ?>"><?= $userOnline['User']['pseudo']; ?></a>
+                <a href="<?= $this->Html->url('/user/'.$userOnline['User']['pseudo'].'.'.$userOnline['User']['id'].'/'); ?>" style="color: #<?= $userOnline['User']['color']; ?>"><?= $userOnline['User']['pseudo']; ?></a>
             <?php endforeach; ?>
-            <?php if($stats['countuser'] == 0) echo 'Aucun utilisateur en ligne actuellement'; ?>
+            <?php if($stats['countuser'] == 0) echo $Lang->get('FORUM__ONLINE__ZERO'); ?>
         </div>
     </div>
     <?php endif; ?>

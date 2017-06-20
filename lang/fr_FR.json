@@ -96,8 +96,8 @@
   "FORUM__SOCIAL__GOOGLEPLUS":"Google +",
   "FORUM__SOCIAL__SNAPCHAT":"Snapchat",
   "FORUM__CREATE__BACKUP": "Créer une sauvegarde",
-  "FORUM__DELETEALL__BACKUP": "Supprimer toutes la sauvegardes",
-  "FORUM__DELETEALL__BACKUP": "Supprimer toutes la sauvegardes",
+  "FORUM__DELETEALL__BACKUP": "Supprimer toutes les sauvegardes",
+  "FORUM__ONLINE__ZERO": "Aucun utilisateur en ligne actuellement",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",

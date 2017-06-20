@@ -379,7 +379,7 @@ class ForumController extends ForumAppController {
                     $msgs[$key]['Topic']['date'] = $this->dateAndTime($msg['Topic']['date'], '%d %B %Y');
                     if($key == 0){
                         $parent['forum_parent']['name'] = ($this->Forum->info('parent_title', $msgs[0]['Topic']['id_parent'])) ? $this->Forum->info('parent_title', $msgs[0]['Topic']['id_parent'])['Forum']['forum_name'] : '';
-                        $parent['forum_parent']['href'] = (!empty($parent['forum_parent']['name'])) ? $parent['forum_parent']['name'].".".$this->Forum->info('parent_title', $msgs[0]['Topic']['id_parent'])['Forum']['id'] : '';
+                        $parent['forum_parent']['href'] = (!empty($parent['forum_parent']['name'])) ? $this->replaceSpace($parent['forum_parent']['name']).".".$this->Forum->info('parent_title', $msgs[0]['Topic']['id_parent'])['Forum']['id'] : '';
                     }
                     $msgs[$key]['Topic']['thumb']['green'] = $this->Note->getNbThumb('msg_green', $msg['Topic']['id']);
                     $msgs[$key]['Topic']['thumb']['red'] = $this->Note->getNbThumb('msg_red', $msg['Topic']['id']);

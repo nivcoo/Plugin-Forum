@@ -14,7 +14,7 @@
                     <h3 class="box-title"><?= $Lang->get('FORUM__BACKUPS') ?></h3>
                 </div>
                 <div class="box-body">
-                    <a class="btn btn-large btn-block btn-success" href="/admin/forum/forum/backup/new"><?= $Lang->get('FORUM__CREATE__BACKUP') ?></a>
+                    <a class="btn btn-large btn-block btn-success" href="<?= $this->Html->url('/admin/forum/forum/backup/new'); ?>"><?= $Lang->get('FORUM__CREATE__BACKUP') ?></a>
                 </div>
             </div>
             <div class="box">
@@ -46,7 +46,7 @@
             </div>
             <div class="box">
                 <div class="box-body">
-                    <a class="btn btn-large btn-block btn-danger" href="/admin/forum/forum/backup/deleteall"><?= $Lang->get('FORUM__DELETEALL__BACKUP') ?></a>
+                    <a class="btn btn-large btn-block btn-danger" href="<?= $this->Html->url('/admin/forum/forum/backup/deleteall'); ?>"><?= $Lang->get('FORUM__DELETEALL__BACKUP') ?></a>
                 </div>
             </div>
 

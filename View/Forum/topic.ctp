@@ -9,7 +9,7 @@
         </li>
         <?php if(!empty($parent['forum_parent']['name'])): ?>
             <li class="forum-breadcrumb-href">
-                <a href="/forum/<?= $parent['forum_parent']['href']; ?>/"><?= $parent['forum_parent']['name']; ?></a>
+                <a href="<?= $this->Html->url('/forum/'.$parent['forum_parent']['href'].'/'); ?>"><?= $parent['forum_parent']['name']; ?></a>
             </li>
         <?php endif; ?>
         <li class="forum-breadcrumb-child">
@@ -55,7 +55,7 @@
                             <div class="forum-topic-left">
                                 <div class="forum-forum-withoutmarge">
                                     <img class="center-block topic-avatar" src="<?= $this->Html->url(array('controller' => 'API', 'action' => 'get_head_skin', 'plugin' => false, $msg['Topic']['author'], '120', '42')); ?>" alt="Avatar <?= $msg['Topic']['author']; ?>" />
-                                    <p class="text-center"><strong><a style="color:#<?= $msg['Topic']['author_color']; ?>" href="/user/<?= $msg['Topic']['author']; ?>.<?= $msg['Topic']['id_user']; ?>/"><?= $msg['Topic']['author']; ?></a></strong></p>
+                                    <p class="text-center"><strong><a style="color:#<?= $msg['Topic']['author_color']; ?>" href="<?= $this->Html->url('/user/'.$msg['Topic']['author'].'.'.$msg['Topic']['id_user'].'/'); ?>"><?= $msg['Topic']['author']; ?></a></strong></p>
                                     <div class="forum-rank">
                                         <?php if(!empty($msg['Topic']['author_info']['rank'])): ?>
                                             <?php foreach($msg['Topic']['author_info']['rank'] as $key => $rank): ?>
@@ -96,7 +96,7 @@
                             </div>
                             <div class="topic-content-footer">
                                 <div class="topic-footer-info">
-                                    <a href="/user/<?= $msg['Topic']['author']; ?>.<?= $msg['Topic']['id_user']; ?>/"><?= $msg['Topic']['author']; ?></a>, <?= $msg['Topic']['date']; ?>
+                                    <a href="<?= $this->Html->url('/user/'.$msg['Topic']['author'].'.'.$msg['Topic']['id_user'].'/'); ?>"><?= $msg['Topic']['author']; ?></a>, <?= $msg['Topic']['date']; ?>
                                     <div class="topic-footer-rate">
                                         <?php if($_SESSION['user'] == $msg['Topic']['id_user'] && $perms['FORUM_MSGMY_EDIT'] || $perms['FORUM_MSG_EDIT']): ?>
                                             <a href="#" onclick="getMessage(<?= $msg['Topic']['id']; ?>)" data-toggle="modal" data-target="#ModalEdit" class="btn-theme"><?= $Lang->get('GLOBAL__EDIT'); ?></a>
@@ -128,13 +128,13 @@
     <?= $pagination['html']; ?>
     <?php if(isset($_SESSION['user'])): ?>
         <?php if(!$lock || $perms['FORUM_TOPIC_LOCK']): ?>
-            <form method="post" action="/<?= $this->request->url ?>">
+            <form method="post" action="<?= $this->Html->url('/'.$this->request->url); ?>">
                 <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
                 <div class="form-group mt20">
                     <script type="text/javascript">
                         tinymce.init({
                             external_plugins: {
-                                "emoticons": "/forum/js/plugins/emoticons/plugin.min.js"
+                                "emoticons": "<?= $this->Html->url('/forum/js/plugins/emoticons/plugin.min.js'); ?>"
                             },
                             selector: "textarea",
                             height : 200,
@@ -164,7 +164,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel"><?= $Lang->get('FORUM__EDIT__MYMSG'); ?></h4>
                 </div>
-                <form method="post" action="/<?= $this->request->url ?>">
+                <form method="post" action="<?= $this->Html->url('/'.$this->request->url); ?>">
                     <div class="modal-body">
                         <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
                         <input id="update_id" name="id" value="" type="hidden" />
@@ -172,7 +172,7 @@
                             <script type="text/javascript">
                                 tinymce.init({
                                     external_plugins: {
-                                        "emoticons": "/forum/js/plugins/emoticons/plugin.min.js"
+                                        "emoticons": "<?= $this->Html->url('/forum/js/plugins/emoticons/plugin.min.js'); ?>"
                                     },
                                     selector: "textarea",
                                     height : 300,
@@ -203,7 +203,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel"><?= $Lang->get('FORUM__REPORT__THISMSG'); ?></h4>
                 </div>
-                <form method="post" action="/<?= $this->request->url ?>">
+                <form method="post" action="<?= $this->Html->url('/'.$this->request->url); ?>">
                     <div class="modal-body">
                         <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
                         <input id="report_id" name="id" value="" type="hidden" />
@@ -212,7 +212,7 @@
                             <script type="text/javascript">
                                 tinymce.init({
                                     external_plugins: {
-                                        "emoticons": "/forum/js/plugins/emoticons/plugin.min.js"
+                                        "emoticons": "<?= $this->Html->url('/forum/js/plugins/emoticons/plugin.min.js'); ?>"
                                     },
                                     selector: "textarea",
                                     height : 200,
@@ -274,7 +274,7 @@
         }
         <?php endif; ?>
         function getMessage(id) {
-            var url = '/forum/action/topic/message/'.id;
+            var url = '<?= $this->Html->url("/"); ?>forum/action/topic/message/'.id;
             $.ajax({
                 type: 'post',
                 url: url,

@@ -27,7 +27,7 @@
 
     <div class="forum-forum">
         <div class="forum-forum-header">
-            <p class="forum-forum-title"> <?= $slug; ?></p>
+            <p class="forum-forum-title"><i class="fa fa-folder-open" aria-hidden="true"></i> <?= $parent['forum_parent']['name']; ?></p>
         </div>
         <?php foreach ($forums as $f => $forum): ?>
             <?php if($forum['Forum']['visible']): ?>
@@ -77,14 +77,14 @@
                                 <?php endif; ?>
                             </div>
                             <h3 class="forum-category-title"><a href="<?= $topic_stick['Topic']['href']; ?>"><?= h($topic_stick['Topic']['name']); ?></a></h3>
-                            <div class="forum-category-description"><a href="/user/<?= $topic_stick['Topic']['author']; ?>.<?= $topic_stick['Topic']['id_user']; ?>/"><?= $topic_stick['Topic']['author']; ?></a>, <?= $topic_stick['Topic']['date']; ?></div>
+                            <div class="forum-category-description"><a href="<?= $this->Html->url('/user/'.$topic_stick['Topic']['author'].'.'.$topic_stick['Topic']['id_user'].'/'); ?>"><?= $topic_stick['Topic']['author']; ?></a>, <?= $topic_stick['Topic']['date']; ?></div>
                         </div>
                         <div class="hidden-mob col-md-2 forum-category-last">
                             <div class="forum-category-description"><span><?= $Lang->get('FORUM__MSG'); ?> :</span> <?= $topic_stick['Topic']['nb_message']; ?></div>
                             <div class="forum-category-description"><span><?= $Lang->get('FORUM__VIEW'); ?><?php if($topic_stick['Topic']['total_view'] > 1) echo 's'; ?> :</span> <?= $topic_stick['Topic']['total_view']; ?></div>
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
-                            <a style="color:#<?= $topic_stick['Topic']['topic_last_author_color']; ?>" href="/user/<?= $topic_stick['Topic']['forum_last_author']; ?>.<?= $topic_stick['Topic']['forum_last_authorid']; ?>/"><?= $topic_stick['Topic']['forum_last_author']; ?></a>, <?= $topic_stick['Topic']['forum_last_date']; ?>
+                            <a style="color:#<?= $topic_stick['Topic']['topic_last_author_color']; ?>" href="<?= $this->Html->url('/user/'.$topic_stick['Topic']['forum_last_author'].'.'.$topic_stick['Topic']['forum_last_authorid'].'/'); ?>"><?= $topic_stick['Topic']['forum_last_author']; ?></a>, <?= $topic_stick['Topic']['forum_last_date']; ?>
                         </div>
                     </div>
                 </div>
@@ -114,14 +114,14 @@
                                 <?php endif; ?>
                                </div>
                                <h3 class="forum-category-title"><a href="<?= h($topic['Topic']['href']); ?>"><?= h($topic['Topic']['name']); ?></a></h3>
-                               <div class="forum-category-description"><a href="/user/<?= $topic['Topic']['author']; ?>.<?= $topic['Topic']['id_user']; ?>/"><?= $topic['Topic']['author']; ?></a>, <?= $topic['Topic']['date']; ?></div>
+                               <div class="forum-category-description"><a href="<?= $this->Html->url('/user/'.$topic['Topic']['author'].'.'.$topic['Topic']['id_user'].'/'); ?>"><?= $topic['Topic']['author']; ?></a>, <?= $topic['Topic']['date']; ?></div>
                            </div>
                            <div class="hidden-mob col-md-2 forum-category-last">
                                <div class="forum-category-description"><span><?= $Lang->get('FORUM__MSG'); ?> :</span> <?= $topic['Topic']['nb_message']; ?></div>
                                <div class="forum-category-description"><span><?= $Lang->get('FORUM__VIEW'); ?><?php if($topic['Topic']['total_view'] > 1) echo 's'; ?> :</span> <?= $topic['Topic']['total_view']; ?></div>
                            </div>
                            <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
-                               <a style="color:#<?= $topic['Topic']['topic_last_author_color']; ?>" href="/user/<?= $topic['Topic']['forum_last_author']; ?>.<?= $topic['Topic']['forum_last_authorid']; ?>/"><?= $topic['Topic']['forum_last_author']; ?></a>, <?= $topic['Topic']['forum_last_date']; ?>
+                               <a style="color:#<?= $topic['Topic']['topic_last_author_color']; ?>" href="<?= $this->Html->url('/user/'.$topic['Topic']['forum_last_author'].'.'.$topic['Topic']['forum_last_authorid'].'/'); ?>"><?= $topic['Topic']['forum_last_author']; ?></a>, <?= $topic['Topic']['forum_last_date']; ?>
                            </div>
                        </div>
                    </div>
@@ -140,7 +140,7 @@
                 <div class="col-md-10"></div>
                 <div class="col-md-2">
                     <div class="col-md-2">
-                        <a href="/topic/add/<?= $id; ?>" class="btn btn-theme mt30"><i class="fa fa-plus" aria-hidden="true"></i> <?= $Lang->get('FORUM__TOPIC__CREATE'); ?></a>
+                        <a href="<?= $this->Html->url('/topic/add/'.$id) ?>" class="btn btn-theme mt30"><i class="fa fa-plus" aria-hidden="true"></i> <?= $Lang->get('FORUM__TOPIC__CREATE'); ?></a>
                     </div>
                 </div>
             </div>

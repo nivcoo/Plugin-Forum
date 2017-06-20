@@ -53,6 +53,11 @@
       "url": "/admin/forum/forum/punishment"
     },
     {
+      "name": "Gérer les tags",
+      "icon": "tags",
+      "url": "/admin/forum/forum/tags"
+    },
+    {
       "name": "Message signalé",
       "icon": "times",
       "url": "/admin/forum/forum/report"

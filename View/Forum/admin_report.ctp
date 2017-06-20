@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <blockquote>
-                                <?= $Lang->get('FORUM__PHRASE__PAGE__REPORT_1'); ?><a href="/forum/report"><?= $Lang->get('FORUM__HERE'); ?></a>
+                                <?= $Lang->get('FORUM__PHRASE__PAGE__REPORT_1'); ?><a href="<?= $this->Html->url('/forum/report'); ?>"><?= $Lang->get('FORUM__HERE'); ?></a>
                             </blockquote>
                             <table class="table table-responsive dataTable">
                                 <thead>
