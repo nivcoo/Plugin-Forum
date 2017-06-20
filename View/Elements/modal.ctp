@@ -12,11 +12,11 @@
                         <?php if($perms['FORUM_TOPIC_LOCK']): ?>
                             <div class="col-md-4 text-center">
                                 <?php if($topic['Topic']['lock']): ?>
-                                    <a href="/forum/action/topic/unlock/<?= $topic['Topic']['id_topic']; ?>" class="btn btn-theme mt30">
+                                    <a href="<?= $this->Html->url('/forum/action/topic/unlock/'.$topic['Topic']['id_topic']); ?>" class="btn btn-theme mt30">
                                         <i class="fa fa-unlock" aria-hidden="true"></i> <?= $Lang->get('FORUM__UNLOCK'); ?>
                                     </a>
                                 <?php else: ?>
-                                    <a href="/forum/action/topic/lock/<?= $topic['Topic']['id_topic']; ?>" class="btn btn-theme mt30">
+                                    <a href="<?= $this->Html->url('/forum/action/topic/lock/'.$topic['Topic']['id_topic']); ?>" class="btn btn-theme mt30">
                                         <i class="fa fa-lock" aria-hidden="true"></i> <?= $Lang->get('FORUM__LOCK'); ?>
                                     </a>
                                 <?php endif; ?>
@@ -25,11 +25,11 @@
                         <?php if($perms['FORUM_TOPIC_STICK']): ?>
                             <div class="col-md-4 text-center">
                                 <?php if($topic['Topic']['stick']): ?>
-                                    <a href="/forum/action/topic/unstick/<?= $topic['Topic']['id_topic']; ?>" class="btn btn-theme mt30">
+                                    <a href="<?= $this->Html->url('/forum/action/topic/unstick/'.$topic['Topic']['id_topic']); ?>" class="btn btn-theme mt30">
                                         <i class="fa fa-paperclip" aria-hidden="true"></i> <?= $Lang->get('FORUM__UNSTICK'); ?>
                                     </a>
                                 <?php else: ?>
-                                    <a href="/forum/action/topic/stick/<?= $topic['Topic']['id_topic']; ?>" class="btn btn-theme mt30">
+                                    <a href="<?= $this->Html->url('/forum/action/topic/stick/'.$topic['Topic']['id_topic']); ?>" class="btn btn-theme mt30">
                                         <i class="fa fa-paperclip" aria-hidden="true"></i> <?= $Lang->get('FORUM__STICK'); ?>
                                     </a>
                                 <?php endif; ?>
@@ -37,7 +37,7 @@
                         <?php endif; ?>
                         <?php if($perms['FORUM_TOPIC_DELETE']): ?>
                             <div class="col-md-4 text-center">
-                                <a href="/forum/action/topic/delete/<?= $topic['Topic']['id_topic']; ?>" class="btn btn-theme mt30">
+                                <a href="<?= $this->Html->url('/forum/action/topic/delete/'.$topic['Topic']['id_topic']); ?>" class="btn btn-theme mt30">
                                     <i class="fa fa-times" aria-hidden="true"></i> <?= $Lang->get('GLOBAL__DELETE'); ?>
                                 </a>
                             </div>
@@ -45,7 +45,7 @@
                     </div>
                     <?php if($perms['FORUM_MSG_EDIT']): ?>
                         <div class="row mt20">
-                            <form action="/forum/action/topic/rename/<?= $topic['Topic']['id_topic']; ?>" method="post">
+                            <form action="<?= $this->Html->url('/forum/action/topic/rename/'.$topic['Topic']['id_topic']); ?>" method="post">
                                 <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
                                 <div class="col-md-10">
                                     <input type="text" value="<?= $topic['Topic']['name']; ?>" name="name" class="form-control" />
@@ -58,7 +58,7 @@
                     <?php endif; ?>
                     <?php if($perms['FORUM_MOOVE_TOPIC']): ?>
                         <div class="row mt20">
-                            <form action="/forum/action/topic/moove/<?= $topic['Topic']['id_topic']; ?>" method="post">
+                            <form action="<?= $this->Html->url('/forum/action/topic/moove/'.$topic['Topic']['id_topic']); ?>" method="post">
                                 <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
                                 <div class="col-md-10">
                                     <select name="forum" class="form-control">
@@ -81,7 +81,7 @@
                         <?php endif; ?>
                         <?php if(!empty($ranks)): ?>
                             <div class="row">
-                                <form action="/forum/action/topic/view/<?= $topic['Topic']['id_topic']; ?>" method="post">
+                                <form action="<?= $this->Html->url('/forum/action/topic/view/'.$topic['Topic']['id_topic']); ?>" method="post">
                                     <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
                                     <div class="col-md-10">
                                         <?php foreach($ranks as $key => $rank): ?>

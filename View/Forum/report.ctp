@@ -26,7 +26,7 @@
                                         <td><?= $msgreport['MsgReport']['reason']; ?></td>
                                         <td><?= $msgreport['MsgReport']['content']; ?></td>
                                         <td>
-                                            <a  href="/topic/<?= $msgreport['MsgReport']['href']; ?>/#<?= $msgreport['MsgReport']['id_msg']; ?>" class="btn btn-info"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                                            <a  href="<?= $this->Html->url('/topic/'.$msgreport['MsgReport']['href'].'/#'.$msgreport['MsgReport']['id_msg']); ?>" class="btn btn-info"><i class="fa fa-external-link" aria-hidden="true"></i></a>
                                             <form style="display: inline-block" action="" method="post">
                                                 <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
                                                 <input type="hidden" name="id" value="<?= $msgreport['MsgReport']['id']; ?>" />

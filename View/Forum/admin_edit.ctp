@@ -288,7 +288,7 @@
                                     <td><?= $m['MsgReport']['date']; ?></td>
                                     <td><?= $m['MsgReport']['reason']; ?></td>
                                     <td><?= $m['MsgReport']['content']; ?></td>
-                                    <td><a  href="/topic/<?= $m['MsgReport']['href']; ?>/#<?= $m['MsgReport']['id_msg']; ?>" class="btn btn-info"><i class="fa fa-external-link" aria-hidden="true"></i></a></td>
+                                    <td><a  href="<?= $this->Html->url('/topic/'.$m['MsgReport']['href'].'/#'.$m['MsgReport']['id_msg']); ?>" class="btn btn-info"><i class="fa fa-external-link" aria-hidden="true"></i></a></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>

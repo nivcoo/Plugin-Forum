@@ -20,7 +20,7 @@
                                 <div class="forum-topic-left">
                                     <div class="forum-forum-withoutmarge">
                                         <img class="center-block topic-avatar" src="<?= $this->Html->url(array('controller' => 'API', 'action' => 'get_head_skin', 'plugin' => false, $mp['Conversation']['author_user'], '120')); ?>" alt="Avatar <?= $mp['Conversation']['author_user']; ?>" />
-                                        <p class="text-center"><strong><a style="color:#<?= $mp['Conversation']['author_color']; ?>" href="/user/<?= $mp['Conversation']['author_user']; ?>.<?= $mp['Conversation']['author_id']; ?>/"><?= $mp['Conversation']['author_user']; ?></a></strong></p>
+                                        <p class="text-center"><strong><a style="color:#<?= $mp['Conversation']['author_color']; ?>" href="<?= $this->Html->url('/user/'.$mp['Conversation']['author_user'].'.'.$mp['Conversation']['author_id'].'/'); ?>"><?= $mp['Conversation']['author_user']; ?></a></strong></p>
                                         <div class="forum-rank">
                                             <?php if(!empty($mp['Conversation']['author_rank']['rank'])): ?>
                                                 <?php foreach($mp['Conversation']['author_rank']['rank'] as $key => $rank): ?>

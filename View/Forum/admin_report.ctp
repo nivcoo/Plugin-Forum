@@ -28,7 +28,7 @@
                                         <td><?= $msgreport['MsgReport']['reason']; ?></td>
                                         <td><?= $msgreport['MsgReport']['content']; ?></td>
                                         <td>
-                                            <a href="/topic/<?= $msgreport['MsgReport']['href']; ?>/#<?= $msgreport['MsgReport']['id_msg']; ?>" class="btn btn-info"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                                            <a href="<?= $this->Html->url('/topic/'.$msgreport['MsgReport']['href'].'/#'.$msgreport['MsgReport']['id_msg']); ?>" class="btn btn-info"><i class="fa fa-external-link" aria-hidden="true"></i></a>
                                             <a onClick="confirmDel('<?= $this->Html->url(array('controller' => 'forum', 'action' => 'delete/report/'.$msgreport['MsgReport']['id'], 'admin' => true)) ?>')" class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE') ?></a>
                                         </td>
                                     </tr>
