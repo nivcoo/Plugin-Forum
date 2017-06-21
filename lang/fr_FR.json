@@ -98,6 +98,8 @@
   "FORUM__CREATE__BACKUP": "Créer une sauvegarde",
   "FORUM__DELETEALL__BACKUP": "Supprimer toutes les sauvegardes",
   "FORUM__ONLINE__ZERO": "Aucun utilisateur en ligne actuellement",
+  "FORUM__LABEL": "Label",
+  "FORUM__ICON": "Icone",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",
@@ -123,6 +125,7 @@
   "FORUM__ADD__PUNISHMENT": "Vote sanction a été ajouté",
   "FORUM__ADD__USERUNKNOW": "Utilisateur inconnu",
   "FORUM__ADD__BACKUP": "La sauvegarde a bien été créée",
+  "FORUM__ADD__LABEL": "Le label a bien été créé",
 
   "FORUM__EDIT__FORUM": "Editer un forum",
   "FORUM__EDIT__USER": "Editer un utilisateur",

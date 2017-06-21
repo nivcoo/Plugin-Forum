@@ -9,7 +9,7 @@ class ForumAppController extends AppController {
 
     public $atualTheme;
 
-    protected $version = '1.1.7';
+    protected $version = '1.1.8';
 
     protected function date($date){
         return $this->format(CakeTime::format($date, '%d %B %Y'));
@@ -160,6 +160,18 @@ class ForumAppController extends AppController {
         }
 
         //1.1.8
+        $exist[3] = $db->query('SHOW TABLES LIKE "forum__tags"');
+        if(empty($exist[3])){
+            $db->query('
+                CREATE TABLE forum__tags(
+                  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+                  name VARCHAR(50) NOT NULL,
+                  icon VARCHAR(30),
+                  color VARCHAR(6) NOT NULL,
+                  position INT(3) NOT NULL
+                )
+           ');
+        }
 
         return true;
     }

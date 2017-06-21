@@ -619,6 +619,7 @@ class ForumController extends ForumAppController {
                     $this->loadModel('Forum.ForumPermission');
                     $this->loadModel('Forum.MsgReport');
                     $this->loadModel('Forum.Punishment');
+                    $this->loadModel('Forum.Tag');
                     if($type == 'forum'){
                         $this->logforum($this->getIdSession(), 'delete_forum', $this->gUBY($this->getIdSession()).' vient de supprimer un forum ', $id);
                         $this->Forum->admin_delete($id);
@@ -643,6 +644,9 @@ class ForumController extends ForumAppController {
                     }elseif ($type == 'topic'){
                         $this->logforum($this->getIdSession(), 'delete_topic', $this->gUBY($this->getIdSession()).' vient de supprimer un topic', $id);
                         $this->Topic->deleteMessages($id);
+                    }elseif ($type == 'tag'){
+                        $this->logforum($this->getIdSession(), 'delete_tag', $this->gUBY($this->getIdSession()).' vient de supprimer un tag', $id);
+                        $this->Tag->deleteTag($id);
                     }
                     $this->redirect('/admin/forum/forum/'.$type);
                 }else {
@@ -1056,6 +1060,37 @@ class ForumController extends ForumAppController {
         }
     }
 
+    public function admin_tag()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
+
+            $this->loadModel('Forum.Tag');
+
+            if ($this->request->is('ajax')) {
+
+                $this->autoRender = false;
+
+                $label = $this->request->data['label'];
+                $color = $this->request->data['color'];
+                $position = $this->request->data['position'];
+                $icon = (!empty($this->request->data['icon'])) ? $this->request->data['icon'] : '';
+
+                $this->Tag->add($label, $icon, $color, $position);
+
+                return $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__LABEL'))));
+
+            } else {
+                $this->layout = 'admin';
+
+                $tags = $this->Tag->get();
+                $this->set(compact('tags'));
+            }
+
+        } else {
+            $this->redirect('/');
+        }
+    }
+
     /*
      * Function calc, back end ...
      */
@@ -1250,49 +1285,50 @@ class ForumController extends ForumAppController {
         return $array;
     }
 
-    public function forumAction($type, $act, $params = false){
+    public function forumAction($type, $act, $params = false)
+    {
         $this->layout = false;
         $this->autoRender = false;
 
         $perm_l = $this->perm_l();
-        if($this->request->is('ajax')){
-            if($type == 'topic'){
+        if ($this->request->is('ajax')) {
+            if ($type == 'topic') {
                 $this->loadModel('Forum.Topic');
-                switch ($act){
+                switch ($act) {
                     case 'message':
                             return $this->Topic->getUniqMessage($params);
                         break;
                 }
             }
-        }elseif($this->request->is('post')){
-            if($type == 'topic'){
+        } elseif ($this->request->is('post')) {
+            if ($type == 'topic') {
                 $this->loadModel('Forum.Topic');
-                switch ($act){
+                switch ($act) {
                     case 'moove':
                         $to = $this->request->data['forum'];
-                        if($perm_l['FORUM_MOOVE_TOPIC']) $this->Topic->moove($params, $to);
+                        if ($perm_l['FORUM_MOOVE_TOPIC']) $this->Topic->moove($params, $to);
                         break;
                     case 'rename':
                         $newName = $this->urlRew(trim($this->request->data['name']));
-                        if($perm_l['FORUM_MSG_EDIT']) $this->Topic->rename($params, $newName);
+                        if ($perm_l['FORUM_MSG_EDIT']) $this->Topic->rename($params, $newName);
                         break;
                     case 'view':
                         $ranks = $this->ForumPermission->getRanks();
                         foreach ($ranks as $key => $r){
-                            if(isset($this->request->data[$key+1])){
+                            if (isset($this->request->data[$key+1])) {
                                 $visible[$r['Group']['id']] = $this->request->data[$key+1];
                             }
                         }
-                        if(!empty($visible))  $visible = serialize($visible);
+                        if (!empty($visible))  $visible = serialize($visible);
                         else $visible = '';
-                        if($perm_l['FORUM_MSG_EDIT']) $this->Topic->updateVisible($params, $visible);
+                        if ($perm_l['FORUM_MSG_EDIT']) $this->Topic->updateVisible($params, $visible);
                         break;
                 }
             }
-        }else{
-            if($type == 'topic'){
+        } else {
+            if($type == 'topic') {
                 $this->loadModel('Forum.Topic');
-                switch ($act){
+                switch ($act) {
                     case 'delete':
                         if($perm_l['FORUM_TOPIC_DELETE']) $this->Topic->deleteMessages($params);
                         break;
