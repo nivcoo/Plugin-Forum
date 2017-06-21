@@ -1095,15 +1095,18 @@ class ForumController extends ForumAppController {
      * Function calc, back end ...
      */
 
-    private function install(){
-        /*
+    private function install()
+    {
+        /**
          * Add Model WHERE for the default installation
-         */
+         **/
+
         $models = ['Config', 'Forum', 'Group', 'Groups_user', 'Historie', 'Insult', 'Note', 'ForumPermission', 'Topic'];
-        foreach ($models as $model){
+
+        foreach ($models as $model) {
             $this->loadModel('Forum.'.$model);
             $table = lcfirst($model);
-            if($model != 'ForumPermission'){
+            if ($model != 'ForumPermission') {
                 $this->$model->query('TRUNCATE TABLE forum__'.$table.'s');
             }
         }
@@ -1115,36 +1118,41 @@ class ForumController extends ForumAppController {
 
         $install = $this->installArray();
 
-        foreach ($models as $model){
-            if($model != 'ForumPermission'){
+        foreach ($models as $model) {
+            if ($model != 'ForumPermission') {
                 $table = lcfirst($model);
                 $this->$model->saveAll($install[$table]);
-            }else{
+            } else {
                 $this->$model->saveAll($install['forum_permission']);
             }
         }
         $this->ForumPermission = $this->Components->load('Forum.ForumPermission');
     }
 
-    private function word($string){
+    private function word($string)
+    {
         $this->loadModel('Forum.Insult');
         $words = $this->Insult->get();
-        foreach ($words as $word){
+        foreach ($words as $word) {
             $string = str_ireplace($word['Insult']['word'], $word['Insult']['replace'], $string);
         }
+
         return $string;
     }
 
-    private function dropHistory(){
+    private function dropHistory()
+    {
         $this->loadModel('Forum.Historie');
         $this->Historie->drop($this->Util->getIP(), $this->getIdSession());
     }
 
-    private function perm_l(){
+    private function perm_l()
+    {
         return $this->ForumPermission->perm_l();
     }
 
-    private function remoteAction($type, $value = false){
+    private function remoteAction($type, $value = false)
+    {
         $options = [
             "ssl" => [
                 "verify_peer" => false,
@@ -1152,39 +1160,44 @@ class ForumController extends ForumAppController {
             ]
         ];
 
-        if($type == 'ADMINMSG'){
+        if ($type == 'ADMINMSG') {
+
             $json = $this->core();
             $jsonLastVersion = file_get_contents('https://www.phpierre.fr/mineweb/forum/lastversion/'.$json, false, stream_context_create($options));
             $lastVersion = json_decode($jsonLastVersion, true)['version'];
-            if($this->version != $lastVersion){
+
+            if ($this->version != $lastVersion) {
                 $jsonMsgadmin = file_get_contents('https://www.phpierre.fr/mineweb/forum/msgadmin/e/', false, stream_context_create($options));
                 $msg = json_decode($jsonMsgadmin, true)['msg'];
                 $site = $_SERVER['SERVER_NAME'];
                 $msg = str_replace('[LIEN]', $site, $msg);
                 return $msg;
-            }else{
+            } else {
                 return '';
             }
-        }elseif($type == 'CHANGELOG'){
+
+        } elseif ($type == 'CHANGELOG') {
             return true;
-        }elseif($type == 'NEXTUPDATE'){
+        } elseif ($type == 'NEXTUPDATE') {
             $json = file_get_contents('https://www.phpierre.fr/mineweb/forum/nextupdate/e/', false, stream_context_create($options));
             $msg = json_decode($json, true);
             return $msg;
-        }else{
+        } else {
 
         }
     }
 
-    private function reset(){
+    private function reset()
+    {
         $models = ['Config', 'Conversation', 'ConversationRecipient', 'Forum', 'Group', 'Groups_user', 'Historie', 'Insult', 'MsgReport', 'Note', 'Profile', 'ForumPermission', 'Punishment', 'Topic', 'Vieww'];
-        foreach ($models as $model){
+        foreach ($models as $model) {
             $this->loadModel('Forum.'.$model);
             $table = lcfirst($model);
-            if($model != 'ForumPermission' OR $model != 'MsgReport' OR $model != 'ConversationRecipient'){
+            if ($model != 'ForumPermission' OR $model != 'MsgReport' OR $model != 'ConversationRecipient') {
                 $this->$model->query('TRUNCATE TABLE forum__'.$table.'s');
             }
         }
+
         $this->$model->query('TRUNCATE TABLE forum__msg_reports');
         $this->$model->query('TRUNCATE TABLE forum__forum_permissions');
         $this->$model->query('TRUNCATE TABLE forum__conversation_recipients');
@@ -1196,25 +1209,27 @@ class ForumController extends ForumAppController {
         $this->ForumPermission = $this->Components->load('Forum.ForumPermission');
     }
 
-    public function debug($hash){
+    public function debug($hash)
+    {
 
-        /*
+        /**
          * First key = BTB in another language in full
          * Second key = DNS first VM Vagrant
-         */
+         **/
 
-        if(hash('sha384', $hash) == '016259d8713c2dc12cd48ff0af6f3cfef13525c7526ebf2de2efbcba7675962ff28c139490a9378ff3e1d2d4222c613f'){
+        if (hash('sha384', $hash) == '016259d8713c2dc12cd48ff0af6f3cfef13525c7526ebf2de2efbcba7675962ff28c139490a9378ff3e1d2d4222c613f') {
             $this->autoRender = null;
             header('Content-Type: application/json');
             echo '{"forum_version":"'.$this->version.'"}';
-        }elseif (hash('sha384', $hash) == '0c3eb61273f5c320fb45a479e8b8b05fc3b841f435f1c69a497d320ac88e105fda5bbd0bf0089d65a94279eb481ed6b5'){
+        } elseif (hash('sha384', $hash) == '0c3eb61273f5c320fb45a479e8b8b05fc3b841f435f1c69a497d320ac88e105fda5bbd0bf0089d65a94279eb481ed6b5') {
             var_dump($this->perm_l());
-        }else{
+        } else {
             throw new ForbiddenException();
         }
     }
 
-    private function installArray(){
+    private function installArray()
+    {
         $date = date("Y-m-d H:i:s");
         $array = [
             'config' => [
@@ -1282,6 +1297,7 @@ class ForumController extends ForumAppController {
                 ['id_parent' => 4, 'id_user' => 1, 'id_topic' => 1, 'name' => 'Votre premier Topic !', 'first' => 1, 'content' => 'Ceci est votre premier message. C\'est pour vous montrez un petit parçu du plugin.', 'date' => $date, 'last_edit' => $date],
             ],
         ];
+
         return $array;
     }
 
@@ -1291,9 +1307,11 @@ class ForumController extends ForumAppController {
         $this->autoRender = false;
 
         $perm_l = $this->perm_l();
+
         if ($this->request->is('ajax')) {
             if ($type == 'topic') {
                 $this->loadModel('Forum.Topic');
+
                 switch ($act) {
                     case 'message':
                             return $this->Topic->getUniqMessage($params);
@@ -1303,6 +1321,7 @@ class ForumController extends ForumAppController {
         } elseif ($this->request->is('post')) {
             if ($type == 'topic') {
                 $this->loadModel('Forum.Topic');
+
                 switch ($act) {
                     case 'moove':
                         $to = $this->request->data['forum'];
@@ -1328,6 +1347,7 @@ class ForumController extends ForumAppController {
         } else {
             if($type == 'topic') {
                 $this->loadModel('Forum.Topic');
+
                 switch ($act) {
                     case 'delete':
                         if($perm_l['FORUM_TOPIC_DELETE']) $this->Topic->deleteMessages($params);
