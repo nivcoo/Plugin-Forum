@@ -972,14 +972,18 @@ class ForumController extends ForumAppController {
         }
     }
 
-    public function admin_report(){
-        if($this->isConnected AND $this->User->isAdmin()) {
+    public function admin_report()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
             $this->loadModel('Forum.MsgReport');
             $this->loadModel('Forum.MsgReport');
             $this->loadModel('Forum.Topic');
+
             $this->layout = 'admin';
+
             $msgreports = $this->MsgReport->get();
-            foreach ($msgreports as $key => $msgreport){
+
+            foreach ($msgreports as $key => $msgreport) {
                 $msgreports[$key]['MsgReport']['user'] = $this->gUBY($msgreport['MsgReport']['id_user']);
                 $msgreports[$key]['MsgReport']['date'] = $this->dateAndTime($msgreport['MsgReport']['date']);
                 $idTopic = $this->Topic->getUniqMessage($msgreport['MsgReport']['id_msg'])['id_topic'];
@@ -992,12 +996,14 @@ class ForumController extends ForumAppController {
         }
     }
 
-    public function admin_topic(){
-        if($this->isConnected AND $this->User->isAdmin()){
+    public function admin_topic()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
             $this->loadModel('Forum.Topic');
             $this->layout = 'admin';
             $topics = $this->Topic->getTopic(0, 'topic');
-            foreach ($topics as $key => $topic){
+
+            foreach ($topics as $key => $topic) {
                 $topics[$key]['Topic']['author'] = $this->gUBY($topic['Topic']['id_user']);
                 $topics[$key]['Topic']['date'] = $this->dateAndTime($topic['Topic']['date']);
                 $topics[$key]['Topic']['href'] = $this->replaceSpace($topic['Topic']['name']).'.'.$topic['Topic']['id'];
@@ -1009,12 +1015,15 @@ class ForumController extends ForumAppController {
         }
     }
 
-    public function admin_backup(){
-        if($this->isConnected AND $this->User->isAdmin()){
+    public function admin_backup()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
             $stateExec = false;
-            if($this->isExec()){
-                if(isset($this->request->{'params'}['pass'][0])){
-                    switch ($this->request->{'params'}['pass'][0]){
+
+            if ($this->isExec()) {
+                if (isset($this->request->{'params'}['pass'][0])) {
+
+                    switch ($this->request->{'params'}['pass'][0]) {
                         case 'new':
                             $this->backup('start');
                             break;
@@ -1028,8 +1037,10 @@ class ForumController extends ForumAppController {
                             $this->backup('set', $this->request->{'params'}['pass'][1]);
                             break;
                     }
+
                     $this->redirect('/admin/forum/forum/backup');
                 }
+
                 $stateExec = true;
             }else{
                 // Use Mysqldump vendor
@@ -1038,10 +1049,11 @@ class ForumController extends ForumAppController {
 
             $dir = '../Plugin/Forum/Core/database';
             $lists = '';
+
             if ($dh = opendir($dir)) {
                 $i = 0;
                 while (($file = readdir($dh)) !== false) {
-                    if($file != '.' && $file != '..'){
+                    if ($file != '.' && $file != '..') {
                         $lists[$i]['name'] = $file;
                         $file = str_replace('backup_forum_', '', $file);
                         $file = str_replace('__', '-', $file);
@@ -1367,6 +1379,7 @@ class ForumController extends ForumAppController {
                 }
             }
         }
+
         return $this->redirect($this->referer());
     }
 }
