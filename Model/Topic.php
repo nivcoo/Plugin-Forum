@@ -230,4 +230,14 @@ class Topic extends ForumAppModel {
     public function updateVisible($id, $visible){
         return $this->updateAll(['visible' => "'".$visible."'"], ['id_topic' => $id, 'first' => 1]);
     }
+
+    public function getTag($id)
+    {
+        return $this->find('first', ['id_topic' => $id, 'first' => 1])['Topic']['tags'];
+    }
+
+    public function updateTag($id, $newTag)
+    {
+        return $this->updateAll(['tags' => "'".$newTag."'"], ['id_topic' => $id, 'first' => 1]);
+    }
 }

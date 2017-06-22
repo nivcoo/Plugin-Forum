@@ -85,7 +85,7 @@
                                     <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
                                     <div class="col-md-10">
                                         <?php foreach($ranks as $key => $rank): ?>
-                                            <div style="background-color: #<?= $rank['Group']['color']; ?>" class="forum-badgerank"><input <?php if(isset($topic['Topic']['individualPermission'][$rank['Group']['id']]) && $topic['Topic']['individualPermission'][$rank['Group']['id']] == 'on') echo 'checked'; ?> type="checkbox" name="<?= $rank['Group']['id']; ?>" /> <?= $rank['Group']['group_name']; ?></div>
+                                            <div style="background-color: #<?= $rank['Group']['color']; ?>" class="forum-badgerank"><input <?php if(isset($topic['Topic']['individualPermission'][$rank['Group']['id']]) && $topic['Topic']['individualPermission'][$rank['Group']['id']] == 'on') echo 'checked'; ?> type="checkbox" class="middle" name="<?= $rank['Group']['id']; ?>" /> <?= $rank['Group']['group_name']; ?></div>
                                         <?php endforeach; ?>
                                     </div>
                                     <div class="col-md-2">
@@ -94,6 +94,37 @@
                                 </form>
                             </div>
                         <?php endif; ?>
+
+                        <hr />
+                        <h4 class="inline"><?= $Lang->get('FORUM__LABEL'); ?> :</h4>
+                        <?php if(!empty($tags)): ?>
+                            <div class="row">
+                                <form action="<?= $this->Html->url('/forum/action/topic/tag/'.$topic['Topic']['id_topic']); ?>" method="post">
+                                    <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
+                                    <div class="col-md-10">
+                                        <?php foreach($tags as $key => $tag): ?>
+                                            <span style="background-color: #<?= $tag['Tag']['color']; ?>" class="labeltag"><input
+                                                    <?php if(isset($topic['Topic']['tags'])){
+                                                        $explode = explode(',', $topic['Topic']['tags']);
+                                                        foreach ($explode as $key => $e){
+                                                            if($e == $tag['Tag']['id']) echo 'checked';
+                                                        }
+                                                    }  ?>
+                                                        type="checkbox" class="middle" value="<?= $tag['Tag']['id']; ?>" name="tag-<?= $tag['Tag']['id']; ?>" />
+                                                <?php if(!empty($tag['Tag']['icon'])): ?>
+                                                    <i class="fa fa-<?= $tag['Tag']['icon']; ?>" aria-hidden="true"></i>
+                                                <?php endif; ?>
+                                                <?= $tag['Tag']['name']; ?>
+                                            </span>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="submit" class="btn btn-primary" value="<?= $Lang->get('GLOBAL__EDIT'); ?>" />
+                                    </div>
+                                </form>
+                            </div>
+                        <?php endif; ?>
+
                     <?php endif; ?>
                 </div>
             </div>

@@ -76,7 +76,24 @@
                                     </a>
                                 <?php endif; ?>
                             </div>
-                            <h3 class="forum-category-title"><a href="<?= $topic_stick['Topic']['href']; ?>"><?= h($topic_stick['Topic']['name']); ?></a></h3>
+
+                            <?php foreach($tags as $key => $tag): ?>
+                                <?php if(isset($topic_stick['Topic']['tags'])):
+                                    $explode = explode(',', $topic_stick['Topic']['tags']);
+                                    foreach ($explode as $key => $e):
+                                        if($e == $tag['Tag']['id']): ?>
+                                            <span style="background-color: #<?= $tag['Tag']['color']; ?>" class="labeltag">
+                                                       <?php if(!empty($tag['Tag']['icon'])): ?>
+                                                           <i class="fa fa-<?= $tag['Tag']['icon']; ?>" aria-hidden="true"></i>
+                                                       <?php endif; ?>
+                                                <?= $tag['Tag']['name']; ?>
+                                                   </span>
+                                        <?php endif;
+                                    endforeach;
+                                endif;
+                            endforeach; ?>
+
+                            <h3 class="forum-category-title inline"><a href="<?= $topic_stick['Topic']['href']; ?>"><?= h($topic_stick['Topic']['name']); ?></a></h3>
                             <div class="forum-category-description"><a href="<?= $this->Html->url('/user/'.$topic_stick['Topic']['author'].'.'.$topic_stick['Topic']['id_user'].'/'); ?>"><?= $topic_stick['Topic']['author']; ?></a>, <?= $topic_stick['Topic']['date']; ?></div>
                         </div>
                         <div class="hidden-mob col-md-2 forum-category-last">
@@ -113,7 +130,26 @@
                                    </a>
                                 <?php endif; ?>
                                </div>
-                               <h3 class="forum-category-title"><a href="<?= h($topic['Topic']['href']); ?>"><?= h($topic['Topic']['name']); ?></a></h3>
+
+                               <?php foreach($tags as $key => $tag): ?>
+                                   <?php if(isset($topic['Topic']['tags'])):
+                                       $explode = explode(',', $topic['Topic']['tags']);
+                                       foreach ($explode as $key => $e):
+                                           if($e == $tag['Tag']['id']): ?>
+                                               <span style="background-color: #<?= $tag['Tag']['color']; ?>" class="labeltag">
+                                                       <?php if(!empty($tag['Tag']['icon'])): ?>
+                                                           <i class="fa fa-<?= $tag['Tag']['icon']; ?>" aria-hidden="true"></i>
+                                                       <?php endif; ?>
+                                                   <?= $tag['Tag']['name']; ?>
+                                                   </span>
+                                           <?php endif;
+                                       endforeach;
+                                   endif;
+                               endforeach; ?>
+
+                               <h3 class="forum-category-title inline">
+                                   <a href="<?= h($topic['Topic']['href']); ?>"><?= h($topic['Topic']['name']); ?></a>
+                               </h3>
                                <div class="forum-category-description"><a href="<?= $this->Html->url('/user/'.$topic['Topic']['author'].'.'.$topic['Topic']['id_user'].'/'); ?>"><?= $topic['Topic']['author']; ?></a>, <?= $topic['Topic']['date']; ?></div>
                            </div>
                            <div class="hidden-mob col-md-2 forum-category-last">

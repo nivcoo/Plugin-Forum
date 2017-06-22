@@ -93,6 +93,7 @@ class ForumController extends ForumAppController {
         $this->loadModel('Forum.forums');
         $this->loadModel('Forum.Topic');
         $this->loadModel('Forum.Vieww');
+        $this->loadModel('Forum.Tag');
 
         if(!$this->Config->is('forum')){
             throw new NotFoundException();
@@ -131,6 +132,7 @@ class ForumController extends ForumAppController {
                     $topics_stick[$key]['Topic']['forum_last_title'] = $this->Topic->getLastedTopic('id', $topics_stick[$key]['Topic']['id_topic'])['name'];
                     $topics_stick[$key]['Topic']['forum_last_date'] =  $this->date($this->Topic->getLastedTopic('id', $topic_stick['Topic']['id_topic'])['date']);
                     $topics_stick[$key]['Topic']['author'] = $this->gUBY($topic_stick['Topic']['id_user']);
+                    //
                     $topics_stick[$key]['Topic']['date'] = $this->date($topic_stick['Topic']['date'], '%d %B %Y');
                     $topics_stick[$key]['Topic']['nb_message'] = $this->Topic->getNbMessage('topic', $topic_stick['Topic']['id_topic']);
                     $topics_stick[$key]['Topic']['topic_last_author_color'] = $this->ForumPermission->getRankColorDomin($topics_stick[$key]['Topic']['forum_last_authorid']);
@@ -138,6 +140,7 @@ class ForumController extends ForumAppController {
                     $topics_stick[$key]['Topic']['href'] = $this->buildUri('topic', $topic_stick['Topic']['name'], $topic_stick['Topic']['id_topic']);
                     $topics_stick[$key]['Topic']['individualPermission'] = unserialize($topic_stick['Topic']['visible']);
                     $topics_stick[$key]['Topic']['visible'] = $this->ForumPermission->visible('topic', $topic_stick['Topic']['id_topic']);
+                    $topics_stick[$key]['Topic']['tags'] = $this->Topic->getTag($topic_stick['Topic']['id_topic']);
                 }
             }
             $paginationDb = $this->Topic->pagination('forum', $id);
@@ -151,6 +154,7 @@ class ForumController extends ForumAppController {
                     $topics[$key]['Topic']['forum_last_title'] = $this->Topic->getLastedTopic('id', $topics[$key]['Topic']['id_topic'])['name'];
                     $topics[$key]['Topic']['forum_last_date'] =  $this->date($this->Topic->getLastedTopic('id', $topic['Topic']['id_topic'])['date']);
                     $topics[$key]['Topic']['author'] = $this->gUBY($this->Topic->info('topic_author', $topic['Topic']['id_topic']));
+                    //
                     $topics[$key]['Topic']['date'] = $this->date($topic['Topic']['date'], '%d %B %Y');
                     $topics[$key]['Topic']['nb_message'] = $this->Topic->getNbMessage('topic', $topic['Topic']['id_topic']);
                     $topics[$key]['Topic']['topic_last_author_color'] = $this->ForumPermission->getRankColorDomin($topics[$key]['Topic']['forum_last_authorid']);
@@ -158,6 +162,7 @@ class ForumController extends ForumAppController {
                     $topics[$key]['Topic']['href'] = $this->buildUri('topic', $topics[$key]['Topic']['name'], $topic['Topic']['id_topic']);
                     $topics[$key]['Topic']['individualPermission'] = unserialize($topic['Topic']['visible']);
                     $topics[$key]['Topic']['visible'] = $this->ForumPermission->visible('topic', $topic['Topic']['id_topic']);
+                    $topics[$key]['Topic']['tags'] = $this->Topic->getTag($topic['Topic']['id_topic']);
                 }
             }
             $parent['forum_parent']['name'] = $this->replaceHyppen($slug);
@@ -166,9 +171,10 @@ class ForumController extends ForumAppController {
             $listForum = $this->Forum->getForum('withoutforum');
             $isLock = $this->Forum->isLock($id);
             $ranks = $this->ForumPermission->getRanks();
+            $tags = $this->Tag->get();
 
             $this->set('title_for_layout', $this->replaceHyppen($slug).' | '.$this->Lang->get('FORUM__TITLE'));
-            $this->set(compact('forums', 'slug', 'topics', 'topics_stick', 'parent', 'id', 'theme', 'pagination', 'perms', 'isLock', 'listForum', 'ranks'));
+            $this->set(compact('forums', 'slug', 'topics', 'topics_stick', 'parent', 'id', 'theme', 'pagination', 'perms', 'isLock', 'listForum', 'ranks', 'tags'));
         }else{
             throw new ForbiddenException();
         }
@@ -1333,6 +1339,7 @@ class ForumController extends ForumAppController {
         } elseif ($this->request->is('post')) {
             if ($type == 'topic') {
                 $this->loadModel('Forum.Topic');
+                $this->loadModel('Forum.Tag');
 
                 switch ($act) {
                     case 'moove':
@@ -1353,6 +1360,16 @@ class ForumController extends ForumAppController {
                         if (!empty($visible))  $visible = serialize($visible);
                         else $visible = '';
                         if ($perm_l['FORUM_MSG_EDIT']) $this->Topic->updateVisible($params, $visible);
+                        break;
+                    case 'tag':
+                        $tags = $this->Tag->get();
+                        $newTag = '';
+                        foreach ($tags as $key => $tag){
+                            if (isset($this->request->data['tag-'.($key+1)])) {
+                                $newTag .= $this->request->data['tag-'.($key+1)].',';;
+                            }
+                        }
+                        if ($perm_l['FORUM_MSG_EDIT']) $this->Topic->updateTag($params, $newTag);
                         break;
                 }
             }

@@ -418,3 +418,15 @@ ol > .forum-left.last{
 .media-behance, .media-behance:hover{
     color: #1769ff;
 }
+
+.labeltag{
+    color: #ffffff;
+    font-weight: 600;
+    padding:1px 5px;
+    margin-right: 10px;
+}
+
+.middle{
+    margin: 0 !important;
+    vertical-align: middle;
+}

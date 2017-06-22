@@ -169,7 +169,14 @@ class ForumAppController extends AppController {
                   icon VARCHAR(30),
                   color VARCHAR(6) NOT NULL,
                   position INT(3) NOT NULL
-                )
+                );
+           ');
+        }
+
+        $exist[4] = $db->query('SHOW COLUMNS FROM forum__topics LIKE "tags"');
+        if(empty($exist[4])){
+            $db->query('
+                ALTER TABLE forum__topics ADD tags VARCHAR(20);
            ');
         }
 

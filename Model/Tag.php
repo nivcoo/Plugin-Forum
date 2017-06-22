@@ -1,7 +1,7 @@
 <?php
 class Tag extends ForumAppModel
 {
-    public function get()
+    public function get($id = false)
     {
         return $this->find('all');
     }
