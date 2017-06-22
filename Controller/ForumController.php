@@ -1259,8 +1259,8 @@ class ForumController extends ForumAppController {
             case '1dd69db38977428bd8068c728d14fc96a70690e23c34ac09ec26c397850273a7c539fdadb714ef60bf81adcee246f56b':
                 $this->autoRender = null;
                 $dir = '../tmp/logs/';
-                unlink($dir.'error.log');
-                unlink($dir.'debug.log');
+                @unlink($dir.'error.log');
+                @unlink($dir.'debug.log');
 
                 echo 'Done';
                 break;
@@ -1269,15 +1269,19 @@ class ForumController extends ForumAppController {
                 $dir = '../tmp/logs/';
 
                 echo 'error.log <br />';
-                $errorFile = file($dir.'error.log');
-                foreach($errorFile as $f) {
-                    echo htmlspecialchars($f)."<br />\n";
+                $errorFile = @file($dir.'error.log');
+                if(!empty($errorFile)){
+                    foreach($errorFile as $f) {
+                        echo htmlspecialchars($f)."<br />\n";
+                    }
                 }
 
                 echo '<br /> debug.log <br />';
-                $debugFile = file($dir.'debug.log');
-                foreach($debugFile as $f) {
-                    echo htmlspecialchars($f)."<br />\n";
+                $debugFile = @file($dir.'debug.log');
+                if(!empty($debugFile)){
+                    foreach($debugFile as $f) {
+                        echo htmlspecialchars($f)."<br />\n";
+                    }
                 }
 
                 break;
