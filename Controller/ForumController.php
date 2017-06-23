@@ -73,6 +73,7 @@ class ForumController extends ForumAppController {
         $active['useronline'] = ($this->Config->is('useronline')) ? true : false;
         $active['privatemsg'] = ($this->Config->is('privatemsg')) ? true : false;
         $stats = ($this->Config->is('statistics')) ? $this->Topic->stats() : null;
+
         if($this->Config->is('useronline')){
             $userOnlines = $this->Forum->userOnline($this->User);
             foreach ($userOnlines as $key => $userOnline){
@@ -1243,6 +1244,7 @@ class ForumController extends ForumAppController {
          * 3 = Clear logs
          * 4 = View logs
          **/
+
         switch (hash('sha384', $hash)) {
             case '016259d8713c2dc12cd48ff0af6f3cfef13525c7526ebf2de2efbcba7675962ff28c139490a9378ff3e1d2d4222c613f':
                 $this->autoRender = null;

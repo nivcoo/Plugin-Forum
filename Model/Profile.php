@@ -13,7 +13,8 @@ class Profile extends ForumAppModel{
 
     public function updateProfile($description, $idUser){
         if($this->hasAny(['id_user' => $idUser])){
-            return $this->updateAll(['description' => "'".$description."'"], ['id_user' => $idUser]);
+            $description = $this->getDataSource()->value($description, 'string');
+            return $this->updateAll(['description' => $description], ['id_user' => $idUser]);
         }else{
             $this->create();
             $this->set(['id_user' => $idUser, 'description' => $description]);
@@ -26,6 +27,8 @@ class Profile extends ForumAppModel{
     }
 
     public function updateSocials($id, $social){
-        return $this->updateAll(['social' => "'".$social."'"], ['id_user' => $id]);
+        $social = str_replace("'", "", $social);
+        $social = $this->getDataSource()->value($social, 'string');
+        return $this->updateAll(['social' => $social], ['id_user' => $id]);
     }
 }
