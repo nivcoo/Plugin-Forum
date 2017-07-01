@@ -111,7 +111,7 @@
   "FORUM__USERS": "Gestion des utilisateurs",
   "FORUM__MSGREPORT": "Messages signalés",
   "FORUM__PUNISHMENT": "Gestion des punitions",
-  "FORUM__BANNED": "Vous êtes bannis",
+  "FORUM__BANNED": "Vous avez été banni(e)",
   "FORUM__BACKUPS": "Gestionnaire des sauvegardes",
 
   "FORUM__ADD__FORUM": "Ajouter un forum",

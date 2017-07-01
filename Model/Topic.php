@@ -233,11 +233,12 @@ class Topic extends ForumAppModel {
 
     public function getTag($id)
     {
-        return $this->find('first', ['id_topic' => $id, 'first' => 1])['Topic']['tags'];
+        return $this->find('first', ['conditions' => ['id_topic' => $id, 'first' => 1]])['Topic']['tags'];
     }
 
     public function updateTag($id, $newTag)
     {
-        return $this->updateAll(['tags' => "'".$newTag."'"], ['id_topic' => $id, 'first' => 1]);
+        $newTag = $this->getDataSource()->value($newTag, 'string');
+        return $this->updateAll(['tags' => $newTag], ['id_topic' => $id, 'first' => 1]);
     }
 }
