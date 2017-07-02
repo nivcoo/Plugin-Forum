@@ -1,3 +1,4 @@
+<?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
 <section class="content">
     <div class="row">
         <div class="col-md-12">
@@ -74,8 +75,22 @@
                                     image();
                                 });
                             </script>
+
                             <div id="zone">
                             </div>
+
+                            <div class="form-group">
+                                <label> <?= $Lang->get('FORUM__SEEBY') ?></label>
+                                <?php if(!empty($ranks)): ?>
+                                    <?php foreach($ranks as $key => $rank): ?>
+                                        <div style="background-color: #<?= $rank['Group']['color']; ?>" class="forum-badgerank"><input <?php if(isset($individual[$rank['Group']['id']]) && $individual[$rank['Group']['id']] == 'on') echo 'checked'; ?> type="checkbox" class="middle" name="<?= $rank['Group']['id']; ?>" /> <?= $rank['Group']['group_name']; ?></div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                                <div>
+                                    <?= $Lang->get('FORUM__ADMIN__TIPS_1'); ?>
+                                </div>
+                            </div>
+
                             <div class="pull-right">
                                 <a href="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'index', 'admin' => true)) ?>" class="btn btn-default"><?= $Lang->get('GLOBAL__CANCEL') ?></a>
                                 <button class="btn btn-primary" type="submit"><?= $Lang->get('GLOBAL__SUBMIT') ?></button>
@@ -166,6 +181,18 @@
                             </div>
 
                             <div class="form-group">
+                                <label> <?= $Lang->get('FORUM__SEEBY') ?></label>
+                                <?php if(!empty($ranks)): ?>
+                                    <?php foreach($ranks as $key => $rank): ?>
+                                        <div style="background-color: #<?= $rank['Group']['color']; ?>" class="forum-badgerank"><input <?php if(isset($individual[$rank['Group']['id']]) && $individual[$rank['Group']['id']] == 'on') echo 'checked'; ?> type="checkbox" class="middle" name="<?= $rank['Group']['id']; ?>" /> <?= $rank['Group']['group_name']; ?></div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                                <div>
+                                    <?= $Lang->get('FORUM__ADMIN__TIPS_1'); ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <input name="lock" id="lock" type="checkbox" <?= ($datas['Forum']['lock']) ? 'checked' : ''; ?>  />
                                 <label for="lock"> <?= $Lang->get('FORUM__LOCK__CATEGORY') ?></label>
                             </div>
@@ -173,6 +200,7 @@
                                 <input name="automatic_lock" id="automatic_lock" type="checkbox" <?= ($datas['Forum']['automatic_lock']) ? 'checked' : ''; ?>  />
                                 <label for="automatic_lock"> <?= $Lang->get('FORUM__AUTOLOCK__CATEGORY') ?></label>
                             </div>
+
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary"><?= $Lang->get('GLOBAL__SUBMIT'); ?></button>
                             </div>

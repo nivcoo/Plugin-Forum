@@ -734,17 +734,25 @@ class ForumController extends ForumAppController {
             }else{
                 if($type != false && $id != false){
                     $this->layout = 'admin';
-                    if($type == 'forum'){
+                    if ($type == 'forum') {
+
                         $datas = $this->Forum->info('forum', $id)[0]['Forum'];
                         $forums = $this->Forum->getForum('forum');
-                        $this->set(compact('datas', 'forums', 'type'));
-                    }elseif($type == 'category'){
+                        $ranks = $this->ForumPermission->getRanks();
+                        $individual = unserialize($datas['visible']);
+
+                        $this->set(compact('datas', 'forums', 'type', 'ranks', 'individual'));
+                    } elseif($type == 'category') {
+
                         $datas = $this->Forum->getForum('id', $id);
                         $datas['Forum']['actualparent'] = $this->Forum->info('parent_title', $datas['Forum']['id_parent'])['Forum']['forum_name'];
                         $forums = $this->Forum->getForum();
                         $categorys = $this->Forum->getForum('withoutforum');
-                        $this->set(compact('datas', 'forums', 'type', 'categorys'));
-                    }elseif($type == 'user'){
+                        $ranks = $this->ForumPermission->getRanks();
+                        $individual = unserialize($datas['Forum']['visible']);
+
+                        $this->set(compact('datas', 'forums', 'type', 'categorys', 'ranks', 'individual'));
+                    } elseif ($type == 'user') {
                         $datas['user']['id'] = $id;
                         $datas['user']['username'] = $this->gUBY($id);
                         $datas['user']['lastseen'] = $this->dateAndTime($this->lastSeen($id));
