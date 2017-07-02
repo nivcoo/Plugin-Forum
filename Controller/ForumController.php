@@ -1,6 +1,7 @@
 <?php
 App::uses('ClassRegistry', 'Utility');
-class ForumController extends ForumAppController {
+class ForumController extends ForumAppController
+{
 
     public $components = [
         'Security' => [
@@ -9,7 +10,8 @@ class ForumController extends ForumAppController {
         'Forum.ForumPermission'
     ];
 
-   public function beforeFilter(){
+   public function beforeFilter()
+   {
        parent::beforeFilter();
        $this->loadModel('User');
        $this->loadModel('Forum.Punishment');
@@ -17,10 +19,11 @@ class ForumController extends ForumAppController {
 
        $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
        $this->Security->csrfExpires = '+1 hour';
-       if(!in_array($this->request->params['action'], ['banned', 'admin_punishment', 'admin_delete']) && $this->Punishment->get($this->getIdSession())){
-           $this->redirect('/forum/banned');
+
+       if (!in_array($this->request->params['action'], ['banned', 'admin_punishment', 'admin_delete']) && $this->Punishment->get($this->getIdSession())) {
+           $this->redirect($this->Html->url('/forum/banned'));
        }
-       if(!$this->Config->notempty()){
+       if(!$this->Config->notempty()) {
            $this->install();
        }
 
@@ -29,7 +32,8 @@ class ForumController extends ForumAppController {
        if($this->theme == 'Justice') $this->layout = 'forum';
    }
 
-    public function index() {
+    public function index()
+    {
         $this->set('title_for_layout', $this->Lang->get('FORUM__TITLE'));
         $this->loadModel('Forum.forums');
         $this->loadModel('Forum.Topic');
@@ -47,14 +51,16 @@ class ForumController extends ForumAppController {
             ClassRegistry::init('navbars')->deleteAll(['order' => 99]);
         }*/
 
-        if(!$this->Config->is('forum')){
+        if (!$this->Config->is('forum')) {
             throw new NotFoundException();
         }
+
         $perms = $this->perm_l();
         $forums = $this->Forum->getForum();
+
         foreach ($forums as $key => $forum) {
             $forums[$key]['Forum']['href'] = $this->buildUri('forum', $forum['Forum']['forum_name'], $forum['Forum']['id']);
-            if(isset($this->Topic->determine($forum['Forum']['id'])['Topic']['id_parent'])){
+            if(isset($this->Topic->determine($forum['Forum']['id'])['Topic']['id_parent'])) {
                 $forums[$key]['Forum']['nb_discussion'] = $this->Topic->info('nb_topic', $forum['Forum']['id']);
                 $forums[$key]['Forum']['nb_message'] = $this->Topic->info('nb_msg', $forum['Forum']['id']);
                 $forums[$key]['Forum']['topic_last_id'] = $this->Topic->info('topic_last_id', $forum['Forum']['id']);
@@ -65,7 +71,7 @@ class ForumController extends ForumAppController {
                 $forums[$key]['Forum']['topic_last_author_color'] = $this->ForumPermission->getRankColorDomin($forums[$key]['Forum']['topic_last_authorid']);
                 $forums[$key]['Forum']['topic_last_author'] = $this->gUBY($forums[$key]['Forum']['topic_last_authorid']);
                 $forums[$key]['Forum']['topic_last_href'] = $this->buildUri('topic', $forums[$key]['Forum']['topic_last_title'], $forums[$key]['Forum']['topic_last_idtopic']);
-            }else{
+            } else {
                 $forums[$key]['Forum']['nb_discussion'] = $forums[$key]['Forum']['nb_message'] = 0;
             }
         }
@@ -74,12 +80,12 @@ class ForumController extends ForumAppController {
         $active['privatemsg'] = ($this->Config->is('privatemsg')) ? true : false;
         $stats = ($this->Config->is('statistics')) ? $this->Topic->stats() : null;
 
-        if($this->Config->is('useronline')){
+        if ($this->Config->is('useronline')) {
             $userOnlines = $this->Forum->userOnline($this->User);
-            foreach ($userOnlines as $key => $userOnline){
+            foreach ($userOnlines as $key => $userOnline) {
                 $userOnlines[$key]['User']['color'] = $this->ForumPermission->getRankColorDomin($userOnline['User']['id']);
             }
-        }else{
+        } else {
             $userOnlines = null;
         }
         $my['id'] = $this->getIdSession();
@@ -90,7 +96,8 @@ class ForumController extends ForumAppController {
         $this->set(compact('forums', 'stats', 'userOnlines', 'active', 'my', 'perms', 'theme'));
     }
 
-    public function forum($id, $slug, $page = 1){
+    public function forum($id, $slug, $page = 1)
+    {
         $this->loadModel('Forum.forums');
         $this->loadModel('Forum.Topic');
         $this->loadModel('Forum.Vieww');
@@ -144,8 +151,10 @@ class ForumController extends ForumAppController {
                     $topics_stick[$key]['Topic']['tags'] = $this->Topic->getTag($topic_stick['Topic']['id_topic']);
                 }
             }
+
             $paginationDb = $this->Topic->pagination('forum', $id);
             $pagination['html'] = $this->forumRender('pagination', ['data' => 'e', 'style' => 'sm', 'page' => $page, 'nbpage' => $paginationDb['nbpage']]);
+
             $topics = $this->Topic->getTopic($id, 'nostick', $page);
             if(!empty($topics)){
                 foreach ($topics as $key => $topic){
@@ -566,36 +575,44 @@ class ForumController extends ForumAppController {
         }
     }
 
-    public function admin_add_forum(){
-        if($this->isConnected AND $this->User->isAdmin()) {
+    public function admin_add_forum()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
             $this->set('title_for_layout', $this->Lang->get('FORUM__ADD__FORUM'));
+
             $this->layout = 'admin';
             $this->loadModel('Forum.forums');
             $forums = $this->Forum->getForum('forum');
-            if($this->request->is('ajax')) {
+            $ranks = $this->ForumPermission->getRanks();
+
+            if ($this->request->is('ajax')) {
                 $this->autoRender = false;
-                if(!empty($this->request->data['name']) && !empty($this->request->data['position']) && !empty($this->request->data['image'])) {
+                if (!empty($this->request->data['name']) && !empty($this->request->data['position']) && !empty($this->request->data['image'])) {
                     $this->Forum->addForum($this->getIdSession(), $this->request->data['name'], $this->request->data['position'], $this->request->data['image']);
+
+
+
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
-                }else{
+                } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
                 }
             }
-            $this->set(compact('forums'));
-        }else {
+            $this->set(compact('forums', 'ranks'));
+        } else {
             $this->redirect('/');
         }
     }
 
-    public function admin_add_category(){
-        if($this->isConnected AND $this->User->isAdmin()) {
+    public function admin_add_category()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
             $this->set('title_for_layout', $this->Lang->get('FORUM__ADD__CATEGORY'));
             $this->layout = 'admin';
             $this->loadModel('Forum.forums');
             $forums = $this->Forum->getForum();
-            if($this->request->is('ajax')) {
+            if ($this->request->is('ajax')) {
                 $this->autoRender = false;
-                if(!empty($this->request->data['name']) && !empty($this->request->data['position']) && !empty($this->request->data['parent']) && !empty($this->request->data['image'])) {
+                if (!empty($this->request->data['name']) && !empty($this->request->data['position']) && !empty($this->request->data['parent']) && !empty($this->request->data['image'])) {
                     $name = $this->urlRew($this->request->data['name']);
                     $position = $this->request->data['position'];
                     $parent = $this->request->data['parent'];
@@ -604,21 +621,22 @@ class ForumController extends ForumAppController {
                     $automaticLock = (!empty($this->request->data['automatic_lock'])) ? 1 : 0;
                     $this->Forum->addCategory($this->getIdSession(), $name, $position, $parent, $image, $lock, $automaticLock);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
-                }else{
+                } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
                 }
             }
             $this->set(compact('forums'));
-        }else {
+        } else {
             $this->redirect('/');
         }
     }
 
-    public function admin_delete($type = false, $id = false){
-        if($this->isConnected AND $this->User->isAdmin()) {
+    public function admin_delete($type = false, $id = false)
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
             $this->autoRender = false;
-            if($this->request->is('get')) {
-                if($type != false && $id != false) {
+            if ($this->request->is('get')) {
+                if ($type != false && $id != false) {
                     $this->loadModel('Forum.forums');
                     $this->loadModel('Forum.Insult');
                     $this->loadModel('Forum.Group');
@@ -627,72 +645,105 @@ class ForumController extends ForumAppController {
                     $this->loadModel('Forum.MsgReport');
                     $this->loadModel('Forum.Punishment');
                     $this->loadModel('Forum.Tag');
-                    if($type == 'forum'){
+
+                    if ($type == 'forum') {
                         $this->logforum($this->getIdSession(), 'delete_forum', $this->gUBY($this->getIdSession()).' vient de supprimer un forum ', $id);
                         $this->Forum->admin_delete($id);
-                    }elseif ($type == 'category'){
+                    } elseif ($type == 'category') {
                         $this->logforum($this->getIdSession(), 'delete_category', $this->gUBY($this->getIdSession()).' vient de supprimer une catégorie ', $id);
                         $this->Forum->admin_delete($id);
-                    }elseif ($type == 'word'){
+                    } elseif ($type == 'word') {
                         $this->logforum($this->getIdSession(), 'delete_word', $this->gUBY($this->getIdSession()).' vient de supprimer un mot interdit', $id);
                         $this->Insult->deleteWord($id);
-                    }elseif ($type == 'rank'){
+                    } elseif ($type == 'rank') {
                         $this->logforum($this->getIdSession(), 'delete_group', $this->gUBY($this->getIdSession()).' vient de supprimer un groupe', $id);
                         $this->Group->deleteGroup($id);
-                    }elseif ($type == 'permission'){
+                    } elseif ($type == 'permission') {
                         $this->logforum($this->getIdSession(), 'delete_permission', $this->gUBY($this->getIdSession()).' vient de supprimer une permission', $id);
                         $this->ForumPermission->deletePermission($id);
-                    }elseif ($type == 'report'){
+                    } elseif ($type == 'report') {
                         $this->logforum($this->getIdSession(), 'delete_report', $this->gUBY($this->getIdSession()).' vient de supprimer un signalement', $id);
                         $this->MsgReport->deleteReport($id);
-                    }elseif ($type == 'punishment'){
+                    } elseif ($type == 'punishment') {
                         $this->logforum($this->getIdSession(), 'delete_punishment', $this->gUBY($this->getIdSession()).' vient de supprimer une sanction', $id);
                         $this->Punishment->deletePunish($id);
-                    }elseif ($type == 'topic'){
+                    } elseif ($type == 'topic') {
                         $this->logforum($this->getIdSession(), 'delete_topic', $this->gUBY($this->getIdSession()).' vient de supprimer un topic', $id);
                         $this->Topic->deleteMessages($id);
-                    }elseif ($type == 'tag'){
+                    } elseif ($type == 'tag') {
                         $this->logforum($this->getIdSession(), 'delete_tag', $this->gUBY($this->getIdSession()).' vient de supprimer un tag', $id);
                         $this->Tag->deleteTag($id);
                     }
-                    $this->redirect('/admin/forum/forum/'.$type);
-                }else {
+
+                    $this->redirect($this->Html->url('/admin/forum/forum/'.$type));
+                } else {
                     throw new ForbiddenException();
                 }
             } else {
                 throw new ForbiddenException();
             }
-        }else {
+        } else {
             $this->redirect('/');
         }
     }
 
-    public function admin_edit($type = false, $id = false){
-        if($this->isConnected AND $this->User->isAdmin()) {
+    public function admin_edit($type = false, $id = false)
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
             $this->loadModel('Forum.forums');
-            $this->loadModel('Forum.Profile');
             $this->loadModel('Forum.Historie');
             $this->loadModel('Forum.MsgReport');
-            if($this->request->is('ajax')) {
+            $this->loadModel('Forum.Profile');
+
+            if ($this->request->is('ajax')) {
                 $this->autoRender = false;
-                if(!empty($this->request->data['name']) && !empty($this->request->data['position']) && !empty($this->request->data['image'])) {
+                if (!empty($this->request->data['name']) && !empty($this->request->data['position']) && !empty($this->request->data['image'])) {
                     $name = $this->request->data['name'];
                     $position = $this->request->data['position'];
                     $image = $this->request->data['image'];
+
                     $this->Forum->update('forum', $this->request->data['id'], ['name' => $name, 'position' => $position, 'image' => $image]);
+
+                    $ranks = $this->ForumPermission->getRanks();
+                    foreach ($ranks as $key => $r){
+                        if (isset($this->request->data[$key+1])) {
+                            $visible[$r['Group']['id']] = $this->request->data[$key+1];
+                        }
+                    }
+                    if (!empty($visible))  $visible = serialize($visible);
+                    else $visible = '';
+
+                    $this->Forum->updateVisible($this->request->data['id'], $visible);
+
                     $this->logforum($this->getIdSession(), 'create_forum', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__CREATE__FORUM').strip_tags(substr($name, 0, 30)).' en position : '.$position, $name, $image);
+
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
-                }elseif(!empty($this->request->data['name_category'])) {
+                } elseif(!empty($this->request->data['name_category'])) {
                     $name = $this->urlRew($this->request->data['name_category']);
                     $parent = $this->request->data['parent'];
                     $position = $this->request->data['position'];
                     $image = $this->request->data['image'];
                     $lock = $this->request->data['lock'];
                     $automaticLock = $this->request->data['automatic_lock'];
+
                     $this->Forum->update('category', $this->request->data['id'], ['name' => $name, 'id_parent' => $parent, 'position' => $position, 'forum_image' => $image, 'lock' => $lock, 'automatic_lock' => $automaticLock]);
+
+                    $ranks = $this->ForumPermission->getRanks();
+                    foreach ($ranks as $key => $r){
+                        if (isset($this->request->data[$key+1])) {
+                            $visible[$r['Group']['id']] = $this->request->data[$key+1];
+                        }
+                    }
+                    if (!empty($visible))  $visible = serialize($visible);
+                    else $visible = '';
+
+                    $this->Forum->updateVisible($this->request->data['id'], $visible);
+
                     $this->logforum($this->getIdSession(), 'create_forum', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__CATEGORY'), $name);
+
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
-                }elseif(!empty($this->request->data['useredit'])){
+                } elseif(!empty($this->request->data['useredit'])) {
+
                     $this->Profile->updateProfile($this->request->data['description'], $this->request->data['useredit']);
                     $idGroups = $this->request->data['idgroup'];
                     $groups = explode(',', $idGroups);
@@ -702,7 +753,8 @@ class ForumController extends ForumAppController {
                     }
                     $this->logforum($this->getIdSession(), 'edit_permission', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDITPERM__USER').$this->gUBY($this->request->data['useredit']), '');
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__USER__EDIT'))));
-                }elseif (!empty($this->request->data['color']) && !empty($this->request->data['name']) && !empty($this->request->data['position'])){
+                } elseif (!empty($this->request->data['color']) && !empty($this->request->data['name']) && !empty($this->request->data['position'])) {
+
                     $id = $this->request->data['id'];
                     $name = $this->request->data['name'];
                     $description = $this->request->data['description'];
@@ -712,12 +764,14 @@ class ForumController extends ForumAppController {
                     $this->ForumPermission->updateRank($name, $description, $color, $id, $position);
                     $this->logforum($this->getIdSession(), 'edit_rank', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__GROUP'), $name);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
-                }elseif (!empty($this->request->data['social'])){
+                } elseif (!empty($this->request->data['social'])){
+
                     $facebook = $this->request->data['facebook'];
                     $twitter = $this->request->data['twitter'];
                     $youtube = $this->request->data['youtube'];
                     $googleplus = $this->request->data['googleplus'];
                     $snapchat = $this->request->data['snapchat'];
+
                     $socials = json_encode([
                         'facebook' => $facebook,
                         'twitter' => $twitter,
@@ -725,14 +779,14 @@ class ForumController extends ForumAppController {
                         'googleplus' => $googleplus,
                         'snapchat' => $snapchat
                     ]);
+
                     $this->Profile->updateSocials($id, $socials);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
-                }
-                else{
+                } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
                 }
-            }else{
-                if($type != false && $id != false){
+            } else {
+                if ($type != false && $id != false) {
                     $this->layout = 'admin';
                     if ($type == 'forum') {
 
@@ -742,7 +796,7 @@ class ForumController extends ForumAppController {
                         $individual = unserialize($datas['visible']);
 
                         $this->set(compact('datas', 'forums', 'type', 'ranks', 'individual'));
-                    } elseif($type == 'category') {
+                    } elseif ($type == 'category') {
 
                         $datas = $this->Forum->getForum('id', $id);
                         $datas['Forum']['actualparent'] = $this->Forum->info('parent_title', $datas['Forum']['id_parent'])['Forum']['forum_name'];
@@ -753,6 +807,7 @@ class ForumController extends ForumAppController {
 
                         $this->set(compact('datas', 'forums', 'type', 'categorys', 'ranks', 'individual'));
                     } elseif ($type == 'user') {
+
                         $datas['user']['id'] = $id;
                         $datas['user']['username'] = $this->gUBY($id);
                         $datas['user']['lastseen'] = $this->dateAndTime($this->lastSeen($id));
@@ -763,31 +818,36 @@ class ForumController extends ForumAppController {
                         $datas['profile'] = $this->Profile->get($id);
                         $datas['rank']['allrank'] = $this->ForumPermission->getRanks();
                         $datas['rank']['r'] = '';
-                        foreach ($datas['rank']['allrank'] as $key => $r){
+
+                        foreach ($datas['rank']['allrank'] as $key => $r) {
                             $s = (!$key) ? '' : ',';
                             $datas['rank']['r'] .= $s.$r['Group']['id'];
                         }
+
                         $history = $this->Historie->_list($id);
                         foreach ($history as $key => $h){
                             $history[$key]['Historie']['date'] = $this->dateAndTime($h['Historie']['date']);
                         }
+
                         $msgReport = $this->MsgReport->get($id);
                         foreach ($msgReport as $key => $m){
                             $msgReport[$key]['MsgReport']['date'] = $this->dateAndTime($m['MsgReport']['date']);
                         }
+
                         $socialNetworks = $this->socialNetwork($id);
+
                         $this->set(compact('datas', 'type', 'history', 'msgReport', 'socialNetworks'));
-                    }elseif($type == 'rank'){
+                    } elseif ($type == 'rank') {
                         $datas = $this->ForumPermission->getRanks($id);
                         $this->set(compact('datas', 'type'));
-                    }else{
+                    } else {
                         throw new ForbiddenException();
                     }
-                }else{
+                } else {
                     throw new ForbiddenException();
                 }
             }
-        }else {
+        } else {
             $this->redirect('/');
         }
     }

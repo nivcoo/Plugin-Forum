@@ -227,7 +227,8 @@ class Topic extends ForumAppModel {
         return $this->updateAll(['name' => $newName], ['id_topic' => $id, 'first' => 1]);
     }
 
-    public function updateVisible($id, $visible){
+    public function updateVisible($id, $visible)
+    {
         return $this->updateAll(['visible' => "'".$visible."'"], ['id_topic' => $id, 'first' => 1]);
     }
 

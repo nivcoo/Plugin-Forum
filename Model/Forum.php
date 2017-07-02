@@ -83,4 +83,9 @@ class Forum extends ForumAppModel {
     public function isAutoLock($id){
         return $this->find('first', ['conditions' => ['id' => $id]])['Forum']['automatic_lock'];
     }
+
+    public function updateVisible($id, $visible)
+    {
+        return $this->updateAll(['visible' => "'".$visible."'"], ['id' => $id]);
+    }
 }

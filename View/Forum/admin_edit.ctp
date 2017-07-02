@@ -32,6 +32,7 @@
                                 <input value="<?= $datas['forum_name']; ?>" name="name" class="form-control" type="text" />
                                 <input value="<?= $datas['id']; ?>" name="id" type="hidden" />
                             </div>
+
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__POSITION') ?></label>
                                 <select class="form-control" name="position">
@@ -41,9 +42,10 @@
                                     <?php } ?>
                                 </select>
                             </div>
+
                             <div class="form-group text-center">
                                 <label class="radio-inline">
-                                    <?php if(!filter_var($datas["Forum"]["forum_image"], FILTER_VALIDATE_URL)): ?>
+                                    <?php if(!filter_var($datas['forum_image'], FILTER_VALIDATE_URL)): ?>
                                     <input checked type="radio" name="ii_type" id="ii_type_icone"> Icone
                                         <script type="text/javascript">
                                             $(document).ready(function() {
@@ -55,7 +57,7 @@
                                     <?php endif; ?>
                                 </label>
                                 <label class="radio-inline">
-                                    <?php if(filter_var($datas["Forum"]["forum_image"], FILTER_VALIDATE_URL)): ?>
+                                    <?php if(filter_var($datas['forum_image'], FILTER_VALIDATE_URL)): ?>
                                     <input checked type="radio" name="ii_type" id="ii_type_image"> Image
                                         <script type="text/javascript">
                                             $(document).ready(function() {
@@ -83,7 +85,7 @@
                                 <label> <?= $Lang->get('FORUM__SEEBY') ?></label>
                                 <?php if(!empty($ranks)): ?>
                                     <?php foreach($ranks as $key => $rank): ?>
-                                        <div style="background-color: #<?= $rank['Group']['color']; ?>" class="forum-badgerank"><input <?php if(isset($individual[$rank['Group']['id']]) && $individual[$rank['Group']['id']] == 'on') echo 'checked'; ?> type="checkbox" class="middle" name="<?= $rank['Group']['id']; ?>" /> <?= $rank['Group']['group_name']; ?></div>
+                                        <div style="background-color: #<?= $rank['Group']['color']; ?>" class="forum-badgerank"><input <?php if(isset($individual[$rank['Group']['id']]) && $individual[$rank['Group']['id']] == 1) echo 'checked'; ?> type="checkbox" class="middle" name="<?= $rank['Group']['id']; ?>" /> <?= $rank['Group']['group_name']; ?></div>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                                 <div>
@@ -184,7 +186,7 @@
                                 <label> <?= $Lang->get('FORUM__SEEBY') ?></label>
                                 <?php if(!empty($ranks)): ?>
                                     <?php foreach($ranks as $key => $rank): ?>
-                                        <div style="background-color: #<?= $rank['Group']['color']; ?>" class="forum-badgerank"><input <?php if(isset($individual[$rank['Group']['id']]) && $individual[$rank['Group']['id']] == 'on') echo 'checked'; ?> type="checkbox" class="middle" name="<?= $rank['Group']['id']; ?>" /> <?= $rank['Group']['group_name']; ?></div>
+                                        <div style="background-color: #<?= $rank['Group']['color']; ?>" class="forum-badgerank"><input <?php if(isset($individual[$rank['Group']['id']]) && $individual[$rank['Group']['id']] == 1) echo 'checked'; ?> type="checkbox" class="middle" name="<?= $rank['Group']['id']; ?>" /> <?= $rank['Group']['group_name']; ?></div>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                                 <div>
