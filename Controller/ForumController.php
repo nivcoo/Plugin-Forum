@@ -600,8 +600,8 @@ class ForumController extends ForumAppController {
                     $position = $this->request->data['position'];
                     $parent = $this->request->data['parent'];
                     $image = $this->request->data['image'];
-                    $lock = (isset($this->request->data['lock'])) ? 1 : 0;
-                    $automaticLock = (isset($this->request->data['automatic_lock'])) ? 1 : 0;
+                    $lock = (!empty($this->request->data['lock'])) ? 1 : 0;
+                    $automaticLock = (!empty($this->request->data['automatic_lock'])) ? 1 : 0;
                     $this->Forum->addCategory($this->getIdSession(), $name, $position, $parent, $image, $lock, $automaticLock);
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
                 }else{
