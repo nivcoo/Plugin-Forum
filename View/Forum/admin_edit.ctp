@@ -7,6 +7,23 @@
                         <h3 class="box-title"><?= $Lang->get('FORUM__EDIT__FORUM') ?></h3>
                     </div>
                     <div class="box-body">
+                        <script type="text/javascript">
+                            function icone() {
+                                var html = '<div class="form-group">';
+                                html += '<div class="input-group">';
+                                html += '<span class="input-group-addon">fa-</span>';
+                                html += '<input value="<?= $datas["forum_image"]; ?>" name="image" class="form-control" type="text" placeholder="times" />';
+                                html += '</div>';
+                                html += '</div>';
+                                $('#zone').html(html);
+                            }
+                            function image() {
+                                var html = '<div class="form-group">';
+                                html += '<input value="<?= $datas["forum_image"]; ?>" name="image" class="form-control" type="text" placeholder="https://bing.com/image.png" />';
+                                html += '</div>';
+                                $('#zone').html(html);
+                            }
+                        </script>
                         <form action="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'admin_edit', 'admin' => true)) ?>" method="post" data-ajax="true" data-redirect="<?= $this->Html->url(array('controller' => 'forum', 'action' => 'admin_edit', 'admin' => true)) ?>">
                             <div class="ajax-msg"></div>
                             <div class="form-group">
@@ -25,27 +42,36 @@
                             </div>
                             <div class="form-group text-center">
                                 <label class="radio-inline">
+                                    <?php if(!filter_var($datas["Forum"]["forum_image"], FILTER_VALIDATE_URL)): ?>
+                                    <input checked type="radio" name="ii_type" id="ii_type_icone"> Icone
+                                        <script type="text/javascript">
+                                            $(document).ready(function() {
+                                                icone();
+                                            });
+                                        </script>
+                                    <?php else: ?>
                                     <input type="radio" name="ii_type" id="ii_type_icone"> Icone
+                                    <?php endif; ?>
                                 </label>
                                 <label class="radio-inline">
+                                    <?php if(filter_var($datas["Forum"]["forum_image"], FILTER_VALIDATE_URL)): ?>
+                                    <input checked type="radio" name="ii_type" id="ii_type_image"> Image
+                                        <script type="text/javascript">
+                                            $(document).ready(function() {
+                                                image();
+                                            });
+                                        </script>
+                                    <?php else: ?>
                                     <input type="radio" name="ii_type" id="ii_type_image"> Image
+                                    <?php endif; ?>
                                 </label>
                             </div>
                             <script type="text/javascript">
                                 $("#ii_type_icone").click(function () {
-                                    var html = '<div class="form-group">';
-                                    html += '<div class="input-group">';
-                                    html += '<span class="input-group-addon">fa-</span>';
-                                    html += '<input value="<?= $datas["Forum"]["forum_image"]; ?>" name="image" class="form-control" type="text" placeholder="times" />';
-                                    html += '</div>';
-                                    html += '</div>';
-                                    $('#zone').html(html);
+                                    icone();
                                 });
                                 $("#ii_type_image").click(function () {
-                                    var html = '<div class="form-group">';
-                                    html += '<input value="<?= $datas["forum"]["forum_image"]; ?>" name="image" class="form-control" type="text" placeholder="https://bing.com/image.png" />';
-                                    html += '</div>';
-                                    $('#zone').html(html);
+                                    image();
                                 });
                             </script>
                             <div id="zone">
