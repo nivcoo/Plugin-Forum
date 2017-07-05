@@ -16,6 +16,11 @@ class Topic extends ForumAppModel {
     private $nbTopic = 15;
 
     private $nbMessageProfil = 5;
+    
+    public function get()
+    {
+        return $this->find('all');
+    }
 
     public function getTopic($id, $method = false, $params = false){
         if($method){
