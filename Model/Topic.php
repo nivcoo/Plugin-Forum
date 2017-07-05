@@ -142,12 +142,23 @@ class Topic extends ForumAppModel {
 
     public function addMessage($idParent, $idUser, $idTopic, $content, $date){
         $this->create();
-        $this->set(['id_parent' => $idParent, 'id_user' => $idUser, 'id_topic' => $idTopic, 'content' => $content, 'date' => $date]);
+
+        $this->set([
+            'id_parent' => $idParent,
+            'id_user' => $idUser,
+            'id_topic' => $idTopic,
+            'content' => $content,
+            'date' => $date
+        ]);
+
+        //https://book.cakephp.org/2.0/fr/models/saving-your-data.html#model-set-one-two-null
+
         return $this->save();
     }
 
     public function updateMessage($idMessage, $content){
-        return $this->updateAll(['content' => "'".$content."'", 'last_edit' => "'".date('Y-m-d H:i:s')."'"], ['id' => $idMessage]);
+        $content = $this->getDataSource()->value($content, 'text');
+        return $this->updateAll(['content' => $content, 'last_edit' => "'".date('Y-m-d H:i:s')."'"], ['id' => $idMessage]);
     }
 
     public function deleteMessage($id){
