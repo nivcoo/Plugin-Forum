@@ -1,9 +1,10 @@
 <?php
-class ApiComponent extends Component
+class ApiController extends ForumAppController
 {
-    public function __construct()
+
+    public function beforeFilter()
     {
-        $this->model['topic'] = ClassRegistry::init('Forum.Topic');
+        parent::beforeFilter();
     }
 
     /*
@@ -16,11 +17,12 @@ class ApiComponent extends Component
 
     public function getLastMessageForum($int)
     {
+        $this->autoRender = false;
 
         if ($this->isConnected) {
             $idGroup = 99;
         } else {
-            $idGroup =  $this->ForumPermission->getIdGroup($this->getIdSession());
+            $idGroup =  $this->Components->load('ForumPermission')->getIdGroup(1);
             //Debug pour prendre celui qui a le plus de perm
         }
 
@@ -39,8 +41,9 @@ class ApiComponent extends Component
          * '' => done != visible -> forum de la catégorie Parent
          *
          */
+        $this->loadModel('Forum.Topic');
 
-        $allTopics = $this->model['topic']->get();
+        $allTopics = $this->Topic->get();
 
 
 
@@ -53,8 +56,6 @@ class ApiComponent extends Component
          * -Date
          * -Bool for Cadenas
          */
-
-
     }
 
 }

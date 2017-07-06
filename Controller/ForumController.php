@@ -3,6 +3,8 @@ App::uses('ClassRegistry', 'Utility');
 class ForumController extends ForumAppController
 {
 
+    public $helpers = [];
+
     public $components = [
         'Security' => [
             'csrfExpires' => '+1 hour'
@@ -443,7 +445,8 @@ class ForumController extends ForumAppController
                     $title = $this->urlRew(trim($this->request->data['title']));
                     $params = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
                     $this->logforum($this->getIdSession(), 'create_topic', $this->gUBY($this->getIdSession()).' vient de créer un nouveau topic : '.strip_tags(substr($content, 0, 30)), $content);
-                    return $this->redirect($this->Html->url('/topic/'.$this->replaceSpace($params['title']).'.'.$params['id_topic'].'/'));
+                    $this->redirect(Router::url('/', true).'topic/'.$this->replaceSpace($params['title']).'.'.$params['id_topic'].'/');
+
                 }else{
                     if(!empty($this->request->data['title'])){
                         $this->Session->setFlash('Vous devez insérer un titre à votre topic !', 'default.error');
