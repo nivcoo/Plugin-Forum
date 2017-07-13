@@ -51,9 +51,15 @@ class Forum extends ForumAppModel {
             case 'parent_title' :
                 return $this->find('first', ['conditions' => ['id' => $id]]);
                 break;
+            /*
+             * Clear this function ?
+             */
             case 'parent_href' :
                 return $this->find('first', ['conditions' => ['id' => $id]]);
-            break;
+                break;
+            case 'id_parent' :
+                return $this->find('first', ['conditions' => ['id' => $id]])['Forum']['id_parent'];
+                break;
         }
     }
 
@@ -87,5 +93,10 @@ class Forum extends ForumAppModel {
     public function updateVisible($id, $visible)
     {
         return $this->updateAll(['visible' => "'".$visible."'"], ['id' => $id]);
+    }
+
+    public function viewVisible($id)
+    {
+        return $this->find('first', ['conditions' => ['id' => $id]])['Forum']['visible'];
     }
 }

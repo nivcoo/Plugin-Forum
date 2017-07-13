@@ -117,7 +117,13 @@ class ForumController extends ForumAppController
             throw new ForbiddenException();
         }
 
-        //TODO : Check la perm si forum + category
+        //DEBUG
+        if($this->viewParent('category', $id)){
+            var_dump('Done');
+        }else{
+            throw new ForbiddenException();
+        }
+
 
         if($this->Forum->forumExist($id, $this->replaceHyppen($slug))){
             $forums = $this->Forum->getForum('categorie', $id);
@@ -219,6 +225,13 @@ class ForumController extends ForumAppController
         }
 
         if(!$this->ForumPermission->visible('topic', $id)){
+            throw new ForbiddenException();
+        }
+
+        //DEBUG
+        if($this->viewParent('topic', $id)){
+            var_dump('Done');
+        }else{
             throw new ForbiddenException();
         }
 
@@ -1567,6 +1580,59 @@ class ForumController extends ForumAppController
             return false;
         }else{
             return true;
+        }
+    }
+
+    /*
+     * @param $type = ('category', 'topic')
+     */
+    public function viewParent($type, $id)
+    {
+        $this->loadModel('Forum.forums');
+
+        $groups = $this->ForumPermission->getRank($this->getIdSession(), true);
+
+        switch ($type) {
+            case 'category':
+
+                $forums[0]['Forum']['visible'] = $this->Forum->viewVisible($id);
+
+                //Check the category
+                if ($this->viewVisible($forums, 0)) {
+
+                    //Check the forum parent
+                    $idparent = $this->Forum->info('id_parent', $id);
+                    $forums[1]['Forum']['visible'] = $this->Forum->viewVisible($idparent);
+
+                    if ($this->viewVisible($forums, 1)) {
+                        return true;
+                    }
+
+                }
+
+                return false;
+
+                break;
+            case 'topic':
+
+                $this->loadModel('Forum.Topic');
+
+                $idCategory = $this->Topic->info('id_parent', $id);
+
+                if ($this->viewVisible('category', $idCategory)) {
+                    $topic[0]['Forum']['visible'] = $this->Topic->info('visible', $id);
+
+                    if ($this->viewVisible($topic, 0)){
+                        return true;
+                    }
+                }
+
+                return false;
+
+                break;
+            default :
+                return false;
+
         }
     }
 }
