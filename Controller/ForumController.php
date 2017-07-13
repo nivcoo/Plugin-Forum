@@ -593,7 +593,15 @@ class ForumController extends ForumAppController
                 if (!empty($this->request->data['name']) && !empty($this->request->data['position']) && !empty($this->request->data['image'])) {
                     $this->Forum->addForum($this->getIdSession(), $this->request->data['name'], $this->request->data['position'], $this->request->data['image']);
 
+                    foreach ($ranks as $key => $r) {
+                        if (isset($this->request->data[$key+1])) {
+                            $visible[$r['Group']['id']] = $this->request->data[$key+1];
+                        }
+                    }
+                    if (!empty($visible))  $visible = serialize($visible);
+                    else $visible = '';
 
+                    $this->Forum->updateVisible($this->Forum->getLastInsertID(), $visible);
 
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
                 } else {
@@ -613,6 +621,8 @@ class ForumController extends ForumAppController
             $this->layout = 'admin';
             $this->loadModel('Forum.forums');
             $forums = $this->Forum->getForum();
+            $ranks = $this->ForumPermission->getRanks();
+
             if ($this->request->is('ajax')) {
                 $this->autoRender = false;
                 if (!empty($this->request->data['name']) && !empty($this->request->data['position']) && !empty($this->request->data['parent']) && !empty($this->request->data['image'])) {
@@ -623,12 +633,23 @@ class ForumController extends ForumAppController
                     $lock = (!empty($this->request->data['lock'])) ? 1 : 0;
                     $automaticLock = (!empty($this->request->data['automatic_lock'])) ? 1 : 0;
                     $this->Forum->addCategory($this->getIdSession(), $name, $position, $parent, $image, $lock, $automaticLock);
+
+                    foreach ($ranks as $key => $r) {
+                        if (isset($this->request->data[$key+1])) {
+                            $visible[$r['Group']['id']] = $this->request->data[$key+1];
+                        }
+                    }
+                    if (!empty($visible))  $visible = serialize($visible);
+                    else $visible = '';
+
+                    $this->Forum->updateVisible($this->Forum->getLastInsertID(), $visible);
+
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
                 } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
                 }
             }
-            $this->set(compact('forums'));
+            $this->set(compact('forums', 'ranks'));
         } else {
             $this->redirect('/');
         }
