@@ -19,10 +19,10 @@ class ApiController extends ForumAppController
     {
         $this->autoRender = false;
 
-        if ($this->isConnected) {
+        if (!$this->isConnected) {
             $idGroup = 99;
         } else {
-            $idGroup =  $this->Components->load('ForumPermission')->getIdGroup(1);
+            $idGroup = $this->Components->load('ForumPermission')->getIdGroup(1);
             //Debug pour prendre celui qui a le plus de perm
         }
 
@@ -34,7 +34,7 @@ class ApiController extends ForumAppController
          * SQL Query
          *
          * fetch x lastest topic When :
-         * -> Attention forum + catégory + topic (visible) -> permission personnalisé
+         * -> Attention forum + category + topic (visible) -> permission personnalisé
          *
          * '' => done != visible -> contient pas id du group
          * '' => done != visible -> Catégorie parent
@@ -46,6 +46,13 @@ class ApiController extends ForumAppController
         $allTopics = $this->Topic->get();
 
 
+        /*
+         * TODO :
+         *
+         * $this->viewVisible();
+         * $this->Forum->viewParent();
+         *
+         */
 
         /*
          * Return :

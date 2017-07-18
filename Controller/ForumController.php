@@ -61,7 +61,7 @@ class ForumController extends ForumAppController
         $forums = $this->Forum->getForum();
 
         foreach ($forums as $key => $forum) {
-            if($this->viewVisible($forums, $key)){
+            if( $this->viewVisible($forums, $key)) {
                 $forums[$key]['Forum']['href'] = $this->buildUri('forum', $forum['Forum']['forum_name'], $forum['Forum']['id']);
                 if(isset($this->Topic->determine($forum['Forum']['id'])['Topic']['id_parent'])) {
                     $forums[$key]['Forum']['nb_discussion'] = $this->Topic->info('nb_topic', $forum['Forum']['id']);
@@ -77,7 +77,7 @@ class ForumController extends ForumAppController
                 } else {
                     $forums[$key]['Forum']['nb_discussion'] = $forums[$key]['Forum']['nb_message'] = 0;
                 }
-            }else{
+            } else {
                 unset($forums[$key]);
             }
         }
@@ -109,26 +109,19 @@ class ForumController extends ForumAppController
         $this->loadModel('Forum.Vieww');
         $this->loadModel('Forum.Tag');
 
-        if(!$this->Config->is('forum')){
+        if (!$this->Config->is('forum')) {
             throw new NotFoundException();
         }
 
-        if(!$this->ForumPermission->visible('forum', $id)){
-            throw new ForbiddenException();
-        }
-
-        //DEBUG
-        if($this->viewParent('category', $id)){
-            var_dump('Done');
-        }else{
+        if (!$this->ForumPermission->visible('forum', $id) || !$this->viewParent('category', $id)) {
             throw new ForbiddenException();
         }
 
 
-        if($this->Forum->forumExist($id, $this->replaceHyppen($slug))){
+        if ($this->Forum->forumExist($id, $this->replaceHyppen($slug))) {
             $forums = $this->Forum->getForum('categorie', $id);
             foreach ($forums as $key => $forum) {
-                if($this->viewVisible($forums, $key)){
+                if ($this->viewVisible($forums, $key)) {
                     $forums[$key]['Forum']['href'] = $this->buildUri('forum', $forum['Forum']['forum_name'], $forum['Forum']['id']);
                     if(isset($this->Topic->determine($forum['Forum']['id'])['Topic']['id_parent'])){
                         $forums[$key]['Forum']['nb_discussion'] = $this->Topic->info('nb_topic', $forum['Forum']['id']);
@@ -151,7 +144,7 @@ class ForumController extends ForumAppController
             }
 
             $topics_stick = $this->Topic->getTopic($id, 'stick');
-            if(!empty($topics_stick)){
+            if (!empty($topics_stick)) {
                 foreach ($topics_stick as $key => $topic_stick){
                     $topics_stick[$key]['Topic']['forum_last_authorid'] = $this->Topic->getLastedTopic('id', $topic_stick['Topic']['id_topic'])['id_user'];
                     $topics_stick[$key]['Topic']['forum_last_author'] =  $this->gUBY($topics_stick[$key]['Topic']['forum_last_authorid']);
@@ -174,7 +167,7 @@ class ForumController extends ForumAppController
             $pagination['html'] = $this->forumRender('pagination', ['data' => 'e', 'style' => 'sm', 'page' => $page, 'nbpage' => $paginationDb['nbpage']]);
 
             $topics = $this->Topic->getTopic($id, 'nostick', $page);
-            if(!empty($topics)){
+            if (!empty($topics)) {
                 foreach ($topics as $key => $topic){
                     $topics[$key]['Topic']['name'] = $this->Topic->info('title_parent', $topic['Topic']['id_topic']);
                     $topics[$key]['Topic']['forum_last_authorid'] = $this->Topic->getLastedTopic('id', $topic['Topic']['id_topic'])['id_user'];
@@ -208,7 +201,8 @@ class ForumController extends ForumAppController
         }
     }
 
-    public function topic($id, $slug, $page = 1){
+    public function topic($id, $slug, $page = 1)
+    {
         $this->loadModel('Forum.forums');
         $this->loadModel('Forum.Topic');
         $this->loadModel('Forum.Note');
@@ -216,11 +210,11 @@ class ForumController extends ForumAppController
         $this->loadModel('Forum.Profile');
         $this->loadModel('Forum.Vieww');
 
-        if(!$this->Config->is('forum')){
+        if (!$this->Config->is('forum')) {
             throw new NotFoundException();
         }
 
-        if(!$this->Vieww->exist($this->Util->getIP(), $id)){
+        if (!$this->Vieww->exist($this->Util->getIP(), $id)) {
            $this->Vieww->addView($this->Util->getIP(), $id);
         }
 
@@ -229,13 +223,13 @@ class ForumController extends ForumAppController
         }
 
         //DEBUG
-        if($this->viewParent('topic', $id)){
+        if ($this->viewParent('topic', $id)) {
             var_dump('Done');
-        }else{
+        } else {
             throw new ForbiddenException();
         }
 
-        if($this->Topic->topicExist($id, $this->replaceHyppen($slug))){
+        if ($this->Topic->topicExist($id, $this->replaceHyppen($slug))) {
             $lock = $this->Topic->isLock($id);
             $stick = $this->Topic->isStick($id);
             if($this->request->is('ajax')) {
@@ -438,7 +432,8 @@ class ForumController extends ForumAppController
         }
     }
 
-    public function addTopic($idParent = false){
+    public function addTopic($idParent = false)
+    {
         $this->set('title_for_layout', $this->Lang->get('FORUM__ADD__TOPIC'));
         $this->loadModel('Forum.Topic');
         $this->loadModel('Forum.Forums');
@@ -490,7 +485,8 @@ class ForumController extends ForumAppController
         }
     }
 
-    public function report(){
+    public function report()
+    {
         if($this->ForumPermission->has('FORUM_VIEW_REPORT')){
             $this->set('title_for_layout', $this->Lang->get('FORUM__MSGREPORT'));
             $this->loadModel('Forum.MsgReport');
@@ -514,7 +510,8 @@ class ForumController extends ForumAppController
         }
     }
 
-    public function banned(){
+    public function banned()
+    {
         if($this->Punishment->get($this->getIdSession())){
             $this->set('title_for_layout', $this->Lang->get('FORUM__BANNED'));
             $infos = $this->Punishment->get($this->getIdSession());
@@ -531,7 +528,8 @@ class ForumController extends ForumAppController
      * Admin pages
      */
 
-    public function admin_index(){
+    public function admin_index()
+    {
         if($this->isConnected AND $this->User->isAdmin()) {
             $this->loadModel('Forum.Topic');
             $this->loadModel('Forum.Note');
@@ -573,7 +571,8 @@ class ForumController extends ForumAppController
         }
     }
 
-    public function admin_forum(){
+    public function admin_forum()
+    {
         if($this->isConnected AND $this->User->isAdmin()) {
             $this->layout = 'admin';
             $this->loadModel('Forum.forums');
@@ -586,7 +585,8 @@ class ForumController extends ForumAppController
         }
     }
 
-    public function admin_category(){
+    public function admin_category()
+    {
         if($this->isConnected AND $this->User->isAdmin()) {
             $this->layout = 'admin';
             $this->loadModel('Forum.forums');
@@ -1164,7 +1164,7 @@ class ForumController extends ForumAppController
                 }
 
                 $stateExec = true;
-            }else{
+            } else {
                 // Use Mysqldump vendor
             }
             $this->layout = 'admin';
@@ -1387,7 +1387,7 @@ class ForumController extends ForumAppController
 
                 echo 'error.log <br />';
                 $errorFile = @file($dir.'error.log');
-                if(!empty($errorFile)){
+                if (!empty($errorFile)) {
                     foreach($errorFile as $f) {
                         echo htmlspecialchars($f)."<br />\n";
                     }
@@ -1395,7 +1395,7 @@ class ForumController extends ForumAppController
 
                 echo '<br /> debug.log <br />';
                 $debugFile = @file($dir.'debug.log');
-                if(!empty($debugFile)){
+                if (!empty($debugFile)) {
                     foreach($debugFile as $f) {
                         echo htmlspecialchars($f)."<br />\n";
                     }
@@ -1527,7 +1527,7 @@ class ForumController extends ForumAppController
                     case 'tag':
                         $tags = $this->Tag->get();
                         $newTag = '';
-                        foreach ($tags as $key => $tag){
+                        foreach ($tags as $key => $tag) {
                             if (isset($this->request->data['tag-'.($key+1)])) {
                                 $newTag .= $this->request->data['tag-'.($key+1)].',';;
                             }
@@ -1537,7 +1537,7 @@ class ForumController extends ForumAppController
                 }
             }
         } else {
-            if($type == 'topic') {
+            if ($type == 'topic') {
                 $this->loadModel('Forum.Topic');
 
                 switch ($act) {
@@ -1568,17 +1568,17 @@ class ForumController extends ForumAppController
         $groups = $this->ForumPermission->getRank($this->getIdSession(), true);
 
         $uns = unserialize($forums[$key]['Forum']['visible']);
-        if($uns){
-            if(array_sum($uns) == 0) return true;
+        if ($uns) {
+            if (array_sum($uns) == 0) return true;
             foreach ($groups as $group){
-                if(isset($uns[$group['id']])){
+                if (isset($uns[$group['id']])) {
                     if($uns[$group['id']] == '1') return true;
-                }else{
+                } else {
                     return false;
                 }
             }
             return false;
-        }else{
+        } else {
             return true;
         }
     }
