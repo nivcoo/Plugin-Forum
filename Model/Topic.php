@@ -27,7 +27,7 @@ class Topic extends ForumAppModel {
             if($method == 'stick'){
                 return $this->find('all', ['conditions' => ['id_parent' => $id, 'first' => 1, 'stick' => true]]);
             }elseif($method == 'nostick'){
-                //$topics = $this->query('SELECT DISTINCT id_topic, MAX(date) FROM forum__topics GROUP BY id_topic ORDER BY MAX(date) DESC, id_topic');
+
                 $topics = $this->find('all', ['conditions' => ['first' => 1, 'stick' => false, 'id_parent' => $id], 'recursive' => 1, 'order'  => ['date' => 'DESC'], 'limit' => $this->nbTopic, 'page' => $params]);
                 if(!empty($topics)){
                     foreach ($topics  as $key => $topic){
@@ -39,8 +39,23 @@ class Topic extends ForumAppModel {
                     array_multisort($order, SORT_DESC, $returns);
                     return $returns;
                 }
-            }elseif($method == 'topic'){
+
+            } else if($method == 'topic') {
                 return $this->find('all', ['conditions' => ['first' => 1]]);
+            } else if ($method == 'all') {
+
+                $topics = $this->find('all', ['conditions' => ['first' => 1], 'recursive' => 1, 'order'  => ['date' => 'DESC']]);
+                if(!empty($topics)){
+                    foreach ($topics  as $key => $topic){
+                        $returns[$key] = $this->find('first', ['conditions' => ['id_topic' => $topic['Topic']['id_topic']], 'order' => ['date' => 'DESC']]);
+                    }
+                    foreach ($returns as $key => $return){
+                        $order[$key] = $return['Topic']['date'];
+                    }
+                    array_multisort($order, SORT_DESC, $returns);
+                    return $returns;
+                }
+
             }
         }else{
             return $this->find('all', ['conditions' => ['id_parent' => $id, 'first' => 1]]);

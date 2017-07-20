@@ -1,6 +1,7 @@
 <?php
 class ApiController extends ForumAppController
 {
+    private $i = 0;
 
     public function beforeFilter()
     {
@@ -13,6 +14,18 @@ class ApiController extends ForumAppController
      * @param Int $int Number of message
      *
      * @return Array Returns array with lastest topic
+     *
+     * Example code :
+     * $lastTopics = $this->requestAction('/forum/api/getLastMessageForum/5');
+     * foreach ($lastTopics as $a){
+     *      var_dump($a->title);
+     *      var_dump($a->uri);
+     *      var_dump($a->lastAuthor);
+     *      var_dump($a->lastAuthorColor);
+     *      var_dump($a->date);
+     *      var_dump($a->isStick);
+     *      var_dump($a->isLock);
+     * }
      */
 
     public function getLastMessageForum($int)
@@ -22,47 +35,35 @@ class ApiController extends ForumAppController
         if (!$this->isConnected) {
             $idGroup = 99;
         } else {
-            $idGroup = $this->Components->load('ForumPermission')->getIdGroup(1);
-            //Debug pour prendre celui qui a le plus de perm
+            $idGroup = $this->Components->load('ForumPermission')->getDomin($this->getIdSession());
+            $idGroup = $idGroup[0]['Groups_user']['id_group'];
         }
 
-        //Test when Logout/login and with rank
-        var_dump($idGroup);
-
-        /*
-         *
-         * SQL Query
-         *
-         * fetch x lastest topic When :
-         * -> Attention forum + category + topic (visible) -> permission personnalisé
-         *
-         * '' => done != visible -> contient pas id du group
-         * '' => done != visible -> Catégorie parent
-         * '' => done != visible -> forum de la catégorie Parent
-         *
-         */
         $this->loadModel('Forum.Topic');
 
-        $allTopics = $this->Topic->get();
+        $allTopics = $this->Topic->getTopic(42, 'all');
 
+        $return = '';
 
-        /*
-         * TODO :
-         *
-         * $this->viewVisible();
-         * $this->Forum->viewParent();
-         *
-         */
+        foreach ($allTopics as $key => $a){
+            if ($this->viewParent('topic', $a['Topic']['id_topic'])) {
+                if($this->i > $int) break;
 
-        /*
-         * Return :
-         * -Title
-         * -Link
-         * -Lastest author
-         * -Color lastest author
-         * -Date
-         * -Bool for Cadenas
-         */
+                $return[$key]->title = $a['Topic']['name'];
+                $return[$key]->uri = $this->buildUri('topic', $a['Topic']['name'], $a['Topic']['id_topic']);
+                $return[$key]->lastAuthor = $this->gUBY($a['Topic']['id_user']);
+                $return[$key]->lastAuthorColor = $this->ForumPermission->getRankColorDomin($a['Topic']['id_user']);
+                $return[$key]->date = $a['Topic']['date'];
+                $return[$key]->isStick = $a['Topic']['stick'];
+                $return[$key]->isLock = $a['Topic']['lock'];
+
+                $this->i++;
+            }else {
+                unset($allTopics[$key]);
+            }
+        }
+
+        return $return;
     }
 
 }

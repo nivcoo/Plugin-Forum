@@ -3,8 +3,7 @@ class MessageController extends ForumAppController {
     public $components = [
         'Security' => [
             'csrfExpires' => '+1 hour'
-        ],
-        'Forum.ForumPermission'
+        ]
     ];
 
     public function beforeFilter(){

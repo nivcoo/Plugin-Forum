@@ -1,8 +1,6 @@
 <?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-<?php
-var_dump($this->requestAction('/forum/api/getLastMessageForum/5'));
-?>
+
 <div class="<?= $theme; ?> marge">
     <div class="forum-forum">
         <div class="row">

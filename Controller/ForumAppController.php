@@ -4,7 +4,8 @@ class ForumAppController extends AppController {
 
     public $components = [
         'Forum.ForumRender',
-        'Forum.ForumBackup'
+        'Forum.ForumBackup',
+        'Forum.ForumPermission'
     ];
 
     public $atualTheme;
@@ -203,5 +204,78 @@ class ForumAppController extends AppController {
     protected function isExec(){
         if(exec('echo EXEC') == 'EXEC') return true;
         return false;
+    }
+
+    protected function viewVisible($forums, $key)
+    {
+        $groups = $this->ForumPermission->getRank($this->getIdSession(), true);
+
+        $uns = unserialize($forums[$key]['Forum']['visible']);
+        if ($uns) {
+            if (array_sum($uns) == 0) return true;
+            foreach ($groups as $group){
+                if (isset($uns[$group['id']])) {
+                    if($uns[$group['id']] == '1') return true;
+                } else {
+                    return false;
+                }
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /*
+     * @param $type = ('category', 'topic')
+     */
+    protected function viewParent($type, $id)
+    {
+        $this->loadModel('Forum.forums');
+
+        $groups = $this->ForumPermission->getRank($this->getIdSession(), true);
+
+        switch ($type) {
+            case 'category':
+
+                $forums[0]['Forum']['visible'] = $this->Forum->viewVisible($id);
+
+                //Check the category
+                if ($this->viewVisible($forums, 0)) {
+
+                    //Check the forum parent
+                    $idparent = $this->Forum->info('id_parent', $id);
+                    $forums[1]['Forum']['visible'] = $this->Forum->viewVisible($idparent);
+
+                    if ($this->viewVisible($forums, 1)) {
+                        return true;
+                    }
+
+                }
+
+                return false;
+
+                break;
+            case 'topic':
+
+                $this->loadModel('Forum.Topic');
+
+                $idCategory = $this->Topic->info('id_parent', $id);
+
+                if ($this->viewVisible('category', $idCategory)) {
+                    $topic[0]['Forum']['visible'] = $this->Topic->info('visible', $id);
+
+                    if ($this->viewVisible($topic, 0)) {
+                        return true;
+                    }
+                }
+
+                return false;
+
+                break;
+            default :
+                return false;
+
+        }
     }
 }
