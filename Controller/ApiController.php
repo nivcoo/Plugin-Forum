@@ -1,4 +1,5 @@
 <?php
+
 class ApiController extends ForumAppController
 {
     private $i = 0;

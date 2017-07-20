@@ -1,6 +1,9 @@
 <?php
-class ForumBackupComponent extends Component{
-    public function start(){
+
+class ForumBackupComponent extends Component
+{
+    public function start()
+    {
         $dbb = New DATABASE_CONFIG();
         $dbb = $dbb->{'default'};
         exec("mysqldump --host=".$dbb['host']."  --user=".$dbb['login']." --password=".$dbb['password']."  ".$dbb['database']." forum__configs forum__conversations forum__conversation_recipients forum__forums forum__forum_permissions forum__groups forum__groups_users forum__histories forum__insults forum__msg_reports forum__notes forum__profiles forum__punishments forum__topics forum__viewws > ../Plugin/Forum/Core/database/backup.sql");
@@ -21,13 +24,15 @@ class ForumBackupComponent extends Component{
         unlink($fileSQL);
     }
 
-    public function delete($value){
+    public function delete($value)
+    {
         $file = dirname(__DIR__).'/Core/database/'.$value;
         $file = str_replace('Controller/', '', $file);
         unlink($file);
     }
 
-    public function deleteall(){
+    public function deleteall()
+    {
         $dir = '../Plugin/Forum/Core/database';
         if ($dh = opendir($dir)) {
             while (($file = readdir($dh)) !== false) {
@@ -41,7 +46,8 @@ class ForumBackupComponent extends Component{
         }
     }
 
-    public function set($value){
+    public function set($value)
+    {
         $file = dirname(__DIR__).'/Core/database/'.$value;
         $file = str_replace('Controller/', '', $file);
 

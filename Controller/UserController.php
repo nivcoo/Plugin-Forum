@@ -1,5 +1,7 @@
 <?php
-class UserController extends ForumAppController {
+
+class UserController extends ForumAppController
+{
 
     public $components = [
         'Security' => [
@@ -7,7 +9,8 @@ class UserController extends ForumAppController {
         ]
     ];
 
-    public function beforeFilter(){
+    public function beforeFilter()
+    {
         parent::beforeFilter();
         $this->loadModel('User');
         $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
@@ -16,7 +19,8 @@ class UserController extends ForumAppController {
         if($this->theme == 'Justice') $this->layout = 'forum';
     }
 
-    public function index($id, $slug){
+    public function index($id, $slug)
+    {
         if($this->userExist($id, $slug)){
             $this->loadModel('Forum.Config');
             $this->loadModel('Forum.Topic');
@@ -67,7 +71,8 @@ class UserController extends ForumAppController {
         }
     }
 
-    public function edit($id, $slug){
+    public function edit($id, $slug)
+    {
         if($this->userExist($id, $slug)){
             if($this->getIdSession() == $id){
                 $this->loadModel('Forum.Config');
@@ -114,7 +119,8 @@ class UserController extends ForumAppController {
         }
     }
 
-    private function userExist($id, $slug){
+    private function userExist($id, $slug)
+    {
         $query = $this->User->find('first', ['conditions' => ['id' => $id, 'pseudo' => $slug]]);
         return (empty($query)) ? false : true;
     }

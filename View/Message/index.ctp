@@ -23,6 +23,12 @@
                                     <?php endif; ?>
                                 </div>
                                 <div class="col-xs-7 col-md-7 col-sm-6">
+                                    <div class="pull-right">
+                                        <a href="<?= $this->Html->url('/message/delete/'.$mp['Conversation']['id_conversation']); ?>" title="Supprimer le message">
+                                            <i class="fa fa-times" style="color:#9f191f" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+
                                     <h3 class="forum-category-title"><a href="<?= $mp['Conversation']['href']; ?>"><?= h($mp['Conversation']['title']); ?></a></h3>
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">

@@ -1,5 +1,7 @@
 <?php
-class ForumPermissionComponent extends Component {
+
+class ForumPermissionComponent extends Component
+{
 
     /*
      *              LIST OF Permission
@@ -26,13 +28,15 @@ class ForumPermissionComponent extends Component {
 
     public $model;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->model['permission'] = ClassRegistry::init('Forum.ForumPermission');
         $this->model['groups'] = ClassRegistry::init('Forum.Group');
         $this->model['groupsuser'] = ClassRegistry::init('Forum.Groups_user');
     }
 
-    public function perm_l(){
+    public function perm_l()
+    {
         $tests = $this->model['permission']->get(1);
         foreach ($tests as $test){
             $perms[$test['ForumPermission']['name']] = $this->has($test['ForumPermission']['name']);
@@ -40,7 +44,8 @@ class ForumPermissionComponent extends Component {
         return $perms;
     }
 
-    public function visible($type, $id){
+    public function visible($type, $id)
+    {
         $this->model['topic'] = ClassRegistry::init('Forum.Topic');
         $this->model['forum'] = ClassRegistry::init('Forum.Forum');
         $datas = unserialize($this->model[$type]->info('visible', $id));
@@ -55,7 +60,8 @@ class ForumPermissionComponent extends Component {
         return false;
     }
 
-    public function has($permission){
+    public function has($permission)
+    {
         $groupsIds = $this->model['groupsuser']->get($this->getIdSession());
         array_push($groupsIds, ['Groups_user' => ['id' => 99, 'id_user' =>  $this->getIdSession(), 'id_group'=> 99]]);
         foreach ($groupsIds as $groupsId){
@@ -66,7 +72,8 @@ class ForumPermissionComponent extends Component {
         return false;
     }
 
-    public function getRankColor($id){
+    public function getRankColor($id)
+    {
         $groups = @$this->model['groupsuser']->getIdGroup($id);
         if($groups){
             foreach ($groups as $key => $group){
@@ -82,16 +89,19 @@ class ForumPermissionComponent extends Component {
         return $groups;
     }
 
-    public function getRankColorDomin($id){
+    public function getRankColorDomin($id)
+    {
         $group = $this->model['groupsuser']->getIdGroupDomin($id);
         return ($group) ? $this->model['groups']->getRankColor($group)['color'] : '';
     }
 
-    public function getRanks($id = false){
+    public function getRanks($id = false)
+    {
         return $this->model['groups']->get($id);
     }
 
-    public function getRank($id, $advanced = false){
+    public function getRank($id, $advanced = false)
+    {
         $groups = $this->model['groupsuser']->getIdGroup($id);
         if($groups){
             foreach ($groups as $key => $group){
@@ -111,27 +121,33 @@ class ForumPermissionComponent extends Component {
         return $groups;
     }
 
-    public function updateGroup($state, $domin, $idUser, $idGroup){
+    public function updateGroup($state, $domin, $idUser, $idGroup)
+    {
         return $this->model['groupsuser']->updateGroup($state, $domin, $idUser, $idGroup);
     }
 
-    public function getIdGroup($id){
+    public function getIdGroup($id)
+    {
         return $this->model['groupsuser']->getIdGroup($id);
     }
 
-    public function getDomin($id){
+    public function getDomin($id)
+    {
         return $this->model['groupsuser']->getDomin($id);
     }
 
-    private function getIdSession(){
+    private function getIdSession()
+    {
         return isset($_SESSION['user']) ? $_SESSION['user'] : false;
     }
 
-    public function updateRank($name, $description, $color, $id, $position){
+    public function updateRank($name, $description, $color, $id, $position)
+    {
         return $this->model['groups']->updateRank($name, $description, $color, $id, $position);
     }
 
-    public function updatePermission($value, $id){
+    public function updatePermission($value, $id)
+    {
         return $this->model['permission']->updatePermission($id, $value);
     }
 }

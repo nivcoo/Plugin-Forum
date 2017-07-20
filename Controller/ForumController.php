@@ -1,5 +1,7 @@
 <?php
+
 App::uses('ClassRegistry', 'Utility');
+
 class ForumController extends ForumAppController
 {
 
@@ -1276,11 +1278,6 @@ class ForumController extends ForumAppController
     {
         $this->loadModel('Forum.Historie');
         $this->Historie->drop($this->Util->getIP(), $this->getIdSession());
-    }
-
-    private function perm_l()
-    {
-        return $this->ForumPermission->perm_l();
     }
 
     private function remoteAction($type, $value = false)

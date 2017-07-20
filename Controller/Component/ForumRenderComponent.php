@@ -1,9 +1,12 @@
 <?php
-class ForumRenderComponent extends Component{
+
+class ForumRenderComponent extends Component
+{
 
     public $none = '';
 
-    public function index($type, $value){
+    public function index($type, $value)
+    {
         if(!empty($value['data'])){
             switch ($type){
                 case 'style':
@@ -20,7 +23,8 @@ class ForumRenderComponent extends Component{
 
     //Example : $this->forumRender('style', ['type' => 'background-color', 'data' => $x]);
 
-    public function style($type, $value){
+    public function style($type, $value)
+    {
         if($type == 'color'){
             foreach ($value as $key => $val){
                 $value[$key] = ' style="color:#'.$val.'"';
@@ -38,7 +42,8 @@ class ForumRenderComponent extends Component{
     // Example : $this->forumRender('pagination', [$x = true, 'style' => 'sm', 'page' => $page 'offset' => $x, 'nbpage' => $y, 'limit' => $z, 'element' => $x1, 'topic' => $y1);
     // $render .= '';
 
-    public function pagination($style, $page, $nbpage){
+    public function pagination($style, $page, $nbpage)
+    {
         if($page > $nbpage && $page != 1){
             $slug = $this->_Collection->getController()->request->{"params"}['slug'];
             $id = $this->_Collection->getController()->request->{"params"}['id'];

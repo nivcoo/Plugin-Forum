@@ -1,4 +1,6 @@
 <?php
-class ForumNotificationComponent extends Component{
+
+class ForumNotificationComponent extends Component
+{
 
 }

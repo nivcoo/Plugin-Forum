@@ -121,14 +121,14 @@
                            </div>
                            <div class="col-xs-7 col-md-5 col-sm-6">
                                <div class="pull-right">
-                                <?php if($topic['Topic']['lock']): ?>
-                                       <i class="fa fa-lock" style="color:#9f191f" aria-hidden="true"></i>
-                                <?php endif; ?>
-                                <?php if($perms['FORUM_TOPIC_LOCK'] || $perms['FORUM_TOPIC_STICK'] || $perms['FORUM_TOPIC_DELETE'] || $perms['FORUM_MOOVE_TOPIC'] || $perms['FORUM_MSG_EDIT']): ?>
-                                   <a class="modal-edit" id="" data-toggle="modal" data-target="#ModalEdit-<?= $topic['Topic']['id_topic']; ?>">
-                                       <i class="fa fa-cog" style="color:#2ecc71" aria-hidden="true"></i>
-                                   </a>
-                                <?php endif; ?>
+                                    <?php if($topic['Topic']['lock']): ?>
+                                           <i class="fa fa-lock" style="color:#9f191f" aria-hidden="true"></i>
+                                    <?php endif; ?>
+                                    <?php if($perms['FORUM_TOPIC_LOCK'] || $perms['FORUM_TOPIC_STICK'] || $perms['FORUM_TOPIC_DELETE'] || $perms['FORUM_MOOVE_TOPIC'] || $perms['FORUM_MSG_EDIT']): ?>
+                                       <a class="modal-edit" id="" data-toggle="modal" data-target="#ModalEdit-<?= $topic['Topic']['id_topic']; ?>">
+                                           <i class="fa fa-cog" style="color:#2ecc71" aria-hidden="true"></i>
+                                       </a>
+                                    <?php endif; ?>
                                </div>
 
                                <?php foreach($tags as $key => $tag): ?>

@@ -1,20 +1,27 @@
 <?php
-class MessageController extends ForumAppController {
+
+class MessageController extends ForumAppController
+{
+
     public $components = [
         'Security' => [
             'csrfExpires' => '+1 hour'
         ]
     ];
 
-    public function beforeFilter(){
+    public function beforeFilter()
+    {
         parent::beforeFilter();
+
         $this->loadModel('User');
         $this->loadModel('Forum.Punishment');
         $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
         $this->Security->csrfExpires = '+1 hour';
-        if(!in_array($this->request->params['action'], ['banned', 'admin_punishment', 'admin_delete']) && $this->Punishment->get($this->getIdSession())){
+
+        if (!in_array($this->request->params['action'], ['banned', 'admin_punishment', 'admin_delete']) && $this->Punishment->get($this->getIdSession())) {
             $this->redirect('/forum/banned');
         }
+
         $this->loadModel('Forum.Config');
         $this->loadModel('Forum.Conversation');
         $this->loadModel('Forum.ConversationRecipient');
@@ -22,7 +29,8 @@ class MessageController extends ForumAppController {
         if($this->theme == 'Justice') $this->layout = 'forum';
     }
 
-    public function index(){
+    public function index()
+    {
         if($this->isConnected && $this->Config->is('privatemsg')){
             $messages = $this->Conversation->get('first');
             if($messages){
@@ -50,7 +58,8 @@ class MessageController extends ForumAppController {
         }
     }
 
-    public function newMessage(){
+    public function newMessage()
+    {
         if($this->isConnected && $this->Config->is('privatemsg') && $this->ForumPermission->has('FORUM_MP_SEND')){
             if($this->request->is('post')){
                 $this->autoRender = false;
@@ -81,7 +90,8 @@ class MessageController extends ForumAppController {
         }
     }
 
-    public function view($id, $slug){
+    public function view($id, $slug)
+    {
         if($this->isConnected && $this->Config->is('privatemsg')){
             if($this->ConversationRecipient->perm($id, $this->getIdSession())){
                 if($this->Conversation->ConversationExist($id, $this->replaceHyppen($slug))){
@@ -121,13 +131,15 @@ class MessageController extends ForumAppController {
         }
     }
 
-    private function pseudoExist($slug){
+    public function delete()
+    {
+
+    }
+
+    private function pseudoExist($slug)
+    {
         if(!empty($this->User->find('first', ['conditions' => ['pseudo' => $slug]]))){
             return true;
         }
-    }
-
-    private function perm_l(){
-        return $this->ForumPermission->perm_l();
     }
 }
