@@ -1523,8 +1523,8 @@ class ForumController extends ForumAppController
                         $tags = $this->Tag->get();
                         $newTag = '';
                         foreach ($tags as $key => $tag) {
-                            if (isset($this->request->data['tag-'.($key+1)])) {
-                                $newTag .= $this->request->data['tag-'.($key+1)].',';;
+                            if (isset($this->request->data['tag-'.$tag['Tag']['id']])) {
+                                $newTag .= $this->request->data['tag-'.$tag['Tag']['id']].',';;
                             }
                         }
                         if ($perm_l['FORUM_MSG_EDIT']) $this->Topic->updateTag($params, $newTag);

@@ -208,6 +208,8 @@ class ForumAppController extends AppController
            ');
         }
 
+        //1.1.9 : none
+
         return true;
     }
 
