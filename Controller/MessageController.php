@@ -80,7 +80,7 @@ class MessageController extends ForumAppController
                 }else{
                     $this->Session->setFlash($this->Lang->get('FORUM__ADD__FAILED'), 'default.error');
                 }
-                $this->redirect('/message/new');
+                $this->redirect('/message');
             }else{
                 $theme = $this->theme();
                 $this->set(compact('theme'));
@@ -131,9 +131,15 @@ class MessageController extends ForumAppController
         }
     }
 
-    public function delete()
+    public function delete($id)
     {
+        if ($this->ConversationRecipient->perm($id, $this->getIdSession())) {
+            $this->ConversationRecipient->_delete($id, $this->getIdSession());
+        } else {
+            throw New ForbiddenException();
+        }
 
+        return $this->redirect(Router::url('/', true).'message');
     }
 
     private function pseudoExist($slug)

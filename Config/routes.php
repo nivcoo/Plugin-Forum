@@ -19,5 +19,6 @@ Router::connect('/forum/action/:type/:act/:params', ['controller' => 'forum', 'a
 
 Router::connect('/message', ['controller' => 'message', 'action' => 'index', 'plugin' => 'forum']);
 Router::connect('/message/new', ['controller' => 'message', 'action' => 'newMessage', 'plugin' => 'forum']);
+Router::connect('/message/delete/:id', ['controller' => 'message', 'action' => 'delete', 'plugin' => 'forum'], ['pass' => ['id'], 'id' => '[0-9]+']);
 Router::connect('/message/:slug.:id', ['controller' => 'message', 'action' => 'view', 'plugin' => 'forum'], ['pass' => ['id', 'slug'], 'id' => '[0-9]+']);
 Router::connect('/message/:slug.:id/:page', ['controller' => 'message', 'action' => 'view', 'plugin' => 'forum'], ['pass' => ['id', 'slug', 'page'], 'id' => '[0-9]+', 'page' => '[0-9]+']);
