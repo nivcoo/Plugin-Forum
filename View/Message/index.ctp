@@ -1,16 +1,3 @@
-<?php
-$lastTopics = $this->requestAction('/forum/api/getLastMessageForum/5');
-foreach ($lastTopics as $a){
-          var_dump($a->title);
-          var_dump($a->uri);
-          var_dump($a->lastAuthor);
-          var_dump($a->lastAuthorColor);
-          var_dump($a->date);
-          var_dump($a->isStick);
-          var_dump($a->isLock);
-     }
-    ?>
-
 <?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
 <div class="container">
     <div class="mt10">
