@@ -247,11 +247,13 @@ class ForumAppController extends AppController
         $uns = unserialize($forums[$key]['Forum']['visible']);
         if ($uns) {
             if (array_sum($uns) == 0) return true;
-            foreach ($groups as $group){
-                if (isset($uns[$group['id']])) {
-                    if($uns[$group['id']] == '1') return true;
-                } else {
-                    return false;
+            if(!empty($groups)){
+                foreach ($groups as $group){
+                    if (isset($uns[$group['id']])) {
+                        if($uns[$group['id']] == '1') return true;
+                    } else {
+                        return false;
+                    }
                 }
             }
             return false;
