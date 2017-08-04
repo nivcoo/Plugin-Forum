@@ -223,6 +223,7 @@
   "FORUM__PHRASE__PAGE__ADMINEDIT_1": "Ce sont les messages signalés par cet utilisateur",
   "FORUM__PHRASE__PAGE__ADDTOPIC_1": "Le titre est très important car il est utilisé pour déterminer l'url, veillez donc à utiliser un titre cohérant.",
   "FORUM__ADMIN__TIPS_1":"(Si aucune case n'est coché, la catégorie sera visible par tous)",
+  "FORUM__PERMS__WARNING": "Vérifiez bien les permissions pour les sous-catégories, celles-ci dépendant du forum parent et non de la cétégorie parente",
 
   "FORUM__RANK__BASIC": "Membre",
   "FORUM__TOPIC__LOCK": "Le topic a bien été verrouillé",

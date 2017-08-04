@@ -298,7 +298,7 @@ class ForumAppController extends AppController
 
                 $idCategory = $this->Topic->info('id_parent', $id);
 
-                if ($this->viewVisible('category', $idCategory)) {
+                if ($this->viewParent('category', $idCategory)) {
                     $topic[0]['Forum']['visible'] = $this->Topic->info('visible', $id);
 
                     if ($this->viewVisible($topic, 0)) {

@@ -722,7 +722,7 @@ class ForumController extends ForumAppController
                         $this->Tag->deleteTag($id);
                     }
 
-                    $this->redirect($this->Html->url('/admin/forum/forum/'.$type));
+                    $this->redirect(Router::url('/', true).'admin/forum/forum/'.$type);
                 } else {
                     throw new ForbiddenException();
                 }

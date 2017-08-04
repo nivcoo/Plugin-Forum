@@ -182,6 +182,12 @@
                             <div id="zone">
                             </div>
 
+                            <div class="alert alert-warning alert-dismissible" style="margin:40px 0">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h4><i class="icon fa fa-warning"></i> <?= $Lang->get('FORUM__WARNING!'); ?></h4>
+                                <?= $Lang->get('FORUM__PERMS__WARNING'); ?>
+                            </div>
+                            
                             <div class="form-group">
                                 <label> <?= $Lang->get('FORUM__SEEBY') ?></label>
                                 <?php if(!empty($ranks)): ?>
