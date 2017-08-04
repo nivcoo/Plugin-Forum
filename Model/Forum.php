@@ -97,6 +97,7 @@ class Forum extends ForumAppModel {
 
     public function viewVisible($id)
     {
+        $this->log($id);
         return $this->find('first', ['conditions' => ['id' => $id]])['Forum']['visible'];
     }
 }

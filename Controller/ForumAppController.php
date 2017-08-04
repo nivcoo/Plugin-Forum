@@ -267,13 +267,12 @@ class ForumAppController extends AppController
      */
     protected function viewParent($type, $id)
     {
-        $this->loadModel('Forum.forums');
+        $this->loadModel('Forum.Forum');
 
         $groups = $this->ForumPermission->getRank($this->getIdSession(), true);
 
         switch ($type) {
             case 'category':
-
                 $forums[0]['Forum']['visible'] = $this->Forum->viewVisible($id);
 
                 //Check the category
