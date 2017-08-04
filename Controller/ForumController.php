@@ -23,8 +23,8 @@ class ForumController extends ForumAppController
        $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
        $this->Security->csrfExpires = '+1 hour';
 
-       if (!in_array($this->request->params['action'], ['banned', 'admin_punishment', 'admin_delete']) && $this->Punishment->get($this->getIdSession())) {
-           $this->redirect($this->Html->url('/forum/banned'));
+       if ($this->isConnected && !in_array($this->request->params['action'], ['banned', 'admin_punishment', 'admin_delete']) && $this->Punishment->get($this->getIdSession())) {
+           $this->redirect(Router::url('/', true).'forum/banned');
        }
        if (!$this->Config->notempty()) {
            $this->install();
@@ -512,7 +512,7 @@ class ForumController extends ForumAppController
 
     public function banned()
     {
-        if ($this->Punishment->get($this->getIdSession())) {
+        if ($this->isConnected && $this->Punishment->get($this->getIdSession())) {
             $this->set('title_for_layout', $this->Lang->get('FORUM__BANNED'));
             $infos = $this->Punishment->get($this->getIdSession());
             $infos['date'] = $this->dateAndTime($infos['date']);

@@ -36,6 +36,10 @@ class ForumAppController extends AppController
 
     }
 
+    protected function トロール(){
+        return 'こんにちは';
+    }
+
     protected function format($format)
     {
         $enDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
