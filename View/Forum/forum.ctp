@@ -83,11 +83,11 @@
                                     foreach ($explode as $key => $e):
                                         if($e == $tag['Tag']['id']): ?>
                                             <span style="background-color: #<?= $tag['Tag']['color']; ?>" class="labeltag">
-                                                       <?php if(!empty($tag['Tag']['icon'])): ?>
-                                                           <i class="fa fa-<?= $tag['Tag']['icon']; ?>" aria-hidden="true"></i>
-                                                       <?php endif; ?>
+                                               <?php if(!empty($tag['Tag']['icon'])): ?>
+                                                   <i class="fa fa-<?= $tag['Tag']['icon']; ?>" aria-hidden="true"></i>
+                                               <?php endif; ?>
                                                 <?= $tag['Tag']['name']; ?>
-                                                   </span>
+                                           </span>
                                         <?php endif;
                                     endforeach;
                                 endif;

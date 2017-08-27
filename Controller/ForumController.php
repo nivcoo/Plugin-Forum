@@ -210,6 +210,7 @@ class ForumController extends ForumAppController
         $this->loadModel('Forum.MsgReport');
         $this->loadModel('Forum.Profile');
         $this->loadModel('Forum.Vieww');
+        $this->loadModel('Forum.Tag');
 
         if (!$this->Config->is('forum')) {
             throw new NotFoundException();
@@ -422,9 +423,11 @@ class ForumController extends ForumAppController
                 $active['reportmsg'] = ($this->Config->is('reportmsg')) ? true : false;
                 $perms = $this->perm_l();
                 $theme = $this->theme();
+                $tags = $this->Tag->get();
+                $topic = $this->Topic->getTag($id);
 
                 $this->set('title_for_layout', $this->replaceHyppen($slug).' | '.$this->Lang->get('FORUM__TITLE'));
-                $this->set(compact('msgs', 'parent', 'active', 'perms', 'lock', 'id', 'stick', 'theme', 'pagination', 'title'));
+                $this->set(compact('msgs', 'parent', 'active', 'perms', 'lock', 'id', 'stick', 'theme', 'pagination', 'title', 'tags', 'topic'));
             }
         } else {
             throw new NotFoundException('Le topic n\'existe pas !', 404);

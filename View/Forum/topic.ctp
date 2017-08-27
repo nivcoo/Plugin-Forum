@@ -43,7 +43,27 @@
     <?= @$this->Session->flash(); ?>
     <div class="forum-forum">
         <div class="forum-forum-header">
-            <p class="forum-forum-title"><i class="fa fa-flag" aria-hidden="true"></i> <?= h($title); ?></p>
+            <p class="forum-forum-title">
+                <i class="fa fa-flag" aria-hidden="true"></i>
+
+                <?php foreach($tags as $key => $tag): ?>
+                    <?php if(!empty($topic)):
+                        $explode = explode(',', $topic);
+                        foreach ($explode as $key => $e):
+                            if($e == $tag['Tag']['id']): ?>
+                                <span style="background-color: #<?= $tag['Tag']['color']; ?>" class="labeltag">
+                                   <?php if(!empty($tag['Tag']['icon'])): ?>
+                                       <i class="fa fa-<?= $tag['Tag']['icon']; ?>" aria-hidden="true"></i>
+                                   <?php endif; ?>
+                                    <?= $tag['Tag']['name']; ?>
+                               </span>
+                            <?php endif;
+                        endforeach;
+                    endif;
+                endforeach; ?>
+
+                <?= h($title); ?>
+            </p>
         </div>
     </div>
     <?php foreach ($msgs as $msg): ?>

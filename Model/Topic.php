@@ -171,8 +171,6 @@ class Topic extends ForumAppModel {
             'date' => $date
         ]);
 
-        //https://book.cakephp.org/2.0/fr/models/saving-your-data.html#model-set-one-two-null
-
         return $this->save();
     }
 
