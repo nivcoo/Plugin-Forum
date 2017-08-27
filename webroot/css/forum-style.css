@@ -341,10 +341,24 @@ ol > .forum-left.last{
     display: inline;
 }
 
+.media{
+    margin-left: 10px;
+}
+
 .media:hover{
     list-style: none;
     text-decoration: none;
     text-underline: none;
+    cursor: pointer;
+}
+
+.media > .fa-stack{
+    width: 30px;
+}
+
+.fa-stack > i {
+    margin: 0 !important;
+    width: 30px;
 }
 
 .media-youtube, .media-youtube:hover{
