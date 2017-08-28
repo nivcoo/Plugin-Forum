@@ -23,6 +23,8 @@ class ForumController extends ForumAppController
        $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
        $this->Security->csrfExpires = '+1 hour';
 
+
+
        if ($this->isConnected && !in_array($this->request->params['action'], ['banned', 'admin_punishment', 'admin_delete']) && $this->Punishment->get($this->getIdSession())) {
            $this->redirect(Router::url('/', true).'forum/banned');
        }
@@ -65,8 +67,8 @@ class ForumController extends ForumAppController
             if ($this->viewVisible($forums, $key)) {
                 $forums[$key]['Forum']['href'] = $this->buildUri('forum', $forum['Forum']['forum_name'], $forum['Forum']['id']);
                 if (isset($this->Topic->determine($forum['Forum']['id'])['Topic']['id_parent'])) {
-                    $forums[$key]['Forum']['nb_discussion'] = $this->Topic->info('nb_topic', $forum['Forum']['id']);
-                    $forums[$key]['Forum']['nb_message'] = $this->Topic->info('nb_msg', $forum['Forum']['id']);
+                    $forums[$key]['Forum']['nb_discussion'] = $this->countChildrenTopic('forum', $forum['Forum']['id']);
+                    $forums[$key]['Forum']['nb_message'] = $this->countChildrenMessage('category', $forum['Forum']['id']);
                     $forums[$key]['Forum']['topic_last_id'] = $this->Topic->info('topic_last_id', $forum['Forum']['id']);
                     $forums[$key]['Forum']['topic_last_idtopic'] = $this->Topic->info('topic_last_idtopic', $forum['Forum']['id']);
                     $forums[$key]['Forum']['topic_last_title'] = $this->Topic->info('topic_last_title', $forum['Forum']['id']);
@@ -278,7 +280,7 @@ class ForumController extends ForumAppController
                             }
                         } elseif (!empty($this->request->data['content_update'])) {
                             $idMessage = $this->request->data['id'];
-                            $content = str_replace("'", "\\'", $this->request->data['content_update']);
+                            $content = $this->request->data['content_update'];
                             $content = $this->word($content);
                             if ($this->ForumPermission->has('FORUM_MSG_EDIT') OR $this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
                                 if ($this->ForumPermission->has('FORUM_MSG_EDIT')) {
@@ -1559,5 +1561,81 @@ class ForumController extends ForumAppController
         }
 
         return $this->redirect($this->referer());
+    }
+
+    private function countChildrenTopic($type, $id)
+    {
+        $this->loadModel('Forum.forums');
+        $this->loadModel('Forum.Topic');
+
+        $nb = 0;
+
+        switch ($type) {
+            case 'forum':
+                $nb += $this->countChildrenTopic('category', $id);
+
+                $categorys = $this->Forum->getForum('categorie', $id);
+
+                if(!empty($categorys)){
+                    foreach ($categorys as $key => $category){
+                        $nb += $this->countChildrenTopic('category', $category['Forum']['id']);
+                    }
+                }
+                break;
+            case 'category':
+                $nb = $this->Topic->info('nb_topic', $id);
+                break;
+            default:
+                return null;
+        }
+
+        return $nb;
+    }
+
+    private function countChildrenMessage($type, $id)
+    {
+        $this->loadModel('Forum.forums');
+        $this->loadModel('Forum.Topic');
+
+        $nb[0] = 0;
+
+        switch ($type) {
+            /*case 'forum':
+                $nb += $this->countChildrenTopic('category', $id);
+
+                $categorys = $this->Forum->getForum('categorie', $id);
+
+                if(!empty($categorys)){
+                    foreach ($categorys as $key => $category){
+                        $nb += $this->countChildrenTopic('category', $category['Forum']['id']);
+                    }
+                }
+                break;*/
+            case 'category':
+
+                $categorys = $this->Forum->getForum('categorie', $id);
+
+                if(!empty($categorys)){
+                    foreach ($categorys as $key => $category){
+                        $nb[0] += $this->countChildrenMessage('category', $category['Forum']['id']);
+                    }
+                }
+
+                $topics = $this->Topic->getTopic($id);
+
+                if(!empty($topics)){
+                    foreach ($topics as $key => $topic){
+                        $nb[0] += $this->Topic->getNbMessage('topic', $topic['Topic']['id_topic']);
+                    }
+                }
+                break;
+            case 'topic':
+                return $this->Topic->info('nb_msg', $id);
+                break;
+            default:
+                return null;
+        }
+
+        return $nb[0];
     }
 }
