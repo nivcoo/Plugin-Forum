@@ -48,7 +48,7 @@ class ApiController extends ForumAppController
 
         foreach ($allTopics as $key => $a){
             if ($this->viewParent('topic', $a['Topic']['id_topic'])) {
-                if($this->i > $int) break;
+                if ($this->i > $int) break;
 
                 $return[$key]->title = $a['Topic']['name'];
                 $return[$key]->uri = $this->buildUri('topic', $a['Topic']['name'], $a['Topic']['id_topic']);
@@ -59,7 +59,7 @@ class ApiController extends ForumAppController
                 $return[$key]->isLock = $a['Topic']['lock'];
 
                 $this->i++;
-            }else {
+            } else {
                 unset($allTopics[$key]);
             }
         }
@@ -97,15 +97,52 @@ class ApiController extends ForumAppController
             $return = '';
 
             $userOnlines = $this->Forum->userOnline($this->User, $max);
-            foreach ($userOnlines as $key => $userOnline) {
-                $return[$key]->id = $userOnline['User']['id'];
-                $return[$key]->pseudo = $userOnline['User']['pseudo'];
-                $return[$key]->color = $this->ForumPermission->getRankColorDomin($userOnline['User']['id']);
+
+            if (!empty($userOnlines)) {
+                foreach ($userOnlines as $key => $userOnline) {
+                    $return[$key] = (object) [];
+                    $return[$key]->id = $userOnline['User']['id'];
+                    $return[$key]->pseudo = $userOnline['User']['pseudo'];
+                    $return[$key]->color = $this->ForumPermission->getRankColorDomin($userOnline['User']['id']);
+                }
             }
 
             return $return;
-        }else{
+        } else {
             return $this->log($this->Lang->get('FORUM__API__ONLINEUSER__DENIED'));
+        }
+    }
+
+
+    /*
+     * Get Statistics
+     *
+     * Example code :
+     * $stats = $this->requestAction('/forum/api/getStats');
+     * var_dump($stats->nbUserOnline);
+     * var_dump($stats->totalTopic);
+     * var_dump($stats->totalMessage);
+     */
+
+    public function getStats()
+    {
+        $this->autoRender = false;
+
+        $this->loadModel('Forum.Config');
+        $this->loadModel('Forum.Topic');
+
+        if ($this->Config->is('statistics')) {
+
+            $return = (object) [];
+            $return->nbUserOnline = count($this->getOnlineUsers());
+
+            $stats = $this->Topic->stats();
+            $return->totalTopic = $stats['total_topic'];
+            $return->totalMessage = $stats['total_msg'];
+
+            return $return;
+        } else {
+            return $this->log($this->Lang->get('FORUM__API__STATS__DENIED'));
         }
     }
 
