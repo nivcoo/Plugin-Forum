@@ -67,4 +67,46 @@ class ApiController extends ForumAppController
         return $return;
     }
 
+
+    /*
+     * Get Online Users
+     *
+     * @param Int $int Maximum number of Users
+     *
+     * @return Array Returns array with online users
+     *
+     * Example code :
+     * $onlineUsers = $this->requestAction('/forum/api/getOnlineUsers/5');
+     * foreach ($onlineUsers as $o){
+     *      var_dump($o->id);
+     *      var_dump($o->pseudo);
+     *      var_dump($o->color);
+     * }
+     */
+
+    public function getOnlineUsers($max = null)
+    {
+        $this->autoRender = false;
+
+        $this->loadModel('Forum.Config');
+        $this->loadModel('Forum.Forum');
+        $this->loadModel('User');
+
+        if ($this->Config->is('useronline')) {
+
+            $return = '';
+
+            $userOnlines = $this->Forum->userOnline($this->User, $max);
+            foreach ($userOnlines as $key => $userOnline) {
+                $return[$key]->id = $userOnline['User']['id'];
+                $return[$key]->pseudo = $userOnline['User']['pseudo'];
+                $return[$key]->color = $this->ForumPermission->getRankColorDomin($userOnline['User']['id']);
+            }
+
+            return $return;
+        }else{
+            return $this->log($this->Lang->get('FORUM__API__ONLINEUSER__DENIED'));
+        }
+    }
+
 }

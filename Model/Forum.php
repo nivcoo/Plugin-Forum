@@ -19,9 +19,9 @@ class Forum extends ForumAppModel {
         }
     }
 
-    public function userOnline($userModel){
+    public function userOnline($userModel, $limit = null){
         $date = date('Y-m-d H:i:s', strtotime('-5 minutes'));
-        return $userModel->find('all', ['fields' => ['id', 'pseudo'], 'conditions' => ['forum-last_activity >' => $date]]);
+        return $userModel->find('all', ['fields' => ['id', 'pseudo'], 'conditions' => ['forum-last_activity >' => $date], 'limit' => $limit]);
     }
 
     public function addForum($idUser, $name, $position, $image){

@@ -234,5 +234,7 @@
   "FORUM__LAST__REPORT": "Derniers signalements de l'utilisateur",
   "FORUM__LAST__ACTIVITY": "Dernière activité",
   "FORUM__TOPIC__CREATE": "Créer un topic",
-  "FORUM__VIEW_EXAMPLE": "Voir un exemple"
+  "FORUM__VIEW_EXAMPLE": "Voir un exemple",
+
+  "FORUM__API__ONLINEUSER__DENIED":"Impossible d'utiliser la fonction getOnlineUsers de l'API forum car celle-ci est désactivé par l'administrateur du site."
 }
