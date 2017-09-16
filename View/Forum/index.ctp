@@ -15,14 +15,14 @@
                         <a href="<?= $this->Html->url('/forum/report') ?>"><i class="fa fa-flag" aria-hidden="true"></i></a>
                     </li>
                 <?php endif; ?>
-                <?php if($active['privatemsg'] && isset($_SESSION['user'])): ?>
+                <?php if($active['privatemsg'] && isset($_SESSION['User'])): ?>
                     <li class="forum-left">
                         <a href="<?= $this->Html->url('/message') ?>"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
                     </li>
                 <?php endif; ?>
-                <?php if(isset($_SESSION['user'])): ?>
+                <?php if(isset($_SESSION['User'])): ?>
                     <li class="forum-left">
-                        <a href="<?= $this->Html->url('/user/'.$my['user'].'.'.$my['id'].'/') ?>"><i class="fa fa-user" aria-hidden="true"></i></a>
+                        <a href="<?= $this->Html->url('/user/'.$my['User'].'.'.$my['id'].'/') ?>"><i class="fa fa-user" aria-hidden="true"></i></a>
                     </li>
                     <li class="forum-left last">
                         <a href="<?= $this->Html->url('/user/logout') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
@@ -67,7 +67,7 @@
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
                                 <?php if($forum['Forum']['nb_discussion'] != 0 && $forum['Forum']['nb_message'] != 0): ?>
-                                <a href="<?= $forum['Forum']['topic_last_href']; ?>"><?= h($forum['Forum']['topic_last_title']); ?></a><br/>
+                                <a href="<?= $forum['Forum']['topic_last_href']; ?>"><?= $this->Text->truncate(h($forum['Forum']['topic_last_title']), 70); ?></a><br/>
                                 <a style="color:#<?= $forum['Forum']['topic_last_author_color']; ?>" href="<?= $this->Html->url('/user/'.$forum['Forum']['topic_last_author'].'.'.$forum['Forum']['topic_last_authorid'].'/'); ?>"><?= $forum['Forum']['topic_last_author']; ?></a>, <?= $forum['Forum']['topic_last_date']; ?>
                                 <?php endif; ?>
                             </div>

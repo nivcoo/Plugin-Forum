@@ -138,7 +138,7 @@ class ForumPermissionComponent extends Component
 
     private function getIdSession()
     {
-        return isset($_SESSION['user']) ? $_SESSION['user'] : false;
+        return isset($_SESSION['User']) ? $_SESSION['User'] : false;
     }
 
     public function updateRank($name, $description, $color, $id, $position)
@@ -149,5 +149,10 @@ class ForumPermissionComponent extends Component
     public function updatePermission($value, $id)
     {
         return $this->model['permission']->updatePermission($id, $value);
+    }
+
+    public function delete($table, $key, $value)
+    {
+        $this->model[$table]->_delete($key, $value);
     }
 }

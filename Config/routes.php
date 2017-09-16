@@ -7,8 +7,8 @@ Router::connect('/forum/:slug.:id/:page', ['controller' => 'forum', 'action' => 
 Router::connect('/topic/:slug.:id/', ['controller' => 'forum', 'action' => 'topic', 'plugin' => 'forum'], ['pass' => ['id', 'slug'], ['id' => '[0-9]+']]);
 Router::connect('/topic/:slug.:id/:page', ['controller' => 'forum', 'action' => 'topic', 'plugin' => 'forum'], ['pass' => ['id', 'slug', 'page'], ['id' => '[0-9]+', 'page' => '[0-9]+']]);
 
-Router::connect('/user/:slug.:id', ['controller' => 'user', 'action' => 'index', 'plugin' => 'forum'], ['pass' => ['id', 'slug'], 'id' => '[0-9]+']);
-Router::connect('/user/:slug.:id/edit', ['controller' => 'user', 'action' => 'edit', 'plugin' => 'forum'], ['pass' => ['id', 'slug'], 'id' => '[0-9]+']);
+Router::connect('/user/:slug.:id', ['controller' => 'User', 'action' => 'index', 'plugin' => 'forum'], ['pass' => ['id', 'slug'], 'id' => '[0-9]+']);
+Router::connect('/user/:slug.:id/edit', ['controller' => 'User', 'action' => 'edit', 'plugin' => 'forum'], ['pass' => ['id', 'slug'], 'id' => '[0-9]+']);
 
 Router::connect('/topic/add/:id', ['controller' => 'forum', 'action' => 'addTopic', 'plugin' => 'forum'], ['pass' => ['id'], 'id' => '[0-9]+']);
 

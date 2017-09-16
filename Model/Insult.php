@@ -1,16 +1,21 @@
 <?php
-class Insult extends ForumAppModel{
-    public function get(){
+class Insult extends ForumAppModel
+{
+
+    public function get()
+    {
         return $this->find('all');
     }
 
-    public function add($word, $replace){
+    public function add($word, $replace)
+    {
         $this->create();
         $this->set(['word' => $word, 'replace' => $replace]);
         return $this->save();
     }
 
-    public function deleteWord($id){
+    public function deleteWord($id)
+    {
         return $this->delete($id);
     }
 }

@@ -15,7 +15,7 @@ class MessageController extends ForumAppController
 
         $this->loadModel('User');
         $this->loadModel('Forum.Punishment');
-        $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
+        $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('User')));
         $this->Security->csrfExpires = '+1 hour';
 
         if (!in_array($this->request->params['action'], ['banned', 'admin_punishment', 'admin_delete']) && $this->Punishment->get($this->getIdSession())) {
@@ -46,7 +46,7 @@ class MessageController extends ForumAppController
                         $mps[$key] = $this->Conversation->get($id, $id);
                         $mps[$key]['Conversation']['msg_date'] = $this->dateAndTime($mps[$key]['Conversation']['msg_date']);
                         $mps[$key]['Conversation']['last_msg_date'] = $this->dateAndTime($messages[$key]['Conversation']['msg_date']);
-                        $mps[$key]['Conversation']['user'] = $this->gUBY($mps[$key]['Conversation']['author_id']);
+                        $mps[$key]['Conversation']['User'] = $this->gUBY($mps[$key]['Conversation']['author_id']);
                         $mps[$key]['Conversation']['href'] = $this->buildUri('message', $mps[$key]['Conversation']['title'], $mps[$key]['Conversation']['id_conversation']);
                         $mps[$key]['Conversation']['user_color'] = $this->ForumPermission->getRankColorDomin($mps[$key]['Conversation']['author_id']);
                     }

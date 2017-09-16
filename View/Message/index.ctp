@@ -32,7 +32,7 @@
                                     <h3 class="forum-category-title"><a href="<?= $mp['Conversation']['href']; ?>"><?= h($mp['Conversation']['title']); ?></a></h3>
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
-                                    <?= $Lang->get('FORUM__AUTHOR'); ?> : <a style="color:#<?= $mp['Conversation']['user_color']; ?>" href="<?= $this->Html->url('/user/'.$mp['Conversation']['user'].'.'.$mp['Conversation']['author_id'].'/'); ?>"><?= $mp['Conversation']['user']; ?></a><br />
+                                    <?= $Lang->get('FORUM__AUTHOR'); ?> : <a style="color:#<?= $mp['Conversation']['user_color']; ?>" href="<?= $this->Html->url('/user/'.$mp['Conversation']['User'].'.'.$mp['Conversation']['author_id'].'/'); ?>"><?= $mp['Conversation']['User']; ?></a><br />
                                     <?= $Lang->get('FORUM__LASTMSG'); ?> : <?= $mp['Conversation']['last_msg_date']; ?>
                                 </div>
                             </div>

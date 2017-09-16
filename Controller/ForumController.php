@@ -20,7 +20,7 @@ class ForumController extends ForumAppController
        $this->loadModel('Forum.Punishment');
        $this->loadModel('Forum.Config');
 
-       $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
+       $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('User')));
        $this->Security->csrfExpires = '+1 hour';
 
 
@@ -98,7 +98,7 @@ class ForumController extends ForumAppController
             $userOnlines = null;
         }
         $my['id'] = $this->getIdSession();
-        $my['user'] = $this->gUBY($this->getIdSession());
+        $my['User'] = $this->gUBY($this->getIdSession());
         $stats['countuser'] = count($userOnlines);
         $theme = $this->theme();
 
@@ -403,7 +403,7 @@ class ForumController extends ForumAppController
                     $user_id = $msg['Topic']['id_user'];
                     $msgs[$key]['Topic']['thumb_info']['green'] = $this->Note->isNoted('green', $msg['Topic']['id'] , $this->getIdSession());
                     $msgs[$key]['Topic']['thumb_info']['red'] = $this->Note->isNoted('red', $msg['Topic']['id'] , $this->getIdSession());
-                    $msgs[$key]['Topic']['author_info']['nb_message'] = $this->Topic->getNbMessage('user', $user_id);
+                    $msgs[$key]['Topic']['author_info']['nb_message'] = $this->Topic->getNbMessage('User', $user_id);
                     $msgs[$key]['Topic']['author_info']['thumb']['green'] = $this->Note->getNbThumb('green', $user_id);
                     $msgs[$key]['Topic']['author_info']['thumb']['red'] = $this->Note->getNbThumb('red', $user_id);
                     $msgs[$key]['Topic']['author_info']['inscription'] = $this->date($this->dateInscription($user_id));
@@ -503,7 +503,7 @@ class ForumController extends ForumAppController
 
             $msgreports = $this->MsgReport->get();
             foreach ($msgreports as $key => $msgreport) {
-                $msgreports[$key]['MsgReport']['user'] = $this->gUBY($msgreport['MsgReport']['id_user']);
+                $msgreports[$key]['MsgReport']['User'] = $this->gUBY($msgreport['MsgReport']['id_user']);
                 $msgreports[$key]['MsgReport']['date'] = $this->dateAndTime($msgreport['MsgReport']['date']);
                 $idTopic = $this->Topic->getUniqMessage($msgreport['MsgReport']['id_msg'])['id_topic'];
                 $msgreports[$key]['MsgReport']['href'] = $this->replaceSpace($this->Topic->getTitleTopic($idTopic)).'.'.$this->Topic->getIdTopic($idTopic);
@@ -521,7 +521,7 @@ class ForumController extends ForumAppController
             $this->set('title_for_layout', $this->Lang->get('FORUM__BANNED'));
             $infos = $this->Punishment->get($this->getIdSession());
             $infos['date'] = $this->dateAndTime($infos['date']);
-            $infos['user'] = $this->gUBY($infos['id_user']);
+            $infos['User'] = $this->gUBY($infos['id_user']);
             $theme = $this->theme();
             $this->set(compact('infos', 'theme'));
         } else {
@@ -571,21 +571,21 @@ class ForumController extends ForumAppController
 
                 $this->set(compact('configs', 'stats', 'userOnlines', 'remoteMsg'));
             }
-        }else {
+        } else {
             $this->redirect('/');
         }
     }
 
     public function admin_forum()
     {
-        if($this->isConnected AND $this->User->isAdmin()) {
+        if ($this->isConnected AND $this->User->isAdmin()) {
             $this->layout = 'admin';
             $this->loadModel('Forum.forums');
 
             $forums = $this->Forum->getForum('forum');
             $this->set(compact('forums'));
 
-        }else {
+        } else {
             $this->redirect('/');
         }
     }
@@ -689,11 +689,11 @@ class ForumController extends ForumAppController
             $this->autoRender = false;
             if ($this->request->is('get')) {
                 if ($type != false && $id != false) {
+
                     $this->loadModel('Forum.forums');
                     $this->loadModel('Forum.Insult');
                     $this->loadModel('Forum.Group');
                     $this->loadModel('Forum.Topic');
-                    $this->loadModel('Forum.ForumPermission');
                     $this->loadModel('Forum.MsgReport');
                     $this->loadModel('Forum.Punishment');
                     $this->loadModel('Forum.Tag');
@@ -708,9 +708,13 @@ class ForumController extends ForumAppController
                         $this->logforum($this->getIdSession(), 'delete_word', $this->gUBY($this->getIdSession()).' vient de supprimer un mot interdit', $id);
                         $this->Insult->deleteWord($id);
                     } elseif ($type == 'rank') {
+                        $this->log($this->getIdSession());
                         $this->logforum($this->getIdSession(), 'delete_group', $this->gUBY($this->getIdSession()).' vient de supprimer un groupe', $id);
                         $this->Group->deleteGroup($id);
+                        $this->ForumPermission->delete('groupsuser', 'id_group', $id);
                     } elseif ($type == 'permission') {
+                        $this->loadModel('Forum.ForumPermission');
+
                         $this->logforum($this->getIdSession(), 'delete_permission', $this->gUBY($this->getIdSession()).' vient de supprimer une permission', $id);
                         $this->ForumPermission->deletePermission($id);
                     } elseif ($type == 'report') {
@@ -858,11 +862,11 @@ class ForumController extends ForumAppController
                         $individual = unserialize($datas['Forum']['visible']);
 
                         $this->set(compact('datas', 'forums', 'type', 'categorys', 'ranks', 'individual'));
-                    } elseif ($type == 'user') {
+                    } elseif ($type == 'User') {
 
-                        $datas['user']['id'] = $id;
-                        $datas['user']['username'] = $this->gUBY($id);
-                        $datas['user']['lastseen'] = $this->dateAndTime($this->lastSeen($id));
+                        $datas['User']['id'] = $id;
+                        $datas['User']['username'] = $this->gUBY($id);
+                        $datas['User']['lastseen'] = $this->dateAndTime($this->lastSeen($id));
                         $datas['rank']['idgroup'] = $this->ForumPermission->getIdGroup($id);
                         $datas['rank']['domin'] = $this->ForumPermission->getDomin($id);
                         $datas['rank']['rankbis'] = ($this->ForumPermission->getRank($id)) ? $this->ForumPermission->getRank($id, 'advanced') : '';
@@ -1017,22 +1021,27 @@ class ForumController extends ForumAppController
                    $color = $this->request->data['color'];
                    $position = $this->request->data['position'];
 
-                   if(!is_numeric($position)){
+                   if (is_numeric($position)) {
+
+                       $id = $this->Group->addGroup($rank, $description, $color, $position);
+
+                       $this->loadModel('Forum.ForumPermission');
+
+                       $permissions = $this->ForumPermission->get(1);
+                       foreach ($permissions as $permission){
+                           $name = $permission['ForumPermission']['name'];
+                           $this->ForumPermission->addPermission($id, $name, 0);
+                       }
+                       $this->ForumPermission = $this->Components->load('Forum.ForumPermission');
+
+                       $this->logforum($this->getIdSession(), 'add_group', $this->gUBY($this->getIdSession()).' vient d\'ajouter un groupe : '.$rank, '');
+
+                       $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__GROUP'))));
+
+                   } else {
                        $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
                    }
 
-                   $id = $this->Group->addGroup($rank, $description, $color, $position);
-
-                   $this->loadModel('Forum.ForumPermission');
-                   $permissions = $this->ForumPermission->get(1);
-                   foreach ($permissions as $permission){
-                        $name = $permission['ForumPermission']['name'];
-                        $this->ForumPermission->addPermission($id, $name, 0);
-                   }
-                   $this->ForumPermission = $this->Components->load('Forum.ForumPermission');
-
-                   $this->logforum($this->getIdSession(), 'add_group', $this->gUBY($this->getIdSession()).' vient d\'ajouter un groupe : '.$rank);
-                   $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__GROUP'))));
                }else{
                    $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
                }
@@ -1087,7 +1096,7 @@ class ForumController extends ForumAppController
                 $this->layout = 'admin';
                 $bannis = $this->Punishment->get();
                 foreach ($bannis as $key => $banni){
-                    $bannis[$key]['Punishment']['user'] = $this->gUBY($banni['Punishment']['id_user']);
+                    $bannis[$key]['Punishment']['User'] = $this->gUBY($banni['Punishment']['id_user']);
                     $bannis[$key]['Punishment']['userto'] = $this->gUBY($banni['Punishment']['id_to_user']);
                     $bannis[$key]['Punishment']['date'] = $this->dateAndTime($banni['Punishment']['date']);
                 }
@@ -1111,7 +1120,7 @@ class ForumController extends ForumAppController
             $msgreports = $this->MsgReport->get();
 
             foreach ($msgreports as $key => $msgreport) {
-                $msgreports[$key]['MsgReport']['user'] = $this->gUBY($msgreport['MsgReport']['id_user']);
+                $msgreports[$key]['MsgReport']['User'] = $this->gUBY($msgreport['MsgReport']['id_user']);
                 $msgreports[$key]['MsgReport']['date'] = $this->dateAndTime($msgreport['MsgReport']['date']);
                 $idTopic = $this->Topic->getUniqMessage($msgreport['MsgReport']['id_msg'])['id_topic'];
                 $msgreports[$key]['MsgReport']['href'] = $this->replaceSpace($this->Topic->getTitleTopic($idTopic)).'.'.$this->Topic->getIdTopic($idTopic);
