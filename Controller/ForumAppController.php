@@ -13,7 +13,7 @@ class ForumAppController extends AppController
 
     public $atualTheme;
 
-    protected $version = '1.1.9';
+    protected $version = '1.1.10';
 
 
     protected function date($date)

@@ -34,6 +34,8 @@
                                                             <input style="width: 95%" placeholder="icone (exclamation-circle)" name="icon" class="form-control" type="text" />
                                                         </div>
                                                     </td>
+                                                </tr>
+                                                <tr>
                                                     <td>
                                                         <div class="input-group">
                                                             <div class="input-group-addon">
