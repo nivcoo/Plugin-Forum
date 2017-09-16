@@ -45,7 +45,7 @@
                             <div class="forum-bloc-header p15">
                                 <h3 class="forum-h3">
                                     <i class="fa fa-share-square-o" aria-hidden="true"></i> <?= $Lang->get('FORUM__SOCIAL__NETWORK'); ?>
-                                    <?php if(isset($_SESSION['User']) && $_SESSION['User'] == $id): ?>
+                                    <?php if(isset($_SESSION['user']) && $_SESSION['user'] == $id): ?>
                                         <a class="btn-theme pull-right inline" href="<?= $this->Html->url('/user/'.$slug.'.'.$id.'/edit') ?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                     <?php endif; ?>
                                 </h3>
@@ -108,7 +108,7 @@
                 <div class="p15">
                     <div class="forum-bloc p15">
                         <h5 class="inline"><?= $Lang->get('FORUM__PRESENTATION'); ?></h5>
-                        <?php if(isset($_SESSION['User']) && $_SESSION['User'] == $id): ?>
+                        <?php if(isset($_SESSION['user']) && $_SESSION['user'] == $id): ?>
                             <a class="btn-theme pull-right inline" href="<?= $this->Html->url('/user/'.$slug.'.'.$id.'/edit') ?>"><i class="fa fa-pencil" aria-hidden="true"></i> <?= $Lang->get('GLOBAL__EDIT'); ?></a>
                         <?php endif; ?>
                         <div>

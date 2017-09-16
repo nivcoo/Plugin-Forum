@@ -215,7 +215,7 @@
                         </form>
                     </div>
                 </div>
-            <?php elseif ($type == 'User'): ?>
+            <?php elseif ($type == 'user'): ?>
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title"><?= $Lang->get('FORUM__EDIT__USER') ?></h3>
@@ -226,8 +226,8 @@
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__PSEUDO'); ?></label>
                                 <input type="hidden" name="idgroup" value="<?= $datas['rank']['r']; ?>" />
-                                <input type="hidden" name="useredit" value="<?= $datas['User']['id']; ?>" />
-                                <input class="form-control" type="text" value="<?= $datas['User']['username']; ?>" disabled />
+                                <input type="hidden" name="useredit" value="<?= $datas['user']['id']; ?>" />
+                                <input class="form-control" type="text" value="<?= $datas['user']['username']; ?>" disabled />
                             </div>
                             <table class="table table-responsive dataTable">
                                 <thead>
@@ -255,7 +255,7 @@
                             </div>
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__LAST__PASSAGE'); ?></label>
-                                <input class="form-control" type="text" value="<?= $datas['User']['lastseen']; ?>" disabled />
+                                <input class="form-control" type="text" value="<?= $datas['user']['lastseen']; ?>" disabled />
                             </div>
                             <!-- TODO : Soon update-->
                             <!-- stats : thumb / nb message / nbtopic / isbanned / dessus description social network -->

@@ -15,14 +15,14 @@
                         <a href="<?= $this->Html->url('/forum/report') ?>"><i class="fa fa-flag" aria-hidden="true"></i></a>
                     </li>
                 <?php endif; ?>
-                <?php if($active['privatemsg'] && isset($_SESSION['User'])): ?>
+                <?php if($active['privatemsg'] && isset($_SESSION['user'])): ?>
                     <li class="forum-left">
                         <a href="<?= $this->Html->url('/message') ?>"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
                     </li>
                 <?php endif; ?>
-                <?php if(isset($_SESSION['User'])): ?>
+                <?php if(isset($_SESSION['user'])): ?>
                     <li class="forum-left">
-                        <a href="<?= $this->Html->url('/user/'.$my['User'].'.'.$my['id'].'/') ?>"><i class="fa fa-user" aria-hidden="true"></i></a>
+                        <a href="<?= $this->Html->url('/user/'.$my['user'].'.'.$my['id'].'/') ?>"><i class="fa fa-user" aria-hidden="true"></i></a>
                     </li>
                     <li class="forum-left last">
                         <a href="<?= $this->Html->url('/user/logout') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i></a>

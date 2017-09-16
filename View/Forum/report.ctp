@@ -21,7 +21,7 @@
                                 <tbody>
                                 <?php foreach ($msgreports as $msgreport): ?>
                                     <tr>
-                                        <td><?= $msgreport['MsgReport']['User']; ?></td>
+                                        <td><?= $msgreport['MsgReport']['user']; ?></td>
                                         <td><?= $msgreport['MsgReport']['date']; ?></td>
                                         <td><?= $msgreport['MsgReport']['reason']; ?></td>
                                         <td><?= $msgreport['MsgReport']['content']; ?></td>

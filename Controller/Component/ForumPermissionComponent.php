@@ -138,7 +138,7 @@ class ForumPermissionComponent extends Component
 
     private function getIdSession()
     {
-        return isset($_SESSION['User']) ? $_SESSION['User'] : false;
+        return isset($_SESSION['user']) ? $_SESSION['user'] : false;
     }
 
     public function updateRank($name, $description, $color, $id, $position)

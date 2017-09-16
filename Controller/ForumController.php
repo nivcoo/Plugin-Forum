@@ -20,7 +20,7 @@ class ForumController extends ForumAppController
        $this->loadModel('Forum.Punishment');
        $this->loadModel('Forum.Config');
 
-       $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('User')));
+       $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
        $this->Security->csrfExpires = '+1 hour';
 
 
@@ -98,7 +98,7 @@ class ForumController extends ForumAppController
             $userOnlines = null;
         }
         $my['id'] = $this->getIdSession();
-        $my['User'] = $this->gUBY($this->getIdSession());
+        $my['user'] = $this->gUBY($this->getIdSession());
         $stats['countuser'] = count($userOnlines);
         $theme = $this->theme();
 
@@ -403,7 +403,7 @@ class ForumController extends ForumAppController
                     $user_id = $msg['Topic']['id_user'];
                     $msgs[$key]['Topic']['thumb_info']['green'] = $this->Note->isNoted('green', $msg['Topic']['id'] , $this->getIdSession());
                     $msgs[$key]['Topic']['thumb_info']['red'] = $this->Note->isNoted('red', $msg['Topic']['id'] , $this->getIdSession());
-                    $msgs[$key]['Topic']['author_info']['nb_message'] = $this->Topic->getNbMessage('User', $user_id);
+                    $msgs[$key]['Topic']['author_info']['nb_message'] = $this->Topic->getNbMessage('user', $user_id);
                     $msgs[$key]['Topic']['author_info']['thumb']['green'] = $this->Note->getNbThumb('green', $user_id);
                     $msgs[$key]['Topic']['author_info']['thumb']['red'] = $this->Note->getNbThumb('red', $user_id);
                     $msgs[$key]['Topic']['author_info']['inscription'] = $this->date($this->dateInscription($user_id));
@@ -503,7 +503,7 @@ class ForumController extends ForumAppController
 
             $msgreports = $this->MsgReport->get();
             foreach ($msgreports as $key => $msgreport) {
-                $msgreports[$key]['MsgReport']['User'] = $this->gUBY($msgreport['MsgReport']['id_user']);
+                $msgreports[$key]['MsgReport']['user'] = $this->gUBY($msgreport['MsgReport']['id_user']);
                 $msgreports[$key]['MsgReport']['date'] = $this->dateAndTime($msgreport['MsgReport']['date']);
                 $idTopic = $this->Topic->getUniqMessage($msgreport['MsgReport']['id_msg'])['id_topic'];
                 $msgreports[$key]['MsgReport']['href'] = $this->replaceSpace($this->Topic->getTitleTopic($idTopic)).'.'.$this->Topic->getIdTopic($idTopic);
@@ -521,7 +521,7 @@ class ForumController extends ForumAppController
             $this->set('title_for_layout', $this->Lang->get('FORUM__BANNED'));
             $infos = $this->Punishment->get($this->getIdSession());
             $infos['date'] = $this->dateAndTime($infos['date']);
-            $infos['User'] = $this->gUBY($infos['id_user']);
+            $infos['user'] = $this->gUBY($infos['id_user']);
             $theme = $this->theme();
             $this->set(compact('infos', 'theme'));
         } else {
@@ -862,11 +862,11 @@ class ForumController extends ForumAppController
                         $individual = unserialize($datas['Forum']['visible']);
 
                         $this->set(compact('datas', 'forums', 'type', 'categorys', 'ranks', 'individual'));
-                    } elseif ($type == 'User') {
+                    } elseif ($type == 'user') {
 
-                        $datas['User']['id'] = $id;
-                        $datas['User']['username'] = $this->gUBY($id);
-                        $datas['User']['lastseen'] = $this->dateAndTime($this->lastSeen($id));
+                        $datas['user']['id'] = $id;
+                        $datas['user']['username'] = $this->gUBY($id);
+                        $datas['user']['lastseen'] = $this->dateAndTime($this->lastSeen($id));
                         $datas['rank']['idgroup'] = $this->ForumPermission->getIdGroup($id);
                         $datas['rank']['domin'] = $this->ForumPermission->getDomin($id);
                         $datas['rank']['rankbis'] = ($this->ForumPermission->getRank($id)) ? $this->ForumPermission->getRank($id, 'advanced') : '';
@@ -1096,7 +1096,7 @@ class ForumController extends ForumAppController
                 $this->layout = 'admin';
                 $bannis = $this->Punishment->get();
                 foreach ($bannis as $key => $banni){
-                    $bannis[$key]['Punishment']['User'] = $this->gUBY($banni['Punishment']['id_user']);
+                    $bannis[$key]['Punishment']['user'] = $this->gUBY($banni['Punishment']['id_user']);
                     $bannis[$key]['Punishment']['userto'] = $this->gUBY($banni['Punishment']['id_to_user']);
                     $bannis[$key]['Punishment']['date'] = $this->dateAndTime($banni['Punishment']['date']);
                 }
@@ -1120,7 +1120,7 @@ class ForumController extends ForumAppController
             $msgreports = $this->MsgReport->get();
 
             foreach ($msgreports as $key => $msgreport) {
-                $msgreports[$key]['MsgReport']['User'] = $this->gUBY($msgreport['MsgReport']['id_user']);
+                $msgreports[$key]['MsgReport']['user'] = $this->gUBY($msgreport['MsgReport']['id_user']);
                 $msgreports[$key]['MsgReport']['date'] = $this->dateAndTime($msgreport['MsgReport']['date']);
                 $idTopic = $this->Topic->getUniqMessage($msgreport['MsgReport']['id_msg'])['id_topic'];
                 $msgreports[$key]['MsgReport']['href'] = $this->replaceSpace($this->Topic->getTitleTopic($idTopic)).'.'.$this->Topic->getIdTopic($idTopic);

@@ -38,7 +38,7 @@
                                 <tbody>
                                 <?php foreach ($bannis as $banni): ?>
                                     <tr>
-                                        <td><?= $banni['Punishment']['User']; ?></td>
+                                        <td><?= $banni['Punishment']['user']; ?></td>
                                         <td><?= $banni['Punishment']['userto']; ?></td>
                                         <td><?= $banni['Punishment']['date']; ?></td>
                                         <td><?= $banni['Punishment']['reason']; ?></td>

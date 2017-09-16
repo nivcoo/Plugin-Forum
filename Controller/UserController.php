@@ -13,7 +13,7 @@ class UserController extends ForumAppController
     {
         parent::beforeFilter();
         $this->loadModel('User');
-        $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('User')));
+        $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
         $this->Security->csrfExpires = '+1 hour';
 
         if($this->theme == 'Justice') $this->layout = 'forum';
@@ -28,7 +28,7 @@ class UserController extends ForumAppController
             $this->loadModel('Forum.Profile');
 
             if($this->Config->is('userpage')){
-                $infos['nb_message'] = $this->Topic->getNbMessage('User', $id);
+                $infos['nb_message'] = $this->Topic->getNbMessage('user', $id);
                 $infos['inscription'] = $this->date($this->dateInscription($id));
                 $infos['thumb']['green'] = $this->Note->getNbThumb('green', $id);
                 $infos['thumb']['red'] = $this->Note->getNbThumb('red', $id);
