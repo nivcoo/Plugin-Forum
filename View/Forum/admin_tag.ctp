@@ -1,3 +1,4 @@
+<?=  $this->Html->css('Forum.bootstrap-colorpicker.min.css'); ?>
 <section class="content">
     <div class="row">
         <div class="col-md-12">
@@ -25,7 +26,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="form-inline">
-                                                            <input style="width: 95%" type="text" placeholder="ffffff" class="form-control" name="color" />
+                                                            <input style="width: 95%" type="text" placeholder="#ffffff" class="form-control colorpicker-element" name="color" />
                                                             <a target="_blank" href="http://htmlcolorcodes.com/fr/"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
                                                         </div>
                                                     </td>
@@ -74,14 +75,6 @@
                                 <?php endforeach; ?>
                                 </tbody>
                             </table>
-                            <?= $this->Html->css('dataTables.bootstrap.css'); ?>
-                            <?= $this->Html->script('jquery.dataTables.min.js') ?>
-                            <?= $this->Html->script('dataTables.bootstrap.min.js') ?>
-                            <script type="text/javascript">
-                                $('.dataTable').dataTable( {
-                                    "paging": false
-                                } );
-                            </script>
                         </div>
                     </div>
                 </div>
@@ -89,3 +82,15 @@
         </div>
     </div>
 </section>
+<?= $this->Html->script('Forum.bootstrap-colorpicker.min.js'); ?>
+<?= $this->Html->css('dataTables.bootstrap.css'); ?>
+<?= $this->Html->script('jquery.dataTables.min.js') ?>
+<?= $this->Html->script('dataTables.bootstrap.min.js') ?>
+<script type="text/javascript">
+    $(function(){
+        $('.colorpicker-element').colorpicker();
+        $('.dataTable').dataTable( {
+            "paging": false
+        } );
+    });
+</script>

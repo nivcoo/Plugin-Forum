@@ -366,6 +366,7 @@
                 } );
             </script>
             <?php elseif($type == 'rank'): ?>
+                <?= $this->Html->css('Forum.bootstrap-colorpicker.min.css'); ?>
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title"><?= $Lang->get('FORUM__EDIT__RANK') ?></h3>
@@ -387,7 +388,7 @@
                                 <label><?= $Lang->get('FORUM__COLOR') ?></label>
                                 <div class="row">
                                     <div class="col-md-11">
-                                        <input value="<?= $datas['color']; ?>" name="color" class="form-control" type="text" />
+                                        <input placeholder="#ffffff" value="<?= $datas['color']; ?>" name="color" class="form-control colorpicker-element" type="text" />
                                     </div>
                                     <div class="col-md-1">
                                         <a target="_blank" href="http://htmlcolorcodes.com/fr/"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
@@ -404,6 +405,8 @@
                         </form>
                     </div>
                 </div>
+                <?= $this->Html->script('Forum.bootstrap-colorpicker.min.js'); ?>
+                <script type="text/javascript">$(function(){$('.colorpicker-element').colorpicker();});</script>
             <?php endif; ?>
         </div>
     </div>

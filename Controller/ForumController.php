@@ -817,9 +817,16 @@ class ForumController extends ForumAppController
                     $color = $this->request->data['color'];
                     $position = $this->request->data['position'];
 
-                    $this->ForumPermission->updateRank($name, $description, $color, $id, $position);
-                    $this->logforum($this->getIdSession(), 'edit_rank', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__GROUP'), $name);
-                    $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
+                    $color = str_replace('#', '', $color);
+
+                    if (is_numeric($position)) {
+                        $this->ForumPermission->updateRank($name, $description, $color, $id, $position);
+                        $this->logforum($this->getIdSession(), 'edit_rank', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__GROUP'), $name);
+                        $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
+                    } else {
+                        $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
+                    }
+
                 } elseif (!empty($this->request->data['social'])){
 
                     $facebook = $this->request->data['facebook'];
@@ -1023,6 +1030,8 @@ class ForumController extends ForumAppController
 
                    if (is_numeric($position)) {
 
+                       $color = str_replace('#', '', $color);
+
                        $id = $this->Group->addGroup($rank, $description, $color, $position);
 
                        $this->loadModel('Forum.ForumPermission');
@@ -1222,6 +1231,8 @@ class ForumController extends ForumAppController
                 $color = $this->request->data['color'];
                 $position = $this->request->data['position'];
                 $icon = (!empty($this->request->data['icon'])) ? $this->request->data['icon'] : '';
+
+                $color = str_replace('#', '', $color);
 
                 $this->Tag->add($label, $icon, $color, $position);
 
