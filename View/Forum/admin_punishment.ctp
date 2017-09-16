@@ -15,9 +15,30 @@
                                         <table class="table table-responsive">
                                             <tbody>
                                             <tr>
-                                                <td><input placeholder="Pseudo" name="pseudo" class="form-control" type="text" /></td>
-                                                <td><input placeholder="Raison" name="reason" class="form-control" type="text" /></td>
-                                                <td><input name="date" class="form-control" placeholder="<?= date('Y-m-d', strtotime('+1 day')); ?>" value="<?= date('Y-m-d', strtotime('+1 day')); ?>" type="text" /></td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                                        </div>
+                                                        <input placeholder="Pseudo" name="pseudo" class="form-control" type="text" />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-commenting" aria-hidden="true"></i>
+                                                        </div>
+                                                        <input placeholder="Raison" name="reason" class="form-control" type="text" />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                        </div>
+                                                        <input name="date" class="form-control" placeholder="<?= date('Y-m-d', strtotime('+1 day')); ?>" value="<?= date('Y-m-d', strtotime('+1 day')); ?>" type="text" />
+                                                    </div>
+                                                </td>
                                                 <td><button class="btn btn-primary" type="submit"><?= $Lang->get('GLOBAL__ADD') ?></button></td>
                                             </tr>
                                             </tbody>

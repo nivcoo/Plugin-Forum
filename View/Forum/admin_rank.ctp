@@ -17,16 +17,43 @@
                                             <table class="table table-responsive">
                                                 <tbody>
                                                 <tr>
-                                                    <td><input placeholder="Nom du grade (Développeur)" name="rank" class="form-control" type="text" /></td>
-                                                    <td><input placeholder="Description du gade" name="description" class="form-control" type="text" /></td>
                                                     <td>
-                                                        <div class="form-inline">
-                                                            <input style="width: 95%" type="text" placeholder="#ffffff" class="form-control colorpicker-element" name="color" />
-                                                            <a target="_blank" href="http://htmlcolorcodes.com/fr/"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon">
+                                                                <i class="fa fa-font" aria-hidden="true"></i>
+                                                            </div>
+                                                            <input placeholder="Nom du grade (Développeur)" name="rank" class="form-control" type="text" />
                                                         </div>
                                                     </td>
-                                                    <td><input placeholder="Position (1..99)" name="position" class="form-control" type="text" /></td>
-                                                    <td><button class="btn btn-primary" type="submit"><?= $Lang->get('GLOBAL__ADD') ?></button> </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon">
+                                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            </div>
+                                                            <input style="width: 95%" type="text" placeholder="#ffffff" class="form-control colorpicker-element" name="color" />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon">
+                                                                <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+                                                            </div>
+                                                            <input placeholder="Position (1..99)" name="position" class="form-control" type="text" />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <div class="input-group" style="width:90%">
+                                                            <div class="input-group-addon">
+                                                                <i class="fa fa-commenting" aria-hidden="true"></i>
+                                                            </div>
+                                                            <input placeholder="Description du gade" name="description" class="form-control" type="text" />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-primary" type="submit"><?= $Lang->get('GLOBAL__ADD') ?></button>
+                                                    </td>
                                                 </tr>
                                                 </tbody>
                                             </table>

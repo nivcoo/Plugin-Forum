@@ -19,8 +19,22 @@
                                 <table class="table table-responsive">
                                     <tbody>
                                         <tr>
-                                            <td><input placeholder="Mot interdit" name="word" class="form-control" type="text" /></td>
-                                            <td><input placeholder="Remplacé par" name="replace" class="form-control" type="text" /></td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-font" aria-hidden="true"></i>
+                                                    </div>
+                                                    <input placeholder="Mot interdit" name="word" class="form-control" type="text" />
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-font" aria-hidden="true"></i>
+                                                    </div>
+                                                    <input placeholder="Remplacé par" name="replace" class="form-control" type="text" />
+                                                </div>
+                                            </td>
                                             <td><button class="btn btn-primary" type="submit"><?= $Lang->get('GLOBAL__ADD') ?></button></td>
                                         </tr>
                                     </tbody>
