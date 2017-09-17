@@ -1,4 +1,7 @@
-<?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
+<?= $this->Html->css('Forum.forum-style.css') ?>
+<?= $this->Html->css('Forum.select2.min.css'); ?>
+<?= $this->Html->css('AdminLTE.min.css'); ?>
+
 <section class="content">
     <div class="row">
         <div class="col-md-12">
@@ -14,11 +17,16 @@
                         </blockquote>
                         <div class="form-group">
                             <label><?= $Lang->get('GLOBAL__NAME') ?></label>
-                            <input placeholder="Mineweb" name="name" class="form-control" type="text" />
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-font" aria-hidden="true"></i>
+                                </div>
+                                <input placeholder="Mineweb" name="name" class="form-control" type="text" />
+                            </div>
                         </div>
                         <div class="form-group">
                             <label><?= $Lang->get('FORUM__POSITION') ?></label>
-                            <select class="form-control" name="position">
+                            <select class="e1 form-control" name="position">
                                 <option value="1"><?= $Lang->get('FORUM__FIRST__POSITION') ?></option>
                                 <?php foreach ($forums as $key => $forum) { ?>
                                     <option value="<?= $key+2 ?>"><?= $Lang->get('FORUM__AFTER') ?> : <?= $forum['Forum']['forum_name'] ?></option>
@@ -38,14 +46,19 @@
                                 var html = '<div class="form-group">';
                                 html += '<div class="input-group">';
                                 html += '<span class="input-group-addon">fa-</span>';
-                                html += '<input value="<?= $datas["Forum"]["forum_image"]; ?>" name="image" class="form-control" type="text" placeholder="times" />';
+                                html += '<input name="image" class="form-control" type="text" placeholder="times" />';
                                 html += '</div>';
                                 html += '</div>';
                                 $('#zone').html(html);
                             });
                             $("#ii_type_image").click(function () {
                                 var html = '<div class="form-group">';
-                                html += '<input value="<?= $datas["forum"]["forum_image"]; ?>" name="image" class="form-control" type="text" placeholder="https://bing.com/image.png" />';
+                                html += '<div class="input-group">';
+                                html += '<div class="input-group-addon">';
+                                html += '<i class="fa fa-link" aria-hidden="true"></i>';
+                                html += '</div>';
+                                html += '<input name="image" class="form-control" type="text" placeholder="https://bing.com/image.png" />';
+                                html += '</div>';
                                 html += '</div>';
                                 $('#zone').html(html);
                             });
@@ -76,3 +89,7 @@
         </div>
     </div>
 </section>
+<?= $this->Html->script('Forum.select2.min.js'); ?>
+<script type="text/javascript">
+    $(document).ready(function(){$(".e1").select2();});
+</script>

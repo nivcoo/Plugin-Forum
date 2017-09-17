@@ -749,6 +749,7 @@ class ForumController extends ForumAppController
             $this->loadModel('Forum.forums');
             $this->loadModel('Forum.Historie');
             $this->loadModel('Forum.MsgReport');
+            $this->loadModel('Forum.Note');
             $this->loadModel('Forum.Profile');
 
             if ($this->request->is('ajax')) {
@@ -798,17 +799,20 @@ class ForumController extends ForumAppController
                     $this->logforum($this->getIdSession(), 'create_forum', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__CATEGORY'), $name);
 
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
-                } elseif(!empty($this->request->data['useredit'])) {
+                } elseif (!empty($this->request->data['useredit'])) {
 
                     $this->Profile->updateProfile($this->request->data['description'], $this->request->data['useredit']);
                     $idGroups = $this->request->data['idgroup'];
                     $groups = explode(',', $idGroups);
                     $domin = (isset($this->request->data['domin'])) ? $this->request->data['domin'] : false;
+
                     foreach ($groups as $key => $value){
                         $this->ForumPermission->updateGroup($this->request->data['rank_'.$value], $domin, $this->request->data['useredit'], $value);
                     }
+
                     $this->logforum($this->getIdSession(), 'edit_permission', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDITPERM__USER').$this->gUBY($this->request->data['useredit']), '');
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__USER__EDIT'))));
+
                 } elseif (!empty($this->request->data['color']) && !empty($this->request->data['name']) && !empty($this->request->data['position'])) {
 
                     $id = $this->request->data['id'];
@@ -827,7 +831,7 @@ class ForumController extends ForumAppController
                         $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
                     }
 
-                } elseif (!empty($this->request->data['social'])){
+                } elseif (!empty($this->request->data['social'])) {
 
                     $facebook = $this->request->data['facebook'];
                     $twitter = $this->request->data['twitter'];
@@ -881,6 +885,14 @@ class ForumController extends ForumAppController
                         $datas['profile'] = $this->Profile->get($id);
                         $datas['rank']['allrank'] = $this->ForumPermission->getRanks();
                         $datas['rank']['r'] = '';
+
+                        $datas['thumb']['set']['red'] = $this->Note->getNbThumb('red', $id);
+                        $datas['thumb']['set']['green'] = $this->Note->getNbThumb('green', $id);
+                        $datas['thumb']['get']['red'] = $this->Note->stats('red', $id);
+                        //$datas['thumb']['get']['green'] = $this->Note->stats('green', $id);
+                        $datas['thumb']['get']['green'] = 0;
+
+                        var_dump($datas['thumb']);
 
                         foreach ($datas['rank']['allrank'] as $key => $r) {
                             $s = (!$key) ? '' : ',';

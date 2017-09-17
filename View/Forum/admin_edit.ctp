@@ -1,4 +1,12 @@
-<?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
+<?= $this->Html->css('Forum.forum-style.css') ?>
+<?= $this->Html->css('Forum.billboard.min.css') ?>
+<?= $this->Html->css('Forum.font-awesome.min.css') ?>
+<?= $this->Html->css('Forum.select2.min.css'); ?>
+<?= $this->Html->css('AdminLTE.min.css'); ?>
+
+<?= $this->Html->script('Forum.d3.v4.min.js'); ?>
+<?= $this->Html->script('Forum.billboard.min.js'); ?>
+
 <section class="content">
     <div class="row">
         <div class="col-md-12">
@@ -20,7 +28,12 @@
                             }
                             function image() {
                                 var html = '<div class="form-group">';
+                                html += '<div class="input-group">';
+                                html += '<div class="input-group-addon">';
+                                html += '<i class="fa fa-link" aria-hidden="true"></i>';
+                                html += '</div>';
                                 html += '<input value="<?= $datas["forum_image"]; ?>" name="image" class="form-control" type="text" placeholder="https://bing.com/image.png" />';
+                                html += '</div>';
                                 html += '</div>';
                                 $('#zone').html(html);
                             }
@@ -29,13 +42,18 @@
                             <div class="ajax-msg"></div>
                             <div class="form-group">
                                 <label><?= $Lang->get('GLOBAL__NAME') ?></label>
-                                <input value="<?= $datas['forum_name']; ?>" name="name" class="form-control" type="text" />
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-font" aria-hidden="true"></i>
+                                    </div>
+                                    <input value="<?= $datas['forum_name']; ?>" name="name" class="form-control" type="text" />
+                                </div>
                                 <input value="<?= $datas['id']; ?>" name="id" type="hidden" />
                             </div>
 
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__POSITION') ?></label>
-                                <select class="form-control" name="position">
+                                <select class="form-control e1" name="position">
                                     <option value="1"><?= $Lang->get('FORUM__FIRST__POSITION') ?></option>
                                     <?php foreach ($forums as $key => $forum) { ?>
                                         <option value="<?= $key+2 ?>" <?php if($key+2 == $datas['position']) echo 'selected'; ?> <?php if($key+1 == $datas['position']) echo 'disabled'; ?>><?= $Lang->get('FORUM__AFTER') ?> : <?= $forum['Forum']['forum_name'] ?></option>
@@ -118,7 +136,12 @@
                             }
                             function image() {
                                 var html = '<div class="form-group">';
+                                html += '<div class="input-group">';
+                                html += '<div class="input-group-addon">';
+                                html += '<i class="fa fa-link" aria-hidden="true"></i>';
+                                html += '</div>';
                                 html += '<input value="<?= $datas["Forum"]["forum_image"]; ?>" name="image" class="form-control" type="text" placeholder="https://bing.com/image.png" />';
+                                html += '</div>';
                                 html += '</div>';
                                 $('#zone').html(html);
                             }
@@ -127,16 +150,26 @@
                             <div class="ajax-msg"></div>
                             <div class="form-group">
                                 <label><?= $Lang->get('GLOBAL__NAME') ?></label>
-                                <input value="<?= $datas['Forum']['forum_name']; ?>" name="name_category" class="form-control" type="text" />
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-font" aria-hidden="true"></i>
+                                    </div>
+                                    <input value="<?= $datas['Forum']['forum_name']; ?>" name="name_category" class="form-control" type="text" />
+                                </div>
                                 <input value="<?= $datas['Forum']['id']; ?>" name="id" type="hidden" />
                             </div>
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__POSITION') ?></label>
-                                <input value="<?= $datas['Forum']['position']; ?>" name="position" class="form-control" type="text" />
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+                                    </div>
+                                    <input value="<?= $datas['Forum']['position']; ?>" name="position" class="form-control" type="text" />
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__PARENT') ?></label>
-                                <select class="form-control" name="parent">
+                                <select class="form-control e1" name="parent">
                                     <?php foreach ($forums as $key => $forum) { ?>
                                         <option value="<?= $forum['Forum']['id']; ?>" <?php if($forum['Forum']['id'] == $datas['Forum']['id_parent']) echo 'selected'; ?>><?= $Lang->get('FORUM__IN') ?> : <?= $forum['Forum']['forum_name'] ?></option>
                                     <?php } ?>
@@ -227,7 +260,12 @@
                                 <label><?= $Lang->get('FORUM__PSEUDO'); ?></label>
                                 <input type="hidden" name="idgroup" value="<?= $datas['rank']['r']; ?>" />
                                 <input type="hidden" name="useredit" value="<?= $datas['user']['id']; ?>" />
-                                <input class="form-control" type="text" value="<?= $datas['user']['username']; ?>" disabled />
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                    </div>
+                                    <input class="form-control" type="text" value="<?= $datas['user']['username']; ?>" disabled />
+                                </div>
                             </div>
                             <table class="table table-responsive dataTable">
                                 <thead>
@@ -255,16 +293,86 @@
                             </div>
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__LAST__PASSAGE'); ?></label>
-                                <input class="form-control" type="text" value="<?= $datas['user']['lastseen']; ?>" disabled />
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </div>
+                                    <input class="form-control" type="text" value="<?= $datas['user']['lastseen']; ?>" disabled />
+                                </div>
                             </div>
-                            <!-- TODO : Soon update-->
-                            <!-- stats : thumb / nb message / nbtopic / isbanned / dessus description social network -->
-                            <!-- Premier bloc stats / -->
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary"><?= $Lang->get('GLOBAL__SUBMIT'); ?></button>
                             </div>
                         </form>
                     </div>
+                </div>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?= $Lang->get('FORUM__SOCIAL__STATS') ?></h3>
+                    </div>
+                    <div class="box-body">
+                        <!-- TODO : Soon update-->
+                        <!-- stats : thumb / nb message / nbtopic / isbanned -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="chart-bb-pie-thumbget"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="chart-bb-pie-thumbset"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        var chart = bb.generate({
+                            "data": {
+                                "columns": [
+                                    <?php if($datas['thumb']['get']['green'] > 1): ?>
+                                        ["Pouces verts reçu", <?= $datas['thumb']['get']['green']; ?>],
+                                    <?php else: ?>
+                                        ["Pouce vert reçu", <?= $datas['thumb']['get']['green']; ?>],
+                                    <?php endif; ?>
+
+                                    <?php if($datas['thumb']['get']['red'] > 1): ?>
+                                        ["Pouces rouges reçu", <?= $datas['thumb']['get']['red']; ?>],
+                                    <?php else: ?>
+                                        ["Pouce rouge reçu", <?= $datas['thumb']['get']['red']; ?>],
+                                    <?php endif; ?>
+                                ],
+                                "colors": {
+                                    <?php if($datas['thumb']['get']['green'] > 1): ?>
+                                        "Pouces verts reçu": "#60B044",
+                                    <?php else: ?>
+                                        "Pouce vert reçu": "#60B044",
+                                    <?php endif; ?>
+
+                                    <?php if($datas['thumb']['get']['red'] > 1): ?>
+                                        "Pouces rouges reçu": "#FF0000"
+                                    <?php else: ?>
+                                        "Pouce rouge reçu": "#FF0000"
+                                    <?php endif; ?>
+                                },
+                                "type": "pie"
+                            },
+                            oninit: function() {
+                                charterror('chart-bb-pie-thumbget', [<?= $datas['thumb']['get']['green']; ?>, <?= $datas['thumb']['get']['red']; ?>]);
+                            },
+                            "pie": {
+                                "label": {
+                                    "format": function (value, ratio, id) {
+                                        return (value);
+                                    }
+                                }
+                            },
+                            "bindto": "#chart-bb-pie-thumbget"
+                        });
+                        function charterror(selector, data) {
+                            var length = data.length;
+                            for (var i = 0; i < length; i++){
+                                if(data[i]) return true;
+                            }
+                            $('#' + selector).empty().addClass('echart').html('<i class="pie chart icon"></i><br />Graphique <br /> non disponible');
+                        }
+                    </script>
                 </div>
                 <div class="box">
                     <div class="box-header with-border">
@@ -275,24 +383,49 @@
                             <div class="ajax-msg"></div>
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__SOCIAL__FACEBOOK'); ?></label>
-                                <input class="form-control" type="text" name="facebook" value="<?= $socialNetworks['facebook']; ?>" />
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                    </div>
+                                    <input class="form-control" type="text" name="facebook" value="<?= $socialNetworks['facebook']; ?>" />
+                                </div>
                                 <input class="form-control" type="hidden" name="social" value="social" />
                             </div>
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__SOCIAL__TWITTER'); ?></label>
-                                <input class="form-control" type="text" name="twitter" value="<?= $socialNetworks['twitter']; ?>" />
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                    </div>
+                                    <input class="form-control" type="text" name="twitter" value="<?= $socialNetworks['twitter']; ?>" />
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__SOCIAL__YOUTUBE'); ?></label>
-                                <input class="form-control" type="text" name="youtube" value="<?= $socialNetworks['youtube']; ?>" />
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                                    </div>
+                                    <input class="form-control" type="text" name="youtube" value="<?= $socialNetworks['youtube']; ?>" />
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__SOCIAL__GOOGLEPLUS'); ?></label>
-                                <input class="form-control" type="text" name="googleplus" value="<?= $socialNetworks['googleplus']; ?>" />
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-google-plus" aria-hidden="true"></i>
+                                    </div>
+                                    <input class="form-control" type="text" name="googleplus" value="<?= $socialNetworks['googleplus']; ?>" />
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__SOCIAL__SNAPCHAT'); ?></label>
-                                <input class="form-control" type="text" name="snapchat" value="<?= $socialNetworks['snapchat']; ?>" />
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-snapchat-ghost" aria-hidden="true"></i>
+                                    </div>
+                                    <input class="form-control" type="text" name="snapchat" value="<?= $socialNetworks['snapchat']; ?>" />
+                                </div>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary"><?= $Lang->get('GLOBAL__SUBMIT'); ?></button>
@@ -411,3 +544,8 @@
         </div>
     </div>
 </section>
+
+<?= $this->Html->script('Forum.select2.min.js'); ?>
+<script type="text/javascript">
+    $(document).ready(function(){$(".e1").select2();});
+</script>

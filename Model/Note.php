@@ -28,6 +28,18 @@ class Note extends ForumAppModel
         }
     }
 
+    public function stats($type, $id)
+    {
+        switch ($type) {
+            case 'green' :
+                return $this->find('count', ['conditions' => ['id_user' => $id, 'type' => 1]]);
+                break;
+            case 'red' :
+                return $this->find('count', ['conditions' => ['id_user' => $id, 'type' => 2]]);
+                break;
+        }
+    }
+
     public function isNoted($type, $idMsg, $idUser)
     {
         switch ($type) {

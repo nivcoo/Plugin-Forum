@@ -1,4 +1,7 @@
-<?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
+<?= $this->Html->css('Forum.forum-style.css') ?>
+<?= $this->Html->css('Forum.select2.min.css'); ?>
+<?= $this->Html->css('AdminLTE.min.css'); ?>
+
 <section class="content">
     <div class="row">
         <div class="col-md-12">
@@ -11,15 +14,25 @@
                         <div class="ajax-msg"></div>
                         <div class="form-group">
                             <label><?= $Lang->get('GLOBAL__NAME') ?></label>
-                            <input placeholder="Mineweb" name="name" class="form-control" type="text" />
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-font" aria-hidden="true"></i>
+                                </div>
+                                <input placeholder="Mineweb" name="name" class="form-control" type="text" />
+                            </div>
                         </div>
                         <div class="form-group">
                             <label><?= $Lang->get('FORUM__POSITION') ?></label>
-                            <input name="position" class="form-control" type="text" />
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+                                </div>
+                                <input name="position" class="form-control" type="text" />
+                            </div>
                         </div>
                         <div class="form-group">
                             <label><?= $Lang->get('FORUM__PARENT') ?></label>
-                            <select class="form-control" name="parent">
+                            <select class="form-control e1" name="parent">
                                 <?php foreach ($forums as $key => $forum) { ?>
                                     <option value="<?= $forum['Forum']['id']; ?>"><?= $Lang->get('FORUM__IN') ?> : <?= $forum['Forum']['forum_name'] ?></option>
                                 <?php } ?>
@@ -45,7 +58,12 @@
                             });
                             $("#ii_type_image").click(function () {
                                 var html = '<div class="form-group">';
+                                html += '<div class="input-group">';
+                                html += '<div class="input-group-addon">';
+                                html += '<i class="fa fa-link" aria-hidden="true"></i>';
+                                html += '</div>';
                                 html += '<input name="image" class="form-control" type="text" placeholder="https://bing.com/image.png" />';
+                                html += '</div>';
                                 html += '</div>';
                                 $('#zone').html(html);
                             });
@@ -89,3 +107,7 @@
         </div>
     </div>
 </section>
+<?= $this->Html->script('Forum.select2.min.js'); ?>
+<script type="text/javascript">
+    $(document).ready(function(){$(".e1").select2();});
+</script>

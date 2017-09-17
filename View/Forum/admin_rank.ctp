@@ -30,7 +30,7 @@
                                                             <div class="input-group-addon">
                                                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                                             </div>
-                                                            <input style="width: 95%" type="text" placeholder="#ffffff" class="form-control colorpicker-element" name="color" />
+                                                            <input type="text" placeholder="#ffffff" class="form-control colorpicker-element" name="color" />
                                                         </div>
                                                     </td>
                                                     <td>

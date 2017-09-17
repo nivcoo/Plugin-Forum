@@ -31,7 +31,7 @@
                                                             <div class="input-group-addon">
                                                                 <i class="fa fa-font-awesome" aria-hidden="true"></i>
                                                             </div>
-                                                            <input style="width: 95%" placeholder="icone (exclamation-circle)" name="icon" class="form-control" type="text" />
+                                                            <input placeholder="icone (exclamation-circle)" name="icon" class="form-control" type="text" />
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -41,7 +41,7 @@
                                                             <div class="input-group-addon">
                                                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                                             </div>
-                                                            <input style="width: 95%" type="text" placeholder="#ffffff" class="form-control colorpicker-element" name="color" />
+                                                            <input type="text" placeholder="#ffffff" class="form-control colorpicker-element" name="color" />
                                                         </div>
                                                     </td>
                                                     <td>
@@ -108,7 +108,5 @@
 <?= $this->Html->script('jquery.dataTables.min.js') ?>
 <?= $this->Html->script('dataTables.bootstrap.min.js') ?>
 <script type="text/javascript">
-    $(function(){
-        $('.colorpicker-element').colorpicker();
-    });
+    $(function(){$('.colorpicker-element').colorpicker();});
 </script>
