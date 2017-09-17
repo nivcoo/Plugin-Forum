@@ -889,10 +889,7 @@ class ForumController extends ForumAppController
                         $datas['thumb']['set']['red'] = $this->Note->getNbThumb('red', $id);
                         $datas['thumb']['set']['green'] = $this->Note->getNbThumb('green', $id);
                         $datas['thumb']['get']['red'] = $this->Note->stats('red', $id);
-                        //$datas['thumb']['get']['green'] = $this->Note->stats('green', $id);
-                        $datas['thumb']['get']['green'] = 0;
-
-                        var_dump($datas['thumb']);
+                        $datas['thumb']['get']['green'] = $this->Note->stats('green', $id);
 
                         foreach ($datas['rank']['allrank'] as $key => $r) {
                             $s = (!$key) ? '' : ',';

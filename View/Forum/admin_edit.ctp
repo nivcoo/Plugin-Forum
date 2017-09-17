@@ -312,7 +312,7 @@
                     </div>
                     <div class="box-body">
                         <!-- TODO : Soon update-->
-                        <!-- stats : thumb / nb message / nbtopic / isbanned -->
+                        <!-- stats : nb message / nbtopic / isbanned -->
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="chart-bb-pie-thumbget"></div>
@@ -365,12 +365,54 @@
                             },
                             "bindto": "#chart-bb-pie-thumbget"
                         });
+                        var chart = bb.generate({
+                            "data": {
+                                "columns": [
+                                    <?php if($datas['thumb']['set']['green'] > 1): ?>
+                                    ["Pouces verts mis", <?= $datas['thumb']['set']['green']; ?>],
+                                    <?php else: ?>
+                                    ["Pouce vert mis", <?= $datas['thumb']['set']['green']; ?>],
+                                    <?php endif; ?>
+
+                                    <?php if($datas['thumb']['set']['red'] > 1): ?>
+                                    ["Pouces rouges mis", <?= $datas['thumb']['set']['red']; ?>],
+                                    <?php else: ?>
+                                    ["Pouce rouge mis", <?= $datas['thumb']['set']['red']; ?>],
+                                    <?php endif; ?>
+                                ],
+                                "colors": {
+                                    <?php if($datas['thumb']['set']['green'] > 1): ?>
+                                    "Pouces verts mis": "#60B044",
+                                    <?php else: ?>
+                                    "Pouce vert mis": "#60B044",
+                                    <?php endif; ?>
+
+                                    <?php if($datas['thumb']['set']['red'] > 1): ?>
+                                    "Pouces rouges mis": "#FF0000"
+                                    <?php else: ?>
+                                    "Pouce rouge mis": "#FF0000"
+                                    <?php endif; ?>
+                                },
+                                "type": "pie"
+                            },
+                            oninit: function() {
+                                charterror('chart-bb-pie-thumbget', [<?= $datas['thumb']['set']['green']; ?>, <?= $datas['thumb']['set']['red']; ?>]);
+                            },
+                            "pie": {
+                                "label": {
+                                    "format": function (value, ratio, id) {
+                                        return (value);
+                                    }
+                                }
+                            },
+                            "bindto": "#chart-bb-pie-thumbset"
+                        });
                         function charterror(selector, data) {
                             var length = data.length;
                             for (var i = 0; i < length; i++){
                                 if(data[i]) return true;
                             }
-                            $('#' + selector).empty().addClass('echart').html('<i class="pie chart icon"></i><br />Graphique <br /> non disponible');
+                            $('#' + selector).empty().addClass('error-chart').html('<i class="pie chart icon"></i><br />Graphique <br /> non disponible');
                         }
                     </script>
                 </div>

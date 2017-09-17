@@ -457,3 +457,11 @@ ol > .forum-left.last{
 .unread-message{
     color: #000000;
 }
+
+.error-chart{
+    height: 250px;
+    max-height: initial;
+    text-align: center;
+    font-size: 24px;
+    padding-top: 50px;
+}
