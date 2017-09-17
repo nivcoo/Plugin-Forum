@@ -249,7 +249,8 @@
                     </div>
                 </div>
             <?php elseif ($type == 'user'): ?>
-                <div class="box">
+                <!-- TODO : stats : isbanned -->
+                <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title"><?= $Lang->get('FORUM__EDIT__USER') ?></h3>
                     </div>
@@ -306,19 +307,22 @@
                         </form>
                     </div>
                 </div>
-                <div class="box">
+                <div class="box box-info">
                     <div class="box-header with-border">
                         <h3 class="box-title"><?= $Lang->get('FORUM__SOCIAL__STATS') ?></h3>
                     </div>
                     <div class="box-body">
-                        <!-- TODO : Soon update-->
-                        <!-- stats : nb message / nbtopic / isbanned -->
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="chart-bb-pie-thumbget"></div>
                             </div>
                             <div class="col-md-6">
                                 <div id="chart-bb-pie-thumbset"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-md-push-3">
+                                <div id="chart-bb-pie-nb"></div>
                             </div>
                         </div>
                     </div>
@@ -407,6 +411,26 @@
                             },
                             "bindto": "#chart-bb-pie-thumbset"
                         });
+                        var chart = bb.generate({
+                            "data": {
+                                "columns": [
+                                    ["Message<?php if($datas['nb']['message'] > 1){echo's';} ?>", <?= $datas['nb']['message']; ?>],
+                                    ["Topic<?php if($datas['nb']['topic'] > 1){echo's';} ?>", <?= $datas['nb']['topic']; ?>]
+                                ],
+                                "type": "pie"
+                            },
+                            oninit: function() {
+                                charterror('chart-bb-pie-thumbget', [<?= $datas['nb']['message']; ?>, <?= $datas['nb']['topic']; ?>]);
+                            },
+                            "pie": {
+                                "label": {
+                                    "format": function (value, ratio, id) {
+                                        return (value);
+                                    }
+                                }
+                            },
+                            "bindto": "#chart-bb-pie-nb"
+                        });
                         function charterror(selector, data) {
                             var length = data.length;
                             for (var i = 0; i < length; i++){
@@ -416,7 +440,7 @@
                         }
                     </script>
                 </div>
-                <div class="box">
+                <div class="box box-success">
                     <div class="box-header with-border">
                         <h3 class="box-title"><?= $Lang->get('FORUM__SOCIAL__NETWORK') ?></h3>
                     </div>
@@ -475,7 +499,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="box">
+                <div class="box box-danger">
                     <div class="box-header with-border">
                         <h3 class="box-title"><?= $Lang->get('FORUM__LAST__ACTIVITY') ?></h3>
                     </div>
@@ -504,7 +528,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="box">
+                <div class="box box-warning">
                     <div class="box-header with-border">
                         <h3 class="box-title"><?= $Lang->get('FORUM__LAST__REPORT') ?></h3>
                         <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <?= $Lang->get('FORUM__PHRASE__PAGE__ADMINEDIT_1'); ?></p>
@@ -515,7 +539,7 @@
                                 <tr>
                                     <th><?= $Lang->get('FORUM__DATE__REPORT'); ?></th>
                                     <th><?= $Lang->get('FORUM__REASON'); ?></th>
-                                    <th<?= $Lang->get('FORUM__ACTION'); ?></th>
+                                    <th><?= $Lang->get('FORUM__ACTION'); ?></th>
                                     <th></th>
                                 </tr>
                             </thead>

@@ -152,6 +152,9 @@ class Topic extends ForumAppModel
             case 'user' :
                 return $this->find('count', ['conditions' => ['id_user' => $id]]);
                 break;
+            case 'user_topic' :
+                return $this->find('count', ['conditions' => ['id_user' => $id, 'first' => 1]]);
+                break;
         }
     }
 

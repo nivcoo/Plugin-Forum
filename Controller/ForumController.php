@@ -751,6 +751,7 @@ class ForumController extends ForumAppController
             $this->loadModel('Forum.MsgReport');
             $this->loadModel('Forum.Note');
             $this->loadModel('Forum.Profile');
+            $this->loadModel('Forum.Topic');
 
             if ($this->request->is('ajax')) {
                 $this->autoRender = false;
@@ -890,6 +891,9 @@ class ForumController extends ForumAppController
                         $datas['thumb']['set']['green'] = $this->Note->getNbThumb('green', $id);
                         $datas['thumb']['get']['red'] = $this->Note->stats('red', $id);
                         $datas['thumb']['get']['green'] = $this->Note->stats('green', $id);
+
+                        $datas['nb']['topic'] = $this->Topic->getNbMessage('user_topic', $id);
+                        $datas['nb']['message'] = $this->Topic->getNbMessage('user', $id);
 
                         foreach ($datas['rank']['allrank'] as $key => $r) {
                             $s = (!$key) ? '' : ',';
