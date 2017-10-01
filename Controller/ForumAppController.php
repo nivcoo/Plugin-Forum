@@ -31,9 +31,24 @@ class ForumAppController extends AppController
         return $this->format(CakeTime::format($date, '%d %B %Y %H:%M'));
     }
 
-    protected function notification()
+    protected function notification($class, $to, $from, $type, $params)
     {
+        $this->loadModel('Notification');
 
+        switch ($class) {
+            case 'respond_topic':
+                $content = $this->gUBY($from).$this->Lang->get('FORUM__NOTIFICATION__MESSAGE_RESPONSE');
+                $content = str_replace('[TITLE]', $params, $content);
+                break;
+            case 'send_mp':
+                $content = $this->gUBY($from).$this->Lang->get('FORUM__NOTIFICATION__MP_SEND');
+                break;
+            case 'respond_mp':
+                $content = $this->gUBY($from).$this->Lang->get('FORUM__NOTIFICATION__MP_RESPONSE');
+                break;
+        }
+
+        return $this->Notification->setToUser($content, $to, $from, $type);
     }
 
     protected function トロール(){
@@ -313,4 +328,5 @@ class ForumAppController extends AppController
 
         }
     }
+
 }

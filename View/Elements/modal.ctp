@@ -48,7 +48,7 @@
                             <form action="<?= $this->Html->url('/forum/action/topic/rename/'.$topic['Topic']['id_topic']); ?>" method="post">
                                 <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
                                 <div class="col-md-10">
-                                    <input type="text" value="<?= $topic['Topic']['name']; ?>" name="name" class="form-control" />
+                                    <input type="text" value="<?= h($topic['Topic']['name']); ?>" name="name" class="form-control" />
                                 </div>
                                 <div class="col-md-2">
                                     <input type="submit" class="btn btn-primary" value="<?= $Lang->get('GLOBAL__EDIT'); ?>" />

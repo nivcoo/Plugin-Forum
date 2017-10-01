@@ -23,8 +23,6 @@ class ForumController extends ForumAppController
        $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
        $this->Security->csrfExpires = '+1 hour';
 
-
-
        if ($this->isConnected && !in_array($this->request->params['action'], ['banned', 'admin_punishment', 'admin_delete']) && $this->Punishment->get($this->getIdSession())) {
            $this->redirect(Router::url('/', true).'forum/banned');
        }
@@ -207,12 +205,12 @@ class ForumController extends ForumAppController
     public function topic($id, $slug, $page = 1)
     {
         $this->loadModel('Forum.forums');
-        $this->loadModel('Forum.Topic');
-        $this->loadModel('Forum.Note');
         $this->loadModel('Forum.MsgReport');
+        $this->loadModel('Forum.Note');
         $this->loadModel('Forum.Profile');
-        $this->loadModel('Forum.Vieww');
         $this->loadModel('Forum.Tag');
+        $this->loadModel('Forum.Topic');
+        $this->loadModel('Forum.Vieww');
 
         if (!$this->Config->is('forum')) {
             throw new NotFoundException();
@@ -273,9 +271,17 @@ class ForumController extends ForumAppController
                     if ($this->isConnected) {
                         if(!empty($this->request->data['content'])) {
                             if (!$lock || $this->ForumPermission->has('FORUM_TOPIC_LOCK')) {
+
                                 $content = $this->word($this->request->data['content']);
                                 $this->Topic->addMessage($this->Topic->info('id_parent', $id), $this->getIdSession(), $id, $content, date('Y-m-d H:i:s'));
                                 $this->logforum($this->getIdSession(), 'add_message', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__POST__MSG').strip_tags(substr($content, 0, 30)), $content);
+
+                                $author = $this->Topic->info('topic_author', $id);
+                                $title = $this->Topic->getTitleTopic($id);
+                                if ($this->getIdSession() != $author) {
+                                    $this->notification('respond_topic', $author, $this->getIdSession(), 'User', $title);
+                                }
+
                                 $this->Session->setFlash($this->Lang->get('FORUM__MESSAGE__SEND'), 'default.success');
                             }
                         } elseif (!empty($this->request->data['content_update'])) {
@@ -1671,4 +1677,5 @@ class ForumController extends ForumAppController
 
         return $nb[0];
     }
+
 }

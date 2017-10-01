@@ -99,6 +99,8 @@
             </div>
         </div>
     <?php endif; ?>
+
+    <!-- TODO : HERE-->
     <?php if($active['useronline']): ?>
         <div class="row">
             <div class="col-md-12">

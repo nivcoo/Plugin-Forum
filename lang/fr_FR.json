@@ -238,5 +238,10 @@
   "FORUM__VIEW_EXAMPLE": "Voir un exemple",
 
   "FORUM__API__ONLINEUSER__DENIED":"Impossible d'utiliser la fonction getOnlineUsers de l'API forum car celle-ci est désactivé par l'administrateur du site.",
-  "FORUM__API__STATS__DENIED":"Impossible d'utiliser la fonction getOnlineUsers de l'API forum car celle-ci est désactivé par l'administrateur du site."
+  "FORUM__API__STATS__DENIED":"Impossible d'utiliser la fonction getOnlineUsers de l'API forum car celle-ci est désactivé par l'administrateur du site.",
+
+  "FORUM__NOTIFICATION__MESSAGE_RESPONSE": " vient de répondre à votre topic intitulé « [TITLE] »",
+  "FORUM__NOTIFICATION__MP__SEND": " vient de vous envoyer un message privé",
+  "FORUM__NOTIFICATION__MP__RESPONSE": " vient de vous répondre par message privé"
+
 }
