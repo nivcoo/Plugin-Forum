@@ -39,7 +39,7 @@
     <?= @$this->Session->flash(); ?>
     <?php foreach ($forums as $f => $forum): ?>
         <?php if($forum['Forum']['id_parent'] == 0): $p = $forum['Forum']['id']; ?>
-            <div class="forum-forum">
+            <div class="forum-forum" data-id="<?= $forum['Forum']['id']; ?>" data-hidden="false">
                 <div class="forum-forum-header">
                     <p class="forum-forum-title inline">
                         <?php if(filter_var($forum['Forum']['forum_image'], FILTER_VALIDATE_URL)): ?>
@@ -49,6 +49,7 @@
                         <?php endif; ?>
                         <?= $forum['Forum']['forum_name']; ?>
                     </p>
+                    <p class="inline pull-right chevron-hidden" data-idto="<?= $forum['Forum']['id']; ?>"><i class="fa fa-chevron-down" aria-hidden="true"></i></p>
                 </div>
             <?php foreach ($forums as $f => $forum): ?>
                 <?php if($forum['Forum']['id_parent'] != 0 && $forum['Forum']['id_parent'] == $p): ?>
@@ -80,33 +81,51 @@
 
     <?php endforeach; ?>
     <?php if($active['statistics']): ?>
-    <div class="forum-forum">
-        <div class="forum-other-header">
-            <p class="forum-forum-title"><i class="fa fa-bar-chart" aria-hidden="true"></i> <?= $Lang->get('FORUM__STATISTIC'); ?></p>
-        </div>
-        <div class="forum-category">
-            <div class="row">
-                <div class="col-md-6 col-xs-12 text-center">
-                    <span class="forum-other-stats"><?= $stats['total_topic']; ?></span>
-                    <span class="forum-other-stats-txt"><?= $Lang->get('FORUM__TOTAL__TOPIC'); ?></span>
-                </div>
-                <div class="col-md-6 col-xs-12 text-center">
-                    <span class="forum-other-stats"><?= $stats['total_msg']; ?></span>
-                    <span class="forum-other-stats-txt"><?= $Lang->get('FORUM__TOTAL__MSG'); ?></span>
+        <div class="forum-forum">
+            <div class="forum-other-header">
+                <p class="forum-forum-title"><i class="fa fa-bar-chart" aria-hidden="true"></i> <?= $Lang->get('FORUM__STATISTIC'); ?></p>
+            </div>
+            <div class="forum-category">
+                <div class="row">
+                    <div class="col-md-6 col-xs-6 text-center">
+                        <span class="forum-other-stats"><?= $stats['total_topic']; ?></span>
+                        <span class="forum-other-stats-txt"><?= $Lang->get('FORUM__TOTAL__TOPIC'); ?></span>
+                    </div>
+                    <div class="col-md-6 col-xs-6 text-center">
+                        <span class="forum-other-stats"><?= $stats['total_msg']; ?></span>
+                        <span class="forum-other-stats-txt"><?= $Lang->get('FORUM__TOTAL__MSG'); ?></span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     <?php endif; ?>
     <?php if($active['useronline']): ?>
-    <div class="row">
-        <div class="col-md-12">
-            <span><?= $Lang->get('FORUM__USER'); ?><?php if($stats['countuser'] > 1) echo 's'; ?> <?= $Lang->get('FORUM__CONNECTED'); ?><?php if($stats['countuser'] > 1) echo 's'; ?> : </span>
-            <?php foreach($userOnlines as $userOnline): ?>
-                <a href="<?= $this->Html->url('/user/'.$userOnline['User']['pseudo'].'.'.$userOnline['User']['id'].'/'); ?>" style="color: #<?= $userOnline['User']['color']; ?>"><?= $userOnline['User']['pseudo']; ?></a>
-            <?php endforeach; ?>
-            <?php if($stats['countuser'] == 0) echo $Lang->get('FORUM__ONLINE__ZERO'); ?>
+        <div class="row">
+            <div class="col-md-12">
+                <span><?= $Lang->get('FORUM__USER'); ?><?php if($stats['countuser'] > 1) echo 's'; ?> <?= $Lang->get('FORUM__CONNECTED'); ?><?php if($stats['countuser'] > 1) echo 's'; ?> : </span>
+                <?php foreach($userOnlines as $userOnline): ?>
+                    <a href="<?= $this->Html->url('/user/'.$userOnline['User']['pseudo'].'.'.$userOnline['User']['id'].'/'); ?>" style="color: #<?= $userOnline['User']['color']; ?>"><?= $userOnline['User']['pseudo']; ?></a>
+                <?php endforeach; ?>
+                <?php if($stats['countuser'] == 0) echo $Lang->get('FORUM__ONLINE__ZERO'); ?>
+            </div>
         </div>
-    </div>
     <?php endif; ?>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.chevron-hidden').click(function(){
+            var id = $(this).data('idto');
+            var state = $('[data-id="'+id+'"]').data("hidden");
+            if(state == false){
+                $('[data-id="'+id+'"]').data('hidden', true);
+                $('[data-id="'+id+'"] > .forum-category').slideUp(1000).fadeOut(1000);
+                $('[data-id="'+id+'"] > .forum-forum-header > .chevron-hidden > i').removeClass("fa-chevron-down").addClass("fa-chevron-up");
+            } else {
+                $('[data-id="'+id+'"]').data('hidden', false);
+                $('[data-id="'+id+'"] > .forum-category').slideDown(1000).fadeIn(1000);
+                $('[data-id="'+id+'"] > .forum-forum-header > .chevron-hidden > i').removeClass("fa-chevron-up").addClass("fa-chevron-down");
+            }
+        });
+    });
+</script>

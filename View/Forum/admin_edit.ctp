@@ -420,7 +420,7 @@
                                 "type": "pie"
                             },
                             oninit: function() {
-                                charterror('chart-bb-pie-thumbget', [<?= $datas['nb']['message']; ?>, <?= $datas['nb']['topic']; ?>]);
+                                charterror('chart-bb-pie-nb', [<?= $datas['nb']['message']; ?>, <?= $datas['nb']['topic']; ?>]);
                             },
                             "pie": {
                                 "label": {
@@ -453,7 +453,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-facebook" aria-hidden="true"></i>
                                     </div>
-                                    <input class="form-control" type="text" name="facebook" value="<?= $socialNetworks['facebook']; ?>" />
+                                    <input class="form-control" type="text" name="facebook" placeholder="https://www.facebook.com/FacebookFrance" value="<?= $socialNetworks['facebook']; ?>" />
                                 </div>
                                 <input class="form-control" type="hidden" name="social" value="social" />
                             </div>
@@ -463,7 +463,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-twitter" aria-hidden="true"></i>
                                     </div>
-                                    <input class="form-control" type="text" name="twitter" value="<?= $socialNetworks['twitter']; ?>" />
+                                    <input class="form-control" type="text" name="twitter" placeholder="https://twitter.com/TwitterFrance" value="<?= $socialNetworks['twitter']; ?>" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -472,7 +472,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-youtube-play" aria-hidden="true"></i>
                                     </div>
-                                    <input class="form-control" type="text" name="youtube" value="<?= $socialNetworks['youtube']; ?>" />
+                                    <input class="form-control" type="text" name="youtube" placeholder="https://www.youtube.com/user/GoogleFrance" value="<?= $socialNetworks['youtube']; ?>" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -481,7 +481,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-google-plus" aria-hidden="true"></i>
                                     </div>
-                                    <input class="form-control" type="text" name="googleplus" value="<?= $socialNetworks['googleplus']; ?>" />
+                                    <input class="form-control" type="text" name="googleplus" placeholder="https://plus.google.com/+GoogleFrance" value="<?= $socialNetworks['googleplus']; ?>" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -490,7 +490,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-snapchat-ghost" aria-hidden="true"></i>
                                     </div>
-                                    <input class="form-control" type="text" name="snapchat" value="<?= $socialNetworks['snapchat']; ?>" />
+                                    <input class="form-control" type="text" placeholder="snapchat" name="snapchat" value="<?= $socialNetworks['snapchat']; ?>" />
                                 </div>
                             </div>
                             <div class="text-center">

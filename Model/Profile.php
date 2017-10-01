@@ -29,7 +29,18 @@ class Profile extends ForumAppModel
 
     public function getSocial($id)
     {
-        return $this->find('first', ['conditions' => ['id_user' => $id]])['Profile']['social'];
+        if ($this->hasAny(['id_user' => $id])) {
+            return $this->find('first', ['conditions' => ['id_user' => $id]])['Profile']['social'];
+        } else {
+            $array = [
+                'facebook' => '',
+                'twitter' => '',
+                'youtube' => '',
+                'googleplus' => '',
+                'snapchat' => ''
+            ];
+            return json_encode($array);
+        }
     }
 
     public function updateSocials($id, $social)

@@ -470,3 +470,11 @@ ol > .forum-left.last{
     margin-left: auto;
     margin-right: auto;
 }
+
+.forum-forum-header > p{
+    line-height: 28px;
+}
+
+.chevron-hidden{
+    margin-right: 20px;
+ }

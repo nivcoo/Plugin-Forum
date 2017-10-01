@@ -174,8 +174,9 @@
     <?php if($active['socialnetwork']): ?>
     function el(site) {
         $('#myModal').modal('show');
+
         $('.js-link').attr('href', site);
-        $('.js-link').append(site);
+        $('.js-link').empty().append(site);
         $(document).on("click", "#next", function(event){
             var uri = window.open(site, '_blank');
             uri.focus();
