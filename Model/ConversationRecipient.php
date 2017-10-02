@@ -3,10 +3,12 @@
 class ConversationRecipient extends ForumAppModel
 {
 
-    public function get($id = false)
+    public function get($id = false, $inverse = false)
     {
-        if ($id) {
+        if ($id && !$inverse) {
             return $this->find('all', ['conditions' => ['author_recipient' => $id]]);
+        } elseif ($inverse) {
+            return $this->find('all', ['conditions' => ['id_conversation' => $id]]);
         }
 
         return $this->find('all');
