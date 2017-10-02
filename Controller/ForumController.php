@@ -542,32 +542,41 @@ class ForumController extends ForumAppController
     public function admin_index()
     {
         if($this->isConnected AND $this->User->isAdmin()) {
+
             $this->loadModel('Forum.Topic');
             $this->loadModel('Forum.Note');
+
             $configs = $this->Config->get();
             $stats = $this->Topic->stats();
-            if($this->request->is('ajax')){
+
+            if ($this->request->is('ajax')) {
+
                 $this->autoRender = false;
-                if(!empty($this->request->data['config'])){
-                    foreach ($configs as $config){
+
+                if (!empty($this->request->data['config'])) {
+                    foreach ($configs as $config) {
                         $this->Config->updateConfig($config['Config']['config_name'], $this->request->data[$config['Config']['config_name']]);
                     }
+
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__CONFIG__SUCCESS'))));
-                } elseif(!empty($this->request->data['drop'])){
+                } elseif(!empty($this->request->data['drop'])) {
                     $this->dropHistory();
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__HISTORY__DROP'))));
-                } elseif(!empty($this->request->data['install'])){
+                } elseif (!empty($this->request->data['install'])) {
                     $this->install();
                     $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__CONFIG__INSTALLED'))));
-                } else{
+                } else {
                     $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ERROR'))));
                 }
-            }else{
+
+            } else {
                 $this->layout = 'admin';
+
                 $userOnlines = $this->Forum->userOnline($this->User);
                 foreach ($userOnlines as $key => $userOnline){
                     $userOnlines[$key]['User']['color'] = @$this->ForumPermission->getRankColorDomin($userOnline['User']['id']);
                 }
+
                 $stats['countuser'] = count($userOnlines);
                 $stats['thumbgreen'] = $this->Note->getNbThumb('total_green');
                 $stats['thumbred'] = $this->Note->getNbThumb('total_red');
@@ -1264,6 +1273,45 @@ class ForumController extends ForumAppController
                 $this->set(compact('tags'));
             }
 
+        } else {
+            $this->redirect('/');
+        }
+    }
+
+    public function admin_stats()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
+
+            $this->loadModel('Forum.Conversation');
+            $this->loadModel('Forum.forums');
+            $this->loadModel('Forum.Note');
+            $this->loadModel('Forum.Topic');
+            $this->loadModel('Forum.Vieww');
+
+            $this->layout = 'admin';
+
+            $list = [
+                7, 6, 5, 4, 3, 2, 1, 0
+            ];
+
+            $stats['general'] = $this->Topic->stats();
+            $stats['thumbgreen'] = $this->Note->getNbThumb('total_green');
+            $stats['thumbred'] = $this->Note->getNbThumb('total_red');
+            $stats['usertoday'] = $this->countActiveToday();
+            $stats['category'] = $this->Forum->count('category');
+            $stats['forum'] = $this->Forum->count('forum');
+            $stats['mp'] = $this->Conversation->count();
+
+            foreach ($list as $key => $l) {
+                $date = date('Y-m-d', strtotime('-'.$l.' day'));
+
+                $stats['x'][$key]['date'] = $this->date($date);
+                $stats['view'][$key]['nb'] = $this->Vieww->getView($date);
+                $stats['message'][$key]['nb'] = $this->Topic->getNbTopic($date);
+                $stats['topic'][$key]['nb'] = $this->Topic->getNbTopic($date, false);
+            }
+
+            $this->set(compact('stats'));
         } else {
             $this->redirect('/');
         }

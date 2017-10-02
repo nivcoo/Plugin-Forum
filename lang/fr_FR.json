@@ -64,6 +64,7 @@
   "FORUM__PERMS__SLUG": "Permissions SLUG",
   "FORUM__IP": "IP",
   "FORUM__CATEGORY__ALT": "Catégorie",
+  "FORUM__CATEGORY__ALT__P": "Catégories",
   "FORUM__PARENT__NONE": "Aucun parent",
   "FORUM__TITLE__TOPIC": "Titre du topic",
   "FORUM__TOPIC__STICK__ALT": "Epingler le topic",
@@ -101,6 +102,10 @@
   "FORUM__LABEL": "Label",
   "FORUM__ICON": "Icone",
   "FORUM__SOCIAL__STATS": "Statistiques",
+  "FORUM__USER__REGISTERED__TODAY": "Visites d'utilisateurs",
+  "FORUM__USER__REGISTERED__TODAY__S": "Visite d'utilisateur",
+  "FORUM__MP":"Message privée",
+  "FORUM__MPS":"Messages privées",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",
@@ -242,6 +247,8 @@
 
   "FORUM__NOTIFICATION__MESSAGE_RESPONSE": " vient de répondre à votre topic intitulé « [TITLE] »",
   "FORUM__NOTIFICATION__MP__SEND": " vient de vous envoyer un message privé",
-  "FORUM__NOTIFICATION__MP__RESPONSE": " vient de vous répondre par message privé"
+  "FORUM__NOTIFICATION__MP__RESPONSE": " vient de vous répondre par message privé",
 
+  "FORUM__STATISTIC__VIEWTOPIC": "Nombre de topics vues",
+  "FORUM__STATISTIC__TOPICCREATE": "Nombre de topics créés"
 }

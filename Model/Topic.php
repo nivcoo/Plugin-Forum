@@ -129,6 +129,11 @@ class Topic extends ForumAppModel
         }
     }
 
+    /*
+     * Stats Général
+     * $this->Topic->stats();
+     */
+
     public function stats()
     {
         $stats['total_topic'] = $this->find('count', ['conditions' => ['first' => 1]]);
@@ -300,4 +305,13 @@ class Topic extends ForumAppModel
         $newTag = $this->getDataSource()->value($newTag, 'string');
         return $this->updateAll(['tags' => $newTag], ['id_topic' => $id, 'first' => 1]);
     }
+
+    public function getNbTopic($date, $full = true)
+    {
+        $max = date("Y-m-d", strtotime("$date +1 day"));
+
+        if($full) return $this->find('count', ['conditions' => ['date >=' => $date, 'date <' => $max]]);
+        else return $this->find('count', ['conditions' => ['first' => 1, 'date >=' => $date, 'date <' => $max]]);
+    }
+
 }

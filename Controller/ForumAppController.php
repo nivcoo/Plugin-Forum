@@ -77,6 +77,13 @@ class ForumAppController extends AppController
         return $this->User->find('first', ['fields' => 'forum-last_activity', 'conditions' => ['id' => $id]])['User']['forum-last_activity'];
     }
 
+    protected function countActiveToday()
+    {
+        $date = date("Y-m-d");
+        $max = date("Y-m-d H:i:s");
+        return $this->User->find('count', ['conditions' => ['forum-last_activity >=' => $date, 'forum-last_activity <=' => $max]]);
+    }
+
     protected function getIdSession()
     {
         return isset($_SESSION['user']) ? $_SESSION['user'] : false;

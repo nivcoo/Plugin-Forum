@@ -110,4 +110,19 @@ class Forum extends ForumAppModel
         return $this->find('first', ['conditions' => ['id' => $id]])['Forum']['visible'];
     }
 
+    public function count($type)
+    {
+        switch ($type) {
+            case 'all':
+                return $this->find('count');
+                break;
+            case 'category':
+                return $this->find('count', ['conditions' => ['id_parent !=' => 0]]);
+                break;
+            case 'forum':
+                return $this->find('count', ['conditions' => ['id_parent' => 0]]);
+                break;
+        }
+    }
+
 }

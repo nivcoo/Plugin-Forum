@@ -38,4 +38,9 @@ class Conversation extends ForumAppModel
         $this->set(['id_conversation' => $idConv, 'first' => $first, 'title' => $title, 'author_id' => $idUser, 'author_ip' => $ip, 'msg_date' => date('Y-m-d H:i:s'), 'content' => $content]);
         return $this->save();
     }
+
+    public function count()
+    {
+        return $this->find('count');
+    }
 }

@@ -36,4 +36,5 @@ class ConversationRecipient extends ForumAppModel
     {
         return $this->deleteAll(['id_conversation' => $id, 'author_recipient' => $idUser]);
     }
+
 }
