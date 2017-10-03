@@ -1302,6 +1302,12 @@ class ForumController extends ForumAppController
             $stats['forum'] = $this->Forum->count('forum');
             $stats['mp'] = $this->Conversation->count();
 
+            $lastactivities = $this->activities();
+
+            foreach ($lastactivities as $key => $l){
+                $lastactivities[$key]['User']['forum-last_activity'] = $this->dateAndTime($l['User']['forum-last_activity']);
+            }
+
             foreach ($list as $key => $l) {
                 $date = date('Y-m-d', strtotime('-'.$l.' day'));
 
@@ -1311,7 +1317,7 @@ class ForumController extends ForumAppController
                 $stats['topic'][$key]['nb'] = $this->Topic->getNbTopic($date, false);
             }
 
-            $this->set(compact('stats'));
+            $this->set(compact('stats', 'lastactivities'));
         } else {
             $this->redirect('/');
         }

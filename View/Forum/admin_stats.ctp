@@ -108,6 +108,37 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?= $Lang->get('FORUM__LAST__ACTIVITYS') ?></h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered dataTable">
+                                <thead>
+                                <tr>
+                                    <th><?= $Lang->get('FORUM__PSEUDO'); ?></th>
+                                    <th><?= $Lang->get('FORUM__LAST__ACTIVITY'); ?></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($lastactivities as $l): ?>
+                                    <tr>
+                                        <td><?= $l['User']['pseudo']; ?></td>
+                                        <td><?= $l['User']['forum-last_activity']; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <script type="text/javascript">
