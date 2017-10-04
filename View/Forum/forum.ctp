@@ -6,9 +6,13 @@
                 <li class="forum-breadcrumb-home">
                     <a href="<?= $this->Html->url('/forum') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
                 </li>
-                <li class="forum-breadcrumb-child">
-                    <?= $parent['forum_parent']['name']; ?>
-                </li>
+                <?php foreach ($breadcrumb as $key => $b): ?>
+                    <li class="forum-breadcrumb-href">
+                        <a href="<?= $this->Html->url('/forum/'.$b['url'].'/') ?>">
+                            <?= $b['name']; ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
             </ol>
         </div>
         <div class="col-md-2">

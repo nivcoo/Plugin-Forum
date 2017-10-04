@@ -7,18 +7,20 @@
         <li class="forum-breadcrumb-home">
             <a href="<?= $this->Html->url('/forum') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
         </li>
-        <?php if(!empty($parent['forum_parent']['name'])): ?>
+        <?php foreach ($breadcrumb as $key => $b): ?>
             <li class="forum-breadcrumb-href">
-                <a href="<?= $this->Html->url('/forum/'.$parent['forum_parent']['href'].'/'); ?>"><?= $parent['forum_parent']['name']; ?></a>
+                <a href="<?= $this->Html->url('/forum/'.$b['url'].'/') ?>">
+                    <?= $b['name']; ?>
+                </a>
             </li>
-        <?php endif; ?>
+        <?php endforeach; ?>
         <li class="forum-breadcrumb-child">
-            <?= h($title); ?>
+            <?= $this->Text->truncate(h($title), 70); ?>
         </li>
     </ol>
         </div>
         <?php if($perms['FORUM_TOPIC_LOCK'] || $perms['FORUM_TOPIC_STICK'] || $perms['FORUM_MSGMY_EDIT'] || $perms['FORUM_MSG_EDIT']): ?>
-            <div class="col-md-2 col-xs-12">
+            <div class="col-md-2 col-xs-12 text-center">
                 <?php if($perms['FORUM_TOPIC_LOCK']): ?>
                     <form style="width: 46px" class="inline" action="" method="post">
                         <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden">
@@ -62,7 +64,7 @@
                     endif;
                 endforeach; ?>
 
-                <?= h($title); ?>
+                <?= $this->Text->truncate(h($title), 144); ?>
             </p>
         </div>
     </div>

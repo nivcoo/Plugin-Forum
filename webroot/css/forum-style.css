@@ -1,63 +1,79 @@
 .marge{
     margin-bottom: 60px;
 }
+
 .marget{
     margin-top: 30px;
 }
+
 .forum-forum{
     margin-top: 30px;
     border: 1px solid #e7e7e7;
     background-color: #fff;
 }
+
 .forum-forum-withoutmarge{
     border: 1px solid #e7e7e7;
     background-color: #fff;
 }
+
 .forum-forum-header, .forum-other-header{
     padding: 8px;
 }
+
 .forum-forum-header{
     background-color: #fff;
 }
+
 .forum-other-header{
     background-color: #fff;
 }
+
 .forum-forum-title{
     font-size: 18px;
     color: #777;
     margin: 0 0 0 20px;
 }
+
 .forum-category{
     border-top: 1px solid #e7e7e7;
     padding: 5px 5px 5px 15px;
 }
+
 .forum-category-icon-min{
     width: 25px;
     height: 25px;
     display: inline-block;
 }
+
 .forum-category-icon{
     width: 50px;
     height: 50px;
 }
+
 .forum-category-title{
     margin: 10px 0 0 0;
     font-size: 16px;
 }
+
 .forum-category-description{
     font-size: 10px;
 }
+
 .forum-category-description > span{
     font-weight: bold;
 }
+
 .forum-category-last{
     margin: 10px 0 0 0;
     font-size: 11px;
 }
+
 .forum-other-stats{
     display: block;
     font-size: 16px;
 }
+
 .forum-other-stats-txt{
     font-size: 12px;
 }
@@ -66,6 +82,7 @@
         display: none;
     }
 }
+
 .forum-separator{
     height: 30px;
     background: #f8f8f8;
@@ -73,6 +90,7 @@
     padding-left: 10px;
     font-size: 10px;
 }
+
 .forum-extrainfo > dl{
     margin-bottom: 10px;
 }
@@ -81,6 +99,7 @@
     display: inline-block;
     font-size: 13px;
 }
+
 .forum-extrainfo{
     margin: 0 10px;
 }
@@ -154,11 +173,12 @@
 .forum-breadcrumb{
     margin-top: 20px;
     border: 1px solid #e7e7e7;
-    display: inline-flex;
+    display: inline-block;
     list-style: none;
     width: 100%;
     padding-left: 0;
     background-color: #fff;
+    overflow: hidden;
 }
 
 .forum-breadcrumb-home{
@@ -168,19 +188,21 @@
     display: flex;
     align-items: center;
     position: relative;
-    display: block;
     float: left;
 }
+
 .forum-breadcrumb-href{
     padding: 10px 20px;
     border-right: 1px solid #e7e7e7;
     position: relative;
-    display: block;
+    display: flex;
+    align-items: center;
     float: left;
 }
 
 .forum-breadcrumb-child{
     padding: 10px 20px;
+    display: inline-block;
 }
 
 .smile{
@@ -189,7 +211,7 @@
 }
 
 
-.forum-breadcrumb-home a::after, .forum-breadcrumb-href a::after {
+.forum-breadcrumb-home a::after, .forum-breadcrumb-href a::after{
     content: " ";
     display: block;
     width: 0;
@@ -356,7 +378,7 @@ ol > .forum-left.last{
     width: 30px;
 }
 
-.fa-stack > i {
+.fa-stack > i{
     margin: 0 !important;
     width: 30px;
 }
@@ -477,4 +499,4 @@ ol > .forum-left.last{
 
 .chevron-hidden{
     margin-right: 20px;
- }
+}
