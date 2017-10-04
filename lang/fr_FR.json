@@ -249,6 +249,11 @@
   "FORUM__NOTIFICATION__MESSAGE_RESPONSE": " vient de répondre à votre topic intitulé « [TITLE] »",
   "FORUM__NOTIFICATION__MP__SEND": " vient de vous envoyer un message privé",
   "FORUM__NOTIFICATION__MP__RESPONSE": " vient de vous répondre par message privé",
+  "FORUM__NOTIFICATION__TOPIC__DELETE": "Votre topic « [TITLE] » vient d'être supprimé par ",
+  "FORUM__NOTIFICATION__MESSAGE__DELETE": "Votre message « [MESSAGE] » vient d'être supprimé par ",
+  "FORUM__NOTIFICATION__TOPIC__STICK": "Votre topic « [TITLE] » vient d'être mis en avant par ",
+  "FORUM__NOTIFICATION__TOPIC__LOCK": "Votre topic « [TITLE] » vient d'être vérouillé par ",
+  "FORUM__NOTIFICATION__TOPIC__UNLOCK": "Votre topic « [TITLE] » vient d'être dévérouillé par ",
 
   "FORUM__STATISTIC__VIEWTOPIC": "Nombre de topics vues",
   "FORUM__STATISTIC__TOPICCREATE": "Nombre de topics créés"

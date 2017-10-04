@@ -9,7 +9,7 @@
             </ol>
         </div>
         <div class="col-md-2">
-            <ol class="forum-breadcrumb">
+            <ol class="forum-breadcrumb forum-breadcrumb-menu">
                 <?php if($perms['FORUM_VIEW_REPORT']): ?>
                     <li class="forum-left">
                         <a href="<?= $this->Html->url('/forum/report') ?>"><i class="fa fa-flag" aria-hidden="true"></i></a>
@@ -100,15 +100,20 @@
         </div>
     <?php endif; ?>
 
-    <!-- TODO : HERE-->
     <?php if($active['useronline']): ?>
-        <div class="row">
-            <div class="col-md-12">
-                <span><?= $Lang->get('FORUM__USER'); ?><?php if($stats['countuser'] > 1) echo 's'; ?> <?= $Lang->get('FORUM__CONNECTED'); ?><?php if($stats['countuser'] > 1) echo 's'; ?> : </span>
-                <?php foreach($userOnlines as $userOnline): ?>
-                    <a href="<?= $this->Html->url('/user/'.$userOnline['User']['pseudo'].'.'.$userOnline['User']['id'].'/'); ?>" style="color: #<?= $userOnline['User']['color']; ?>"><?= $userOnline['User']['pseudo']; ?></a>
-                <?php endforeach; ?>
-                <?php if($stats['countuser'] == 0) echo $Lang->get('FORUM__ONLINE__ZERO'); ?>
+        <div class="forum-forum">
+            <div class="forum-other-header">
+                <p class="forum-forum-title"><i class="fa fa-users" aria-hidden="true"></i> <?= $Lang->get('FORUM__USER'); ?><?php if($stats['countuser'] > 1) echo 's'; ?> <?= $Lang->get('FORUM__CONNECTED'); ?><?php if($stats['countuser'] > 1) echo 's'; ?></p>
+            </div>
+            <div class="forum-category">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php foreach($userOnlines as $userOnline): ?>
+                            <a href="<?= $this->Html->url('/user/'.$userOnline['User']['pseudo'].'.'.$userOnline['User']['id'].'/'); ?>" style="color: #<?= $userOnline['User']['color']; ?>"><?= $userOnline['User']['pseudo']; ?></a>
+                        <?php endforeach; ?>
+                        <?php if($stats['countuser'] == 0) echo $Lang->get('FORUM__ONLINE__ZERO'); ?>
+                    </div>
+                </div>
             </div>
         </div>
     <?php endif; ?>

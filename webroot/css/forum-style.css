@@ -181,6 +181,10 @@
     overflow: hidden;
 }
 
+.forum-breadcrumb-menu{
+    display: flex;
+}
+
 .forum-breadcrumb-home{
     padding: 10px;
     width: 35px;

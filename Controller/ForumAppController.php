@@ -46,10 +46,27 @@ class ForumAppController extends AppController
             case 'respond_mp':
                 $content = $this->gUBY($from).$this->Lang->get('FORUM__NOTIFICATION__MP__RESPONSE');
                 break;
-                /*
-                 * Close topic by MOD
-                 *
-                 */
+            case 'delete_topic':
+                $content = $this->Lang->get('FORUM__NOTIFICATION__TOPIC__DELETE').$this->gUBY($from);
+                $content = str_replace('[TITLE]', $params, $content);
+                break;
+            case 'delete_message':
+                $content = $this->Lang->get('FORUM__NOTIFICATION__MESSAGE__DELETE').$this->gUBY($from);
+                $params = substr($params, 0, 40);
+                $content = str_replace('[MESSAGE]', $params, $content);
+                break;
+            case  'stick_topic':
+                $content = $this->Lang->get('FORUM__NOTIFICATION__TOPIC__STICK').$this->gUBY($from);
+                $content = str_replace('[TITLE]', $params, $content);
+                break;
+            case  'lock_topic':
+                $content = $this->Lang->get('FORUM__NOTIFICATION__TOPIC__LOCK').$this->gUBY($from);
+                $content = str_replace('[TITLE]', $params, $content);
+                break;
+            case  'unlock_topic':
+                $content = $this->Lang->get('FORUM__NOTIFICATION__TOPIC__UNLOCK').$this->gUBY($from);
+                $content = str_replace('[TITLE]', $params, $content);
+                break;
         }
 
         return $this->Notification->setToUser($content, $to, $from, $type);
@@ -187,10 +204,6 @@ class ForumAppController extends AppController
         return $this->ForumPermission->perm_l();
     }
 
-    /* TODO LIST
-        * Notif mp + msg (new table -> type, id, to, notif)
-    */
-
     protected function forumUpdate()
     {
 
@@ -295,6 +308,7 @@ class ForumAppController extends AppController
     /*
      * @param $type = ('category', 'topic')
      */
+
     protected function viewParent($type, $id)
     {
         $this->loadModel('Forum.Forum');
