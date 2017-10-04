@@ -49,7 +49,11 @@ class Group extends ForumAppModel
 
     public function updateRank($name, $description, $color, $id, $position)
     {
-        //TODO : Refract this method
-        return $this->updateAll(['group_name' => "'".$name."'", 'group_description' => "'".$description."'", 'color' => "'".$color."'", 'position' => "'".$position."'"], ['id' => $id]);;
+        $name = $this->getDataSource()->value($name, 'string');
+        $description = $this->getDataSource()->value($description, 'string');
+        $color = $this->getDataSource()->value($color, 'string');
+        $position = $this->getDataSource()->value($position, 'string');
+
+        return $this->updateAll(['group_name' => $name, 'group_description' => $description, 'color' => $color, 'position' => $position], ['id' => $id]);;
     }
 }

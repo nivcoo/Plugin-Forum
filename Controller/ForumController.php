@@ -999,6 +999,17 @@ class ForumController extends ForumAppController
                         $datas['nb']['topic'] = $this->Topic->getNbMessage('user_topic', $id);
                         $datas['nb']['message'] = $this->Topic->getNbMessage('user', $id);
 
+                        $date = $this->lastSeen($id);
+                        $datas['user']['isconnected'] = false;
+                        if(date('Y-m-d H:i:s') < date('Y-m-d H:i:s', strtotime("$date +5 minutes"))) {
+                            $datas['user']['isconnected'] = true;
+                        }
+
+                        $datas['user']['isbanned'] = "Non";
+                        if ($this->Punishment->get($id) && !empty($this->Punishment->get($id))) {
+                            $datas['user']['isbanned'] = "Oui";
+                        }
+
                         foreach ($datas['rank']['allrank'] as $key => $r) {
                             $s = (!$key) ? '' : ',';
                             $datas['rank']['r'] .= $s.$r['Group']['id'];

@@ -249,7 +249,6 @@
                     </div>
                 </div>
             <?php elseif ($type == 'user'): ?>
-                <!-- TODO : stats : isbanned -->
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title"><?= $Lang->get('FORUM__EDIT__USER') ?></h3>
@@ -261,11 +260,22 @@
                                 <label><?= $Lang->get('FORUM__PSEUDO'); ?></label>
                                 <input type="hidden" name="idgroup" value="<?= $datas['rank']['r']; ?>" />
                                 <input type="hidden" name="useredit" value="<?= $datas['user']['id']; ?>" />
-                                <div class="input-group">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                            </div>
+                                            <input class="form-control" type="text" value="<?= $datas['user']['username']; ?>" disabled />
+                                        </div>
                                     </div>
-                                    <input class="form-control" type="text" value="<?= $datas['user']['username']; ?>" disabled />
+                                    <div class="col-md-2">
+                                        <?php if($datas['user']['isconnected']): ?>
+                                            <div class="admin-state admin-online">En ligne</div>
+                                        <?php else: ?>
+                                            <div class="admin-state admin-offline">Hors ligne</div>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                             <table class="table table-responsive dataTable">
@@ -299,6 +309,15 @@
                                         <i class="fa fa-calendar" aria-hidden="true"></i>
                                     </div>
                                     <input class="form-control" type="text" value="<?= $datas['user']['lastseen']; ?>" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><?= $Lang->get('FORUM__ISBANNED'); ?></label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                    </div>
+                                    <input class="form-control" type="text" value="<?= $datas['user']['isbanned']; ?>" disabled />
                                 </div>
                             </div>
                             <div class="text-center">

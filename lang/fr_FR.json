@@ -106,6 +106,7 @@
   "FORUM__USER__REGISTERED__TODAY__S": "Visite d'utilisateur",
   "FORUM__MP":"Message privée",
   "FORUM__MPS":"Messages privées",
+  "FORUM__ISBANNED": "Utilisateur banni ?",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",

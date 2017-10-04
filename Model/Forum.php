@@ -30,7 +30,7 @@ class Forum extends ForumAppModel
 
     public function addForum($idUser, $name, $position, $image)
     {
-        //TODO LONGDATE: + description
+        // TODO : Description
         $this->create();
         $this->set(['id_user' => $idUser, 'id_parent' => 0, 'forum_name' => $name, 'position' => $position, 'forum_image' => $image]);
         return $this->save();
@@ -38,7 +38,7 @@ class Forum extends ForumAppModel
 
     public function addCategory($idUser, $name, $position, $parent, $image, $lock, $automaticLock)
     {
-        //TODO future maj: + description
+        // TODO : Description
         $this->create();
         $this->set(['id_user' => $idUser, 'forum_name' => $name, 'position' => $position, 'id_parent' => $parent,  'forum_image' => $image, 'lock' => $lock, 'automatic_lock' => $automaticLock]);
         return $this->save();

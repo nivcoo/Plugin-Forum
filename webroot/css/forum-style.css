@@ -504,3 +504,20 @@ ol > .forum-left.last{
 .chevron-hidden{
     margin-right: 20px;
 }
+
+.admin-state{
+    height: 34px;
+    color: #ffffff;
+    line-height: 34px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.admin-online{
+    background-color: #00a65a;
+}
+
+
+.admin-offline{
+    background-color: #dd4b39;
+}
