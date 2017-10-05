@@ -53,12 +53,27 @@
 
                             <div class="form-group">
                                 <label><?= $Lang->get('FORUM__POSITION') ?></label>
-                                <select class="form-control e1" name="position">
-                                    <option value="1"><?= $Lang->get('FORUM__FIRST__POSITION') ?></option>
-                                    <?php foreach ($forums as $key => $forum) { ?>
-                                        <option value="<?= $key+2 ?>" <?php if($key+2 == $datas['position']) echo 'selected'; ?> <?php if($key+1 == $datas['position']) echo 'disabled'; ?>><?= $Lang->get('FORUM__AFTER') ?> : <?= $forum['Forum']['forum_name'] ?></option>
-                                    <?php } ?>
-                                </select>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+                                    </div>
+                                    <select class="form-control e1" name="position">
+                                        <option value="1"><?= $Lang->get('FORUM__FIRST__POSITION') ?></option>
+                                        <?php foreach ($forums as $key => $forum) { ?>
+                                            <option value="<?= $key+2 ?>" <?php if($key+2 == $datas['position']) echo 'selected'; ?> <?php if($key+1 == $datas['position']) echo 'disabled'; ?>><?= $Lang->get('FORUM__AFTER') ?> : <?= $forum['Forum']['forum_name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label><?= $Lang->get('FORUM__DESCRIPTION') ?></label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-font" aria-hidden="true"></i>
+                                    </div>
+                                    <input placeholder="Participez aux développement du serveur Minecraft" name="description" class="form-control" value="<?= $datas['forum_description']; ?>" type="text" />
+                                </div>
                             </div>
 
                             <div class="form-group text-center">

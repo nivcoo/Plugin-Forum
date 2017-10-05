@@ -723,7 +723,7 @@ class ForumController extends ForumAppController
             if ($this->request->is('ajax')) {
                 $this->autoRender = false;
                 if (!empty($this->request->data['name']) && !empty($this->request->data['position']) && !empty($this->request->data['image'])) {
-                    $this->Forum->addForum($this->getIdSession(), $this->request->data['name'], $this->request->data['position'], $this->request->data['image']);
+                    $this->Forum->addForum($this->getIdSession(), $this->request->data['name'], $this->request->data['position'], $this->request->data['image'], $this->request->data['description']);
 
                     foreach ($ranks as $key => $r) {
                         if (isset($this->request->data[$key+1])) {
@@ -863,8 +863,9 @@ class ForumController extends ForumAppController
                     $name = $this->request->data['name'];
                     $position = $this->request->data['position'];
                     $image = $this->request->data['image'];
+                    $description = $this->request->data['description'];
 
-                    $this->Forum->update('forum', $this->request->data['id'], ['name' => $name, 'position' => $position, 'image' => $image]);
+                    $this->Forum->update('forum', $this->request->data['id'], ['name' => $name, 'position' => $position, 'image' => $image, 'forum_description' => $description]);
 
                     $ranks = $this->ForumPermission->getRanks();
                     foreach ($ranks as $key => $r){

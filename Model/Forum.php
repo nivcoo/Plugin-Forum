@@ -28,17 +28,15 @@ class Forum extends ForumAppModel
         return $userModel->find('all', ['fields' => ['id', 'pseudo'], 'conditions' => ['forum-last_activity >' => $date], 'limit' => $limit]);
     }
 
-    public function addForum($idUser, $name, $position, $image)
+    public function addForum($idUser, $name, $position, $image, $description)
     {
-        // TODO : Description
         $this->create();
-        $this->set(['id_user' => $idUser, 'id_parent' => 0, 'forum_name' => $name, 'position' => $position, 'forum_image' => $image]);
+        $this->set(['id_user' => $idUser, 'id_parent' => 0, 'forum_name' => $name, 'position' => $position, 'forum_image' => $image, 'forum_description' => $description]);
         return $this->save();
     }
 
     public function addCategory($idUser, $name, $position, $parent, $image, $lock, $automaticLock)
     {
-        // TODO : Description
         $this->create();
         $this->set(['id_user' => $idUser, 'forum_name' => $name, 'position' => $position, 'id_parent' => $parent,  'forum_image' => $image, 'lock' => $lock, 'automatic_lock' => $automaticLock]);
         return $this->save();
@@ -71,7 +69,7 @@ class Forum extends ForumAppModel
     public function update($type = false, $id = false, $datas = false)
     {
         if ($type == 'forum') {
-            return $this->updateAll(['forum_name' => "'".$datas['name']."'", 'position' => "'".$datas['position']."'", 'forum_image' => "'".$datas['image']."'"], ['id' => $id]);;
+            return $this->updateAll(['forum_name' => "'".$datas['name']."'", 'position' => "'".$datas['position']."'", 'forum_image' => "'".$datas['image']."'", 'forum_description' => "'".$datas['forum_description']."'"], ['id' => $id]);;
         } elseif ($type == 'category') {
             return $this->updateAll(['forum_name' => "'".$datas['name']."'", 'id_parent' => "'".$datas['id_parent']."'", 'position' => $datas['position'], 'forum_image' => "'".$datas['forum_image']."'", 'lock' => $datas['lock'], 'automatic_lock' => $datas['automatic_lock']], ['id' => $id]);;
         }

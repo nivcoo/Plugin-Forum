@@ -48,6 +48,7 @@
                             <i class="fa fa-<?= $forum['Forum']['forum_image']; ?> forum-category-fa-min" aria-hidden="true"></i>
                         <?php endif; ?>
                         <?= $forum['Forum']['forum_name']; ?>
+                        <span class="forum-description"><?= $forum['Forum']['forum_description']; ?></span>
                     </p>
                     <p class="inline pull-right chevron-hidden" data-idto="<?= $forum['Forum']['id']; ?>"><i class="fa fa-chevron-down" aria-hidden="true"></i></p>
                 </div>
