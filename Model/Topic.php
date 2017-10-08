@@ -233,7 +233,9 @@ class Topic extends ForumAppModel
 
     public function determine($id)
     {
-        return $this->find('first', ['fields' => 'id_parent', 'conditions' => ['id_parent' => $id]]);
+        $query = $this->find('first', ['fields' => 'id_parent', 'conditions' => ['id_parent' => $id]]);
+        if(!empty($query)) return true;
+
     }
 
     public function userLastMessage($id)

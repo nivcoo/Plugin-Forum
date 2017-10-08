@@ -50,8 +50,10 @@
                         </div>
                         <?php if(isset($forum['Forum']['forum_last_href'])): ?>
                             <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
-                                <a href="<?= $forum['Forum']['forum_last_href']; ?>"><?= $this->Text->truncate(h($forum['Forum']['forum_last_title']), 60); ?></a><br/>
-                                <a style="color:#<?= $forum['Forum']['forum_last_author_color']; ?>" href="<?= $this->Html->url('/user/'.$forum['Forum']['forum_last_author']).'.'.$forum['Forum']['forum_last_authorid'].'/' ?>"><?= $forum['Forum']['forum_last_author']; ?></a>, <?= $forum['Forum']['forum_last_date']; ?>
+                                <?php if($forum['Forum']['nb_discussion'] != 0 && $forum['Forum']['nb_message'] != 0): ?>
+                                    <a href="<?= $forum['Forum']['forum_last_href']; ?>"><?= $this->Text->truncate(h($forum['Forum']['forum_last_title']), 60); ?></a><br/>
+                                    <a style="color:#<?= $forum['Forum']['forum_last_author_color']; ?>" href="<?= $this->Html->url('/user/'.$forum['Forum']['forum_last_author']).'.'.$forum['Forum']['forum_last_authorid'].'/' ?>"><?= $forum['Forum']['forum_last_author']; ?></a>, <?= $forum['Forum']['forum_last_date']; ?>
+                                <?php endif; ?>
                             </div>
                         <?php endif; ?>
                     </div>

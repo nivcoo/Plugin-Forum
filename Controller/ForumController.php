@@ -26,6 +26,7 @@ class ForumController extends ForumAppController
        if ($this->isConnected && !in_array($this->request->params['action'], ['banned', 'admin_punishment', 'admin_delete']) && $this->Punishment->get($this->getIdSession())) {
            $this->redirect(Router::url('/', true).'forum/banned');
        }
+
        if (!$this->Config->notempty()) {
            $this->install();
        }
@@ -64,20 +65,22 @@ class ForumController extends ForumAppController
         foreach ($forums as $key => $forum) {
             if ($this->viewVisible($forums, $key)) {
                 $forums[$key]['Forum']['href'] = $this->buildUri('forum', $forum['Forum']['forum_name'], $forum['Forum']['id']);
-                if (isset($this->Topic->determine($forum['Forum']['id'])['Topic']['id_parent'])) {
-                    $forums[$key]['Forum']['nb_discussion'] = $this->countChildrenTopic('forum', $forum['Forum']['id']);
-                    $forums[$key]['Forum']['nb_message'] = $this->countChildrenMessage('category', $forum['Forum']['id']);
-                    $forums[$key]['Forum']['topic_last_id'] = $this->Topic->info('topic_last_id', $forum['Forum']['id']);
-                    $forums[$key]['Forum']['topic_last_idtopic'] = $this->Topic->info('topic_last_idtopic', $forum['Forum']['id']);
-                    $forums[$key]['Forum']['topic_last_title'] = $this->Topic->info('topic_last_title', $forum['Forum']['id']);
-                    $forums[$key]['Forum']['topic_last_date'] = $this->date($this->Topic->info('topic_last_date', $forum['Forum']['id']), '%d %B %Y');
-                    $forums[$key]['Forum']['topic_last_authorid'] = $this->Topic->info('topic_last_authorid', $forum['Forum']['id']);
-                    $forums[$key]['Forum']['topic_last_author_color'] = $this->ForumPermission->getRankColorDomin($forums[$key]['Forum']['topic_last_authorid']);
-                    $forums[$key]['Forum']['topic_last_author'] = $this->gUBY($forums[$key]['Forum']['topic_last_authorid']);
-                    $forums[$key]['Forum']['topic_last_href'] = $this->buildUri('topic', $forums[$key]['Forum']['topic_last_title'], $forums[$key]['Forum']['topic_last_idtopic']);
-                } else {
-                    $forums[$key]['Forum']['nb_discussion'] = $forums[$key]['Forum']['nb_message'] = 0;
+
+                $forums[$key]['Forum']['nb_discussion'] = $this->countChildrenTopic('forum', $forum['Forum']['id']);
+                $forums[$key]['Forum']['nb_message'] = $this->countChildrenMessage('category', $forum['Forum']['id']);
+
+                if ($forum['Forum']['id_parent'] != 0) {
+                    $last = $this->explore($forum['Forum']['id']);
+
+                    $forums[$key]['Forum']['topic_last_idtopic'] = $last['id'];
+                    $forums[$key]['Forum']['topic_last_title'] = $last['title'];
+                    $forums[$key]['Forum']['topic_last_date'] = $this->date($last['last_date']);
+                    $forums[$key]['Forum']['topic_last_authorid'] = $last['last_author_id'];
+                    $forums[$key]['Forum']['topic_last_author_color'] = $this->ForumPermission->getRankColorDomin($last['last_author_id']);
+                    $forums[$key]['Forum']['topic_last_author'] = $last['last_author'];
+                    $forums[$key]['Forum']['topic_last_href'] = $this->buildUri('topic', $last['title'], $last['id']);
                 }
+
             } else {
                 unset($forums[$key]);
             }
@@ -126,21 +129,24 @@ class ForumController extends ForumAppController
             foreach ($forums as $key => $forum) {
                 if ($this->viewVisible($forums, $key)) {
                     $forums[$key]['Forum']['href'] = $this->buildUri('forum', $forum['Forum']['forum_name'], $forum['Forum']['id']);
-                    if (isset($this->Topic->determine($forum['Forum']['id'])['Topic']['id_parent'])) {
-                        $forums[$key]['Forum']['nb_discussion'] = $this->Topic->info('nb_topic', $forum['Forum']['id']);
-                        $forums[$key]['Forum']['nb_message'] = $this->Topic->info('nb_msg', $forum['Forum']['id']);
-                        $forums[$key]['Forum']['forum_last_id'] = $this->Topic->info('topic_last_id', $forum['Forum']['id']);
-                        $forums[$key]['Forum']['forum_last_title'] = $this->Topic->info('topic_last_title', $forum['Forum']['id']);
-                        $forums[$key]['Forum']['forum_last_date'] = $this->date($this->Topic->info('topic_last_date', $forum['Forum']['id']), '%d %B %Y');
-                        $forums[$key]['Forum']['forum_last_authorid'] = $this->Topic->info('topic_last_authorid', $forum['Forum']['id']);
-                        $forums[$key]['Forum']['forum_last_author'] = $this->gUBY($forums[$key]['Forum']['forum_last_authorid']);
-                        $forums[$key]['Forum']['forum_last_author_color'] = $this->ForumPermission->getRankColorDomin($forums[$key]['Forum']['forum_last_authorid']);
-                        $forums[$key]['Forum']['forum_last_href'] = $this->buildUri('topic', $forums[$key]['Forum']['forum_last_title'], $forums[$key]['Forum']['forum_last_id']);
-                    } else {
-                        $forums[$key]['Forum']['nb_discussion'] = $forums[$key]['Forum']['nb_message'] = 0;
-                        $forums[$key]['Forum']['forum_last_id'] = $forums[$key]['Forum']['forum_last_title'] = $forums[$key]['Forum']['forum_last_date'] = $forums[$key]['Forum']['forum_last_authorid'] = $forums[$key]['Forum']['forum_last_author'] = $forums[$key]['Forum']['forum_last_author_color'] = '';
+
+                    $forums[$key]['Forum']['nb_discussion'] = $this->countChildrenTopic('forum', $forum['Forum']['id']);
+                    $forums[$key]['Forum']['nb_message'] = $this->countChildrenMessage('category', $forum['Forum']['id']);
+
+                    if ($forum['Forum']['id_parent'] != 0) {
+                        $last = $this->explore($forum['Forum']['id']);
+
+                        $forums[$key]['Forum']['topic_last_idtopic'] = $last['id'];
+                        $forums[$key]['Forum']['forum_last_title'] = $last['title'];
+                        $forums[$key]['Forum']['forum_last_date'] = $this->date($last['last_date']);
+                        $forums[$key]['Forum']['forum_last_authorid'] = $last['last_author_id'];
+                        $forums[$key]['Forum']['forum_last_author'] = $last['last_author'];
+                        $forums[$key]['Forum']['forum_last_author_color'] = $this->ForumPermission->getRankColorDomin($last['last_author_id']);
+                        $forums[$key]['Forum']['forum_last_href'] = $this->buildUri('topic', $last['title'], $last['id']);
                     }
+
                     $forums[$key]['Forum']['visible'] = $this->ForumPermission->visible('forum', $forum['Forum']['id']);
+
                 } else {
                     unset($forums[$key]);
                 }
@@ -1829,7 +1835,6 @@ class ForumController extends ForumAppController
             default:
                 return null;
         }
-
         return $nb[0];
     }
 
@@ -1876,9 +1881,84 @@ class ForumController extends ForumAppController
         }
     }
 
-    private function in_category()
+    private function explore($id, $test = false)
     {
 
+        $this->loadModel('Forum.Topic');
+
+        if (!$test) {
+            $datas = $this->inCategory($id);
+        } else {
+            $datas = $id;
+        }
+
+        if (empty($datas)) {
+            return;
+        }
+
+        foreach ($datas as $key => $d) {
+            if (is_array($d)){
+                return $this->explore($d, true);
+            } else {
+                if ($d) {
+                    $topics[] = $this->Topic->getTopic($d);
+                }
+            }
+
+        }
+
+        $newTopic = "";
+
+        foreach ($topics as $key => $t) {
+            if(!empty($t)) {
+                $newTopic = $t;
+            }
+        }
+
+        if (!empty($newTopic)) {
+            foreach ($newTopic as $key => $n) {
+                $data[$key] = $n['Topic']['id_topic'];
+            }
+
+            $var = "";
+            foreach ($data as $key => $d) {
+                $var .= "$d,";
+            }
+
+            $var = substr($var, 0, -1);
+
+            $allTopics = $this->Topic->find('all', ['conditions' => ['id_topic' => [$var]], 'order' => ['date' => 'DESC']]);
+            $lastMessage = $allTopics[0]['Topic'];
+            $lastTopic = $allTopics[0]['Topic']['id_topic'];
+            $title = $this->Topic->getTitleTopic($lastTopic);
+
+            $return = [
+                'title' => $title,
+                'id' => $lastTopic,
+                'last_author_id' => $lastMessage['id_user'],
+                'last_author' => $this->gUBY($lastMessage['id_user']),
+                'last_date' => $lastMessage['date']
+            ];
+
+            return $return;
+        }
+    }
+
+    private function inCategory($id){
+        $categorys = $this->Forum->getForum('categorie', $id);
+
+        $datas = "";
+
+        if (!empty($categorys)) {
+            foreach ($categorys as $key => $category) {
+                $datas[] = $category['Forum']['id'];
+                $datas[] = $this->inCategory($category['Forum']['id']);
+            }
+        } else {
+            return false;
+        }
+
+        return $datas;
     }
 
 }
