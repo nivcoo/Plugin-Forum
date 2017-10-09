@@ -13,8 +13,8 @@ class ForumController extends ForumAppController
         ]
     ];
 
-   public function beforeFilter()
-   {
+    public function beforeFilter()
+    {
        parent::beforeFilter();
        $this->loadModel('User');
        $this->loadModel('Forum.Punishment');
@@ -34,7 +34,19 @@ class ForumController extends ForumAppController
        $this->forumUpdate();
 
        if($this->theme == 'Justice') $this->layout = 'forum';
-   }
+    }
+
+    public function beforeRender()
+    {
+        parent::beforeRender();
+
+        $alertforum['update'] = $this->hourCheck();
+        if (!$this->isConnected AND !$this->User->isAdmin()) {
+            $alertforum['update'] = "";
+        }
+
+        $this->set(compact('alertforum'));
+    }
 
     public function index()
     {
@@ -1494,31 +1506,38 @@ class ForumController extends ForumAppController
             ]
         ];
 
-        if ($type == 'ADMINMSG') {
+        switch ($type) {
+            case 'ADMINMSG':
+                $json = $this->core();
+                $jsonLastVersion = file_get_contents('https://www.phpierre.fr/mineweb/forum/lastversion/'.$json, false, stream_context_create($options));
+                $lastVersion = json_decode($jsonLastVersion, true)['version'];
 
-            $json = $this->core();
-            $jsonLastVersion = file_get_contents('https://www.phpierre.fr/mineweb/forum/lastversion/'.$json, false, stream_context_create($options));
-            $lastVersion = json_decode($jsonLastVersion, true)['version'];
+                if ($this->version != $lastVersion) {
+                    $jsonMsgadmin = file_get_contents('https://www.phpierre.fr/mineweb/forum/msgadmin/e/', false, stream_context_create($options));
+                    $msg = json_decode($jsonMsgadmin, true)['msg'];
+                    $site = $_SERVER['SERVER_NAME'];
+                    $msg = str_replace('[LIEN]', $site, $msg);
+                    return $msg;
+                } else {
+                    return '';
+                }
 
-            if ($this->version != $lastVersion) {
-                $jsonMsgadmin = file_get_contents('https://www.phpierre.fr/mineweb/forum/msgadmin/e/', false, stream_context_create($options));
-                $msg = json_decode($jsonMsgadmin, true)['msg'];
-                $site = $_SERVER['SERVER_NAME'];
-                $msg = str_replace('[LIEN]', $site, $msg);
+                break;
+            case 'NEXTUPDATE':
+                $json = file_get_contents('https://www.phpierre.fr/mineweb/forum/nextupdate/e/', false, stream_context_create($options));
+                $msg = json_decode($json, true);
                 return $msg;
-            } else {
-                return '';
-            }
 
-        } elseif ($type == 'CHANGELOG') {
-            return true;
-        } elseif ($type == 'NEXTUPDATE') {
-            $json = file_get_contents('https://www.phpierre.fr/mineweb/forum/nextupdate/e/', false, stream_context_create($options));
-            $msg = json_decode($json, true);
-            return $msg;
-        } else {
+                break;
+            case 'MSGALL':
+                $json = $this->newCore();
+                $json = file_get_contents('https://www.phpierre.fr/mineweb/forum/last/'.$json, false, stream_context_create($options));
+                $msg = json_decode($json, true);
 
+                return $msg;
+                break;
         }
+
     }
 
     private function reset()
@@ -1959,6 +1978,42 @@ class ForumController extends ForumAppController
         }
 
         return $datas;
+    }
+
+    private function hourCheck()
+    {
+        $this->loadModel('Forum.Internal');
+        $date = $this->Internal->get('start');
+
+        $dif = 0;
+        $alertforum['update'] = "";
+        $version = $this->Internal->get('last_version');
+
+        if (!is_null($date) && !empty($date)) {
+            $now = new DateTime();
+            $hour = DateTime::createFromFormat('Y-m-d H:i:s', $date);
+            $dif = $now->format('U') - $hour->format('U');
+        }
+
+        if (is_null($date) || empty($date) || $dif > 43200) {
+            $version = $this->remoteAction('MSGALL')['version'];
+            $this->Internal->update('start', date('Y-m-d H:i:s'));
+            $this->Internal->update('last_version', $version);
+        }
+
+        if ($version != $this->version) {
+            $alertforum['update'] .= "<div class=\"row\">";
+            $alertforum['update'] .= "<div class=\"col-md-12\">";
+            $alertforum['update'] .= "<div class=\"alert alert-info\" role=\"alert\">";
+            $alertforum['update'] .= "<strong>Information !</strong> ";
+            $alertforum['update'] .= "Une mise à jour du plugin est disponible";
+            $alertforum['update'] .= "<a target=\"_blanks\" href=\"/admin/plugin\" class=\"alert-link\"> est disponible</a>";
+            $alertforum['update'] .= "</div>";
+            $alertforum['update'] .= "</div>";
+            $alertforum['update'] .= "</div>";
+        }
+
+        return $alertforum['update'];
     }
 
 }

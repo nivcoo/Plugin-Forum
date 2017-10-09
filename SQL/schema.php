@@ -87,6 +87,12 @@ class ForumAppSchema extends CakeSchema {
 
     ];
 
+    public $forum__internals = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'unsigned' => false, 'key' => 'primary'],
+        'internal_name' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 30, 'unsigned' => false],
+        'internal_value' => ['type' => 'text', 'null' => true, 'default' => null, 'length' => 100, 'unsigned' => false]
+    ];
+
     public $forum__insults = [
         'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'unsigned' => false, 'key' => 'primary'],
         'word' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 40, 'unsigned' => false],

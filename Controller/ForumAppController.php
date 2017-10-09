@@ -172,6 +172,25 @@ class ForumAppController extends AppController
         return $json;
     }
 
+    protected function newCore()
+    {
+        $this->loadModel('Forum.Profile');
+        $this->loadModel('Forum.Topic');
+
+        $stats = $this->Topic->stats();
+
+        $array = [
+            'version' => $this->version,
+            'host' => env('SERVER_NAME'),
+            'nbtopic' => $stats['total_topic'],
+            'nbmsg' => $stats['total_msg'],
+            'nbuser' => $this->Profile->count()
+        ];
+
+        $json = json_encode($array);
+        return $json;
+    }
+
     protected function replaceSpace($string)
     {
         return str_replace(" ", "-", $string);
@@ -210,7 +229,7 @@ class ForumAppController extends AppController
         //1.1.4
         $db = ConnectionManager::getDataSource('default');
         $exist[0] = $db->query('SELECT column_type FROM information_schema.columns WHERE table_name = "forum__forums"');
-        if($exist[0][8]['columns']['column_type'] == 'tinyint(1)'){
+        if ($exist[0][8]['columns']['column_type'] == 'tinyint(1)') {
             $db->query('
                 ALTER TABLE forum__forums MODIFY visible TEXT;
                 ALTER TABLE forum__topics MODIFY visible TEXT;
@@ -220,7 +239,7 @@ class ForumAppController extends AppController
 
         //1.1.5
         $exist[1] = $db->query('SHOW COLUMNS FROM forum__groups LIKE "position"');
-        if(empty($exist[1])){
+        if (empty($exist[1])) {
             $db->query('
                 ALTER TABLE forum__groups ADD position INT;
            ');
@@ -228,7 +247,7 @@ class ForumAppController extends AppController
 
         //1.1.7
         $exist[2] = $db->query('SELECT config_name FROM forum__configs WHERE config_name="socialnetwork"');
-        if(empty($exist[2])){
+        if (empty($exist[2])) {
             $db->query('
                 INSERT INTO forum__configs (config_name, config_value, lang) VALUES ("socialnetwork", 1, "Réseaux sociaux")
            ');
@@ -236,7 +255,7 @@ class ForumAppController extends AppController
 
         //1.1.8
         $exist[3] = $db->query('SHOW TABLES LIKE "forum__tags"');
-        if(empty($exist[3])){
+        if (empty($exist[3])) {
             $db->query('
                 CREATE TABLE forum__tags(
                   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -249,13 +268,29 @@ class ForumAppController extends AppController
         }
 
         $exist[4] = $db->query('SHOW COLUMNS FROM forum__topics LIKE "tags"');
-        if(empty($exist[4])){
+        if (empty($exist[4])) {
             $db->query('
                 ALTER TABLE forum__topics ADD tags VARCHAR(20);
            ');
         }
 
         //1.1.9 : none
+
+        //1.1.10 : none
+
+        //1.2.0
+        $exist[5] = $db->query('SHOW TABLES LIKE "forum__internals"');
+        if (empty($exist[5])) {
+            $db->query('
+                CREATE TABLE forum__internals(
+                  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+                  internal_name VARCHAR(255),
+                  internal_value VARCHAR(255)
+                );
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("start", NULL);
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("last_version", "1.2.0")
+           ');
+        }
 
         return true;
     }

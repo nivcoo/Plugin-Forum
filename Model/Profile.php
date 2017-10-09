@@ -49,4 +49,9 @@ class Profile extends ForumAppModel
         $social = $this->getDataSource()->value($social, 'string');
         return $this->updateAll(['social' => $social], ['id_user' => $id]);
     }
+
+    public function count()
+    {
+        return $this->find('count');
+    }
 }
