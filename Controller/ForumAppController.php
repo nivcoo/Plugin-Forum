@@ -13,7 +13,7 @@ class ForumAppController extends AppController
 
     public $atualTheme;
 
-    protected $version = '1.2.1';
+    protected $version = '1.2.2';
 
 
     protected function date($date)
@@ -289,7 +289,7 @@ class ForumAppController extends AppController
                   internal_value VARCHAR(255)
                 );
                 INSERT INTO forum__internals (internal_name, internal_value) VALUES ("start", NULL);
-                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("last_version", "1.2.0")
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("last_version", "'.$this->version.'")
            ');
         }
 

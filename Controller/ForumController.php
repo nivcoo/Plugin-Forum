@@ -1915,6 +1915,8 @@ class ForumController extends ForumAppController
             return;
         }
 
+        $topics[] = $this->Topic->getTopic($id);
+
         foreach ($datas as $key => $d) {
             if (is_array($d)){
                 return $this->explore($d, true);
@@ -1939,14 +1941,7 @@ class ForumController extends ForumAppController
                 $data[$key] = $n['Topic']['id_topic'];
             }
 
-            $var = "";
-            foreach ($data as $key => $d) {
-                $var .= "$d,";
-            }
-
-            $var = substr($var, 0, -1);
-
-            $allTopics = $this->Topic->find('all', ['conditions' => ['id_topic' => [$var]], 'order' => ['date' => 'DESC']]);
+            $allTopics = $this->Topic->find('all', ['conditions' => ['id_topic' => $data], 'order' => ['date' => 'DESC']]);
             $lastMessage = $allTopics[0]['Topic'];
             $lastTopic = $allTopics[0]['Topic']['id_topic'];
             $title = $this->Topic->getTitleTopic($lastTopic);
