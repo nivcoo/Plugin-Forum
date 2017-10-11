@@ -13,7 +13,7 @@ class ForumAppController extends AppController
 
     public $atualTheme;
 
-    protected $version = '1.2.0';
+    protected $version = '1.2.1';
 
 
     protected function date($date)
@@ -278,7 +278,7 @@ class ForumAppController extends AppController
 
         //1.1.10 : none
 
-        //1.2.0
+        //1.2.0 & 1.2.1
         $exist[5] = $db->query('SHOW TABLES LIKE "forum__internals"');
         if (empty($exist[5])) {
             $db->query('

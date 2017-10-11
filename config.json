@@ -68,6 +68,11 @@
       "url": "/admin/forum/forum/history"
     },
     {
+      "name": "Statistiques",
+      "icon": "area-chart",
+      "url": "/admin/forum/forum/stats"
+    },
+    {
       "name": "Sauvegarde",
       "icon": "hdd-o",
       "url": "/admin/forum/forum/backup"
