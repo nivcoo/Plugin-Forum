@@ -278,11 +278,12 @@ class ForumAppController extends AppController
 
         //1.1.10 : none
 
-        //1.2.0 & 1.2.1
+        //1.2.0 & 1.2.1 & 1.2.2
         $exist[5] = $db->query('SHOW TABLES LIKE "forum__internals"');
-        if (empty($exist[5])) {
+        $exist[6] = $db->query('SELECT * FROM forum__internals');
+        if (empty($exist[5]) || empty($exist[6])) {
             $db->query('
-                CREATE TABLE forum__internals(
+                CREATE TABLE IF NOT EXISTS forum__internals(
                   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
                   internal_name VARCHAR(255),
                   internal_value VARCHAR(255)
