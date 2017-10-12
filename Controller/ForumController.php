@@ -1911,11 +1911,11 @@ class ForumController extends ForumAppController
             $datas = $id;
         }
 
-        if (empty($datas)) {
+        $topics[] = $this->Topic->getTopic($id);
+
+        if (empty($datas) && empty($topics)) {
             return;
         }
-
-        $topics[] = $this->Topic->getTopic($id);
 
         foreach ($datas as $key => $d) {
             if (is_array($d)){
@@ -2002,7 +2002,7 @@ class ForumController extends ForumAppController
             $alertforum['update'] .= "<div class=\"alert alert-info\" role=\"alert\">";
             $alertforum['update'] .= "<strong>Information !</strong> ";
             $alertforum['update'] .= "Une mise à jour du plugin est disponible";
-            $alertforum['update'] .= "<a target=\"_blanks\" href=\"/admin/plugin\" class=\"alert-link\"> est disponible</a>";
+            $alertforum['update'] .= "<a target=\"_blanks\" href=\"".Router::url('/', true)."admin/plugin\" class=\"alert-link\"> est disponible</a>";
             $alertforum['update'] .= "</div>";
             $alertforum['update'] .= "</div>";
             $alertforum['update'] .= "</div>";

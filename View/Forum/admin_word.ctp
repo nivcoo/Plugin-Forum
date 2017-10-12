@@ -57,7 +57,7 @@
                                         <tr>
                                             <td><?= $word['Insult']['word']; ?></td>
                                             <td><?= $word['Insult']['replace']; ?></td>
-                                            <td><a onclick="confirmDel('/admin/forum/forum/delete/word/<?= $word['Insult']['id']; ?>')" class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE') ?></a></td>
+                                            <td><a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'forum', 'action' => 'delete/word/'.$word['Insult']['id'], 'admin' => true)) ?>')" class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE') ?></a></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
