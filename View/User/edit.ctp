@@ -30,23 +30,49 @@
                                 <div class="forum-category">
                                     <div class="form-group">
                                         <label><?= $Lang->get('FORUM__SOCIAL__FACEBOOK'); ?></label>
-                                        <input name="facebook" value="<?= $socialNetworks['facebook']; ?>" class="form-control" placeholder="https://www.facebook.com/FacebookFrance" type="text" />
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-facebook" aria-hidden="true"></i>
+                                            </div>
+                                            <input class="form-control" type="text" name="facebook" placeholder="https://www.facebook.com/FacebookFrance" value="<?= $socialNetworks['facebook']; ?>" />
+                                        </div>
+                                        <input class="form-control" type="hidden" name="social" value="social" />
                                     </div>
                                     <div class="form-group">
                                         <label><?= $Lang->get('FORUM__SOCIAL__TWITTER'); ?></label>
-                                        <input name="twitter" value="<?= $socialNetworks['twitter']; ?>" class="form-control" placeholder="https://twitter.com/TwitterFrance" type="text" />
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                                            </div>
+                                            <input class="form-control" type="text" name="twitter" placeholder="https://twitter.com/TwitterFrance" value="<?= $socialNetworks['twitter']; ?>" />
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label><?= $Lang->get('FORUM__SOCIAL__YOUTUBE'); ?></label>
-                                        <input name="youtube" value="<?= $socialNetworks['youtube']; ?>" class="form-control" placeholder="https://www.youtube.com/user/GoogleFrance" type="text" />
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                                            </div>
+                                            <input class="form-control" type="text" name="youtube" placeholder="https://www.youtube.com/user/GoogleFrance" value="<?= $socialNetworks['youtube']; ?>" />
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label><?= $Lang->get('FORUM__SOCIAL__GOOGLEPLUS'); ?></label>
-                                        <input name="googleplus" value="<?= $socialNetworks['googleplus']; ?>" class="form-control" placeholder="https://plus.google.com/+GoogleFrance" type="text" />
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-google-plus" aria-hidden="true"></i>
+                                            </div>
+                                            <input class="form-control" type="text" name="googleplus" placeholder="https://plus.google.com/+GoogleFrance" value="<?= $socialNetworks['googleplus']; ?>" />
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label><?= $Lang->get('FORUM__SOCIAL__SNAPCHAT'); ?></label>
-                                        <input name="snapchat" value="<?= $socialNetworks['snapchat']; ?>" class="form-control" placeholder="snapchat" type="text" />
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-snapchat-ghost" aria-hidden="true"></i>
+                                            </div>
+                                            <input class="form-control" type="text" placeholder="snapchat" name="snapchat" value="<?= $socialNetworks['snapchat']; ?>" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
