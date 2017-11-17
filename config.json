@@ -67,8 +67,18 @@
 				}
 			}
 		},
+		"Personnalisation": {
+            "index":"4",
+            "icon": "paint-brush",
+            "menu": {
+                "Général": {
+                    "icon": "home",
+                    "route": "/admin/forum/forum/personalize/home"
+                }
+            }
+		},
         "Statistiques": {
-			"index":"4",
+			"index":"5",
 			"icon": "area-chart",
 			"menu": {
 				"Statistiques": {

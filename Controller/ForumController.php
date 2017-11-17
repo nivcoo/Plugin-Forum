@@ -13,6 +13,12 @@ class ForumController extends ForumAppController
         ]
     ];
 
+    private $indexExplorer = -1;
+
+    private $valueExplorer;
+
+    private $valueTopic;
+
     public function beforeFilter()
     {
        parent::beforeFilter();
@@ -83,7 +89,7 @@ class ForumController extends ForumAppController
 
                 if ($forum['Forum']['id_parent'] != 0) {
                     $last = $this->explore($forum['Forum']['id']);
-
+                    //if($forum['Forum']['id'] == 4) var_dump($this->valueExplorer);
                     $forums[$key]['Forum']['topic_last_idtopic'] = $last['id'];
                     $forums[$key]['Forum']['topic_last_title'] = $last['title'];
                     $forums[$key]['Forum']['topic_last_date'] = $this->date($last['last_date']);
@@ -321,7 +327,7 @@ class ForumController extends ForumAppController
 
                             if ($this->ForumPermission->has('FORUM_MSG_EDIT') OR $this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
                                 if ($this->ForumPermission->has('FORUM_MSG_EDIT')) {
-                                    $state = true;
+                                    $stdiscoprate = true;
                                 } elseif ($this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
                                     $state = ($this->Topic->getUserId('id_user', 'id', $idMessage) == $this->getIdSession()) ? true : false;
                                 }
@@ -1442,6 +1448,20 @@ class ForumController extends ForumAppController
         }
     }
 
+    public function admin_personalize()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
+            /*App::import('Controller', 'Forum.Theme');
+
+            $personalize = new ThemeController;
+            $personalize->admin_index();*/
+
+            $this->layout = "admin";
+        } else {
+            $this->redirect('/');
+        }
+    }
+
     /*
      * Function calc, back end ...
      */
@@ -1902,6 +1922,9 @@ class ForumController extends ForumAppController
 
     private function explore($id, $test = false)
     {
+        if (!$test) {
+            $this->valueExplorer = null;
+        }
 
         $this->loadModel('Forum.Topic');
 
@@ -1919,7 +1942,11 @@ class ForumController extends ForumAppController
 
         foreach ($datas as $key => $d) {
             if (is_array($d)){
-                return $this->explore($d, true);
+                if ($test) {
+                    return $this->explore($d, true);
+                } else {
+                     $this->explore($d, true);
+                }
             } else {
                 if ($d) {
                     $topics[] = $this->Topic->getTopic($d);
@@ -1928,34 +1955,39 @@ class ForumController extends ForumAppController
 
         }
 
-        $newTopic = "";
-
         foreach ($topics as $key => $t) {
             if(!empty($t)) {
-                $newTopic = $t;
+                if (isset($t[1]['Topic'])) {
+                    foreach ($t as $index => $value) {
+                        $this->indexExplorer = $this->indexExplorer + 1;
+                        $this->valueExplorer[$this->indexExplorer] = $value;
+                    }
+                } else {
+                    $this->indexExplorer = $this->indexExplorer + 1;
+                    $this->valueExplorer[$this->indexExplorer] = $t[0];
+                }
             }
         }
 
-        if (!empty($newTopic)) {
-            foreach ($newTopic as $key => $n) {
-                $data[$key] = $n['Topic']['id_topic'];
-            }
 
-            $allTopics = $this->Topic->find('all', ['conditions' => ['id_topic' => $data], 'order' => ['date' => 'DESC']]);
-            $lastMessage = $allTopics[0]['Topic'];
-            $lastTopic = $allTopics[0]['Topic']['id_topic'];
-            $title = $this->Topic->getTitleTopic($lastTopic);
-
-            $return = [
-                'title' => $title,
-                'id' => $lastTopic,
-                'last_author_id' => $lastMessage['id_user'],
-                'last_author' => $this->gUBY($lastMessage['id_user']),
-                'last_date' => $lastMessage['date']
-            ];
-
-            return $return;
+        foreach ($this->valueExplorer as $key => $n) {
+            $this->valueTopic[$key] = $n['Topic']['id_topic'];
         }
+
+        $allTopics = $this->Topic->find('all', ['conditions' => ['id_topic' => $this->valueTopic], 'order' => ['date' => 'DESC']]);
+        $lastMessage = $allTopics[0]['Topic'];
+        $lastTopic = $allTopics[0]['Topic']['id_topic'];
+        $title = $this->Topic->getTitleTopic($lastTopic);
+
+        $return = [
+            'title' => $title,
+            'id' => $lastTopic,
+            'last_author_id' => $lastMessage['id_user'],
+            'last_author' => $this->gUBY($lastMessage['id_user']),
+            'last_date' => $lastMessage['date']
+        ];
+
+        return $return;
     }
 
     private function inCategory($id){
