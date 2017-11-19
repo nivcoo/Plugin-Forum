@@ -321,6 +321,8 @@ class ForumController extends ForumAppController
                                 }
 
                                 $this->Session->setFlash($this->Lang->get('FORUM__MESSAGE__SEND'), 'default.success');
+
+                                $this->redirect("/forum/redirect/message/$id");
                             }
                         } elseif (!empty($this->request->data['content_update'])) {
                             $idMessage = $this->request->data['id'];

@@ -118,8 +118,8 @@
                 <div class="forum-category">
                     <div class="row">
                         <div class="col-md-12">
-                            <?php foreach($userOnlines as $userOnline): ?>
-                                <a href="<?= $this->Html->url('/user/'.$userOnline['User']['pseudo'].'.'.$userOnline['User']['id'].'/'); ?>" style="color: #<?= $userOnline['User']['color']; ?>"><?= $userOnline['User']['pseudo']; ?></a>
+                            <?php $count = count($userOnlines); foreach($userOnlines as $key => $userOnline): ?>
+                                <a href="<?= $this->Html->url('/user/'.$userOnline['User']['pseudo'].'.'.$userOnline['User']['id'].'/'); ?>" style="color: #<?= $userOnline['User']['color']; ?>"><?= $userOnline['User']['pseudo']; ?></a><?php if($key+1 != $count) echo ','; ?>
                             <?php endforeach; ?>
                             <?php if($stats['countuser'] == 0) echo $Lang->get('FORUM__ONLINE__ZERO'); ?>
                         </div>

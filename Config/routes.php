@@ -25,3 +25,5 @@ Router::connect('/message/:slug.:id', ['controller' => 'message', 'action' => 'v
 Router::connect('/message/:slug.:id/:page', ['controller' => 'message', 'action' => 'view', 'plugin' => 'forum'], ['pass' => ['id', 'slug', 'page'], 'id' => '[0-9]+', 'page' => '[0-9]+']);
 
 Router::connect('/forum/css/custom.css', ['controller' => 'theme', 'action' => 'generate', 'plugin' => 'forum']);
+
+Router::connect('/forum/redirect/:type/:id', ['controller' => 'redirect', 'action' => 'redirectForum', 'plugin' => 'forum'], ['pass' => ['type', 'id'], 'id' => '[0-9]+']);
