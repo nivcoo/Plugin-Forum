@@ -60,7 +60,7 @@ class MessageController extends ForumAppController
         }
     }
 
-    public function newMessage()
+    public function newMessage($to = false)
     {
         if ($this->isConnected && $this->Config->is('privatemsg') && $this->ForumPermission->has('FORUM_MP_SEND')) {
             if ($this->request->is('post')){
@@ -97,7 +97,7 @@ class MessageController extends ForumAppController
                 $this->redirect('/message');
             } else {
                 $theme = $this->theme();
-                $this->set(compact('theme'));
+                $this->set(compact('theme', 'to'));
             }
         } else {
             throw new NotFoundException();

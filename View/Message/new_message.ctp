@@ -18,7 +18,7 @@
                         </div>
                         <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
                         <div class="form-group mt20">
-                            <input type="text" name="recipient" class="form-control" placeholder="<?= $Lang->get('FORUM__PHRASE__RECIPIENT'); ?>" />
+                            <input type="text" name="recipient" value="<?php if($to) echo $to; ?>" class="form-control" placeholder="<?= $Lang->get('FORUM__PHRASE__RECIPIENT'); ?>" />
                         </div>
                         <div class="form-group mt20">
                             <input type="text" name="title" class="form-control" placeholder="Sujet" />
