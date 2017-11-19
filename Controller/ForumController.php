@@ -39,7 +39,7 @@ class ForumController extends ForumAppController
 
        $this->forumUpdate();
 
-       if($this->theme == 'Justice') $this->layout = 'forum';
+        if($this->theme == 'Justice') $this->layout = 'forum';
     }
 
     public function beforeRender()
@@ -57,7 +57,9 @@ class ForumController extends ForumAppController
     public function index()
     {
         $this->set('title_for_layout', $this->Lang->get('FORUM__TITLE'));
+
         $this->loadModel('Forum.forums');
+        $this->loadModel('Forum.Internal');
         $this->loadModel('Forum.Topic');
 
         /* Specific */
@@ -89,7 +91,6 @@ class ForumController extends ForumAppController
 
                 if ($forum['Forum']['id_parent'] != 0) {
                     $last = $this->explore($forum['Forum']['id']);
-                    //if($forum['Forum']['id'] == 4) var_dump($this->valueExplorer);
                     $forums[$key]['Forum']['topic_last_idtopic'] = $last['id'];
                     $forums[$key]['Forum']['topic_last_title'] = $last['title'];
                     $forums[$key]['Forum']['topic_last_date'] = $this->date($last['last_date']);
@@ -120,8 +121,9 @@ class ForumController extends ForumAppController
         $my['user'] = $this->gUBY($this->getIdSession());
         $stats['countuser'] = count($userOnlines);
         $theme = $this->theme();
+        $internal['description'] = $this->Internal->get('description');
 
-        $this->set(compact('forums', 'stats', 'userOnlines', 'active', 'my', 'perms', 'theme'));
+        $this->set(compact('forums', 'stats', 'userOnlines', 'active', 'my', 'perms', 'theme', 'internal'));
     }
 
     public function forum($id, $slug, $page = 1)
@@ -1451,12 +1453,66 @@ class ForumController extends ForumAppController
     public function admin_personalize()
     {
         if ($this->isConnected AND $this->User->isAdmin()) {
-            /*App::import('Controller', 'Forum.Theme');
 
-            $personalize = new ThemeController;
-            $personalize->admin_index();*/
+            $this->loadModel('Forum.Internal');
 
-            $this->layout = "admin";
+            $this->layout = 'admin';
+
+            $router = $this->explodeRouter(5);
+
+            switch ($router) {
+                case 'home':
+                    if ($this->request->is('ajax')) {
+                        $this->autoRender = false;
+
+                        if(!empty($this->request->data['background'])){
+                            switch ($this->request->data['background']) {
+                                case '[background][none]':
+                                    $array = [
+                                        'type' => 'default',
+                                        'value' => 'none'
+                                    ];
+                                    break;
+                                case '[background][color]':
+                                    $array = [
+                                        'type' => 'color',
+                                        'value' => $this->request->data['background-color']
+                                    ];
+                                    break;
+                                case '[background][image]':
+                                    $array = [
+                                        'type' => 'image',
+                                        'value' => $this->request->data['background-image']
+                                    ];
+                                    break;
+                            }
+
+                            $array = serialize($array);
+                            $this->Internal->update('background', $array);
+                        } elseif(!empty($this->request->data['description'])) {
+
+                            if ($this->request->data['description'] == "description-base") {
+                                $this->Internal->update('description', "description");
+                            }elseif ($this->request->data['description'] == "description-tooltip") {
+                                $this->Internal->update('description', "tooltip");
+                            }
+
+                        } else {
+                            return $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
+                        }
+
+                        return $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
+                    } else {
+                        $configTheme['background'] = unserialize($this->Internal->get('background'));
+                        $configTheme['description'] = $this->Internal->get('description');
+                    }
+                    break;
+                case 'forum':
+
+                    break;
+            }
+
+            $this->set(compact('router', 'configTheme'));
         } else {
             $this->redirect('/');
         }
@@ -1515,6 +1571,17 @@ class ForumController extends ForumAppController
     {
         $this->loadModel('Forum.Historie');
         $this->Historie->drop($this->Util->getIP(), $this->getIdSession());
+    }
+
+    private function explodeRouter($id){
+        $url = $this->request->here;
+        $explode = explode("/", $url);
+
+        if (isset($explode[$id])) {
+            return $explode[$id];
+        }
+
+        return $explode;
     }
 
     private function remoteAction($type, $value = false)

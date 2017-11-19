@@ -130,7 +130,7 @@
                                                 <button type="submit" name="delete" value="<?= $msg['Topic']['id']; ?>" class="btn-theme"><?= $Lang->get('GLOBAL__DELETE'); ?></button>
                                             </form>
                                         <?php endif; ?>
-                                        <?php if(isset($_SESSION['user']) && $_SESSION['user'] != $msg['Topic']['id_user'] AND isset($_SESSION['User'])): ?>
+                                        <?php if(isset($_SESSION['user']) && $_SESSION['user'] != $msg['Topic']['id_user'] AND isset($_SESSION['user'])): ?>
                                             <?php if($perms['FORUM_MSG_REPORT']): ?>
                                                 <a onclick="report(<?= $msg['Topic']['id']; ?>)" data-toggle="modal" data-target="#ModalReport" class="btn-theme"><?= $Lang->get('FORUM__REPORT'); ?></a>
                                             <?php endif; ?>

@@ -1,5 +1,7 @@
 <?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
+<?= $this->Html->css('Forum.custom.css?') ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.3/tinymce.min.js"></script>
+
 <div class="<?= $theme; ?> mt30 marge">
     <?php if(!empty($alertforum['update'])) echo $alertforum['update']; ?>
     <div class="row">

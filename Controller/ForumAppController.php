@@ -293,6 +293,15 @@ class ForumAppController extends AppController
            ');
         }
 
+        //1.3.0
+        $exist[7] = $db->query('SELECT internal_name FROM forum__internals WHERE internal_name="description"');
+        if (empty($exist[7])) {
+            $db->query('
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("description", "description");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("background", "");
+           ');
+        }
+
         return true;
     }
 
