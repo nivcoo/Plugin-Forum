@@ -2007,19 +2007,20 @@ class ForumController extends ForumAppController
             return;
         }
 
-        foreach ($datas as $key => $d) {
-            if (is_array($d)){
-                if ($test) {
-                    return $this->explore($d, true);
+        if (is_array($datas)) {
+            foreach ($datas as $key => $d) {
+                if (is_array($d)){
+                    if ($test) {
+                        return $this->explore($d, true);
+                    } else {
+                        $this->explore($d, true);
+                    }
                 } else {
-                     $this->explore($d, true);
-                }
-            } else {
-                if ($d) {
-                    $topics[] = $this->Topic->getTopic($d);
+                    if ($d) {
+                        $topics[] = $this->Topic->getTopic($d);
+                    }
                 }
             }
-
         }
 
         foreach ($topics as $key => $t) {
@@ -2037,8 +2038,10 @@ class ForumController extends ForumAppController
         }
 
 
-        foreach ($this->valueExplorer as $key => $n) {
-            $this->valueTopic[$key] = $n['Topic']['id_topic'];
+        if (is_array($this->valueExplorer)) {
+            foreach ($this->valueExplorer as $key => $n) {
+                $this->valueTopic[$key] = $n['Topic']['id_topic'];
+            }
         }
 
         $allTopics = $this->Topic->find('all', ['conditions' => ['id_topic' => $this->valueTopic], 'order' => ['date' => 'DESC']]);

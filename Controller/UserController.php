@@ -38,7 +38,7 @@ class UserController extends ForumAppController
                     $lasts['Comment'][$key]['Topic']['title'] = $this->Topic->info('title_parent', $last['Topic']['id_topic']);
                     $lasts['Comment'][$key]['Topic']['href'] = $this->buildUri('topic', $lasts['Comment'][$key]['Topic']['title'], $lasts['Comment'][$key]['Topic']['id_topic']);
                 }
-                
+
                 $lasts['Note'] = $this->Note->userLastNote($id);
                 foreach($lasts['Note'] as $key => $last){
                     $lasts['Note'][$key]['Note']['txt'] = ($last['Note']['type'] == 1) ? $this->Lang->get('FORUM__PHRASE__PROFILE__GREENTHUMB') : $this->Lang->get('FORUM__PHRASE__PROFILE__REDTHUMB');
