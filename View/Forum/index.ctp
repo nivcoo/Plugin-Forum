@@ -1,5 +1,5 @@
 <?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
-<?= $this->Html->css('Forum.custom.css?') ?>
+<?= $this->Html->css('Forum.custom.css') ?>
 
 <div class="background-forum">
     <div class="<?= $theme; ?> marge">

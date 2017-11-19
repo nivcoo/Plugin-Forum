@@ -2,7 +2,8 @@
 <?= $this->Html->css('Forum.custom.css?') ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.3/tinymce.min.js"></script>
 
-<div class="<?= $theme; ?> mt30 marge">
+<div class="background-forum">
+    <div class="<?= $theme; ?> mt30 marge">
     <?php if(!empty($alertforum['update'])) echo $alertforum['update']; ?>
     <div class="row">
         <div class="col-xs-12 col-md-12 col-sm-12">
@@ -56,4 +57,5 @@
             </form>
         </div>
     </div>
+</div>
 </div>
