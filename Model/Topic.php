@@ -93,7 +93,7 @@ class Topic extends ForumAppModel
                 return $this->find('first', ['conditions' => ['id_topic' => $id, 'first' => 1]])['Topic']['name'];
                 break;
             case 'id_topic' :
-                return $this->find('first', ['conditions' => ['id' => $id, 'first' => 1]])['Topic']['id_topic'];
+                return $this->find('first', ['conditions' => ['id' => $id]])['Topic']['id_topic'];
                 break;
             case 'id_topic_alt' :
                 return $this->find('first', ['conditions' => ['id' => $id]])['Topic']['id_topic'];
