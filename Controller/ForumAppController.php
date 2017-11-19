@@ -299,6 +299,14 @@ class ForumAppController extends AppController
             $db->query('
                 INSERT INTO forum__internals (internal_name, internal_value) VALUES ("description", "description");
                 INSERT INTO forum__internals (internal_name, internal_value) VALUES ("background", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("background_effect", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("icons", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("index_title", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("forum_color", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("topic_color", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("lasttopic_titlecolor", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("lasttopic_datecolor", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("chevron_color", "");
            ');
         }
 

@@ -77,7 +77,7 @@
                             </div>
                         </div>
                     <?php elseif ($router == 'forum'): ?>
-
+                        <p>Surement dans une prochaine mise à jour ...</p>
                     <?php endif; ?>
                 </div>
             </div>

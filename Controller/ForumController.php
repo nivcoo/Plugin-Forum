@@ -1308,7 +1308,7 @@ class ForumController extends ForumAppController
             foreach ($topics as $key => $topic) {
                 $topics[$key]['Topic']['author'] = $this->gUBY($topic['Topic']['id_user']);
                 $topics[$key]['Topic']['date'] = $this->dateAndTime($topic['Topic']['date']);
-                $topics[$key]['Topic']['href'] = $this->replaceSpace($topic['Topic']['name']).'.'.$topic['Topic']['id'];
+                $topics[$key]['Topic']['href'] = $this->replaceSpace($topic['Topic']['name']).'.'.$topic['Topic']['id_topic'];
             }
 
             $this->set(compact('topics'));
