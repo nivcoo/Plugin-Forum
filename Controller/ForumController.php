@@ -1499,6 +1499,25 @@ class ForumController extends ForumAppController
                                 $this->Internal->update('description', "tooltip");
                             }
 
+                        } elseif(!empty($this->request->data['type']) && $this->request->data['type'] == "icon") {
+
+                            $iHome = $this->request->data['icon-home'];
+                            $iFlag = $this->request->data['icon-flag'];
+                            $iEnvelope = $this->request->data['icon-envelope'];
+                            $iOut = $this->request->data['icon-out'];
+                            $iIn = $this->request->data['icon-in'];
+
+                            $array = [
+                                'home' => $iHome,
+                                'flag' => $iFlag,
+                                'envelope' => $iEnvelope,
+                                'out' => $iOut,
+                                'in' => $iIn
+                            ];
+
+                            $array = serialize($array);
+                            $this->Internal->update('icons', $array);
+
                         } else {
                             return $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
                         }
@@ -1507,6 +1526,7 @@ class ForumController extends ForumAppController
                     } else {
                         $configTheme['background'] = unserialize($this->Internal->get('background'));
                         $configTheme['description'] = $this->Internal->get('description');
+                        $configTheme['icons'] = unserialize($this->Internal->get('icons'));
                     }
                     break;
                 case 'forum':
