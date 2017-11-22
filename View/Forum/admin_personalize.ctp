@@ -94,21 +94,21 @@
                                                         <li class="forum-left"></li>
                                                         <li class="forum-left"></li>
                                                         <li class="forum-left">
-                                                            <a href=""><i class="fa fa-flag" aria-hidden="true"></i></a>
+                                                            <a href="" class="forum-breadcrumb-faflag"><i class="fa fa-flag" aria-hidden="true"></i></a>
                                                         </li>
                                                         <li class="forum-left">
-                                                            <a href=""><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+                                                            <a href="" class="forum-breadcrumb-faenvelope"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
                                                         </li>
                                                         <li class="forum-left">
-                                                            <a href=""><i class="fa fa-user" aria-hidden="true"></i></a>
+                                                            <a href="" class="forum-breadcrumb-fauser"><i class="fa fa-user" aria-hidden="true"></i></a>
                                                         </li>
                                                         <li class="forum-left">
-                                                            <a href=""><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                                                            <a href="" class="forum-breadcrumb-fasignout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                                                         </li>
                                                         <li class="forum-left"></li>
                                                         <li class="forum-left"></li>
                                                         <li class="forum-left">
-                                                            <a href=""><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+                                                            <a href="" class="forum-breadcrumb-fasignin"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
                                                         </li>
                                                     </ol>
                                                 </div>
@@ -137,6 +137,14 @@
                                                                     <i class="fa fa-envelope-o" aria-hidden="true"></i>
                                                                 </div>
                                                                 <input value="<?php if(!empty($configTheme['icons']['envelope'])) echo $configTheme['icons']['envelope']; ?>" name="icon-envelope" placeholder="#A57A57 (couleur hexadécimal)" class="form-control" type="text" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                                                </div>
+                                                                <input value="<?php if(!empty($configTheme['icons']['user'])) echo $configTheme['icons']['user']; ?>" name="icon-user" placeholder="#A57A57 (couleur hexadécimal)" class="form-control" type="text" />
                                                             </div>
                                                         </div>
                                                         <div class="form-group">

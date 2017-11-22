@@ -20,7 +20,7 @@
                             </div>
                         </div>
                         <div class="forum-bloc mt15 p15">
-                            <a class="btn-theme btn-full" href="<?= $this->Html->url('/message/new') ?>"><i class="fa fa-paper-plane-o" aria-hidden="true"></i><?= $Lang->get('FORUM__SEND__MP'); ?></a>
+                            <a class="btn-theme btn-full" href="<?= $this->Html->url('/message/new') ?>"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> <?= $Lang->get('FORUM__SEND__MP'); ?></a>
                         </div>
                         <div class="forum-bloc mt15">
                             <div class="forum-bloc-header p15">

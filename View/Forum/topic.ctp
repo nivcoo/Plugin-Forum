@@ -9,7 +9,7 @@
             <div class="col-md-10 col-xs-12">
                 <ol class="forum-breadcrumb">
                     <li class="forum-breadcrumb-home">
-                        <a href="<?= $this->Html->url('/forum') ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
+                        <a href="<?= $this->Html->url('/forum') ?>" class="forum-breadcrumb-fahome"><i class="fa fa-home" aria-hidden="true"></i></a>
                     </li>
                     <?php foreach ($breadcrumb as $key => $b): ?>
                         <li class="forum-breadcrumb-href">

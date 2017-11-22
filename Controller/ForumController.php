@@ -1504,6 +1504,7 @@ class ForumController extends ForumAppController
                             $iHome = $this->request->data['icon-home'];
                             $iFlag = $this->request->data['icon-flag'];
                             $iEnvelope = $this->request->data['icon-envelope'];
+                            $iUser = $this->request->data['icon-user'];
                             $iOut = $this->request->data['icon-out'];
                             $iIn = $this->request->data['icon-in'];
 
@@ -1511,6 +1512,7 @@ class ForumController extends ForumAppController
                                 'home' => $iHome,
                                 'flag' => $iFlag,
                                 'envelope' => $iEnvelope,
+                                'user' => $iUser,
                                 'out' => $iOut,
                                 'in' => $iIn
                             ];

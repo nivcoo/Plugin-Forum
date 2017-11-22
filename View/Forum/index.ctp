@@ -16,24 +16,24 @@
                 <ol class="forum-breadcrumb forum-breadcrumb-menu">
                     <?php if($perms['FORUM_VIEW_REPORT']): ?>
                         <li class="forum-left">
-                            <a href="<?= $this->Html->url('/forum/report') ?>"><i class="fa fa-flag" aria-hidden="true"></i></a>
+                            <a href="<?= $this->Html->url('/forum/report') ?>" class="forum-breadcrumb-faflag"><i class="fa fa-flag" aria-hidden="true"></i></a>
                         </li>
                     <?php endif; ?>
                     <?php if($active['privatemsg'] && isset($_SESSION['user'])): ?>
                         <li class="forum-left">
-                            <a href="<?= $this->Html->url('/message') ?>"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+                            <a href="<?= $this->Html->url('/message') ?>" class="forum-breadcrumb-faenvelope"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
                         </li>
                     <?php endif; ?>
                     <?php if(isset($_SESSION['user'])): ?>
                         <li class="forum-left">
-                            <a href="<?= $this->Html->url('/user/'.$my['user'].'.'.$my['id'].'/') ?>"><i class="fa fa-user" aria-hidden="true"></i></a>
+                            <a href="<?= $this->Html->url('/user/'.$my['user'].'.'.$my['id'].'/') ?>" class="forum-breadcrumb-fauser"><i class="fa fa-user" aria-hidden="true"></i></a>
                         </li>
                         <li class="forum-left last">
-                            <a href="<?= $this->Html->url('/user/logout') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                            <a href="<?= $this->Html->url('/user/logout') ?>" class="forum-breadcrumb-fasignout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                         </li>
                     <?php else: ?>
                         <li class="forum-left last">
-                            <a href="#" data-toggle="modal" data-target="#login"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+                            <a href="#" data-toggle="modal" data-target="#login" class="forum-breadcrumb-fasignin"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
                         </li>
                     <?php endif; ?>
                 </ol>
