@@ -37,6 +37,10 @@ class ForumController extends ForumAppController
            $this->install();
        }
 
+        if(!empty($this->Config->get())){
+            $this->install();
+        }
+
        $this->forumUpdate();
 
         if($this->theme == 'Justice') $this->layout = 'forum';
@@ -1861,8 +1865,51 @@ class ForumController extends ForumAppController
                 ['group_id' => 3, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1],
                 ['group_id' => 99, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 0],
 
-                //1.3.0
-                
+                //1.3.0 ++
+                /*['group_id' => 1, 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_TAG_TOPIC', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TAG_TOPIC', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TAG_TOPIC', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TAG_TOPIC', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_RENAMEMY_TOPIC', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_RENAMEMY_TOPIC', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_RENAMEMY_TOPIC', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_RENAMEMY_TOPIC', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_RENAME_TOPIC', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_RENAME_TOPIC', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_RENAME_TOPIC', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_RENAME_TOPIC', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_TOPIC_VISIBILY', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPIC_VISIBILY', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPIC_VISIBILY', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_TOPIC_VISIBILY', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_TAG_PUBLIC', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TAG_PUBLIC', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TAG_PUBLIC', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TAG_PUBLIC', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_CREATE_POLL', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_CREATE_POLL', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_CREATE_POLL', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_CREATE_POLL', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_USE_PUNISHMENT', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_USE_PUNISHMENT', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_USE_PUNISHMENT', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_USE_PUNISHMENT', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_TAG_USER', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TAG_USER', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TAG_USER', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TAG_USER', 'value' => 0],*/
             ],
             'profile' => [
                 ['id_user' => 1, 'description' => 'Ceci est un description généré lors de l\'installation du plugin ']
