@@ -1800,6 +1800,9 @@ class ForumController extends ForumAppController
                 ['group_id' => 1, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 0], ['group_id' => 99, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 0],
                 ['group_id' => 1, 'name' => 'FORUM_VIEW_REPORT', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_VIEW_REPORT', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_VIEW_REPORT', 'value' => 0], ['group_id' => 99, 'name' => 'FORUM_VIEW_REPORT', 'value' => 0],
                 ['group_id' => 1, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 0],
+
+                //1.3.0
+
             ],
             'profile' => [
                 ['id_user' => 1, 'description' => 'Ceci est un description généré lors de l\'installation du plugin ']

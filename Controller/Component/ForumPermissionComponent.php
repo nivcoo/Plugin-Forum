@@ -24,6 +24,16 @@ class ForumPermissionComponent extends Component
      * FORUM_TOPIC_DEL -> Supprimer les topics
      * FORUM_VIEW_REPORT -> Voir les signalement
      * FORUM_MOOVE_TOPIC -> Déplacer des sujets
+     *
+     * After 1.3.0
+     * FORUM_TAG_TOPIC ->Appliquer des tags à un topic
+     * FORUM_RENAMEMY_TOPIC -> Renommer ses topics
+     * FORUM_RENAME_TOPIC -> Renommer les topics
+     * FORUM_TOPIC_VISIBILY -> Modifier la visibilité des topics
+     * FORUM_TAG_PUBLIC -> Utilisation des tags publics.
+     * FORUM_CREATE_POLL -> Créer des sondages
+     * FORUM_USE_PUNISHMENT -> Utilisez les sanctions pré-appliquées
+     * FORUM_TAG_USER -> Tag les utilisateurs depuis un message.
      */
 
     public $model;

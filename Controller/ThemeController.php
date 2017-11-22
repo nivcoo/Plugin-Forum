@@ -5,6 +5,8 @@ class ThemeController extends ForumAppController
 
     private $css;
 
+    private $cssTextColor = "color";
+
     public function generate()
     {
         $this->loadModel('Forum.Internal');
@@ -27,20 +29,20 @@ class ThemeController extends ForumAppController
         $internal['icons'] = unserialize($this->Internal->get('icons'));
 
         if (!empty($internal['icons'])) {
-            $this->setPropretie('forum-breadcrumb-fahome', $internal['icons']['home']);
-            $this->setPropretie('forum-breadcrumb-faflag', $internal['icons']['flag']);
-            $this->setPropretie('forum-breadcrumb-faenvelope', $internal['icons']['envelope']);
-            $this->setPropretie('forum-breadcrumb-fauser', $internal['icons']['user']);
-            $this->setPropretie('forum-breadcrumb-fasignout', $internal['icons']['out']);
-            $this->setPropretie('forum-breadcrumb-fasignin', $internal['icons']['in']);
+            $this->setPropretie('forum-breadcrumb-fahome', $this->cssTextColor, $internal['icons']['home']);
+            $this->setPropretie('forum-breadcrumb-faflag', $this->cssTextColor, $internal['icons']['flag']);
+            $this->setPropretie('forum-breadcrumb-faenvelope', $this->cssTextColor, $internal['icons']['envelope']);
+            $this->setPropretie('forum-breadcrumb-fauser', $this->cssTextColor, $internal['icons']['user']);
+            $this->setPropretie('forum-breadcrumb-fasignout', $this->cssTextColor, $internal['icons']['out']);
+            $this->setPropretie('forum-breadcrumb-fasignin', $this->cssTextColor, $internal['icons']['in']);
         }
 
         return $this->css;
     }
 
-    private function setPropretie($index, $value){
+    private function setPropretie($index, $propretie, $value){
         if (!empty($value)) {
-            $this->css .= ".".$index."{color:".$value."}";
+            $this->css .= ".".$index."{".$propretie.":".$value."}";
         }
     }
 
