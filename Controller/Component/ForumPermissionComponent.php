@@ -26,7 +26,8 @@ class ForumPermissionComponent extends Component
      * FORUM_MOOVE_TOPIC -> Déplacer des sujets
      *
      * After 1.3.0
-     * FORUM_TAG_TOPIC ->Appliquer des tags à un topic
+     * FORUM_TOPICMY_LOCK -> Fermer ses topics
+     * FORUM_TAG_TOPIC -> Appliquer des tags à un topic
      * FORUM_RENAMEMY_TOPIC -> Renommer ses topics
      * FORUM_RENAME_TOPIC -> Renommer les topics
      * FORUM_TOPIC_VISIBILY -> Modifier la visibilité des topics

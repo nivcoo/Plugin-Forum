@@ -1785,24 +1785,84 @@ class ForumController extends ForumAppController
                 ['id_user' => 1, 'id_to_user'  => 1, 'id_message' => 1, 'type' => 1],
             ],
             'forum_permission' => [
-                ['group_id' => 1, 'name' => 'FORUM_MP_SEND', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MP_SEND', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MP_SEND', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_MP_SEND', 'value' => 1],
-                ['group_id' => 1, 'name' => 'FORUM_MP_REPLY', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MP_REPLY', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MP_REPLY', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_MP_REPLY', 'value' => 1],
-                ['group_id' => 1, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1],
-                ['group_id' => 1, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1],
-                ['group_id' => 1, 'name' => 'FORUM_TOPIC_STICK', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_TOPIC_STICK', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_TOPIC_STICK', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_TOPIC_STICK', 'value' => 0],
-                ['group_id' => 1, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 0], ['group_id' => 99, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 0],
-                ['group_id' => 1, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1],
-                ['group_id' => 1, 'name' => 'FORUM_MSG_EDIT', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MSG_EDIT', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MSG_EDIT', 'value' => 0], ['group_id' => 99, 'name' => 'FORUM_MSG_EDIT', 'value' => 0],
-                ['group_id' => 1, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1],
-                ['group_id' => 1, 'name' => 'FORUM_MSG_DELETE', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MSG_DELETE', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MSG_DELETE', 'value' => 0], ['group_id' => 99, 'name' => 'FORUM_MSG_DELETE', 'value' => 0],
-                ['group_id' => 1, 'name' => 'FORUM_MSG_REPORT', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MSG_REPORT', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MSG_REPORT', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_MSG_REPORT', 'value' => 1],
-                ['group_id' => 1, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 0],
-                ['group_id' => 1, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 0], ['group_id' => 99, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 0],
-                ['group_id' => 1, 'name' => 'FORUM_VIEW_REPORT', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_VIEW_REPORT', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_VIEW_REPORT', 'value' => 0], ['group_id' => 99, 'name' => 'FORUM_VIEW_REPORT', 'value' => 0],
-                ['group_id' => 1, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_MP_SEND', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MP_SEND', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MP_SEND', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_MP_SEND', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_MP_REPLY', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MP_REPLY', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MP_REPLY', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_MP_REPLY', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1]
+                , ['group_id' => 2, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_TOPIC_STICK', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPIC_STICK', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPIC_STICK', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TOPIC_STICK', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_MSG_EDIT', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MSG_EDIT', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MSG_EDIT', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_MSG_EDIT', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_MSG_DELETE', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MSG_DELETE', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MSG_DELETE', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_MSG_DELETE', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_MSG_REPORT', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MSG_REPORT', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MSG_REPORT', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_MSG_REPORT', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_VIEW_REPORT', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_VIEW_REPORT', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_VIEW_REPORT', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_VIEW_REPORT', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 0],
 
                 //1.3.0
-
+                
             ],
             'profile' => [
                 ['id_user' => 1, 'description' => 'Ceci est un description généré lors de l\'installation du plugin ']
