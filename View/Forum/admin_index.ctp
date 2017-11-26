@@ -93,8 +93,8 @@
                                         <?php foreach ($configs as $config): ?>
                                             <tr>
                                                 <td><?= $Lang->get($config['Config']['lang']); ?></td>
-                                                <td><input type="radio" name="<?= $config['Config']['config_name']; ?>" <?php if($config['Config']['config_value'] == 1) echo "checked"; ?> value="1"> <?= $Lang->get('GLOBAL__ENABLED'); ?></td>
-                                                <td><input type="radio" name="<?= $config['Config']['config_name']; ?>" <?php if($config['Config']['config_value'] == 0) echo "checked"; ?> value="0"> <?= $Lang->get('GLOBAL__DISABLED'); ?></td>
+                                                <td><input type="radio" name="<?= $config['Config']['config_name']; ?>" <?php if($config['Config']['config_value'] == 1) echo "checked"; ?>value="1"> <?= $Lang->get('GLOBAL__ENABLED'); ?></td>
+                                                <td><input type="radio" name="<?= $config['Config']['config_name']; ?>" <?php if($config['Config']['config_value'] == 0) echo "checked"; ?>value="0"> <?= $Lang->get('GLOBAL__DISABLED'); ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>

@@ -1503,26 +1503,36 @@ class ForumController extends ForumAppController
                                 $this->Internal->update('description', "tooltip");
                             }
 
-                        } elseif(!empty($this->request->data['type']) && $this->request->data['type'] == "icon") {
+                        } elseif(!empty($this->request->data['type'])) {
 
-                            $iHome = $this->request->data['icon-home'];
-                            $iFlag = $this->request->data['icon-flag'];
-                            $iEnvelope = $this->request->data['icon-envelope'];
-                            $iUser = $this->request->data['icon-user'];
-                            $iOut = $this->request->data['icon-out'];
-                            $iIn = $this->request->data['icon-in'];
+                            switch ($this->request->data['type']) {
+                                case 'icon':
+                                    $iHome = $this->request->data['icon-home'];
+                                    $iFlag = $this->request->data['icon-flag'];
+                                    $iEnvelope = $this->request->data['icon-envelope'];
+                                    $iUser = $this->request->data['icon-user'];
+                                    $iOut = $this->request->data['icon-out'];
+                                    $iIn = $this->request->data['icon-in'];
 
-                            $array = [
-                                'home' => $iHome,
-                                'flag' => $iFlag,
-                                'envelope' => $iEnvelope,
-                                'user' => $iUser,
-                                'out' => $iOut,
-                                'in' => $iIn
-                            ];
+                                    $array = [
+                                        'home' => $iHome,
+                                        'flag' => $iFlag,
+                                        'envelope' => $iEnvelope,
+                                        'user' => $iUser,
+                                        'out' => $iOut,
+                                        'in' => $iIn
+                                    ];
 
-                            $array = serialize($array);
-                            $this->Internal->update('icons', $array);
+                                    $array = serialize($array);
+                                    $this->Internal->update('icons', $array);
+
+                                    break;
+                                case 'chevron':
+                                    $color = $this->request->data['color'];
+                                    $this->Internal->update('chevron_color', $color);
+
+                                    break;
+                            }
 
                         } else {
                             return $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
@@ -2233,12 +2243,12 @@ class ForumController extends ForumAppController
         }
 
         if ($version != $this->version) {
-            $alertforum['update'] .= "<div class=\"row\">";
+            $alertforum['update'] .= "<div class=\"row mt20\">";
             $alertforum['update'] .= "<div class=\"col-md-12\">";
             $alertforum['update'] .= "<div class=\"alert alert-info\" role=\"alert\">";
-            $alertforum['update'] .= "<strong>Information !</strong> ";
+            $alertforum['update'] .= "<strong>".$this->Lang->get('FORUM__INFORMATION')."</strong> ";
             $alertforum['update'] .= "Une mise à jour du plugin est disponible ";
-            $alertforum['update'] .= "<a target=\"_blanks\" href=\"".Router::url('/', true)."admin/plugin\" class=\"alert-link\"> est disponible</a>";
+            $alertforum['update'] .= "<a target=\"_blanks\" href=\"".Router::url('/', true)."admin/plugin\" class=\"alert-link\">".$this->Lang->get('FORUM__ISAVAILAVLE')."</a>";
             $alertforum['update'] .= "</div>";
             $alertforum['update'] .= "</div>";
             $alertforum['update'] .= "</div>";

@@ -57,7 +57,7 @@
                                 <div class="col-md-6">
                                     <div id="tab_general accordion" class="box box-success">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">Gestion des descriptions</h3>
+                                            <h3 class="box-title"><?= $Lang->get('FORUM__MANAGE__DESCRIPTIONS'); ?></h3>
                                         </div>
                                         <div class="box-body">
                                             <div class="row">
@@ -65,11 +65,11 @@
                                                     <?php echo $this->Form->create(false, ['type' => 'post', 'data-ajax' => 'true']); ?>
                                                         <div class="radio">
                                                             <input type="radio" name="description" value="description-base" <?php if($configTheme['description'] == 'description') echo "checked"; ?> />
-                                                            <label>Normal (A droite du titre)</label>
+                                                            <label><?= $Lang->get('FORUM__BASIC__LEFTTITLE'); ?></label>
                                                         </div>
                                                         <div class="radio">
                                                             <input type="radio" name="description" value="description-tooltip" <?php if($configTheme['description'] == 'tooltip') echo "checked"; ?> />
-                                                            <label>Toopltip (Nécessite un passage de la souris)</label>
+                                                            <label><?= $Lang->get('FORUM__BASIC__MOUSEHOVER'); ?></label>
                                                         </div>
                                                     <?php echo $this->Form->end(['label' => 'Modifier', 'class' => 'btn btn-success pull-right']); ?>
                                                 </div>
@@ -172,7 +172,7 @@
                             </div>
                         </div>
                     <?php elseif ($router == 'forum'): ?>
-                        <p>Surement dans une prochaine mise à jour ...</p>
+                        <p><?= $Lang->get('FORUM__PERHAPS__INFUTURE'); ?></p>
                     <?php endif; ?>
                 </div>
             </div>
