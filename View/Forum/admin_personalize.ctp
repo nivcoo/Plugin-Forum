@@ -6,8 +6,8 @@
         <div class="col-md-12">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li <?php if($router == 'home') echo 'class="active"'; ?>><a href="./home">Général</a></li>
-                    <li <?php if($router == 'forum') echo 'class="active"'; ?>><a href="./forum">Forum</a></li>
+                    <li <?php if($router == 'home') echo 'class="active"'; ?>><a href="./home"><?= $Lang->get('FORUM__GENERAL__O'); ?></a></li>
+                    <li <?php if($router == 'forum') echo 'class="active"'; ?>><a href="./forum"><?= $Lang->get('FORUM__TITLE'); ?></a></li>
                 </ul>
                 <div class="tab-content">
                     <?php if($router == 'home'): ?>
@@ -16,7 +16,7 @@
                                 <div class="col-md-6">
                                     <div id="tab_general accordion" class="box box-info">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">Arrière plan</h3>
+                                            <h3 class="box-title"><?= $Lang->get('FORUM__BACKGROUND'); ?></h3>
                                         </div>
                                         <div class="box-body">
                                             <div class="row">
@@ -24,27 +24,27 @@
                                                     <?= $this->Form->create(false, ['type' => 'post', 'data-ajax' => 'true']); ?>
                                                         <div class="radio">
                                                             <input type="radio" name="background" value="[background][none]" <?php if($configTheme['background']['type'] == 'default') echo "checked"; ?> />
-                                                            <label>De base</label>
+                                                            <label><?= $Lang->get('FORUM__BASIC'); ?></label>
                                                         </div>
 
                                                         <div class="radio">
                                                             <input type="radio" name="background" id="background-color" <?php if($configTheme['background']['type'] == 'color') echo "checked"; ?> value="[background][color]" />
-                                                            <label>Couleur</label>
+                                                            <label><?= $Lang->get('FORUM__COLOR'); ?></label>
                                                         </div>
                                                         <div id="type-dropdown" class="<?php if($configTheme['background']['type'] != 'color') echo 'hidden'; ?>">
                                                             <div class="form-group">
-                                                                <label>Couleur</label>
+                                                                <label><?= $Lang->get('FORUM__COLOR'); ?></label>
                                                                 <input type="text" class="form-control" name="background-color" value="<?php if($configTheme['background']['type'] == 'color') echo $configTheme['background']['value']; ?>" placeholder="#b2b2b2" />
                                                             </div>
                                                         </div>
 
                                                         <div class="radio">
                                                             <input type="radio" name="background" id="background-image"  <?php if($configTheme['background']['type'] == 'image') echo "checked"; ?> value="[background][image]" />
-                                                            <label>Image</label>
+                                                            <label><?= $Lang->get('FORUM__PICTURE'); ?></label>
                                                         </div>
                                                         <div id="type-dropdown2" class="<?php if($configTheme['background']['type'] != 'image') echo 'hidden'; ?>">
                                                             <div class="form-group">
-                                                                <label>Url</label>
+                                                                <label><?= $Lang->get('FORUM__URI'); ?></label>
                                                                 <input type="text" class="form-control" name="background-image" value="<?php if($configTheme['background']['type'] == 'image') echo $configTheme['background']['value']; ?>" placeholder="https://images.unsplash.com/photo-1420768255295-e871cbf6eb81" />
                                                             </div>
                                                         </div>
@@ -80,7 +80,7 @@
                                 <div class="col-md-6">
                                     <div id="tab_general accordion" class="box box-danger">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">Gestion des icones</h3>
+                                            <h3 class="box-title"><?= $Lang->get('FORUM__MANAGE__ICONS'); ?></h3>
                                         </div>
                                         <div class="box-body">
                                             <div class="row">

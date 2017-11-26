@@ -108,6 +108,12 @@
   "FORUM__MP":"Message privée",
   "FORUM__MPS":"Messages privées",
   "FORUM__ISBANNED": "Utilisateur banni ?",
+  "FORUM__MANAGE__ICONS": "Gestion des icones",
+  "FORUM__GENERAL__O": "Général",
+  "FORUM__BACKGROUND": "Arrière plan",
+  "FORUM__BASIC": "De base",
+  "FORUM__PICTURE": "Image",
+  "FORUM__URI": "Url",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",

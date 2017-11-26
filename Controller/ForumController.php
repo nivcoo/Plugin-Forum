@@ -2237,7 +2237,7 @@ class ForumController extends ForumAppController
             $alertforum['update'] .= "<div class=\"col-md-12\">";
             $alertforum['update'] .= "<div class=\"alert alert-info\" role=\"alert\">";
             $alertforum['update'] .= "<strong>Information !</strong> ";
-            $alertforum['update'] .= "Une mise à jour du plugin est disponible";
+            $alertforum['update'] .= "Une mise à jour du plugin est disponible ";
             $alertforum['update'] .= "<a target=\"_blanks\" href=\"".Router::url('/', true)."admin/plugin\" class=\"alert-link\"> est disponible</a>";
             $alertforum['update'] .= "</div>";
             $alertforum['update'] .= "</div>";
