@@ -59,7 +59,7 @@
                                 <span class="forum-description"><?= $forum['Forum']['forum_description']; ?></span>
                             <?php endif; ?>
                         </p>
-                        <p class="inline pull-right chevron-hidden" data-idto="<?= $forum['Forum']['id']; ?>"><i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+                        <p class="inline pull-right chevron-hidden" data-idto="<?= $forum['Forum']['id']; ?>"><i style="color:<?php if(!empty($internal['chevron_color'])) echo $internal['chevron_color']; ?>" class="fa fa-chevron-down" aria-hidden="true"></i></p>
                     </div>
                     <?php foreach ($forums as $f => $forum): ?>
                         <?php if($forum['Forum']['id_parent'] != 0 && $forum['Forum']['id_parent'] == $p): ?>

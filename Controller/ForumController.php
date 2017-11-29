@@ -125,7 +125,9 @@ class ForumController extends ForumAppController
         $my['user'] = $this->gUBY($this->getIdSession());
         $stats['countuser'] = count($userOnlines);
         $theme = $this->theme();
+
         $internal['description'] = $this->Internal->get('description');
+        $internal['chevron_color'] = $this->Internal->get('chevron_color');
 
         $this->set(compact('forums', 'stats', 'userOnlines', 'active', 'my', 'perms', 'theme', 'internal'));
     }
@@ -1527,7 +1529,7 @@ class ForumController extends ForumAppController
                                     $this->Internal->update('icons', $array);
 
                                     break;
-                                case 'chevron':
+                                case 'arrow':
                                     $color = $this->request->data['color'];
                                     $this->Internal->update('chevron_color', $color);
 
@@ -1543,6 +1545,7 @@ class ForumController extends ForumAppController
                         $configTheme['background'] = unserialize($this->Internal->get('background'));
                         $configTheme['description'] = $this->Internal->get('description');
                         $configTheme['icons'] = unserialize($this->Internal->get('icons'));
+                        $configTheme['chevron_color'] = $this->Internal->get('chevron_color');
                     }
                     break;
                 case 'forum':
