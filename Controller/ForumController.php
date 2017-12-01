@@ -43,6 +43,8 @@ class ForumController extends ForumAppController
 
        $this->forumUpdate();
 
+        $this->ㅋㅋㅋㅋㅋ();
+
         if($this->theme == 'Justice') $this->layout = 'forum';
     }
 
@@ -2258,6 +2260,15 @@ class ForumController extends ForumAppController
         }
 
         return $alertforum['update'];
+    }
+
+    private function ㅋㅋㅋㅋㅋ()
+    {
+        $array = ['MineStorm', 'Kraken'];
+        if (in_array($this->theme, $array)) {
+            echo "<script>alert('Ce thème n\'est pas compatible avec le forum')</script>";
+            throw new UnauthorizedException();
+        }
     }
 
 }
