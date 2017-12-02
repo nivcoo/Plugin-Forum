@@ -37,10 +37,6 @@ class ForumController extends ForumAppController
              $this->install();
         }
 
-        if(!empty($this->Config->get())){
-            $this->install();
-        }
-
         $this->forumUpdate();
 
         $this->ㅋㅋㅋㅋㅋ();
@@ -319,7 +315,7 @@ class ForumController extends ForumAppController
                             if (!$lock || $this->ForumPermission->has('FORUM_TOPIC_LOCK')) {
 
                                 $content = $this->word($this->request->data['content']);
-                                $this->log('est passé par ici 10');
+
                                 $this->Topic->addMessage($this->Topic->info('id_parent', $id), $this->getIdSession(), $id, $content, date('Y-m-d H:i:s'));
                                 $this->logforum($this->getIdSession(), 'add_message', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__POST__MSG').strip_tags(substr($content, 0, 30)), $content);
 
@@ -563,8 +559,8 @@ class ForumController extends ForumAppController
     {
         $this->set('title_for_layout', $this->Lang->get('FORUM__ADD__TOPIC'));
 
-        $this->loadModel('Forum.Forums');
         $this->loadModel('Forum.Topic');
+        $this->loadModel('Forum.Forums');
 
         if (!$this->Config->is('forum') OR !$this->ForumPermission->has('FORUM_TOPIC_SEND')) {
             throw new NotFoundException();
