@@ -93,6 +93,28 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="tab_general accordion" class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title"><?= $Lang->get('FORUM__MANAGE__HOME'); ?></h3>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <?php echo $this->Form->create(false, ['type' => 'post', 'data-ajax' => 'true']); ?>
+                                                    <input type="hidden" name="type" value="home" />
+                                                    <div class="form-group">
+                                                        <label><?= $Lang->get('FORUM__COLOR_TITLETOPIC'); ?> statistiques</label>
+                                                        <input value="<?php if(!empty($configTheme['index_title']['stats'])) echo $configTheme['index_title']['stats']; ?>" name="stats" placeholder="#A57A57 (couleur hexadécimal)" class="form-control" type="text" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label><?= $Lang->get('FORUM__COLOR_TITLETOPIC'); ?> utilisateur </label>
+                                                        <input value="<?php if(!empty($configTheme['index_title']['users'])) echo $configTheme['index_title']['users']; ?>" name="users" placeholder="#A57A57 (couleur hexadécimal)" class="form-control" type="text" />
+                                                    </div>
+                                                    <?php echo $this->Form->end(['label' => 'Modifier', 'class' => 'btn btn-success pull-right']); ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div id="tab_general accordion" class="box box-success">

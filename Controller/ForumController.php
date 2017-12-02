@@ -125,6 +125,7 @@ class ForumController extends ForumAppController
         $theme = $this->theme();
 
         $internal['description'] = $this->Internal->get('description');
+        $internal['index_title'] = unserialize($this->Internal->get('index_title'));
         $internal['forum_color'] = $this->Internal->get('forum_color');
         $internal['chevron_color'] = $this->Internal->get('chevron_color');
         $internal['last_colortitle'] = $this->Internal->get('lasttopic_titlecolor');
@@ -1551,6 +1552,20 @@ class ForumController extends ForumAppController
                                     $this->Internal->update('forum_color', $color);
 
                                     break;
+
+                                case 'home':
+                                    $colorStats = $this->request->data['stats'];
+                                    $colorUsers = $this->request->data['users'];
+
+                                    $array = [
+                                        'stats' => $colorStats,
+                                        'users' => $colorUsers
+                                    ];
+
+                                    $array = serialize($array);
+                                    $this->Internal->update('index_title', $array);
+
+                                    break;
                             }
 
                         } else {
@@ -1560,6 +1575,7 @@ class ForumController extends ForumAppController
                         return $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
                     } else {
                         $configTheme['background'] = unserialize($this->Internal->get('background'));
+                        $configTheme['index_title'] = unserialize($this->Internal->get('index_title'));
                         $configTheme['description'] = $this->Internal->get('description');
                         $configTheme['icons'] = unserialize($this->Internal->get('icons'));
                         $configTheme['forum_color'] = $this->Internal->get('forum_color');
@@ -2313,6 +2329,17 @@ class ForumController extends ForumAppController
 
     private function ㅋㅋㅋㅋㅋ()
     {
+
+        /*
+         * debug
+         */
+
+
+
+        /*
+         * end debug
+         */
+
         $array = ['MineStorm', 'Kraken'];
         if (in_array($this->theme, $array)) {
             echo "<script>alert('Ce thème n\'est pas compatible avec le forum')</script>";
