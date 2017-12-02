@@ -559,8 +559,8 @@ class ForumController extends ForumAppController
     {
         $this->set('title_for_layout', $this->Lang->get('FORUM__ADD__TOPIC'));
 
-        $this->loadModel('Forum.Topic');
         $this->loadModel('Forum.Forums');
+        $this->loadModel('Forum.Topic');
 
         if (!$this->Config->is('forum') OR !$this->ForumPermission->has('FORUM_TOPIC_SEND')) {
             throw new NotFoundException();
@@ -1551,7 +1551,29 @@ class ForumController extends ForumAppController
                     }
                     break;
                 case 'forum':
+                    if ($this->request->is('ajax')) {
+                        $this->autoRender = false;
 
+                        if (!empty($this->request->data['type'])) {
+                            switch ($this->request->data['type']) {
+                                case 'last':
+                                    $title = $this->request->data['title'];
+                                    $date  = $this->request->data['date'];
+
+                                    $this->Internal->update('lasttopic_titlecolor', $title);
+                                    $this->Internal->update('lasttopic_datecolor', $date);
+
+                                    break;
+                            }
+                        } else {
+                            return $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
+                        }
+
+                        return $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
+                    } else {
+                        $configTheme['last_colortitle'] = $this->Internal->get('lasttopic_titlecolor');
+                        $configTheme['last_colordate'] = $this->Internal->get('lasttopic_datecolor');
+                    }
                     break;
             }
 

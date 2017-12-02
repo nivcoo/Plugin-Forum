@@ -122,6 +122,8 @@
   "FORUM__BASIC__LEFTTITLE": "Normal (A droite du titre)",
   "FORUM__BASIC__MOUSEHOVER": "Toopltip (Nécessite un passage de la souris)",
   "FORUM__PERHAPS__INFUTURE": "Cette fonctionnalité sera disponible dans une prochaine mise à jour.",
+  "FORUM__COLOR_TITLETOPIC": "Couleur du titre",
+  "FORUM__COLOR_DATETOPIC": "Couleur de la date",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",

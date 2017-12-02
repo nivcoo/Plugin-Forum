@@ -75,26 +75,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="tab_general accordion" class="box box-primary">
-                                        <div class="box-header with-border">
-                                            <h3 class="box-title"><?= $Lang->get('FORUM__MANAGE__LASTTOPIC'); ?></h3>
-                                        </div>
-                                        <div class="box-body">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <?php echo $this->Form->create(false, ['type' => 'post', 'data-ajax' => 'true']); ?>
-                                                    <input type="hidden" name="type" value="last" />
-                                                    <div class="form-group">
-                                                        <div class="input-group">
-                                                            <label><?= $Lang->get('FORUM__COLOR_DATETOPIC'); ?></label>
-                                                            <input value="<?php if(!empty($configTheme['chevron_color'])) echo $configTheme['chevron_color']; ?>" name="color" placeholder="#A57A57 (couleur hexadécimal)" class="form-control" type="text" />
-                                                        </div>
-                                                    </div>
-                                                    <?php echo $this->Form->end(['label' => 'Modifier', 'class' => 'btn btn-success pull-right']); ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div id="tab_general accordion" class="box box-success">
@@ -214,7 +194,38 @@
                             </div>
                         </div>
                     <?php elseif ($router == 'forum'): ?>
-                        <p><?= $Lang->get('FORUM__PERHAPS__INFUTURE'); ?></p>
+                        <div class="tab-pane active" id="tab_general">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div id="tab_general accordion" class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title"><?= $Lang->get('FORUM__MANAGE__LASTTOPIC'); ?></h3>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <?php echo $this->Form->create(false, ['type' => 'post', 'data-ajax' => 'true']); ?>
+                                                    <input type="hidden" name="type" value="last" />
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <label><?= $Lang->get('FORUM__COLOR_TITLETOPIC'); ?></label>
+                                                            <input value="<?php if(!empty($configTheme['last_colortitle'])) echo $configTheme['last_colortitle']; ?>" name="title" placeholder="#A57A57 (couleur hexadécimal)" class="form-control" type="text" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <label><?= $Lang->get('FORUM__COLOR_DATETOPIC'); ?></label>
+                                                            <input value="<?php if(!empty($configTheme['last_colordate'])) echo $configTheme['last_colordate']; ?>" name="date" placeholder="#A57A57 (couleur hexadécimal)" class="form-control" type="text" />
+                                                        </div>
+                                                    </div>
+                                                    <?php echo $this->Form->end(['label' => 'Modifier', 'class' => 'btn btn-success pull-right']); ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
