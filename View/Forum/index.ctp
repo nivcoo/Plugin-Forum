@@ -73,13 +73,13 @@
                                         <?php endif; ?>
                                     </div>
                                     <div class="col-xs-7 col-md-7 col-sm-6">
-                                        <h3 class="forum-category-title"><a href="<?= $forum['Forum']['href']; ?>"><?= $forum['Forum']['forum_name']; ?></a></h3>
+                                        <h3 class="forum-category-title"><a style="color:<?php if(!empty($internal['forum_color'])) echo $internal['forum_color']; ?>" href="<?= $forum['Forum']['href']; ?>"><?= $forum['Forum']['forum_name']; ?></a></h3>
                                         <div class="forum-category-description"><span><?= $Lang->get('FORUM__FORUMS__ALT'); ?> :</span> <?= $forum['Forum']['nb_discussion']; ?> <span><?= $Lang->get('FORUM__MSGS'); ?> :</span> <?= $forum['Forum']['nb_message']; ?></div>
                                     </div>
                                     <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
                                         <?php if($forum['Forum']['nb_discussion'] != 0 && $forum['Forum']['nb_message'] != 0): ?>
-                                            <a href="<?= $forum['Forum']['topic_last_href']; ?>"><?= $this->Text->truncate(h($forum['Forum']['topic_last_title']), 70); ?></a><br/>
-                                            <a style="color:#<?= $forum['Forum']['topic_last_author_color']; ?>" href="<?= $this->Html->url('/user/'.$forum['Forum']['topic_last_author'].'.'.$forum['Forum']['topic_last_authorid'].'/'); ?>"><?= $forum['Forum']['topic_last_author']; ?></a>, <?= $forum['Forum']['topic_last_date']; ?>
+                                            <a style="color:<?php if(!empty($internal['last_colortitle'])) echo $internal['last_colortitle']; ?>" href="<?= $forum['Forum']['topic_last_href']; ?>"><?= $this->Text->truncate(h($forum['Forum']['topic_last_title']), 70); ?></a><br/>
+                                            <a style="color:#<?= $forum['Forum']['topic_last_author_color']; ?>" href="<?= $this->Html->url('/user/'.$forum['Forum']['topic_last_author'].'.'.$forum['Forum']['topic_last_authorid'].'/'); ?>"><?= $forum['Forum']['topic_last_author']; ?></a>, <span style="color:<?php if(!empty($internal['last_colordate'])) echo $internal['last_colordate']; ?>"><?= $forum['Forum']['topic_last_date']; ?></span>
                                         <?php endif; ?>
                                     </div>
                                 </div>

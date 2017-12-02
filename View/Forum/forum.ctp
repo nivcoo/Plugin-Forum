@@ -49,14 +49,24 @@
                                 <?php endif; ?>
                             </div>
                             <div class="col-xs-7 col-md-7 col-sm-6">
-                                <h3 class="forum-category-title"><a href="<?= h($forum['Forum']['href']); ?>"><?= $this->Text->truncate(h($forum['Forum']['forum_name']), 50); ?></a></h3>
-                                <div class="forum-category-description"><span><?= $Lang->get('FORUM__FORUMS__ALT'); ?> :</span> <?= $forum['Forum']['nb_discussion']; ?> <span><?= $Lang->get('FORUM__MSG'); ?> :</span> <?= $forum['Forum']['nb_message']; ?></div>
+                                <h3 class="forum-category-title">
+                                    <a style="color:<?php if(!empty($internal['forum_color'])) echo $internal['forum_color']; ?>" href="<?= h($forum['Forum']['href']); ?>"><?= $this->Text->truncate(h($forum['Forum']['forum_name']), 50); ?></a>
+                                </h3>
+                                <div class="forum-category-description">
+                                    <span><?= $Lang->get('FORUM__FORUMS__ALT'); ?> :</span> <?= $forum['Forum']['nb_discussion']; ?>
+                                    <span><?= $Lang->get('FORUM__MSG'); ?> :</span> <?= $forum['Forum']['nb_message']; ?>
+                                </div>
                             </div>
                             <?php if(isset($forum['Forum']['forum_last_href'])): ?>
                                 <div class="col-md-4 col-sm-4 col-xs-3 hidden-mob forum-category-last">
                                     <?php if($forum['Forum']['nb_discussion'] != 0 && $forum['Forum']['nb_message'] != 0): ?>
-                                        <a href="<?= $forum['Forum']['forum_last_href']; ?>"><?= $this->Text->truncate(h($forum['Forum']['forum_last_title']), 60); ?></a><br/>
-                                        <a style="color:#<?= $forum['Forum']['forum_last_author_color']; ?>" href="<?= $this->Html->url('/user/'.$forum['Forum']['forum_last_author']).'.'.$forum['Forum']['forum_last_authorid'].'/' ?>"><?= $forum['Forum']['forum_last_author']; ?></a>, <?= $forum['Forum']['forum_last_date']; ?>
+                                        <a style="color:<?php if(!empty($internal['last_colortitle'])) echo $internal['last_colortitle']; ?>" href="<?= $forum['Forum']['forum_last_href']; ?>">
+                                            <?= $this->Text->truncate(h($forum['Forum']['forum_last_title']), 60); ?>
+                                        </a>
+                                        <br/>
+                                        <a style="color:#<?= $forum['Forum']['forum_last_author_color']; ?>" href="<?= $this->Html->url('/user/'.$forum['Forum']['forum_last_author']).'.'.$forum['Forum']['forum_last_authorid'].'/' ?>">
+                                            <?= $forum['Forum']['forum_last_author']; ?>
+                                        </a>, <span style="color:<?php if(!empty($internal['last_colordate'])) echo $internal['last_colordate']; ?>"><?= $forum['Forum']['forum_last_date']; ?></span>
                                     <?php endif; ?>
                                 </div>
                             <?php endif; ?>
@@ -103,8 +113,12 @@
                                     endif;
                                 endforeach; ?>
 
-                                <h3 class="forum-category-title inline"><a href="<?= $topic_stick['Topic']['href']; ?>"><?= $this->Text->truncate(h($topic_stick['Topic']['name']), 50); ?></a></h3>
-                                <div class="forum-category-description"><a href="<?= $this->Html->url('/user/'.$topic_stick['Topic']['author'].'.'.$topic_stick['Topic']['id_user'].'/'); ?>"><?= $topic_stick['Topic']['author']; ?></a>, <?= $topic_stick['Topic']['date']; ?></div>
+                                <h3 class="forum-category-title inline">
+                                    <a style="color:<?php if(!empty($internal['topic_color'])) echo $internal['topic_color']; ?>" href="<?= $topic_stick['Topic']['href']; ?>"><?= $this->Text->truncate(h($topic_stick['Topic']['name']), 50); ?></a>
+                                </h3>
+                                <div class="forum-category-description">
+                                    <a href="<?= $this->Html->url('/user/'.$topic_stick['Topic']['author'].'.'.$topic_stick['Topic']['id_user'].'/'); ?>"><?= $topic_stick['Topic']['author']; ?></a>, <?= $topic_stick['Topic']['date']; ?>
+                                </div>
                             </div>
                             <div class="hidden-mob col-md-2 forum-category-last">
                                 <div class="forum-category-description"><span><?= $Lang->get('FORUM__MSG'); ?> :</span> <?= $topic_stick['Topic']['nb_message']; ?></div>
@@ -158,9 +172,11 @@
                                    endforeach; ?>
 
                                    <h3 class="forum-category-title inline">
-                                       <a href="<?= h($topic['Topic']['href']); ?>"><?= $this->Text->truncate(h($topic['Topic']['name']), 50); ?></a>
+                                       <a style="color:<?php if(!empty($internal['topic_color'])) echo $internal['topic_color']; ?>" href="<?= h($topic['Topic']['href']); ?>"><?= $this->Text->truncate(h($topic['Topic']['name']), 50); ?></a>
                                    </h3>
-                                   <div class="forum-category-description"><a href="<?= $this->Html->url('/user/'.$topic['Topic']['author'].'.'.$topic['Topic']['id_user'].'/'); ?>"><?= $topic['Topic']['author']; ?></a>, <?= $topic['Topic']['date']; ?></div>
+                                   <div class="forum-category-description">
+                                       <a href="<?= $this->Html->url('/user/'.$topic['Topic']['author'].'.'.$topic['Topic']['id_user'].'/'); ?>"><?= $topic['Topic']['author']; ?></a>, <?= $topic['Topic']['date']; ?>
+                                   </div>
                                </div>
                                <div class="hidden-mob col-md-2 forum-category-last">
                                    <div class="forum-category-description"><span><?= $Lang->get('FORUM__MSG'); ?> :</span> <?= $topic['Topic']['nb_message']; ?></div>

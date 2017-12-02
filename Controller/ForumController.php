@@ -125,7 +125,10 @@ class ForumController extends ForumAppController
         $theme = $this->theme();
 
         $internal['description'] = $this->Internal->get('description');
+        $internal['forum_color'] = $this->Internal->get('forum_color');
         $internal['chevron_color'] = $this->Internal->get('chevron_color');
+        $internal['last_colortitle'] = $this->Internal->get('lasttopic_titlecolor');
+        $internal['last_colordate'] = $this->Internal->get('lasttopic_datecolor');
 
         $this->set(compact('forums', 'stats', 'userOnlines', 'active', 'my', 'perms', 'theme', 'internal'));
     }
@@ -133,9 +136,10 @@ class ForumController extends ForumAppController
     public function forum($id, $slug, $page = 1)
     {
         $this->loadModel('Forum.forums');
+        $this->loadModel('Forum.Internal');
+        $this->loadModel('Forum.Tag');
         $this->loadModel('Forum.Topic');
         $this->loadModel('Forum.Vieww');
-        $this->loadModel('Forum.Tag');
 
         if (!$this->Config->is('forum')) {
             throw new NotFoundException();
@@ -229,8 +233,13 @@ class ForumController extends ForumAppController
 
             $this->set('title_for_layout', $this->replaceHyppen($slug).' | '.$this->Lang->get('FORUM__TITLE'));
 
+            $internal['topic_color'] = $this->Internal->get('topic_color');
+            $internal['forum_color'] = $this->Internal->get('forum_color');
+            $internal['last_colortitle'] = $this->Internal->get('lasttopic_titlecolor');
+            $internal['last_colordate'] = $this->Internal->get('lasttopic_datecolor');
+
             $this->set(compact('forums', 'slug', 'topics', 'topics_stick', 'parent', 'id', 'theme',
-                'pagination', 'perms', 'isLock', 'listForum', 'ranks', 'tags', 'breadcrumb'));
+                'pagination', 'perms', 'isLock', 'listForum', 'ranks', 'tags', 'breadcrumb', 'internal'));
 
         }else{
             throw new ForbiddenException();
@@ -1536,6 +1545,12 @@ class ForumController extends ForumAppController
                                     $this->Internal->update('chevron_color', $color);
 
                                     break;
+
+                                case 'forum':
+                                    $color = $this->request->data['color'];
+                                    $this->Internal->update('forum_color', $color);
+
+                                    break;
                             }
 
                         } else {
@@ -1547,6 +1562,7 @@ class ForumController extends ForumAppController
                         $configTheme['background'] = unserialize($this->Internal->get('background'));
                         $configTheme['description'] = $this->Internal->get('description');
                         $configTheme['icons'] = unserialize($this->Internal->get('icons'));
+                        $configTheme['forum_color'] = $this->Internal->get('forum_color');
                         $configTheme['chevron_color'] = $this->Internal->get('chevron_color');
                     }
                     break;
@@ -1564,6 +1580,12 @@ class ForumController extends ForumAppController
                                     $this->Internal->update('lasttopic_datecolor', $date);
 
                                     break;
+                                case 'topic':
+                                    $color = $this->request->data['color'];
+
+                                    $this->Internal->update('topic_color', $color);
+
+                                    break;
                             }
                         } else {
                             return $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
@@ -1571,6 +1593,7 @@ class ForumController extends ForumAppController
 
                         return $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
                     } else {
+                        $configTheme['topic_color'] = $this->Internal->get('topic_color');
                         $configTheme['last_colortitle'] = $this->Internal->get('lasttopic_titlecolor');
                         $configTheme['last_colordate'] = $this->Internal->get('lasttopic_datecolor');
                     }

@@ -113,6 +113,8 @@
   "FORUM__MANAGE__ARROW": "Gestion des flèches",
   "FORUM__MANAGE__LASTTOPIC": "Gestion des derniers topics",
   "FORUM__MANAGE__DESCRIPTIONS": "Gestion des descriptions",
+  "FORUM__MANAGE__FORUM": "Gestion des forums",
+  "FORUM__MANAGE__TOPIC": "Gestion des topics",
   "FORUM__GENERAL__O": "Général",
   "FORUM__BACKGROUND": "Arrière plan",
   "FORUM__BASIC": "De base",
@@ -124,6 +126,7 @@
   "FORUM__PERHAPS__INFUTURE": "Cette fonctionnalité sera disponible dans une prochaine mise à jour.",
   "FORUM__COLOR_TITLETOPIC": "Couleur du titre",
   "FORUM__COLOR_DATETOPIC": "Couleur de la date",
+
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",
