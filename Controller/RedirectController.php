@@ -14,7 +14,7 @@ class RedirectController extends ForumAppController
                 break;
             case 'message':
                 $this->loadModel('Forum.Topic');
-                $this->log('ici');
+
                 $title = $this->Topic->getTitleTopic($id);
                 return $this->redirect("/topic/$title.$id/");
                 break;

@@ -858,7 +858,6 @@ class ForumController extends ForumAppController
                         $this->logforum($this->getIdSession(), 'delete_word', $this->gUBY($this->getIdSession()).' vient de supprimer un mot interdit', $id);
                         $this->Insult->deleteWord($id);
                     } elseif ($type == 'rank') {
-                        $this->log($this->getIdSession());
                         $this->logforum($this->getIdSession(), 'delete_group', $this->gUBY($this->getIdSession()).' vient de supprimer un groupe', $id);
                         $this->Group->deleteGroup($id);
                         $this->ForumPermission->delete('groupsuser', 'id_group', $id);
