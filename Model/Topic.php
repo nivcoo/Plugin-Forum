@@ -220,9 +220,23 @@ class Topic extends ForumAppModel
     public function addTopic($idParent, $idUser, $title, $stick, $lock, $content)
     {
         $max = ($this->maxIdTopic()) + 1;
+
         $this->create();
-        $this->set(['id_parent' => $idParent, 'id_user' => $idUser, 'id_topic' => $max, 'name' => $title, 'first' => 1, 'stick' => $stick, 'lock' => $lock, 'content' => $content, 'date' => date('Y-m-d H:i:s')]);
+
+        $this->set([
+            'id_parent' => $idParent,
+            'id_user' => $idUser,
+            'id_topic' => $max,
+            'name' => $title,
+            'first' => 1,
+            'stick' => $stick,
+            'lock' => $lock,
+            'content' => $content,
+            'date' => date('Y-m-d H:i:s')
+        ]);
+
         $this->save();
+
         return ['title' => $title, 'id_topic' => $max];
     }
 

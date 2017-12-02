@@ -21,27 +21,27 @@ class ForumController extends ForumAppController
 
     public function beforeFilter()
     {
-       parent::beforeFilter();
-       $this->loadModel('User');
-       $this->loadModel('Forum.Punishment');
-       $this->loadModel('Forum.Config');
+        parent::beforeFilter();
+        $this->loadModel('User');
+        $this->loadModel('Forum.Punishment');
+        $this->loadModel('Forum.Config');
 
-       $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
-       $this->Security->csrfExpires = '+1 hour';
+        $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
+        $this->Security->csrfExpires = '+1 hour';
 
-       if ($this->isConnected && !in_array($this->request->params['action'], ['banned', 'admin_punishment', 'admin_delete']) && $this->Punishment->get($this->getIdSession())) {
-           $this->redirect(Router::url('/', true).'forum/banned');
-       }
+        if ($this->isConnected && !in_array($this->request->params['action'], ['banned', 'admin_punishment', 'admin_delete']) && $this->Punishment->get($this->getIdSession())) {
+            $this->redirect(Router::url('/', true).'forum/banned');
+        }
 
-       if (!$this->Config->notempty()) {
-           $this->install();
-       }
+        if (!$this->Config->notempty()) {
+             $this->install();
+        }
 
         if(!empty($this->Config->get())){
             $this->install();
         }
 
-       $this->forumUpdate();
+        $this->forumUpdate();
 
         $this->ㅋㅋㅋㅋㅋ();
 
@@ -319,6 +319,7 @@ class ForumController extends ForumAppController
                             if (!$lock || $this->ForumPermission->has('FORUM_TOPIC_LOCK')) {
 
                                 $content = $this->word($this->request->data['content']);
+                                $this->log('est passé par ici 10');
                                 $this->Topic->addMessage($this->Topic->info('id_parent', $id), $this->getIdSession(), $id, $content, date('Y-m-d H:i:s'));
                                 $this->logforum($this->getIdSession(), 'add_message', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__POST__MSG').strip_tags(substr($content, 0, 30)), $content);
 
@@ -561,8 +562,9 @@ class ForumController extends ForumAppController
     public function addTopic($idParent = false)
     {
         $this->set('title_for_layout', $this->Lang->get('FORUM__ADD__TOPIC'));
-        $this->loadModel('Forum.Topic');
+
         $this->loadModel('Forum.Forums');
+        $this->loadModel('Forum.Topic');
 
         if (!$this->Config->is('forum') OR !$this->ForumPermission->has('FORUM_TOPIC_SEND')) {
             throw new NotFoundException();
@@ -589,8 +591,10 @@ class ForumController extends ForumAppController
 
                     $content = $this->word($this->request->data['content_insert']);
                     $title = $this->urlRew(trim($this->request->data['title']));
+
                     $params = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
                     $this->logforum($this->getIdSession(), 'create_topic', $this->gUBY($this->getIdSession()).' vient de créer un nouveau topic : '.strip_tags(substr($content, 0, 30)), $content);
+
                     $this->redirect(Router::url('/', true).'topic/'.$this->replaceSpace($params['title']).'.'.$params['id_topic'].'/');
 
                 } else {
@@ -2194,19 +2198,23 @@ class ForumController extends ForumAppController
         }
 
         $allTopics = $this->Topic->find('all', ['conditions' => ['id_topic' => $this->valueTopic], 'order' => ['date' => 'DESC']]);
-        $lastMessage = $allTopics[0]['Topic'];
-        $lastTopic = $allTopics[0]['Topic']['id_topic'];
-        $title = $this->Topic->getTitleTopic($lastTopic);
 
-        $return = [
-            'title' => $title,
-            'id' => $lastTopic,
-            'last_author_id' => $lastMessage['id_user'],
-            'last_author' => $this->gUBY($lastMessage['id_user']),
-            'last_date' => $lastMessage['date']
-        ];
+        if (!empty($allTopics)) {
+            $lastMessage = $allTopics[0]['Topic'];
+            $lastTopic = $allTopics[0]['Topic']['id_topic'];
+            $title = $this->Topic->getTitleTopic($lastTopic);
 
-        return $return;
+            $return = [
+                'title' => $title,
+                'id' => $lastTopic,
+                'last_author_id' => $lastMessage['id_user'],
+                'last_author' => $this->gUBY($lastMessage['id_user']),
+                'last_date' => $lastMessage['date']
+            ];
+
+            return $return;
+        }
+
     }
 
     private function inCategory($id){
