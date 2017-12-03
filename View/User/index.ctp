@@ -180,13 +180,15 @@
     })
     <?php if($active['socialnetwork']): ?>
     function el(site) {
+        console.log(site);
         $('#myModal').modal('show');
 
         $('.js-link').attr('href', site);
         $('.js-link').empty().append(site);
         $(document).on("click", "#next", function(event){
-            var uri = window.open(site, '_blank');
-            uri.focus();
+            /*var uri = window.open(site, '_blank');
+            uri.focus();*/
+            window.open(site, '_blank');
             $('#myModal').modal('hide');
         });
     }
