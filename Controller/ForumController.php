@@ -347,7 +347,7 @@ class ForumController extends ForumAppController
 
                             if ($this->ForumPermission->has('FORUM_MSG_EDIT') OR $this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
                                 if ($this->ForumPermission->has('FORUM_MSG_EDIT')) {
-                                    $stdiscoprate = true;
+                                    $state = true;
                                 } elseif ($this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
                                     $state = ($this->Topic->getUserId('id_user', 'id', $idMessage) == $this->getIdSession()) ? true : false;
                                 }
