@@ -93,6 +93,7 @@ class ForumController extends ForumAppController
 
                 if ($forum['Forum']['id_parent'] != 0) {
                     $last = $this->explore($forum['Forum']['id']);
+
                     $forums[$key]['Forum']['topic_last_idtopic'] = $last['id'];
                     $forums[$key]['Forum']['topic_last_title'] = $last['title'];
                     $forums[$key]['Forum']['topic_last_date'] = $this->date($last['last_date']);
@@ -2200,6 +2201,7 @@ class ForumController extends ForumAppController
     {
         if (!$test) {
             $this->valueExplorer = null;
+            $this->valueTopic = null;
         }
 
         $this->loadModel('Forum.Topic');

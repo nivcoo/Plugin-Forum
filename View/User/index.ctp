@@ -20,7 +20,7 @@
                             </div>
                         </div>
                         <div class="forum-bloc mt15 p15">
-                            <a class="btn-theme btn-full ml0" href="<?= $this->Html->url('/message/new') ?>"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> <?= $Lang->get('FORUM__SEND__MP'); ?></a>
+                            <a class="btn-theme btn-full ml0" href="<?= $this->Html->url('/message/new/'.$slug) ?>"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> <?= $Lang->get('FORUM__SEND__MP'); ?></a>
                         </div>
                         <div class="forum-bloc mt15">
                             <div class="forum-bloc-header p15">
@@ -186,9 +186,8 @@
         $('.js-link').attr('href', site);
         $('.js-link').empty().append(site);
         $(document).on("click", "#next", function(event){
-            /*var uri = window.open(site, '_blank');
-            uri.focus();*/
-            window.open(site, '_blank');
+            var uri = window.open(site, '_blank');
+            uri.focus().empty();
             $('#myModal').modal('hide');
         });
     }
