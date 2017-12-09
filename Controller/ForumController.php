@@ -225,6 +225,7 @@ class ForumController extends ForumAppController
                     $topics[$key]['Topic']['tags'] = $this->Topic->getTag($topic['Topic']['id_topic']);
                 }
             }
+
             $parent['forum_parent']['name'] = $this->replaceHyppen($slug);
             $theme = $this->theme();
             $perms = $this->perm_l();
@@ -571,6 +572,7 @@ class ForumController extends ForumAppController
         $this->set('title_for_layout', $this->Lang->get('FORUM__ADD__TOPIC'));
 
         $this->loadModel('Forum.Forums');
+        $this->loadModel('Forum.Tag');
         $this->loadModel('Forum.Topic');
 
         if (!$this->Config->is('forum') OR !$this->ForumPermission->has('FORUM_TOPIC_SEND')) {
@@ -579,6 +581,8 @@ class ForumController extends ForumAppController
 
         $isLock = $this->Forum->isLock($idParent);
         $perms = $this->perm_l();
+        $tags = $this->Tag->get();
+        $theme = $this->theme();
 
         if (!$isLock OR $perms['FORUM_TOPIC_LOCK']) {
             if ($this->request->is('post') && $this->isConnected) {
@@ -600,6 +604,15 @@ class ForumController extends ForumAppController
                     $title = $this->urlRew(trim($this->request->data['title']));
 
                     $params = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
+
+                    $newTag = '';
+                    foreach ($tags as $key => $tag) {
+                        if (isset($this->request->data['tag-'.$tag['Tag']['id']])) {
+                            $newTag .= $this->request->data['tag-'.$tag['Tag']['id']].',';;
+                        }
+                    }
+                    if ($perms['FORUM_MSG_EDIT']) $this->Topic->updateTag($params['id_topic'], $newTag);
+
                     $this->logforum($this->getIdSession(), 'create_topic', $this->gUBY($this->getIdSession()).' vient de créer un nouveau topic : '.strip_tags(substr($content, 0, 30)), $content);
 
                     $this->redirect(Router::url('/', true).'topic/'.$this->replaceSpace($params['title']).'.'.$params['id_topic'].'/');
@@ -613,10 +626,7 @@ class ForumController extends ForumAppController
                 }
             } elseif($this->request->is('get') && $this->isConnected){
 
-                $configs['stick'] = ($this->ForumPermission->has('FORUM_TOPIC_STICK')) ? true : false;
-                $configs['lock'] = ($this->ForumPermission->has('FORUM_TOPIC_LOCK')) ? true : false;
-                $theme = $this->theme();
-                $this->set(compact('configs', 'theme'));
+                $this->set(compact('perms', 'theme', 'tags'));
 
             } else {
                 throw new ForbiddenException();
