@@ -11,6 +11,7 @@
   "FORUM__DATE__ENDBAN": "Date de fin de la sanction",
   "FORUM__REASON": "Raison",
   "FORUM__POSITION": "Position",
+  "FORUM__RENDERING": "Rendu",
   "FORUM__PARENT": "Parent",
   "FORUM__AFTER": "Après",
   "FORUM__IN": "Dans",
@@ -101,6 +102,8 @@
   "FORUM__DELETEALL__BACKUP": "Supprimer toutes les sauvegardes",
   "FORUM__ONLINE__ZERO": "Aucun utilisateur en ligne actuellement",
   "FORUM__LABEL": "Label",
+  "FORUM__TAG": "Tag",
+  "FORUM__TAGS": "Tags",
   "FORUM__ICON": "Icone",
   "FORUM__SOCIAL__STATS": "Statistiques",
   "FORUM__USER__REGISTERED__TODAY": "Visites d'utilisateurs",
@@ -128,7 +131,9 @@
   "FORUM__COLOR_TITLETOPIC": "Couleur du titre",
   "FORUM__COLOR_DATETOPIC": "Couleur de la date",
   "FORUM__SETTINGS": "Paramètres",
-
+  "FORUM__TAGS__FREE": "Autoriser l'utilisation de ce tag aux groupes possédant la permission \"FORUM_TAG_PUBLIC\" ?",
+  "FORUM__PUBLIC": "Public",
+  "FORUM__PRIVATE": "Privée",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",
@@ -287,6 +292,6 @@
   "FORUM__NOTIFICATION__TOPIC__LOCK": "Votre topic « [TITLE] » vient d'être vérouillé par ",
   "FORUM__NOTIFICATION__TOPIC__UNLOCK": "Votre topic « [TITLE] » vient d'être dévérouillé par ",
 
-  "FORUM__STATISTIC__VIEWTOPIC": "Nombre de topics vues",
+  "FORUM__STATISTIC__VIEWTOPIC": "Nombre de topics vus",
   "FORUM__STATISTIC__TOPICCREATE": "Nombre de topics créés"
 }

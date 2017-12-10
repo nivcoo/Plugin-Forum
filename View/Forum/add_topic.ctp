@@ -13,7 +13,7 @@
 
                 <div class="forum-forum">
                     <div class="forum-other-header">
-                        <p class="forum-forum-title"><?= $Lang->get('FORUM__TITLE__TOPIC'); ?></p>
+                        <p class="forum-forum-title"><i class="fa fa-font" aria-hidden="true"></i> <?= $Lang->get('FORUM__TITLE__TOPIC'); ?></p>
                     </div>
                     <div class="forum-category">
                         <div class="row">
@@ -33,7 +33,7 @@
                 </div>
                 <div class="forum-forum">
                     <div class="forum-other-header">
-                        <p class="forum-forum-title"><?= $Lang->get('FORUM__SETTINGS'); ?></p>
+                        <p class="forum-forum-title"><i class="fa fa-cog" aria-hidden="true"></i> <?= $Lang->get('FORUM__SETTINGS'); ?></p>
                     </div>
                     <div class="forum-category">
                         <div class="row">
@@ -55,8 +55,16 @@
                                     </div>
                                 <?php endif; ?>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="forum-forum">
+                    <div class="forum-other-header">
+                        <p class="forum-forum-title"><i class="fa fa-cog" aria-hidden="true"></i> <?= $Lang->get('FORUM__TAGS'); ?></p>
+                    </div>
+                    <div class="forum-category">
+                        <div class="row">
                             <div class="col-md-12">
-                                <hr />
                                 <?php if(!empty($tags)): ?>
                                     <?php foreach($tags as $key => $tag): ?>
                                         <span style="background-color: #<?= $tag['Tag']['color']; ?>" class="labeltag"><input type="checkbox" class="middle" value="<?= $tag['Tag']['id']; ?>" name="tag-<?= $tag['Tag']['id']; ?>" />
@@ -79,14 +87,14 @@
                                 "emoticons": "<?= $this->Html->url('/forum/js/plugins/emoticons/plugin.min.js'); ?>"
                             },
                             selector: "textarea",
-                            height : 300,
+                            height : 500,
                             width : '100%',
-                            menubar: false,
-                            plugins: "textcolor table code image link contextmenu emoticons",
-                            toolbar: "fontselect fontsizeselect | styleselect | insert | bold italic underline strikethrough | forecolor backcolort | alignleft aligncenter alignright alignjustifyt | cut copy paste | bullist numlist outdent | emoticons indent blockquote code table"
+                            menubar: true,
+                            plugins: "textcolor table code image link contextmenu emoticons wordcount autosave",
+                            toolbar: "fontselect fontsizeselect | styleselect | insert | bold italic underline strikethrough | forecolor backcolort | alignleft aligncenter alignright alignjustifyt | cut copy paste | bullist numlist outdent | emoticons indent blockquote code table restoredraft"
                         });
                     </script>
-                    <textarea id="editor_insert" name="content_insert" cols="30" rows="10"></textarea>
+                    <textarea id="editor_insert" name="content_insert" cols="30" rows="20"></textarea>
                 </div>
                 <div class="text-center">
                     <button type="submit" id="submit_update" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> <?= $Lang->get('FORUM__SEND__MYTOPIC'); ?></button>

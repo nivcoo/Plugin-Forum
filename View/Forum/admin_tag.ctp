@@ -3,65 +3,76 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            <div class="box">
+
+            <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?= $Lang->get('FORUM__RANK') ?></h3>
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-12">
-                            <form action="" method="post" data-ajax="true">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="ajax-msg"></div>
-                                        <div class="col-md-12">
-                                            <table class="table table-responsive">
-                                                <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-font" aria-hidden="true"></i>
-                                                            </div>
-                                                            <input placeholder="Nom du label" name="label" class="form-control" type="text" />
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-font-awesome" aria-hidden="true"></i>
-                                                            </div>
-                                                            <input placeholder="icone (exclamation-circle)" name="icon" class="form-control" type="text" />
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                                            </div>
-                                                            <input type="text" placeholder="#ffffff" class="form-control colorpicker-element" name="color" />
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
-                                                            </div>
-                                                            <input placeholder="Position (1..99)" name="position" class="form-control" type="text" />
-                                                        </div>
-                                                    </td>
-                                                    <td><button class="btn btn-primary" type="submit"><?= $Lang->get('GLOBAL__ADD') ?></button> </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
+                <div class="col-md-12">
+                    <form action="" method="post" data-ajax="true">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="ajax-msg"></div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-font" aria-hidden="true"></i>
                                         </div>
+                                        <input placeholder="Nom du tag" name="label" class="form-control" type="text" />
                                     </div>
                                 </div>
-                            </form>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-font-awesome" aria-hidden="true"></i>
+                                        </div>
+                                        <input placeholder="icone (exclamation-circle)" name="icon" class="form-control" type="text" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </div>
+                                        <input type="text" placeholder="#ffffff" class="form-control colorpicker-element" name="color" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+                                        </div>
+                                        <input placeholder="Position (1..99)" name="position" class="form-control" type="text" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label><?= $Lang->get('FORUM__TAGS__FREE') ?> (<?= $Lang->get('FORUM_TAG_PUBLIC') ?> )</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+                                        </div>
+                                        <select class="e1 form-control" name="free">
+                                            <option value="0">Non</option>
+                                            <option value="1">Oui</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary pull-right" type="submit"><?= $Lang->get('GLOBAL__ADD') ?></button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
+                </div>
+            </div>
+                </div>
+            </div>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?= $Lang->get('FORUM__RANK') ?></h3>
+                </div>
+                <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-responsive dataTable">
@@ -71,7 +82,8 @@
                                     <th><?= $Lang->get('FORUM__ICON'); ?></th>
                                     <th><?= $Lang->get('FORUM__COLOR'); ?></th>
                                     <th><?= $Lang->get('FORUM__POSITION'); ?></th>
-                                    <th>d</th>
+                                    <th><?= $Lang->get('FORUM__RENDERING'); ?></th>
+                                    <!--<th><?= $Lang->get('FORUM__PUBLIC'); ?></th>-->
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -109,4 +121,5 @@
 <?= $this->Html->script('dataTables.bootstrap.min.js') ?>
 <script type="text/javascript">
     $(function(){$('.colorpicker-element').colorpicker();});
+    $(document).ready(function(){$(".e1").select2();});
 </script>
