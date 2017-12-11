@@ -1493,6 +1493,29 @@ class ForumController extends ForumAppController
         }
     }
 
+    public function admin_stats_top()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
+
+            $this->loadModel('Forum.Conversation');
+            $this->loadModel('Forum.forums');
+            $this->loadModel('Forum.Note');
+            $this->loadModel('Forum.Topic');
+            $this->loadModel('Forum.Vieww');
+
+            $this->layout = 'admin';
+
+            $ranking['message']['nb'] = $this->Topic->statsTop();
+            $ranking['topic']['nb'] = $this->Topic->statsTop(true);
+            // Top who read more
+            // Top Mp
+            
+
+        } else {
+            $this->redirect('/');
+        }
+    }
+
     public function admin_personalize()
     {
         if ($this->isConnected AND $this->User->isAdmin()) {

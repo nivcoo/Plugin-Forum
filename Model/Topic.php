@@ -339,4 +339,13 @@ class Topic extends ForumAppModel
         else return $this->find('count', ['conditions' => ['first' => 1, 'date >=' => $date, 'date <' => $max]]);
     }
 
+    public function statsTop($topic = false)
+    {
+        if ($topic) {
+            return $this->find('all', ['fields' => ['id_user', 'COUNT(id_user) as count'], 'group' => ['id_user'], 'order' => 'count DESC', 'conditions' => ['first' => 1]]);
+        } else {
+            return $this->find('all', ['fields' => ['id_user', 'COUNT(id_user) as count'], 'group' => ['id_user'], 'order' => 'count DESC']);
+        }
+    }
+
 }
