@@ -325,9 +325,15 @@ class Topic extends ForumAppModel
         return $this->updateAll(['tags' => $newTag], ['id_topic' => $id, 'first' => 1]);
     }
 
-    public function getNbTopic($date, $full = true)
+    public function getNbTopic($date, $full = true, $month = false, $year = false)
     {
-        $max = date("Y-m-d", strtotime("$date +1 day"));
+        if ($month) {
+            $max = date("Y-m-d", strtotime("$date +1 month"));
+        } elseif ($year) {
+            $max = date("Y-m-d", strtotime("$date +1 year"));
+        } else{
+            $max = date("Y-m-d", strtotime("$date +1 day"));
+        }
 
         if($full) return $this->find('count', ['conditions' => ['date >=' => $date, 'date <' => $max]]);
         else return $this->find('count', ['conditions' => ['first' => 1, 'date >=' => $date, 'date <' => $max]]);

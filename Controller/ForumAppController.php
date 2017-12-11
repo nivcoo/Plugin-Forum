@@ -16,9 +16,13 @@ class ForumAppController extends AppController
     protected $version = '1.3.1';
 
 
-    protected function date($date)
+    protected function date($date, $day = true)
     {
-        return $this->format(CakeTime::format($date, '%d %B %Y'));
+        if ($day) {
+            return $this->format(CakeTime::format($date, '%d %B %Y'));
+        } else {
+            return $this->format(CakeTime::format($date, '%B %Y'));
+        }
     }
 
     protected function time($time)

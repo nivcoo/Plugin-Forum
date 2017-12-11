@@ -1447,8 +1447,12 @@ class ForumController extends ForumAppController
 
             $this->layout = 'admin';
 
-            $list = [
+            $listDays = [
                 7, 6, 5, 4, 3, 2, 1, 0
+            ];
+
+            $listMonths = [
+                11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
             ];
 
             $stats['general'] = $this->Topic->stats();
@@ -1465,13 +1469,22 @@ class ForumController extends ForumAppController
                 $lastactivities[$key]['User']['forum-last_activity'] = $this->dateAndTime($l['User']['forum-last_activity']);
             }
 
-            foreach ($list as $key => $l) {
+            foreach ($listDays as $key => $l) {
                 $date = date('Y-m-d', strtotime('-'.$l.' day'));
 
                 $stats['x'][$key]['date'] = $this->date($date);
                 $stats['view'][$key]['nb'] = $this->Vieww->getView($date);
                 $stats['message'][$key]['nb'] = $this->Topic->getNbTopic($date);
                 $stats['topic'][$key]['nb'] = $this->Topic->getNbTopic($date, false);
+            }
+
+            foreach ($listMonths as $key => $l) {
+                $date = date('Y-m-01', strtotime('-'.$l.' month'));
+                $this->log($date);
+                $stats['month']['topic'][$key]['date'] = $this->date($date, false);
+                $stats['month']['topic'][$key]['view'] = $this->Vieww->getView($date, true, false);
+                $stats['month']['message'][$key]['nb'] = $this->Topic->getNbTopic($date, true, true);
+                $stats['month']['topic'][$key]['nb'] = $this->Topic->getNbTopic($date, false, true);
             }
 
             $this->set(compact('stats', 'lastactivities'));

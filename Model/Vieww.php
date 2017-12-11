@@ -40,9 +40,16 @@ class Vieww extends ForumAppModel
         return $this->find('count', ['conditions' => ['date >' => date('Y-m-d H:i:s', strtotime('-'.$nbDay.' day'))]]);
     }
 
-    public function getView($date)
+    public function getView($date, $month = false, $year = false)
     {
-        $max = date("Y-m-d", strtotime("$date +1 day"));
+        if ($month) {
+            $max = date("Y-m-d", strtotime("$date +1 month"));
+        } elseif ($year) {
+            $max = date("Y-m-d", strtotime("$date +1 year"));
+        } else{
+            $max = date("Y-m-d", strtotime("$date +1 day"));
+        }
+
         return $this->find('count', ['conditions' => ['date >=' => $date, 'date <' => $max]]);
     }
 }
