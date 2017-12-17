@@ -8,7 +8,21 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">TITRE</h3>
+                    <h3 class="box-title"><?= $Lang->get('FORUM__NB__TOPIC'); ?></h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="chart-bb-spline-topTopic"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?= $Lang->get('FORUM__NB__MESSAGE'); ?></h3>
                 </div>
                 <div class="box-body">
                     <div class="row">
@@ -26,7 +40,11 @@
     var chart = bb.generate({
         "data": {
             "columns": [
-                ["data1", 30, 200, 100, 200, 100]
+                ["Nombre de topics",
+                    <?php foreach ($ranking['topic']['nb'] as $r): ?>
+                    "<?= $r[0]['count']; ?>",
+                    <?php endforeach; ?>
+                ]
             ],
             "type": "bar"
         },
@@ -40,11 +58,43 @@
             "x": {
                 "type": "category",
                 "categories": [
-                    "cat1",
-                    "cat2",
-                    "cat3",
-                    "cat2",
-                    "cat3"
+                    <?php foreach ($ranking['topic']['nb'] as $r): ?>
+                        "<?= $r['username']; ?>",
+                    <?php endforeach; ?>
+
+                ]
+            }
+        },
+        "bindto": "#chart-bb-spline-topTopic"
+    });
+    var chart = bb.generate({
+        "data": {
+            "columns": [
+                ["Nombre de messages",
+                    <?php foreach ($ranking['message']['nb'] as $r): ?>
+                    "<?= $r[0]['count']; ?>",
+                    <?php endforeach; ?>
+                ]
+            ],
+            "type": "bar",
+            "colors": {
+                "Nombre de messages": "#ff7f0e"
+            },
+        },
+        "bar": {
+            "width": {
+                "ratio": 0.6
+            }
+        },
+        "axis": {
+            "rotated": true,
+            "x": {
+                "type": "category",
+                "categories": [
+                    <?php foreach ($ranking['message']['nb'] as $r): ?>
+                    "<?= $r['username']; ?>",
+                    <?php endforeach; ?>
+
                 ]
             }
         },

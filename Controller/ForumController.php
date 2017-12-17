@@ -1506,11 +1506,19 @@ class ForumController extends ForumAppController
             $this->layout = 'admin';
 
             $ranking['message']['nb'] = $this->Topic->statsTop();
+            foreach ($ranking['message']['nb'] as $key => $r) {
+                $ranking['message']['nb'][$key]['username'] = $this->gUBY($r['Topic']['id_user']);
+            }
+
             $ranking['topic']['nb'] = $this->Topic->statsTop(true);
+            foreach ($ranking['topic']['nb'] as $key => $r) {
+                $ranking['topic']['nb'][$key]['username'] = $this->gUBY($r['Topic']['id_user']);
+            }
+
             // Top who read more
             // Top Mp
-            
 
+            $this->set(compact('ranking'));
         } else {
             $this->redirect('/');
         }

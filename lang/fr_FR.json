@@ -134,6 +134,8 @@
   "FORUM__TAGS__FREE": "Autoriser l'utilisation de ce tag aux groupes possédant la permission \"FORUM_TAG_PUBLIC\" ?",
   "FORUM__PUBLIC": "Public",
   "FORUM__PRIVATE": "Privée",
+  "FORUM__NB__TOPIC": "Nombre de topics",
+  "FORUM__NB__MESSAGE": "Nombre de messages",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",
