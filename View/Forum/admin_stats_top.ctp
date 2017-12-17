@@ -33,6 +33,34 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?= $Lang->get('FORUM__NB__VIEW'); ?></h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="chart-bb-spline-topView"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?= $Lang->get('FORUM__NB__MP'); ?></h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="chart-bb-spline-topMp"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -72,7 +100,7 @@
             "columns": [
                 ["Nombre de messages",
                     <?php foreach ($ranking['message']['nb'] as $r): ?>
-                    "<?= $r[0]['count']; ?>",
+                        "<?= $r[0]['count']; ?>",
                     <?php endforeach; ?>
                 ]
             ],
@@ -92,12 +120,78 @@
                 "type": "category",
                 "categories": [
                     <?php foreach ($ranking['message']['nb'] as $r): ?>
-                    "<?= $r['username']; ?>",
+                        "<?= $r['username']; ?>",
                     <?php endforeach; ?>
 
                 ]
             }
         },
         "bindto": "#chart-bb-spline-topMessage"
+    });
+    var chart = bb.generate({
+        "data": {
+            "columns": [
+                ["Nombre de vues",
+                    <?php foreach ($ranking['view']['nb'] as $r): ?>
+                        "<?= $r[0]['count']; ?>",
+                    <?php endforeach; ?>
+                ]
+            ],
+            "type": "bar",
+            "colors": {
+                "Nombre de vues": "#d62728"
+            },
+        },
+        "bar": {
+            "width": {
+                "ratio": 0.6
+            }
+        },
+        "axis": {
+            "rotated": true,
+            "x": {
+                "type": "category",
+                "categories": [
+                    <?php foreach ($ranking['view']['nb'] as $r): ?>
+                        "<?= $r['title']; ?>",
+                    <?php endforeach; ?>
+
+                ]
+            }
+        },
+        "bindto": "#chart-bb-spline-topView"
+    });
+    var chart = bb.generate({
+        "data": {
+            "columns": [
+                ["Nombre de mps",
+                    <?php foreach ($ranking['mp']['nb'] as $r): ?>
+                        "<?= $r[0]['count']; ?>",
+                    <?php endforeach; ?>
+                ]
+            ],
+            "type": "bar",
+            "colors": {
+                "Nombre de mps": "#2ca02c"
+            },
+        },
+        "bar": {
+            "width": {
+                "ratio": 0.6
+            }
+        },
+        "axis": {
+            "rotated": true,
+            "x": {
+                "type": "category",
+                "categories": [
+                    <?php foreach ($ranking['mp']['nb'] as $r): ?>
+                        "<?= $r['username']; ?>",
+                    <?php endforeach; ?>
+
+                ]
+            }
+        },
+        "bindto": "#chart-bb-spline-topMp"
     });
 </script>

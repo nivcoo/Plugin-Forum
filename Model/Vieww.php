@@ -52,4 +52,10 @@ class Vieww extends ForumAppModel
 
         return $this->find('count', ['conditions' => ['date >=' => $date, 'date <' => $max]]);
     }
+
+    public function statsTop()
+    {
+        return $this->find('all', ['fields' => ['id_topic', 'COUNT(id_topic) as count'], 'group' => ['id_topic'], 'order' => 'count DESC', 'limit' => 5]);
+    }
+
 }

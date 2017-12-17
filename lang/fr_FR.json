@@ -136,6 +136,8 @@
   "FORUM__PRIVATE": "Privée",
   "FORUM__NB__TOPIC": "Nombre de topics",
   "FORUM__NB__MESSAGE": "Nombre de messages",
+  "FORUM__NB__VIEW": "Nombre de vues par topic",
+  "FORUM__NB__MP": "Nombre de MPs envoyés",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",

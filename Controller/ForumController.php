@@ -1515,8 +1515,15 @@ class ForumController extends ForumAppController
                 $ranking['topic']['nb'][$key]['username'] = $this->gUBY($r['Topic']['id_user']);
             }
 
-            // Top who read more
-            // Top Mp
+            $ranking['view']['nb'] = $this->Vieww->statsTop();
+            foreach ($ranking['view']['nb'] as $key => $r) {
+                $ranking['view']['nb'][$key]['title'] = $this->Topic->getTitleTopic($r['Vieww']['id_topic']);
+            }
+
+            $ranking['mp']['nb'] = $this->Conversation->statsTop();
+            foreach ($ranking['mp']['nb'] as $key => $r) {
+                $ranking['mp']['nb'][$key]['username'] = $this->gUBY($r['Conversation']['author_id']);
+            }
 
             $this->set(compact('ranking'));
         } else {
