@@ -181,144 +181,148 @@
     </div>
 </div>
 <?php if(isset($_SESSION['user'])): ?>
-<!-- Modal -->
-<?php if($perms['FORUM_MSGMY_EDIT'] OR $perms['FORUM_MSG_EDIT']): ?>
-<!-- Edit -->
-    <div class="modal fade bs-example-modal-lg" id="ModalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel"><?= $Lang->get('FORUM__EDIT__MYMSG'); ?></h4>
-                </div>
-                <form method="post" action="<?= $this->Html->url('/'.$this->request->url); ?>">
-                    <div class="modal-body">
-                        <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
-                        <input id="update_id" name="id" value="" type="hidden" />
-                        <div class="form-group mt20 div-edit">
-                            <script type="text/javascript">
-                                tinymce.init({
-                                    external_plugins: {
-                                        "emoticons": "<?= $this->Html->url('/forum/js/plugins/emoticons/plugin.min.js'); ?>"
-                                    },
-                                    selector: "textarea",
-                                    height : 300,
-                                    width : '100%',
-                                    menubar: false,
-                                    plugins: "textcolor table code image link contextmenu emoticons",
-                                    toolbar: "fontselect fontsizeselect | styleselect | insert | bold italic underline strikethrough | forecolor backcolort | alignleft aligncenter alignright alignjustifyt | cut copy paste | bullist numlist outdent | emoticons indent blockquote code table"
-                                });
-                            </script>
-                            <textarea id="editor_update" name="content_update" cols="30" rows="14"></textarea>
+    <!-- Modal -->
+    <?php if($perms['FORUM_MSGMY_EDIT'] OR $perms['FORUM_MSG_EDIT']): ?>
+    <!-- Edit -->
+        <div class="modal fade bs-example-modal-lg" id="ModalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><?= $Lang->get('FORUM__EDIT__MYMSG'); ?></h4>
+                    </div>
+                    <form method="post" action="<?= $this->Html->url('/'.$this->request->url); ?>">
+                        <div class="modal-body">
+                            <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
+                            <input id="update_id" name="id" value="" type="hidden" />
+                            <div class="form-group mt20 div-edit">
+                                <script type="text/javascript">
+                                    tinymce.init({
+                                        external_plugins: {
+                                            "emoticons": "<?= $this->Html->url('/forum/js/plugins/emoticons/plugin.min.js'); ?>"
+                                        },
+                                        selector: "textarea",
+                                        height : 300,
+                                        width : '100%',
+                                        menubar: false,
+                                        plugins: "textcolor table code image link contextmenu emoticons",
+                                        toolbar: "fontselect fontsizeselect | styleselect | insert | bold italic underline strikethrough | forecolor backcolort | alignleft aligncenter alignright alignjustifyt | cut copy paste | bullist numlist outdent | emoticons indent blockquote code table"
+                                    });
+                                </script>
+                                <textarea id="editor_update" name="content_update" cols="30" rows="14"></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> <?= $Lang->get('GLOBAL__CLOSE'); ?></button>
-                        <button type="submit" id="submit_update" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i> <?= $Lang->get('FORUM__EDIT__MYMSG'); ?></button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <a id="urlEdit" class="btn btn-info pull-left" href=""><i class="fa fa-pencil" aria-hidden="true"></i> <?= $Lang->get('FORUM__ADVANCED__EDITOR'); ?></a>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> <?= $Lang->get('GLOBAL__CLOSE'); ?></button>
+                            <button type="submit" id="submit_update" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i> <?= $Lang->get('FORUM__EDIT__MYMSG'); ?></button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-<?php endif; ?>
-<?php if($perms['FORUM_MSG_REPORT'] && $active['reportmsg']): ?>
-    <!-- Report -->
-    <div class="modal fade bs-example-modal-lg" id="ModalReport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel"><?= $Lang->get('FORUM__REPORT__THISMSG'); ?></h4>
-                </div>
-                <form method="post" action="<?= $this->Html->url('/'.$this->request->url); ?>">
-                    <div class="modal-body">
-                        <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
-                        <input id="report_id" name="id" value="" type="hidden" />
-                        <input type="text" placeholder="Raison" name="reason" class="form-control" />
-                        <div class="form-group mt20">
-                            <script type="text/javascript">
-                                tinymce.init({
-                                    external_plugins: {
-                                        "emoticons": "<?= $this->Html->url('/forum/js/plugins/emoticons/plugin.min.js'); ?>"
-                                    },
-                                    selector: "textarea",
-                                    height : 200,
-                                    width : '100%',
-                                    menubar: false,
-                                    plugins: "textcolor table code image link contextmenu emoticons",
-                                    toolbar: "fontselect fontsizeselect | styleselect | insert | bold italic underline strikethrough | forecolor backcolort | alignleft aligncenter alignright alignjustifyt | cut copy paste | bullist numlist outdent | emoticons indent blockquote code table"
-                                });
-                            </script>
-                            <textarea id="editor_report" name="content_report" cols="30" rows="7"></textarea>
+    <?php endif; ?>
+    <?php if($perms['FORUM_MSG_REPORT'] && $active['reportmsg']): ?>
+        <!-- Report -->
+        <div class="modal fade bs-example-modal-lg" id="ModalReport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><?= $Lang->get('FORUM__REPORT__THISMSG'); ?></h4>
+                    </div>
+                    <form method="post" action="<?= $this->Html->url('/'.$this->request->url); ?>">
+                        <div class="modal-body">
+                            <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
+                            <input id="report_id" name="id" value="" type="hidden" />
+                            <input type="text" placeholder="Raison" name="reason" class="form-control" />
+                            <div class="form-group mt20">
+                                <script type="text/javascript">
+                                    tinymce.init({
+                                        external_plugins: {
+                                            "emoticons": "<?= $this->Html->url('/forum/js/plugins/emoticons/plugin.min.js'); ?>"
+                                        },
+                                        selector: "textarea",
+                                        height : 200,
+                                        width : '100%',
+                                        menubar: false,
+                                        plugins: "textcolor table code image link contextmenu emoticons",
+                                        toolbar: "fontselect fontsizeselect | styleselect | insert | bold italic underline strikethrough | forecolor backcolort | alignleft aligncenter alignright alignjustifyt | cut copy paste | bullist numlist outdent | emoticons indent blockquote code table"
+                                    });
+                                </script>
+                                <textarea id="editor_report" name="content_report" cols="30" rows="7"></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> <?= $Lang->get('GLOBAL__CLOSE'); ?></button>
-                        <button type="submit" id="submit_report" class="btn btn-primary"><i class="fa fa-paper-plane" aria-hidden="true"></i> <?= $Lang->get('FORUM__SEND__REPORT'); ?></button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> <?= $Lang->get('GLOBAL__CLOSE'); ?></button>
+                            <button type="submit" id="submit_report" class="btn btn-primary"><i class="fa fa-paper-plane" aria-hidden="true"></i> <?= $Lang->get('FORUM__SEND__REPORT'); ?></button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-<?php endif; ?>
-<script type="text/javascript">
-    <?php if($active['notemsg']): ?>
-        function forumThumb(type, id, toUser){
-            var json = JSON.stringify({ type: type, id:id, toUser: toUser});
-            var url = window.location.href;
-            console.log(url);
-            $.ajax({
-                type : 'post',
-                url : url,
-                data : {json : json, 'data[_Token][key]' : '<?= $csrfToken ?>'},
-                success : function(json){
-                    var anchor = $('#' + id + '-' + type).attr('data-original-title');
-                    if(json == "normal"){
-                        anchor++;
-                        $('#' + id + '-' + type).addClass('active');
-                        $('#' + id + '-' + type).attr('data-original-title', anchor);
-                    }else if(json == "reset"){
-                        /* When a msg is always noted */
-                        if(type == 1){
-                            var anchor = $('#' + id + '-2').attr('data-original-title');
+    <?php endif; ?>
+    <script type="text/javascript">
+        <?php if($active['notemsg']): ?>
+            function forumThumb(type, id, toUser){
+                var json = JSON.stringify({ type: type, id:id, toUser: toUser});
+                var url = window.location.href;
+                console.log(url);
+                $.ajax({
+                    type : 'post',
+                    url : url,
+                    data : {json : json, 'data[_Token][key]' : '<?= $csrfToken ?>'},
+                    success : function(json){
+                        var anchor = $('#' + id + '-' + type).attr('data-original-title');
+                        if(json == "normal"){
+                            anchor++;
+                            $('#' + id + '-' + type).addClass('active');
+                            $('#' + id + '-' + type).attr('data-original-title', anchor);
+                        }else if(json == "reset"){
+                            /* When a msg is always noted */
+                            if(type == 1){
+                                var anchor = $('#' + id + '-2').attr('data-original-title');
+                                anchor--;
+                                $('#' + id + '-2').removeClass('active');
+                                $('#' + id + '-2').attr('data-original-title', anchor);
+                            }else{
+                                var anchor = $('#' + id + '-1').attr('data-original-title');
+                                anchor--;
+                                $('#' + id + '-1').removeClass('active');
+                                $('#' + id + '-1').attr('data-original-title', anchor);
+                            }
+                        }
+                        else{
                             anchor--;
-                            $('#' + id + '-2').removeClass('active');
-                            $('#' + id + '-2').attr('data-original-title', anchor);
-                        }else{
-                            var anchor = $('#' + id + '-1').attr('data-original-title');
-                            anchor--;
-                            $('#' + id + '-1').removeClass('active');
-                            $('#' + id + '-1').attr('data-original-title', anchor);
+                            $('#' + id + '-' + type).removeClass('active');
+                            $('#' + id + '-' + type).attr('data-original-title', anchor);
                         }
                     }
-                    else{
-                        anchor--;
-                        $('#' + id + '-' + type).removeClass('active');
-                        $('#' + id + '-' + type).attr('data-original-title', anchor);
+                });
+            }
+            <?php endif; ?>
+            function getMessage(id) {
+                var url = '<?= $this->Html->url("/"); ?>forum/action/topic/message/'.id;
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    data: {idUpdate: id, 'data[_Token][key]': '<?= $csrfToken ?>'},
+                    success: function (message) {
+                        $('#update_id').val(id);
+                        tinymce.get("editor_update").setContent('');
+                        tinymce.get("editor_update").execCommand('mceInsertContent', false, message);
                     }
-                }
-            });
-        }
+                });
+
+                var urlEdit = "<?= $this->Html->url('/topic/edit/'); ?>" + id;
+                $('#urlEdit').attr("href", urlEdit);
+            }
+            <?php if($perms['FORUM_MSG_REPORT'] && $active['reportmsg']): ?>
+            function report(id) {
+                $('#report_id').val(id);
+            }
         <?php endif; ?>
-        function getMessage(id) {
-            var url = '<?= $this->Html->url("/"); ?>forum/action/topic/message/'.id;
-            $.ajax({
-                type: 'post',
-                url: url,
-                data: {idUpdate: id, 'data[_Token][key]': '<?= $csrfToken ?>'},
-                success: function (message) {
-                    $('#update_id').val(id);
-                    tinymce.get("editor_update").setContent('');
-                    tinymce.get("editor_update").execCommand('mceInsertContent', false, message);
-                }
-            });
-        }
-        <?php if($perms['FORUM_MSG_REPORT'] && $active['reportmsg']): ?>
-        function report(id) {
-            $('#report_id').val(id);
-        }
-    <?php endif; ?>
-</script>
+    </script>
 <?php endif; ?>
 <!-- Js for tooltip -->
 <script type="text/javascript">
