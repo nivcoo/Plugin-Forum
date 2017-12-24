@@ -4,7 +4,9 @@ class ForumPermissionComponent extends Component
 {
 
     /*
-     *              LIST OF Permission
+     *
+     *             List of Permissions
+     *
      * FORUM_MP_SEND -> Envoyer des messages en mp
      * FORUM_MP_REPLY -> Répondre aux messages en mp
      *
@@ -16,8 +18,8 @@ class ForumPermissionComponent extends Component
      *
      * FORUM_MSGMY_EDIT -> Editer ses messages (seulement les chiens) ^^
      * FORUM_MSG_EDIT -> Editer les messages de tout le monde
-     * FORUM_MSGMY_DELETE -> Supprimer ses messages ^^ *
-     * FORUM_MSG_DELETE -> Supprimer les messages de tout le monde *
+     * FORUM_MSGMY_DELETE -> Supprimer ses messages
+     * FORUM_MSG_DELETE -> Supprimer les messages de tout le monde
      *
      * FORUM_MSG_REPORT -> Report des topics
      * FORUM_TOPICMY_DEL -> Supprimer ses propres topics

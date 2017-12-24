@@ -463,14 +463,12 @@ class ForumController extends ForumAppController
                                     $this->Topic->change('stick', $this->request->data['stick']);
                                     $this->logforum($this->getIdSession(), 'stick_topic', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__STICK__TOPIC'), $this->replaceHyppen($slug));
 
-
                                     $idUser = $this->Topic->info('topic_author', $idTopic);
                                     $title = $this->Topic->getTitleTopic($idTopic);
 
                                      if ($idUser != $this->getIdSession()) {
                                         $this->notification('stick_topic', $idUser, $this->getIdSession(), 'User', $title);
                                      }
-
 
                                     $this->Session->setFlash($this->Lang->get('FORUM__TOPIC__STICK'), 'default.success');
                                 }
@@ -634,6 +632,51 @@ class ForumController extends ForumAppController
         } else {
             throw new ForbiddenException();
         }
+    }
+
+    public function editTopic($idMessage)
+    {
+        $this->set('title_for_layout', $this->Lang->get('FORUM__EDIT__TOPIC'));
+
+        $this->loadModel('Forum.Topic');
+
+        if (!$this->Config->is('forum')) {
+            throw new NotFoundException();
+        }
+
+        $theme = $this->theme();
+
+        if ($this->isConnected) {
+            if ($this->ForumPermission->has('FORUM_MSG_EDIT') OR $this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
+                if ($this->ForumPermission->has('FORUM_MSG_EDIT')) {
+                    $state = true;
+                } elseif ($this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
+                    $state = ($this->Topic->getUserId('id_user', 'id', $idMessage) == $this->getIdSession()) ? true : false;
+                }
+                if ($state) {
+                    if($this->request->is('post')) {
+                        $content = $this->request->data['content'];
+
+                        $this->Topic->updateMessage($idMessage, $content);
+                        $this->logforum($this->getIdSession(), 'add_message', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__MSG').strip_tags(substr($content, 0, 30)), $content);
+                        $this->Session->setFlash($this->Lang->get('FORUM__MESSAGE__EDITED'), 'default.success');
+
+                        $this->redirect();
+                    } else {
+                        $topic = "";
+                        $content = $this->Topic->getUniqMessage($idMessage);
+
+                        if($content['first']) {
+                            $idTopic = $content['id_topic'];
+                        }
+                        $this->set(compact('content', 'topic', 'theme'));
+                    }
+                } else {
+                    $this->Session->setFlash($this->Lang->get('FORUM__PERMISSION_NECESSARY'), 'default.error');
+                }
+            }
+        }
+
     }
 
     public function report()
