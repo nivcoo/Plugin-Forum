@@ -645,6 +645,7 @@ class ForumController extends ForumAppController
         }
 
         $theme = $this->theme();
+        $state = false;
 
         if ($this->isConnected) {
             if ($this->ForumPermission->has('FORUM_MSG_EDIT') OR $this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
@@ -655,26 +656,49 @@ class ForumController extends ForumAppController
                 }
                 if ($state) {
                     if($this->request->is('post')) {
-                        $content = $this->request->data['content'];
+                        $newMessage = $this->request->data['content'];
 
-                        $this->Topic->updateMessage($idMessage, $content);
-                        $this->logforum($this->getIdSession(), 'add_message', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__MSG').strip_tags(substr($content, 0, 30)), $content);
-                        $this->Session->setFlash($this->Lang->get('FORUM__MESSAGE__EDITED'), 'default.success');
+                        $this->Topic->updateMessage($idMessage, $newMessage);
 
-                        $this->redirect();
-                    } else {
-                        $topic = "";
                         $content = $this->Topic->getUniqMessage($idMessage);
 
                         if($content['first']) {
                             $idTopic = $content['id_topic'];
+                            $title = $this->request->data['title'];
+
+                            if(($this->getIdSession() == $content['id_user']) || $this->ForumPermission->has('FORUM_MSG_EDIT')) {
+                                $this->Topic->rename($idTopic, $title);
+                            }
                         }
-                        $this->set(compact('content', 'topic', 'theme'));
+
+                        $this->logforum($this->getIdSession(), 'add_message', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__MSG').strip_tags(substr($title, 0, 30)), $title);
+                        $this->Session->setFlash($this->Lang->get('FORUM__MESSAGE__EDITED'), 'default.success');
+
+                        return $this->redirect('/topic/'.$title.'.'.$idTopic.'/');
+                    } else {
+                        $topic = "";
+                        $params = "";
+                        $params['isEdit']['title'] = false;
+
+                        $content = $this->Topic->getUniqMessage($idMessage);
+
+                        if($content['first']) {
+                            $idTopic = $content['id_topic'];
+                            $params['title'] = $this->Topic->getTitleTopic($idTopic);
+
+                            if(($this->getIdSession() == $content['id_user']) || $this->ForumPermission->has('FORUM_MSG_EDIT')) {
+                                $params['isEdit']['title'] = true;
+                            }
+                        }
+
+                        $this->set(compact('content', 'topic', 'theme', 'params'));
                     }
                 } else {
-                    $this->Session->setFlash($this->Lang->get('FORUM__PERMISSION_NECESSARY'), 'default.error');
+                    throw new ForbiddenException();
                 }
             }
+        } else {
+            throw new ForbiddenException();
         }
 
     }

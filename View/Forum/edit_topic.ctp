@@ -8,6 +8,11 @@
             <div class="col-md-12">
                 <form method="post" action="<?= $this->Html->url('/'.$this->request->url); ?>">
                     <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
+                    <?php if($params['isEdit']['title']): ?>
+                        <div class="form-group">
+                            <input name="title" class="form-control" value="<?= $params['title']; ?>" placeholder="<?= $Lang->get('FORUM__TITLE__TOPIC'); ?>" />
+                        </div>
+                    <?php endif; ?>
                     <div class="form-group mt20">
                         <script type="text/javascript">
                             tinymce.init({
