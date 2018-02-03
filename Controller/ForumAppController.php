@@ -13,7 +13,7 @@ class ForumAppController extends AppController
 
     public $atualTheme;
 
-    protected $version = '1.3.1';
+    protected $version = '1.4.0';
 
 
     protected function date($date, $day = true)
@@ -312,6 +312,34 @@ class ForumAppController extends AppController
                 INSERT INTO forum__internals (internal_name, internal_value) VALUES ("lasttopic_datecolor", "");
                 INSERT INTO forum__internals (internal_name, internal_value) VALUES ("chevron_color", "");
            ');
+        }
+
+        //1.4.0
+
+        $this->loadModel('Forum.Group');
+        $this->loadModel('Forum.Groups_user');
+
+        if ($this->ForumPermission->findIfInstall('FORUM_TOPICMY_LOCK')) {
+
+            $groups = $this->Group->get();
+
+            $groups[] = [
+                'Group' => [
+                    'id' => 99
+                ]
+            ];
+
+            foreach ($groups as $key => $g) {
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_TAG_TOPIC', 'value' => 0]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_RENAMEMY_TOPIC', 'value' => 1]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_RENAME_TOPIC', 'value' => 0]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_TOPIC_VISIBILY', 'value' => 0]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_TAG_PUBLIC', 'value' => 0]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_CREATE_POLL', 'value' => 0]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_USE_PUNISHMENT', 'value' => 0]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_TAG_USER', 'value' => 0]);
+            }
         }
 
         return true;

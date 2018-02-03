@@ -168,4 +168,14 @@ class ForumPermissionComponent extends Component
     {
         $this->model[$table]->_delete($key, $value);
     }
+
+    public function findIfInstall($permission)
+    {
+        return $this->model['permission']->findIfInstall($permission);
+    }
+
+    public function installNew($datas)
+    {
+        return $this->model['permission']->installNew($datas);
+    }
 }

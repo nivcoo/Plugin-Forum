@@ -49,7 +49,7 @@ class ForumController extends ForumAppController
         parent::beforeRender();
 
         $alertforum['update'] = $this->hourCheck();
-        if (!$this->isConnected AND !$this->User->isAdmin()) {
+        if (!$this->isConnected || !$this->User->isAdmin()) {
             $alertforum['update'] = "";
         }
 
@@ -2004,8 +2004,8 @@ class ForumController extends ForumAppController
                 ['group_id' => 3, 'name' => 'FORUM_MP_REPLY', 'value' => 1],
                 ['group_id' => 99, 'name' => 'FORUM_MP_REPLY', 'value' => 1],
 
-                ['group_id' => 1, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1]
-                , ['group_id' => 2, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1],
+                ['group_id' => 1, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1],
                 ['group_id' => 3, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1],
                 ['group_id' => 99, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1],
 
@@ -2070,7 +2070,7 @@ class ForumController extends ForumAppController
                 ['group_id' => 99, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 0],
 
                 //1.3.0 ++
-                /*['group_id' => 1, 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1],
+                ['group_id' => 1, 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1],
                 ['group_id' => 2, 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1],
                 ['group_id' => 3, 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1],
                 ['group_id' => 99, 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1],
@@ -2113,7 +2113,7 @@ class ForumController extends ForumAppController
                 ['group_id' => 1, 'name' => 'FORUM_TAG_USER', 'value' => 1],
                 ['group_id' => 2, 'name' => 'FORUM_TAG_USER', 'value' => 1],
                 ['group_id' => 3, 'name' => 'FORUM_TAG_USER', 'value' => 1],
-                ['group_id' => 99, 'name' => 'FORUM_TAG_USER', 'value' => 0],*/
+                ['group_id' => 99, 'name' => 'FORUM_TAG_USER', 'value' => 0],
             ],
             'profile' => [
                 ['id_user' => 1, 'description' => 'Ceci est un description généré lors de l\'installation du plugin ']
