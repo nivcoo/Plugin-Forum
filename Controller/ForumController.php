@@ -1479,6 +1479,8 @@ class ForumController extends ForumAppController
 
             $this->loadModel('Forum.Tag');
 
+            $ranks = $this->ForumPermission->getRanks();
+
             if ($this->request->is('ajax')) {
 
                 $this->autoRender = false;
@@ -1490,12 +1492,19 @@ class ForumController extends ForumAppController
 
                 $color = str_replace('#', '', $color);
 
+                $used = '';
+
                 if (!empty($this->request->data['free'])) {
-                    
+
+                    foreach ($ranks as $key => $r) {
+                        if (isset($this->request->data[$r['Group']['id']])) {
+                            $used[$r['Group']['id']] = $this->request->data[$r['Group']['id']];
+                        }
+                    }
+                    if (!empty($used)) $used = serialize($used);
                 }
 
-
-                //$this->Tag->add($label, $icon, $color, $position);
+                $this->Tag->add($label, $icon, $color, $position, $used);
 
                 return $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__LABEL'))));
 
@@ -1503,7 +1512,6 @@ class ForumController extends ForumAppController
                 $this->layout = 'admin';
 
                 $tags = $this->Tag->get();
-                $ranks = $this->ForumPermission->getRanks();
 
                 $this->set(compact('tags', 'ranks'));
             }

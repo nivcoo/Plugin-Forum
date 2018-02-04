@@ -95,7 +95,7 @@
                                     <th><?= $Lang->get('FORUM__COLOR'); ?></th>
                                     <th><?= $Lang->get('FORUM__POSITION'); ?></th>
                                     <th><?= $Lang->get('FORUM__RENDERING'); ?></th>
-                                    <!--<th><?= $Lang->get('FORUM__PUBLIC'); ?></th>-->
+                                    <th><?= $Lang->get('FORUM__USEDBY'); ?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -112,6 +112,27 @@
                                                 <?php endif; ?>
                                                  <?= $tag['Tag']['name']; ?>
                                             </span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal<?= $tag['Tag']['id']; ?>">
+                                                <?= $Lang->get('FORUM__SHOW__RANKS'); ?>
+                                            </button>
+
+                                            <div class="modal fade" id="myModal<?= $tag['Tag']['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <?php $active = unserialize($tag['Tag']['used']);
+                                                                  foreach($ranks as $key => $rank): ?>
+                                                                    <div style="background-color: #<?= $rank['Group']['color']; ?>" class="forum-badgerank"><input <?php if($active[$rank['Group']['id']]) echo 'checked'; ?> type="checkbox" class="middle" name="<?= $rank['Group']['id']; ?>" /> <?= $rank['Group']['group_name']; ?></div>
+                                                            <?php endforeach; ?>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal"><?= $Lang->get('GLOBAL__CLOSE'); ?></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td>
                                             <a onclick="confirmDel('<?= $this->Html->url(array('controller' => 'forum', 'action' => 'delete/tag/'.$tag['Tag']['id'], 'admin' => true)); ?>')" class="btn btn-danger"><?= $Lang->get('GLOBAL__DELETE'); ?></a>
