@@ -1,5 +1,8 @@
 <?=  $this->Html->css('Forum.bootstrap-colorpicker.min.css'); ?>
 <?=  $this->Html->css('Forum.font-awesome.min.css'); ?>
+<?= $this->Html->css('Forum.select2.min.css'); ?>
+<?= $this->Html->css('AdminLTE.min.css'); ?>
+
 <section class="content">
     <div class="row">
         <div class="col-md-12">
@@ -115,10 +118,13 @@
         </div>
     </div>
 </section>
+<?= $this->Html->script('Forum.select2.min.js'); ?>
 <?= $this->Html->script('Forum.bootstrap-colorpicker.min.js'); ?>
+
 <?= $this->Html->css('dataTables.bootstrap.css'); ?>
 <?= $this->Html->script('jquery.dataTables.min.js') ?>
 <?= $this->Html->script('dataTables.bootstrap.min.js') ?>
+
 <script type="text/javascript">
     $(function(){$('.colorpicker-element').colorpicker();});
     $(document).ready(function(){$(".e1").select2();});
