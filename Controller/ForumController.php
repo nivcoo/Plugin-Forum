@@ -622,6 +622,9 @@ class ForumController extends ForumAppController
                         $this->Session->setFlash('Votre topic doit contenir un message !', 'default.error');
                     }
                 }
+
+                $this->set(compact('perms', 'theme', 'tags'));
+
             } elseif($this->request->is('get') && $this->isConnected){
 
                 $this->set(compact('perms', 'theme', 'tags'));
