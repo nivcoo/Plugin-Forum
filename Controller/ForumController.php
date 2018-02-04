@@ -1791,9 +1791,11 @@ class ForumController extends ForumAppController
     private function word($string)
     {
         $this->loadModel('Forum.Insult');
+
         $words = $this->Insult->get();
+
         foreach ($words as $word) {
-            $string = str_ireplace($word['Insult']['word'], $word['Insult']['replace'], $string);
+            $string = preg_replace('/\b'.$word['Insult']['word'].'\b/i', $word['Insult']['replace'], $string);
         }
 
         return $string;
