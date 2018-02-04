@@ -853,8 +853,8 @@ class ForumController extends ForumAppController
                     $this->Forum->addForum($this->getIdSession(), $this->request->data['name'], $this->request->data['position'], $this->request->data['image'], $this->request->data['description']);
 
                     foreach ($ranks as $key => $r) {
-                        if (isset($this->request->data[$key+1])) {
-                            $visible[$r['Group']['id']] = $this->request->data[$key+1];
+                        if (isset($this->request->data[$r['Group']['id']])) {
+                            $visible[$r['Group']['id']] = $this->request->data[$r['Group']['id']];
                         }
                     }
                     if (!empty($visible))  $visible = serialize($visible);
@@ -894,8 +894,8 @@ class ForumController extends ForumAppController
                     $this->Forum->addCategory($this->getIdSession(), $name, $position, $parent, $image, $lock, $automaticLock);
 
                     foreach ($ranks as $key => $r) {
-                        if (isset($this->request->data[$key+1])) {
-                            $visible[$r['Group']['id']] = $this->request->data[$key+1];
+                        if (isset($this->request->data[$r['Group']['id']])) {
+                            $visible[$r['Group']['id']] = $this->request->data[$r['Group']['id']];
                         }
                     }
                     if (!empty($visible))  $visible = serialize($visible);
@@ -1491,7 +1491,7 @@ class ForumController extends ForumAppController
                 $color = str_replace('#', '', $color);
 
                 if (!empty($this->request->data['free'])) {
-
+                    
                 }
 
 
@@ -2173,8 +2173,8 @@ class ForumController extends ForumAppController
                     case 'view':
                         $ranks = $this->ForumPermission->getRanks();
                         foreach ($ranks as $key => $r){
-                            if (isset($this->request->data[$key+1])) {
-                                $visible[$r['Group']['id']] = $this->request->data[$key+1];
+                            if (isset($this->request->data[$r['Group']['id']])) {
+                                $visible[$r['Group']['id']] = $this->request->data[$r['Group']['id']];
                             }
                         }
                         if (!empty($visible))  $visible = serialize($visible);
