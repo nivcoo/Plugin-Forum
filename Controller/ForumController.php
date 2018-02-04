@@ -1490,7 +1490,12 @@ class ForumController extends ForumAppController
 
                 $color = str_replace('#', '', $color);
 
-                $this->Tag->add($label, $icon, $color, $position);
+                if (!empty($this->request->data['free'])) {
+
+                }
+
+
+                //$this->Tag->add($label, $icon, $color, $position);
 
                 return $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__LABEL'))));
 
