@@ -1349,6 +1349,7 @@ class ForumController extends ForumAppController
                         $reason = $this->request->data['reason'];
                         $this->Punishment->addPunish($this->getIdSession(), $idto, $date, $reason);
                         $this->logforum($this->getIdSession(), 'add_punishment', $this->gUBY($this->getIdSession()).' vient d\'ajouter une sanction', $this->request->data['pseudo']);
+
                         $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__PUNISHMENT'))));
                     }else{
                         $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__USERUNKNOW'))));
@@ -1497,7 +1498,9 @@ class ForumController extends ForumAppController
                 $this->layout = 'admin';
 
                 $tags = $this->Tag->get();
-                $this->set(compact('tags'));
+                $ranks = $this->ForumPermission->getRanks();
+
+                $this->set(compact('tags', 'ranks'));
             }
 
         } else {

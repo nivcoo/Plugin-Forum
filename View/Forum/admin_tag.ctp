@@ -1,3 +1,4 @@
+<?= $this->Html->css('Forum.forum-style.css') ?>
 <?=  $this->Html->css('Forum.bootstrap-colorpicker.min.css'); ?>
 <?=  $this->Html->css('Forum.font-awesome.min.css'); ?>
 <?= $this->Html->css('Forum.select2.min.css'); ?>
@@ -6,7 +7,6 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?= $Lang->get('FORUM__RANK') ?></h3>
@@ -62,6 +62,15 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group ranks" style="display:none">
+                                    <label> <?= $Lang->get('FORUM__USEDBY') ?></label>
+                                    <?php if(!empty($ranks)): ?>
+                                        <?php foreach($ranks as $key => $rank): ?>
+                                            <div style="background-color: #<?= $rank['Group']['color']; ?>" class="forum-badgerank"><input type="checkbox" class="middle" name="<?= $rank['Group']['id']; ?>" /> <?= $rank['Group']['group_name']; ?></div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+
                                 <button class="btn btn-primary pull-right" type="submit"><?= $Lang->get('GLOBAL__ADD') ?></button>
                             </div>
                         </div>
@@ -125,7 +134,4 @@
 <?= $this->Html->script('jquery.dataTables.min.js') ?>
 <?= $this->Html->script('dataTables.bootstrap.min.js') ?>
 
-<script type="text/javascript">
-    $(function(){$('.colorpicker-element').colorpicker();});
-    $(document).ready(function(){$(".e1").select2();});
-</script>
+<script type="text/javascript">$(function(){$('.colorpicker-element').colorpicker();});$(document).ready(function(){$(".e1").select2();});$('body').on('change', '.e1', function(){if(this.value == 1){$('.ranks').css('display', 'block');}else{$('.ranks').css('display', 'none');}});</script>
