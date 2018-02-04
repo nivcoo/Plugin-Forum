@@ -144,7 +144,8 @@ class ForumAppSchema extends CakeSchema {
         'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'unsigned' => false],
         'icon' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 30, 'unsigned' => false],
         'color' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 6, 'unsigned' => false],
-        'position' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 3, 'unsigned' => false]
+        'position' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 3, 'unsigned' => false],
+        'used' => ['type' => 'text', 'null' => true, 'default' => null, 'length' => 500, 'unsigned' => false]
     ];
 
     public $forum__topics = [

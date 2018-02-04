@@ -340,6 +340,9 @@ class ForumAppController extends AppController
                 $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_USE_PUNISHMENT', 'value' => 0]);
                 $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_TAG_USER', 'value' => 0]);
             }
+
+            $db->query('ALTER TABLE forum__tags ADD used TEXT;');
+
         }
 
         return true;
