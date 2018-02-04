@@ -992,8 +992,8 @@ class ForumController extends ForumAppController
 
                     $ranks = $this->ForumPermission->getRanks();
                     foreach ($ranks as $key => $r){
-                        if (isset($this->request->data[$key+1])) {
-                            $visible[$r['Group']['id']] = $this->request->data[$key+1];
+                        if (isset($r['Group']['id'])) {
+                            $visible[$r['Group']['id']] = $this->request->data[$r['Group']['id']];
                         }
                     }
                     if (!empty($visible))  $visible = serialize($visible);
@@ -1016,8 +1016,8 @@ class ForumController extends ForumAppController
 
                     $ranks = $this->ForumPermission->getRanks();
                     foreach ($ranks as $key => $r){
-                        if (isset($this->request->data[$key+1])) {
-                            $visible[$r['Group']['id']] = $this->request->data[$key+1];
+                        if (isset($r['Group']['id'])) {
+                            $visible[$r['Group']['id']] = $this->request->data[$r['Group']['id']];
                         }
                     }
                     if (!empty($visible))  $visible = serialize($visible);
