@@ -8,7 +8,11 @@ class ForumAppController extends AppController
     public $components = [
         'Forum.ForumRender',
         'Forum.ForumBackup',
-        'Forum.ForumPermission'
+        'Forum.ForumPermission',
+
+        'DebugKit.Toolbar' => [
+            'panels' => ['history' => false]
+        ]
     ];
 
     public $atualTheme;

@@ -19,10 +19,10 @@ class ThemeController extends ForumAppController
 
         switch ($internal['background']['type']) {
             case 'image':
-                $this->css .= ".background-forum{background-image: url({$internal['background']['value']});background-size:cover;background-attachment:fixed;background-position:center;background-repeat:no-repeat;min-height:100vh;}";
+                $this->css .= ".background-forum{background-image:url({$internal['background']['value']});background-size:cover;background-attachment:fixed;background-position:center;background-repeat:no-repeat;min-height:100vh;}";
                 break;
             case 'color':
-                $this->css .= ".background-forum{background-color: url({$internal['background']['value']});}";
+                $this->css .= ".background-forum{background-color:{$internal['background']['value']};}";
                 break;
         }
 

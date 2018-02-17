@@ -19,13 +19,15 @@ class ForumController extends ForumAppController
 
     private $valueTopic;
 
+    public $debug;
+
     public function beforeFilter()
     {
         parent::beforeFilter();
+
         $this->loadModel('User');
         $this->loadModel('Forum.Punishment');
         $this->loadModel('Forum.Config');
-
         $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
         $this->Security->csrfExpires = '+1 hour';
 
@@ -58,6 +60,7 @@ class ForumController extends ForumAppController
 
     public function index()
     {
+        /**/$this->debug['IndexStart'] = microtime();
         $this->set('title_for_layout', $this->Lang->get('FORUM__TITLE'));
 
         $this->loadModel('Forum.forums');
@@ -83,7 +86,7 @@ class ForumController extends ForumAppController
 
         $perms = $this->perm_l();
         $forums = $this->Forum->getForum();
-
+        /**/$this->debug['IndexAdMid'] = microtime();
         foreach ($forums as $key => $forum) {
             if ($this->viewVisible($forums, $key)) {
                 $forums[$key]['Forum']['href'] = $this->buildUri('forum', $forum['Forum']['forum_name'], $forum['Forum']['id']);
@@ -107,6 +110,7 @@ class ForumController extends ForumAppController
                 unset($forums[$key]);
             }
         }
+        /**/$this->debug['IndexMid'] = microtime();
         $active['statistics'] = ($this->Config->is('statistics')) ? true : false;
         $active['useronline'] = ($this->Config->is('useronline')) ? true : false;
         $active['privatemsg'] = ($this->Config->is('privatemsg')) ? true : false;
@@ -133,6 +137,8 @@ class ForumController extends ForumAppController
         $internal['last_colordate'] = $this->Internal->get('lasttopic_datecolor');
 
         $this->set(compact('forums', 'stats', 'userOnlines', 'active', 'my', 'perms', 'theme', 'internal'));
+        /**/$this->debug['IndexEnd'] = microtime();
+        /**/$this->log($this->debug);
     }
 
     public function forum($id, $slug, $page = 1)
@@ -591,7 +597,7 @@ class ForumController extends ForumAppController
                         $lock = 1;
                     } else {
                         if ($this->ForumPermission->has('FORUM_TOPIC_STICK')) {
-                            if(!empty($this->request->data['stick']))$stick = 1;
+                            if(!empty($this->request->data['stick'])) $stick = 1;
                         }
                         if ($this->ForumPermission->has('FORUM_TOPIC_LOCK')) {
                             if(!empty($this->request->data['lock'])) $lock = 1;

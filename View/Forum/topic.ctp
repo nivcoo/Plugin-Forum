@@ -116,7 +116,7 @@
 
                                     <?php if(!empty($msg['Topic']['author_info']['sign'])): ?>
                                         <hr />
-                                        <?= $msg['Topic']['author_info']['sign']; ?>
+                                        <?= h($msg['Topic']['author_info']['sign']); ?>
                                     <?php endif; ?>
 
                                 </div>

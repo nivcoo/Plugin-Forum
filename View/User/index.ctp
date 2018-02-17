@@ -117,7 +117,7 @@
                                 <a class="btn-theme pull-right inline" href="<?= $this->Html->url('/user/'.$slug.'.'.$id.'/edit') ?>"><i class="fa fa-pencil" aria-hidden="true"></i> <?= $Lang->get('GLOBAL__EDIT'); ?></a>
                             <?php endif; ?>
                             <div>
-                                <?= $userForum['description']; ?>
+                                <?= h($userForum['description']); ?>
                             </div>
                         </div>
                         <ul class="nav nav-tabs mt15" role="tablist">
