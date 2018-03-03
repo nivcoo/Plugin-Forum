@@ -2292,14 +2292,22 @@ class ForumController extends ForumAppController
 
                 $key = 'count_topic_'.$type.'_'.$id;
 
-                $nb = Cache::remember($key, function () use ($topics, $nb){
+                if ($this->Config->is('cache')) {
+                    $nb = Cache::remember($key, function () use ($topics, $nb){
+                        if(!empty($topics)){
+                            foreach ($topics as $topic){
+                                $nb[0] += $this->Topic->getNbMessage('topic', $topic['Topic']['id_topic']);
+                            }
+                        }
+                        return $nb;
+                    });
+                } else {
                     if(!empty($topics)){
                         foreach ($topics as $topic){
                             $nb[0] += $this->Topic->getNbMessage('topic', $topic['Topic']['id_topic']);
                         }
                     }
-                    return $nb;
-                });
+                }
 
                 break;
             case 'topic':

@@ -346,7 +346,7 @@ class ForumAppController extends AppController
             }
 
             $db->query('ALTER TABLE forum__tags ADD used TEXT;');
-
+            $db->query('INSERT INTO forum__configs (config_name, config_value, lang) VALUES ("cache", 0, "Cache");');
         }
 
         return true;
