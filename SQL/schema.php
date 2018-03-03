@@ -1,5 +1,6 @@
 <?php
-class ForumAppSchema extends CakeSchema {
+class ForumAppSchema extends CakeSchema
+{
 
     /*
      * Coucou à toi !
@@ -16,7 +17,8 @@ class ForumAppSchema extends CakeSchema {
 
     public $file = 'schema.php';
 
-    public function before($event = []) {
+    public function before($event = [])
+    {
         return true;
     }
 
