@@ -643,12 +643,14 @@ class ForumController extends ForumAppController
     {
         $this->set('title_for_layout', $this->Lang->get('FORUM__EDIT__TOPIC'));
 
+        $this->loadModel('Forum.Tag');
         $this->loadModel('Forum.Topic');
 
         if (!$this->Config->is('forum')) {
             throw new NotFoundException();
         }
 
+        $tags = $this->Tag->get();
         $theme = $this->theme();
         $state = false;
 
@@ -667,6 +669,7 @@ class ForumController extends ForumAppController
 
                         $content = $this->Topic->getUniqMessage($idMessage);
 
+                        //Si c'est le premier message du topic
                         if($content['first']) {
                             $idTopic = $content['id_topic'];
                             $title = $this->request->data['title'];
@@ -674,6 +677,13 @@ class ForumController extends ForumAppController
                             if(($this->getIdSession() == $content['id_user']) || $this->ForumPermission->has('FORUM_MSG_EDIT')) {
                                 $this->Topic->rename($idTopic, $title);
                             }
+
+                            if(($this->getIdSession() == $content['id_user'] &&
+                                    $this->ForumPermission->has('FORUM_TAG_TOPIC')) ||
+                                        $this->ForumPermission->has('FORUM_MSG_EDIT') ) {
+                                //$this->Topic->rename($idTopic, $title);
+                            }
+
                         }
 
                         $this->logforum($this->getIdSession(), 'add_message', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__MSG').strip_tags(substr($title, 0, 30)), $title);
@@ -683,7 +693,7 @@ class ForumController extends ForumAppController
                     } else {
                         $topic = "";
                         $params = "";
-                        $params['isEdit']['title'] = false;
+                        $params['isEdit']['title'] = $params['isEdit']['tag'] = $params['isEdit']['tagPublic'] = false;
 
                         $content = $this->Topic->getUniqMessage($idMessage);
 
@@ -694,9 +704,17 @@ class ForumController extends ForumAppController
                             if(($this->getIdSession() == $content['id_user']) || $this->ForumPermission->has('FORUM_MSG_EDIT')) {
                                 $params['isEdit']['title'] = true;
                             }
+
+                            if($this->ForumPermission->has('FORUM_MSG_EDIT')) {
+                                $params['isEdit']['tag'] = true;
+                            }
+
+                            if(($this->getIdSession() == $content['id_user']) && $this->ForumPermission->has('FORUM_TAG_TOPIC')) {
+                                $params['isEdit']['tagPublic'] = true;
+                            }
                         }
 
-                        $this->set(compact('content', 'topic', 'theme', 'params'));
+                        $this->set(compact('content', 'topic', 'theme', 'params', 'tags'));
                     }
                 } else {
                     throw new ForbiddenException();
