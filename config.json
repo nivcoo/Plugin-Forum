@@ -91,6 +91,10 @@
 				}
 			}
 		},
+		"Cache": {
+			"icon": "database",
+			"route": "/admin/forum/forum/cache"
+		},
         "Log du forum": {
           "icon": "history",
           "route": "/admin/forum/forum/history"
