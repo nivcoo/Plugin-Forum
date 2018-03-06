@@ -663,7 +663,7 @@ class ForumController extends ForumAppController
                     $state = ($this->Topic->getUserId('id_user', 'id', $idMessage) == $this->getIdSession()) ? true : false;
                 }
                 if ($state) {
-                    if($this->request->is('post')) {
+                    if ($this->request->is('post')) {
                         $newMessage = $this->request->data['content'];
 
                         $this->Topic->updateMessage($idMessage, $newMessage);
@@ -671,16 +671,18 @@ class ForumController extends ForumAppController
                         $content = $this->Topic->getUniqMessage($idMessage);
 
                         //Si c'est le premier message du topic
-                        if($content['first']) {
+                        if ($content['first']) {
                             $idTopic = $content['id_topic'];
                             $title = $this->request->data['title'];
 
-                            if(($this->getIdSession() == $content['id_user']) || $this->ForumPermission->has('FORUM_MSG_EDIT')) {
+                            if (($this->getIdSession() == $content['id_user']) || $this->ForumPermission->has('FORUM_MSG_EDIT')) {
                                 $this->Topic->rename($idTopic, $title);
                             }
 
-                            if($this->ForumPermission->has('FORUM_MSG_EDIT') ) {
-                                //$this->Topic->rename($idTopic, $title);
+                            if ($this->ForumPermission->has('FORUM_MSG_EDIT') ) {
+                                foreach ($tags as $key => $tag) {
+
+                                }
                             } elseif(($this->getIdSession() == $content['id_user'] && $this->ForumPermission->has('FORUM_TAG_PUBLIC'))) {
 
                             }

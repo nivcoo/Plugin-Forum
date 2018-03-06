@@ -14,7 +14,7 @@ class ForumPermissionComponent extends Component
      * FORUM_TOPIC_REPLY -> Répondre aux topics
      *
      * FORUM_TOPIC_LOCK -> Lock des topics
-     * FORUM_TOPICSTICk -> Epingler des topics
+     * FORUM_TOPIC_STICK -> Epingler des topics
      *
      * FORUM_MSGMY_EDIT -> Editer ses messages (seulement les chiens) ^^
      * FORUM_MSG_EDIT -> Editer les messages de tout le monde
