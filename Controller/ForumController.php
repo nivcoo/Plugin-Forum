@@ -679,13 +679,32 @@ class ForumController extends ForumAppController
                                 $this->Topic->rename($idTopic, $title);
                             }
 
+                            $newTags = "";
+
                             if ($this->ForumPermission->has('FORUM_MSG_EDIT') ) {
                                 foreach ($tags as $key => $tag) {
-
+                                    if (!empty($this->request->data['tag-'.$tag['Tag']['id']])) {
+                                        $newTags .= $tag['Tag']['id'].',';
+                                    }
                                 }
-                            } elseif(($this->getIdSession() == $content['id_user'] && $this->ForumPermission->has('FORUM_TAG_PUBLIC'))) {
+                            } elseif (($this->getIdSession() == $content['id_user'] && $this->ForumPermission->has('FORUM_TAG_PUBLIC'))) {
+                                foreach ($tags as $key => $tag) {
+                                    if (!empty($this->request->data['tag-'.$tag['Tag']['id']])) {
+                                        foreach ($ranks as $key => $rank) {
+                                            if(in_array(explode(',', $tag['Tag']['used']), $rank['Group']['id'])) {
+                                                $can = true;
+                                                break;
+                                            }
+                                        }
 
+                                        if ($can) {
+                                            $newTags .= $tag['Tag']['id'].',';
+                                        }
+                                    }
+                                }
                             }
+
+                            $this->Topic->updateTag($idTopic, $newTags);
 
                         }
 
