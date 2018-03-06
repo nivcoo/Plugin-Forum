@@ -629,7 +629,15 @@ class ForumController extends ForumAppController
 
             } elseif($this->request->is('get') && $this->isConnected){
 
-                $this->set(compact('perms', 'theme', 'tags'));
+                if($this->ForumPermission->has('FORUM_MSG_EDIT')) {
+                    $params['isEdit']['tag'] = true;
+                }
+
+                if($this->ForumPermission->has('FORUM_TAG_PUBLIC')) {
+                    $params['isEdit']['tagPublic'] = true;
+                }
+
+                $this->set(compact('perms', 'theme', 'tags', 'params'));
 
             } else {
                 throw new ForbiddenException();
