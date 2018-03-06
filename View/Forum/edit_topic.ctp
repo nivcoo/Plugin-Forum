@@ -21,8 +21,8 @@
                                 <div class="col-md-12">
                                     <?php if(!empty($tags)): ?>
                                         <?php if($params['isEdit']['tag']): ?>
-                                            <?php foreach($tags as $tag): ?>
-                                                <span style="background-color: #<?= $tag['Tag']['color']; ?>" class="labeltag"><input type="checkbox" class="middle" value="<?= $tag['Tag']['id']; ?>" name="tag-<?= $tag['Tag']['id']; ?>" />
+                                            <?php foreach($tags as $key => $tag): ?>
+                                                <span style="background-color: #<?= $tag['Tag']['color']; ?>" class="labeltag"><input <?php if(in_array($tag['Tag']['id'], explode(',', $content['tags'])))echo 'checked'; ?> type="checkbox" class="middle" value="<?= $tag['Tag']['id']; ?>" name="tag-<?= $tag['Tag']['id']; ?>" />
                                                     <?php if(!empty($tag['Tag']['icon'])): ?>
                                                         <i class="fa fa-<?= $tag['Tag']['icon']; ?>" aria-hidden="true"></i>
                                                     <?php endif; ?>
@@ -30,13 +30,17 @@
                                                 </span>
                                             <?php endforeach; ?>
                                         <?php elseif($params['isEdit']['tagPublic']): ?>
-                                            <?php foreach($tags as $tag): ?>
-                                                <span style="background-color: #<?= $tag['Tag']['color']; ?>" class="labeltag"><input type="checkbox" class="middle" value="<?= $tag['Tag']['id']; ?>" name="tag-<?= $tag['Tag']['id']; ?>" />
-                                                    <?php if(!empty($tag['Tag']['icon'])): ?>
-                                                        <i class="fa fa-<?= $tag['Tag']['icon']; ?>" aria-hidden="true"></i>
-                                                    <?php endif; ?>
-                                                    <?= $tag['Tag']['name']; ?>
+                                            <?php foreach($tags as $tag): $active = unserialize($tag['Tag']['used']); ?>
+                                                <?php foreach($ranks as $key => $rank): ?>
+                                                    <?php if($active[$rank['Group']['id']]): ?>
+                                                        <span style="background-color: #<?= $tag['Tag']['color']; ?>" class="labeltag"><input <?php if(in_array($tag['Tag']['id'], explode(',', $content['tags'])))echo 'checked'; ?> type="checkbox" class="middle" value="<?= $tag['Tag']['id']; ?>" name="tag-<?= $tag['Tag']['id']; ?>" />
+                                                            <?php if(!empty($tag['Tag']['icon'])): ?>
+                                                                <i class="fa fa-<?= $tag['Tag']['icon']; ?>" aria-hidden="true"></i>
+                                                            <?php endif; ?>
+                                                            <?= $tag['Tag']['name']; ?>
                                                 </span>
+                                                    <?php break; endif; ?>
+                                                <?php endforeach; ?>
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     <?php endif; ?>

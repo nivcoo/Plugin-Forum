@@ -651,6 +651,7 @@ class ForumController extends ForumAppController
         }
 
         $tags = $this->Tag->get();
+        $ranks = $this->ForumPermission->getRanks();
         $theme = $this->theme();
         $state = false;
 
@@ -714,7 +715,7 @@ class ForumController extends ForumAppController
                             }
                         }
 
-                        $this->set(compact('content', 'topic', 'theme', 'params', 'tags'));
+                        $this->set(compact('content', 'topic', 'theme', 'params', 'tags', 'ranks'));
                     }
                 } else {
                     throw new ForbiddenException();
