@@ -679,10 +679,10 @@ class ForumController extends ForumAppController
                                 $this->Topic->rename($idTopic, $title);
                             }
 
-                            if(($this->getIdSession() == $content['id_user'] &&
-                                    $this->ForumPermission->has('FORUM_TAG_TOPIC')) ||
-                                        $this->ForumPermission->has('FORUM_MSG_EDIT') ) {
+                            if($this->ForumPermission->has('FORUM_MSG_EDIT') ) {
                                 //$this->Topic->rename($idTopic, $title);
+                            } elseif(($this->getIdSession() == $content['id_user'] && $this->ForumPermission->has('FORUM_TAG_PUBLIC'))) {
+
                             }
 
                         }
@@ -710,12 +710,12 @@ class ForumController extends ForumAppController
                                 $params['isEdit']['tag'] = true;
                             }
 
-                            if(($this->getIdSession() == $content['id_user']) && $this->ForumPermission->has('FORUM_TAG_TOPIC')) {
+                            if(($this->getIdSession() == $content['id_user']) && $this->ForumPermission->has('FORUM_TAG_PUBLIC')) {
                                 $params['isEdit']['tagPublic'] = true;
                             }
                         }
 
-                        $this->set(compact('content', 'topic', 'theme', 'params', 'tags', 'ranks'));
+                        $this->set(compact('content', 'theme', 'params', 'tags', 'ranks'));
                     }
                 } else {
                     throw new ForbiddenException();
