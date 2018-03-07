@@ -281,7 +281,7 @@
   "FORUM__PHRASE__PAGE__ADDTOPIC_1": "Le titre est très important car il est utilisé pour déterminer l'url, veillez donc à utiliser un titre cohérant.",
   "FORUM__ADMIN__TIPS_1":"(Si aucune case n'est coché, la catégorie sera visible par tous)",
   "FORUM__PERMS__WARNING": "Vérifiez bien les permissions pour les sous-catégories, celles-ci dépendent du forum parent et non de la catégorie parente",
-  "FORUM__CACHE__EXPLANATION": "Le cache du forum est un système permettant d'améliorer la rapidité du forum en stockant des données de calcul. Si le cache est activé, certaines valeurs seront fixe malgré l'activité des utilisateurs.",
+  "FORUM__CACHE__EXPLANATION": "Le cache du forum est un système permettant d'améliorer la rapidité du forum en stockant des données de calcul. Si le cache est activé, certaines valeurs seront fixe malgré l'activité des utilisateurs. <br />Cette fonctionnalité est destinée aux gros forums possédant plusieurs milliers de topics. Si vous possédez peu de topic, elle gênera plus vos utilisateurs.",
 
   "FORUM__RANK__BASIC": "Membre",
   "FORUM__TOPIC__LOCK": "Le topic a bien été verrouillé",
