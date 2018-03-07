@@ -2605,7 +2605,9 @@ class ForumController extends ForumAppController
          * end debug
          */
 
-        $array = ['MineStorm', 'Kraken'];
+        $array = ['MineStorm', 'Kraken', 'Kuro', 'BravoureDark', 'Mineflat'];
+        //Master ?
+
         if (in_array($this->theme, $array)) {
             echo "<script>alert('Ce thème n\'est pas compatible avec le forum')</script>";
             throw new UnauthorizedException();
