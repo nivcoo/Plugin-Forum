@@ -582,6 +582,7 @@ class ForumController extends ForumAppController
         $isLock = $this->Forum->isLock($idParent);
         $perms = $this->perm_l();
         $tags = $this->Tag->get();
+        $ranks = $this->ForumPermission->getRanks();
         $theme = $this->theme();
 
         if (!$isLock OR $perms['FORUM_TOPIC_LOCK']) {
@@ -629,6 +630,8 @@ class ForumController extends ForumAppController
 
             } elseif($this->request->is('get') && $this->isConnected){
 
+                $params['isEdit']['tag'] = $params['isEdit']['tagPublic'] = false;
+
                 if($this->ForumPermission->has('FORUM_MSG_EDIT')) {
                     $params['isEdit']['tag'] = true;
                 }
@@ -637,7 +640,7 @@ class ForumController extends ForumAppController
                     $params['isEdit']['tagPublic'] = true;
                 }
 
-                $this->set(compact('perms', 'theme', 'tags', 'params'));
+                $this->set(compact('perms', 'theme', 'tags', 'params', 'ranks'));
 
             } else {
                 throw new ForbiddenException();
