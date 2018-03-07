@@ -34,9 +34,9 @@ class ForumPermissionComponent extends Component
      * FORUM_RENAME_TOPIC -> Renommer les topics
      * FORUM_TOPIC_VISIBILY -> Modifier la visibilité des topics
      * FORUM_TAG_PUBLIC -> Utilisation des tags publics.
-     * FORUM_CREATE_POLL -> Créer des sondages
-     * FORUM_USE_PUNISHMENT -> Utilisez les sanctions pré-appliquées
-     * FORUM_TAG_USER -> Tag les utilisateurs depuis un message.
+     * FORUM_CREATE_POLL -> Créer des sondages (after 1.4.0)
+     * FORUM_USE_PUNISHMENT -> Utilisez les sanctions pré-appliquées (after 1.4.0)
+     * FORUM_TAG_USER -> Tag les utilisateurs depuis un message. (after 1.4.0)
      */
 
     public $model;
