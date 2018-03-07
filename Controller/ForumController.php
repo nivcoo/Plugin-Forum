@@ -2606,6 +2606,11 @@ class ForumController extends ForumAppController
          */
 
         $array = ['MineStorm', 'Kraken', 'Kuro', 'BravoureDark', 'Mineflat'];
+        /*
+         * Pourquoi ces thèmes sont bloqués ?
+         * Car ces thèmes sont soit abandonné, soit non mis à jour et donc manquent les dernières fonctions ou contiennent des failles de sécurités.
+         * Rien ne vous empêche de les débloquer, à vos risques et péril.
+         */
         //Master ?
 
         if (in_array($this->theme, $array)) {
