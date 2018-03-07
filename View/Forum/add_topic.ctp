@@ -66,7 +66,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <?php if(!empty($tags)): ?>
-                                    <?php if(!$params['isEdit']['tag']): ?>
+                                    <?php if($params['isEdit']['tag']): ?>
                                         <?php foreach($tags as $key => $tag): ?>
                                             <span style="background-color: #<?= $tag['Tag']['color']; ?>" class="labeltag"><input type="checkbox" class="middle" value="<?= $tag['Tag']['id']; ?>" name="tag-<?= $tag['Tag']['id']; ?>" />
                                                 <?php if(!empty($tag['Tag']['icon'])): ?>
@@ -75,7 +75,7 @@
                                                 <?= $tag['Tag']['name']; ?>
                                                     </span>
                                         <?php endforeach; ?>
-                                    <?php elseif(!$params['isEdit']['tagPublic']): ?>
+                                    <?php elseif($params['isEdit']['tagPublic']): ?>
                                         <?php foreach($tags as $tag): $active = unserialize($tag['Tag']['used']); ?>
                                             <?php foreach($ranks as $key => $rank): ?>
                                                 <?php if($active[$rank['Group']['id']]): ?>

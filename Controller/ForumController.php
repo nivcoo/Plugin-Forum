@@ -584,6 +584,17 @@ class ForumController extends ForumAppController
         $tags = $this->Tag->get();
         $ranks = $this->ForumPermission->getRanks();
         $theme = $this->theme();
+        $newTags = "";
+
+        $params['isEdit']['tag'] = $params['isEdit']['tagPublic'] = false;
+
+        if($this->ForumPermission->has('FORUM_MSG_EDIT')) {
+            $params['isEdit']['tag'] = true;
+        }
+
+        if($this->ForumPermission->has('FORUM_TAG_PUBLIC')) {
+            $params['isEdit']['tagPublic'] = true;
+        }
 
         if (!$isLock OR $perms['FORUM_TOPIC_LOCK']) {
             if ($this->request->is('post') && $this->isConnected) {
@@ -604,19 +615,36 @@ class ForumController extends ForumAppController
                     $content = $this->word($this->request->data['content_insert']);
                     $title = $this->urlRew(trim($this->request->data['title']));
 
-                    $params = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
+                    $param = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
 
-                    $newTag = '';
-                    foreach ($tags as $key => $tag) {
-                        if (isset($this->request->data['tag-'.$tag['Tag']['id']])) {
-                            $newTag .= $this->request->data['tag-'.$tag['Tag']['id']].',';;
+                    if ($this->ForumPermission->has('FORUM_MSG_EDIT') ) {
+                        foreach ($tags as $key => $tag) {
+                            if (!empty($this->request->data['tag-'.$tag['Tag']['id']])) {
+                                $newTags .= $tag['Tag']['id'].',';
+                            }
+                        }
+                    } elseif ($this->ForumPermission->has('FORUM_TAG_PUBLIC')) {
+                        foreach ($tags as $key => $tag) {
+                            if (!empty($this->request->data['tag-'.$tag['Tag']['id']])) {
+                                foreach ($ranks as $key => $rank) {
+                                    if(in_array(explode(',', $tag['Tag']['used']), $rank['Group']['id'])) {
+                                        $can = true;
+                                        break;
+                                    }
+                                }
+
+                                if ($can) {
+                                    $newTags .= $tag['Tag']['id'].',';
+                                }
+                            }
                         }
                     }
-                    if ($perms['FORUM_MSG_EDIT']) $this->Topic->updateTag($params['id_topic'], $newTag);
+
+                    if ($perms['FORUM_MSG_EDIT']) $this->Topic->updateTag($param['id_topic'], $newTags);
 
                     $this->logforum($this->getIdSession(), 'create_topic', $this->gUBY($this->getIdSession()).' vient de créer un nouveau topic : '.strip_tags(substr($content, 0, 30)), $content);
 
-                    $this->redirect(Router::url('/', true).'topic/'.$this->replaceSpace($params['title']).'.'.$params['id_topic'].'/');
+                    $this->redirect(Router::url('/', true).'topic/'.$this->replaceSpace($param['title']).'.'.$param['id_topic'].'/');
 
                 } else {
                     if (!empty($this->request->data['title'])) {
@@ -626,19 +654,9 @@ class ForumController extends ForumAppController
                     }
                 }
 
-                $this->set(compact('perms', 'theme', 'tags'));
+                $this->set(compact('perms', 'theme', 'tags', 'params', 'ranks'));
 
             } elseif($this->request->is('get') && $this->isConnected){
-
-                $params['isEdit']['tag'] = $params['isEdit']['tagPublic'] = false;
-
-                if($this->ForumPermission->has('FORUM_MSG_EDIT')) {
-                    $params['isEdit']['tag'] = true;
-                }
-
-                if($this->ForumPermission->has('FORUM_TAG_PUBLIC')) {
-                    $params['isEdit']['tagPublic'] = true;
-                }
 
                 $this->set(compact('perms', 'theme', 'tags', 'params', 'ranks'));
 
