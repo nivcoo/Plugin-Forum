@@ -1571,6 +1571,53 @@ class ForumController extends ForumAppController
         }
     }
 
+    public function admin_cache()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
+            $this->layout = 'admin';
+
+            $config = $this->Config->is('cache');
+            $router = $this->explodeRouter(5);
+            $forums = $this->Forum->getForum();
+
+            if (!is_array($router)) {
+                if ($router == "active") {
+                    $this->Config->updateConfig('cache', 1);
+                } elseif ($router == "empty") {
+                    foreach ($forums as $key => $forum) {
+                        if($forum['Forum']['id_parent']) {
+                            $key = 'count_topic_category_'.$forum['Forum']['id'];
+                            Cache::delete($key);
+                        }
+                    }
+                } elseif ($router == "delete") {
+                    $id = $router = $this->explodeRouter(6);
+                    $key = 'count_topic_category_'.$id;
+                    Cache::delete($key);
+
+                } elseif ($router == "deactivate") {
+                    $this->Config->updateConfig('cache', 0);
+                }
+
+                $this->redirect(['plugin' => 'forum', 'controller' => 'forum', 'action' => 'admin_cache']);
+            }
+
+            foreach ($forums as $key => $forum) {
+                if($forum['Forum']['id_parent'] != 0) {
+                    $key = 'count_topic_category_'.$forum['Forum']['id'];
+                    $cache['count']['topicCatgory'][$key]['id'] = $forum['Forum']['id'];
+                    $cache['count']['topicCatgory'][$key]['key'] = $key;
+                    $cache['count']['topicCatgory'][$key]['title'] = $this->Forum->info('forum', $forum['Forum']['id'])[0]['Forum']['forum_name'];
+                    $cache['count']['topicCatgory'][$key]['value'] = Cache::read($key)[0];
+                }
+            }
+
+            $this->set(compact('config', 'cache'));
+        } else {
+            $this->redirect('/');
+        }
+    }
+
     public function admin_stats()
     {
         if ($this->isConnected AND $this->User->isAdmin()) {
