@@ -191,7 +191,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label><?= $Lang->get('GLOBAL__IMAGE') ?> <a style="font-size: 9px" target="_blank" href="http://fontawesome.io/cheatsheet/"><i class="fa fa-question-circle" aria-hidden="true"></i></a></label>
+                                <label><?= $Lang->get('GLOBAL__IMAGE') ?> <a style="font-size: 9px" target="_blank" href="https://fontawesome.com/v4.7.0/icons/"><i class="fa fa-question-circle" aria-hidden="true"></i></a></label>
                             </div>
                             <div class="form-group text-center">
                                 <label class="radio-inline">
