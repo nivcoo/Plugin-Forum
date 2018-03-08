@@ -480,11 +480,12 @@ class ForumController extends ForumAppController
                                 throw new ForbiddenException();
                             }
                         } elseif (!empty($this->request->data['lock'])) {
-                            if($this->ForumPermission->has('FORUM_TOPIC_LOCK')){
+                            $idUser = $this->Topic->info('topic_author', $idTopic);
+
+                            if($this->ForumPermission->has('FORUM_TOPIC_LOCK') || ($this->ForumPermission->has('FORUM_TOPICMY_LOCK') && $idUser == $this->getIdSession())){
 
                                 $idTopic = $this->request->data['lock'];
                                 $title = $this->Topic->getTitleTopic($idTopic);
-                                $idUser = $this->Topic->info('topic_author', $idTopic);
 
                                 if($lock){
                                     $this->Topic->change('unlock', $idTopic);
@@ -588,7 +589,7 @@ class ForumController extends ForumAppController
 
         $params['isEdit']['tag'] = $params['isEdit']['tagPublic'] = false;
 
-        if($this->ForumPermission->has('FORUM_MSG_EDIT')) {
+        if($this->ForumPermission->has('FORUM_TAG_TOPIC')) {
             $params['isEdit']['tag'] = true;
         }
 
@@ -617,7 +618,7 @@ class ForumController extends ForumAppController
 
                     $param = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
 
-                    if ($this->ForumPermission->has('FORUM_MSG_EDIT') ) {
+                    if ($this->ForumPermission->has('FORUM_TAG_TOPIC') ) {
                         foreach ($tags as $key => $tag) {
                             if (!empty($this->request->data['tag-'.$tag['Tag']['id']])) {
                                 $newTags .= $tag['Tag']['id'].',';
@@ -704,13 +705,13 @@ class ForumController extends ForumAppController
                             $idTopic = $content['id_topic'];
                             $title = $this->request->data['title'];
 
-                            if (($this->getIdSession() == $content['id_user']) || $this->ForumPermission->has('FORUM_MSG_EDIT')) {
+                            if (($this->getIdSession() == $content['id_user'] && $this->ForumPermission->has('FORUM_RENAMEMY_TOPIC')) || $this->ForumPermission->has('FORUM_RENAME_TOPIC')) {
                                 $this->Topic->rename($idTopic, $title);
                             }
 
                             $newTags = "";
 
-                            if ($this->ForumPermission->has('FORUM_MSG_EDIT') ) {
+                            if ($this->ForumPermission->has('FORUM_TAG_TOPIC') ) {
                                 foreach ($tags as $key => $tag) {
                                     if (!empty($this->request->data['tag-'.$tag['Tag']['id']])) {
                                         $newTags .= $tag['Tag']['id'].',';
@@ -756,7 +757,7 @@ class ForumController extends ForumAppController
                                 $params['isEdit']['title'] = true;
                             }
 
-                            if($this->ForumPermission->has('FORUM_MSG_EDIT')) {
+                            if($this->ForumPermission->has('FORUM_TAG_TOPIC')) {
                                 $params['isEdit']['tag'] = true;
                             }
 
