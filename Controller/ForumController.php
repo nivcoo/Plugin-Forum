@@ -1888,6 +1888,19 @@ class ForumController extends ForumAppController
         }
     }
 
+    public function admin_help()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
+
+            $this->layout = 'admin';
+            $version = $this->version;
+
+            $this->set(compact('version'));
+        } else {
+            $this->redirect('/');
+        }
+    }
+
     /*
      * Function calc, back end ...
      */
