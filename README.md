@@ -8,6 +8,10 @@ Dynamisez votre site à l'aide du Forum et  augmentez votre communauté de joueu
 Mineweb > 1.2.0
 ```
 
+## Présentation
+
+Voir [ici](https://github.com/PHPierrre/forum-mineweb/blob/Mineweb1.2/Plaquette.png)
+
 ## Compatibilité avec les thèmes
 
 Thème compatible : Absolute, Awards, Bootstrap, Darker, Flat, Guide, Jupiter, Mars, Nova, Pluton, Royal, Universal, Unruly, Urban
@@ -21,7 +25,7 @@ Thème désactivé (failles de sécurités) : BravoureDark, Kraken, Kuro, Minefl
 
 ## API
 
-
+Voir [/Controller/ApiController.php](https://github.com/PHPierrre/forum-mineweb/blob/Mineweb1.2/Controller/ApiController.php)
 
 ## Contribution
 
