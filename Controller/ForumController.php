@@ -354,6 +354,7 @@ class ForumController extends ForumAppController
                                 } elseif ($this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
                                     $state = ($this->Topic->getUserId('id_user', 'id', $idMessage) == $this->getIdSession()) ? true : false;
                                 }
+
                                 if ($state) {
                                     $this->Topic->updateMessage($idMessage, $content);
                                     $this->logforum($this->getIdSession(), 'add_message', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__MSG').strip_tags(substr($content, 0, 30)), $content);
