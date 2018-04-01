@@ -131,7 +131,7 @@
                                 <?php foreach ($lasts['Comment'] as $last): ?>
                                     <hr />
                                     <div class="forum-profile-comment">
-                                        <h4><a href="<?= $last['Topic']['href']; ?>"><?= $last['Topic']['title']; ?></a></h4>
+                                        <h4><a href="<?= $last['Topic']['href']; ?>"><?= h($last['Topic']['title']); ?></a></h4>
                                         <p><?= $this->Text->truncate(strip_tags($last['Topic']['content']), 150); ?></p>
                                     </div>
                                 <?php endforeach; ?>

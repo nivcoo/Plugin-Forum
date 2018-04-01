@@ -10,13 +10,13 @@ Mineweb > 1.2.0
 
 ## Compatibilité avec les thèmes
 
-Thème compatible : Absolute, Awards, Bootstrap, Darker, Flat, Guide, Jupiter, Mars, Pluton, Royal, Universal, Unruly, Urban
+Thème compatible : Absolute, Awards, Bootstrap, Darker, Flat, Guide, Jupiter, Mars, Nova, Pluton, Royal, Universal, Unruly, Urban
 
 Thème comportant des problèmes d'affichage : DarkFlat, Grey, Justice, Omni
 
-Thème incompatible (utilisation non possible) : FlatColor, Nova
+Thème incompatible (utilisation non possible) : FlatColor
 
-Thème désactivé (failles de sécurités) : BravoureDark, Kraken, Kuro, Mineflat, MineStorm (KryptonFight, Kuoo, Master)
+Thème désactivé (failles de sécurités) : BravoureDark, Kraken, Kuro, Mineflat, MineStorm, KryptonFight, Kuoo, Master
 
 
 ## API
