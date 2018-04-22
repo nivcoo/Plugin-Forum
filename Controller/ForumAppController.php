@@ -10,14 +10,14 @@ class ForumAppController extends AppController
         'Forum.ForumBackup',
         'Forum.ForumPermission',
 
-        'DebugKit.Toolbar' => [
+        /*'DebugKit.Toolbar' => [
             'panels' => ['history' => false]
-        ]
+        ]*/
     ];
 
     public $atualTheme;
 
-    protected $version = '1.4.1';
+    protected $version = '1.4.2';
 
 
     protected function date($date, $day = true)
