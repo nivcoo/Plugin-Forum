@@ -13,27 +13,37 @@ class ForumController extends ForumAppController
         ]
     ];
 
+    private $indexExplorer = -1;
+
+    private $valueExplorer;
+
+    private $valueTopic;
+
+    public $debug;
+
     public function beforeFilter()
     {
-       parent::beforeFilter();
-       $this->loadModel('User');
-       $this->loadModel('Forum.Punishment');
-       $this->loadModel('Forum.Config');
+        parent::beforeFilter();
 
-       $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
-       $this->Security->csrfExpires = '+1 hour';
+        $this->loadModel('User');
+        $this->loadModel('Forum.Punishment');
+        $this->loadModel('Forum.Config');
+        $this->User->updateAll(array('forum-last_activity' => "'".date("Y-m-d H:i:s")."'"), array('id' => $this->Session->read('user')));
+        $this->Security->csrfExpires = '+1 hour';
 
-       if ($this->isConnected && !in_array($this->request->params['action'], ['banned', 'admin_punishment', 'admin_delete']) && $this->Punishment->get($this->getIdSession())) {
-           $this->redirect(Router::url('/', true).'forum/banned');
-       }
+        if ($this->isConnected && !in_array($this->request->params['action'], ['banned', 'admin_punishment', 'admin_delete']) && $this->Punishment->get($this->getIdSession())) {
+            $this->redirect(Router::url('/', true).'forum/banned');
+        }
 
-       if (!$this->Config->notempty()) {
-           $this->install();
-       }
+        if (!$this->Config->notempty()) {
+             $this->install();
+        }
 
-       $this->forumUpdate();
+        $this->forumUpdate();
 
-       if($this->theme == 'Justice') $this->layout = 'forum';
+        $this->ㅋㅋㅋㅋㅋ();
+
+        if($this->theme == 'Justice') $this->layout = 'forum';
     }
 
     public function beforeRender()
@@ -41,7 +51,7 @@ class ForumController extends ForumAppController
         parent::beforeRender();
 
         $alertforum['update'] = $this->hourCheck();
-        if (!$this->isConnected AND !$this->User->isAdmin()) {
+        if (!$this->isConnected || !$this->User->isAdmin()) {
             $alertforum['update'] = "";
         }
 
@@ -51,7 +61,9 @@ class ForumController extends ForumAppController
     public function index()
     {
         $this->set('title_for_layout', $this->Lang->get('FORUM__TITLE'));
+
         $this->loadModel('Forum.forums');
+        $this->loadModel('Forum.Internal');
         $this->loadModel('Forum.Topic');
 
         /* Specific */
@@ -73,7 +85,6 @@ class ForumController extends ForumAppController
 
         $perms = $this->perm_l();
         $forums = $this->Forum->getForum();
-
         foreach ($forums as $key => $forum) {
             if ($this->viewVisible($forums, $key)) {
                 $forums[$key]['Forum']['href'] = $this->buildUri('forum', $forum['Forum']['forum_name'], $forum['Forum']['id']);
@@ -97,6 +108,7 @@ class ForumController extends ForumAppController
                 unset($forums[$key]);
             }
         }
+
         $active['statistics'] = ($this->Config->is('statistics')) ? true : false;
         $active['useronline'] = ($this->Config->is('useronline')) ? true : false;
         $active['privatemsg'] = ($this->Config->is('privatemsg')) ? true : false;
@@ -115,15 +127,23 @@ class ForumController extends ForumAppController
         $stats['countuser'] = count($userOnlines);
         $theme = $this->theme();
 
-        $this->set(compact('forums', 'stats', 'userOnlines', 'active', 'my', 'perms', 'theme'));
+        $internal['description'] = $this->Internal->get('description');
+        $internal['index_title'] = unserialize($this->Internal->get('index_title'));
+        $internal['forum_color'] = $this->Internal->get('forum_color');
+        $internal['chevron_color'] = $this->Internal->get('chevron_color');
+        $internal['last_colortitle'] = $this->Internal->get('lasttopic_titlecolor');
+        $internal['last_colordate'] = $this->Internal->get('lasttopic_datecolor');
+
+        $this->set(compact('forums', 'stats', 'userOnlines', 'active', 'my', 'perms', 'theme', 'internal'));
     }
 
     public function forum($id, $slug, $page = 1)
     {
         $this->loadModel('Forum.forums');
+        $this->loadModel('Forum.Internal');
+        $this->loadModel('Forum.Tag');
         $this->loadModel('Forum.Topic');
         $this->loadModel('Forum.Vieww');
-        $this->loadModel('Forum.Tag');
 
         if (!$this->Config->is('forum')) {
             throw new NotFoundException();
@@ -207,6 +227,7 @@ class ForumController extends ForumAppController
                     $topics[$key]['Topic']['tags'] = $this->Topic->getTag($topic['Topic']['id_topic']);
                 }
             }
+
             $parent['forum_parent']['name'] = $this->replaceHyppen($slug);
             $theme = $this->theme();
             $perms = $this->perm_l();
@@ -217,8 +238,13 @@ class ForumController extends ForumAppController
 
             $this->set('title_for_layout', $this->replaceHyppen($slug).' | '.$this->Lang->get('FORUM__TITLE'));
 
+            $internal['topic_color'] = $this->Internal->get('topic_color');
+            $internal['forum_color'] = $this->Internal->get('forum_color');
+            $internal['last_colortitle'] = $this->Internal->get('lasttopic_titlecolor');
+            $internal['last_colordate'] = $this->Internal->get('lasttopic_datecolor');
+
             $this->set(compact('forums', 'slug', 'topics', 'topics_stick', 'parent', 'id', 'theme',
-                'pagination', 'perms', 'isLock', 'listForum', 'ranks', 'tags', 'breadcrumb'));
+                'pagination', 'perms', 'isLock', 'listForum', 'ranks', 'tags', 'breadcrumb', 'internal'));
 
         }else{
             throw new ForbiddenException();
@@ -303,6 +329,7 @@ class ForumController extends ForumAppController
                             if (!$lock || $this->ForumPermission->has('FORUM_TOPIC_LOCK')) {
 
                                 $content = $this->word($this->request->data['content']);
+
                                 $this->Topic->addMessage($this->Topic->info('id_parent', $id), $this->getIdSession(), $id, $content, date('Y-m-d H:i:s'));
                                 $this->logforum($this->getIdSession(), 'add_message', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__POST__MSG').strip_tags(substr($content, 0, 30)), $content);
 
@@ -313,6 +340,8 @@ class ForumController extends ForumAppController
                                 }
 
                                 $this->Session->setFlash($this->Lang->get('FORUM__MESSAGE__SEND'), 'default.success');
+
+                                $this->redirect("/forum/redirect/message/$id");
                             }
                         } elseif (!empty($this->request->data['content_update'])) {
                             $idMessage = $this->request->data['id'];
@@ -325,6 +354,7 @@ class ForumController extends ForumAppController
                                 } elseif ($this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
                                     $state = ($this->Topic->getUserId('id_user', 'id', $idMessage) == $this->getIdSession()) ? true : false;
                                 }
+
                                 if ($state) {
                                     $this->Topic->updateMessage($idMessage, $content);
                                     $this->logforum($this->getIdSession(), 'add_message', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__MSG').strip_tags(substr($content, 0, 30)), $content);
@@ -436,14 +466,12 @@ class ForumController extends ForumAppController
                                     $this->Topic->change('stick', $this->request->data['stick']);
                                     $this->logforum($this->getIdSession(), 'stick_topic', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__STICK__TOPIC'), $this->replaceHyppen($slug));
 
-
                                     $idUser = $this->Topic->info('topic_author', $idTopic);
                                     $title = $this->Topic->getTitleTopic($idTopic);
 
                                      if ($idUser != $this->getIdSession()) {
                                         $this->notification('stick_topic', $idUser, $this->getIdSession(), 'User', $title);
                                      }
-
 
                                     $this->Session->setFlash($this->Lang->get('FORUM__TOPIC__STICK'), 'default.success');
                                 }
@@ -453,11 +481,12 @@ class ForumController extends ForumAppController
                                 throw new ForbiddenException();
                             }
                         } elseif (!empty($this->request->data['lock'])) {
-                            if($this->ForumPermission->has('FORUM_TOPIC_LOCK')){
+                            $idUser = $this->Topic->info('topic_author', $idTopic);
+
+                            if($this->ForumPermission->has('FORUM_TOPIC_LOCK') || ($this->ForumPermission->has('FORUM_TOPICMY_LOCK') && $idUser == $this->getIdSession())){
 
                                 $idTopic = $this->request->data['lock'];
                                 $title = $this->Topic->getTitleTopic($idTopic);
-                                $idUser = $this->Topic->info('topic_author', $idTopic);
 
                                 if($lock){
                                     $this->Topic->change('unlock', $idTopic);
@@ -543,8 +572,10 @@ class ForumController extends ForumAppController
     public function addTopic($idParent = false)
     {
         $this->set('title_for_layout', $this->Lang->get('FORUM__ADD__TOPIC'));
-        $this->loadModel('Forum.Topic');
+
         $this->loadModel('Forum.Forums');
+        $this->loadModel('Forum.Tag');
+        $this->loadModel('Forum.Topic');
 
         if (!$this->Config->is('forum') OR !$this->ForumPermission->has('FORUM_TOPIC_SEND')) {
             throw new NotFoundException();
@@ -552,6 +583,20 @@ class ForumController extends ForumAppController
 
         $isLock = $this->Forum->isLock($idParent);
         $perms = $this->perm_l();
+        $tags = $this->Tag->get();
+        $ranks = $this->ForumPermission->getRanks();
+        $theme = $this->theme();
+        $newTags = "";
+
+        $params['isEdit']['tag'] = $params['isEdit']['tagPublic'] = false;
+
+        if($this->ForumPermission->has('FORUM_TAG_TOPIC')) {
+            $params['isEdit']['tag'] = true;
+        }
+
+        if($this->ForumPermission->has('FORUM_TAG_PUBLIC')) {
+            $params['isEdit']['tagPublic'] = true;
+        }
 
         if (!$isLock OR $perms['FORUM_TOPIC_LOCK']) {
             if ($this->request->is('post') && $this->isConnected) {
@@ -562,7 +607,7 @@ class ForumController extends ForumAppController
                         $lock = 1;
                     } else {
                         if ($this->ForumPermission->has('FORUM_TOPIC_STICK')) {
-                            if(!empty($this->request->data['stick']))$stick = 1;
+                            if(!empty($this->request->data['stick'])) $stick = 1;
                         }
                         if ($this->ForumPermission->has('FORUM_TOPIC_LOCK')) {
                             if(!empty($this->request->data['lock'])) $lock = 1;
@@ -571,9 +616,37 @@ class ForumController extends ForumAppController
 
                     $content = $this->word($this->request->data['content_insert']);
                     $title = $this->urlRew(trim($this->request->data['title']));
-                    $params = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
+
+                    $param = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
+
+                    if ($this->ForumPermission->has('FORUM_TAG_TOPIC') ) {
+                        foreach ($tags as $key => $tag) {
+                            if (!empty($this->request->data['tag-'.$tag['Tag']['id']])) {
+                                $newTags .= $tag['Tag']['id'].',';
+                            }
+                        }
+                    } elseif ($this->ForumPermission->has('FORUM_TAG_PUBLIC')) {
+                        foreach ($tags as $key => $tag) {
+                            if (!empty($this->request->data['tag-'.$tag['Tag']['id']])) {
+                                foreach ($ranks as $key => $rank) {
+                                    if(in_array(explode(',', $tag['Tag']['used']), $rank['Group']['id'])) {
+                                        $can = true;
+                                        break;
+                                    }
+                                }
+
+                                if ($can) {
+                                    $newTags .= $tag['Tag']['id'].',';
+                                }
+                            }
+                        }
+                    }
+
+                    if ($perms['FORUM_MSG_EDIT']) $this->Topic->updateTag($param['id_topic'], $newTags);
+
                     $this->logforum($this->getIdSession(), 'create_topic', $this->gUBY($this->getIdSession()).' vient de créer un nouveau topic : '.strip_tags(substr($content, 0, 30)), $content);
-                    $this->redirect(Router::url('/', true).'topic/'.$this->replaceSpace($params['title']).'.'.$params['id_topic'].'/');
+
+                    $this->redirect(Router::url('/', true).'topic/'.$this->replaceSpace($param['title']).'.'.$param['id_topic'].'/');
 
                 } else {
                     if (!empty($this->request->data['title'])) {
@@ -582,12 +655,12 @@ class ForumController extends ForumAppController
                         $this->Session->setFlash('Votre topic doit contenir un message !', 'default.error');
                     }
                 }
+
+                $this->set(compact('perms', 'theme', 'tags', 'params', 'ranks'));
+
             } elseif($this->request->is('get') && $this->isConnected){
 
-                $configs['stick'] = ($this->ForumPermission->has('FORUM_TOPIC_STICK')) ? true : false;
-                $configs['lock'] = ($this->ForumPermission->has('FORUM_TOPIC_LOCK')) ? true : false;
-                $theme = $this->theme();
-                $this->set(compact('configs', 'theme'));
+                $this->set(compact('perms', 'theme', 'tags', 'params', 'ranks'));
 
             } else {
                 throw new ForbiddenException();
@@ -595,6 +668,115 @@ class ForumController extends ForumAppController
         } else {
             throw new ForbiddenException();
         }
+    }
+
+    public function editTopic($idMessage)
+    {
+        $this->set('title_for_layout', $this->Lang->get('FORUM__EDIT__TOPIC'));
+
+        $this->loadModel('Forum.Tag');
+        $this->loadModel('Forum.Topic');
+
+        if (!$this->Config->is('forum')) {
+            throw new NotFoundException();
+        }
+
+        $tags = $this->Tag->get();
+        $ranks = $this->ForumPermission->getRanks();
+        $theme = $this->theme();
+        $state = false;
+
+        if ($this->isConnected) {
+            if ($this->ForumPermission->has('FORUM_MSG_EDIT') OR $this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
+                if ($this->ForumPermission->has('FORUM_MSG_EDIT')) {
+                    $state = true;
+                } elseif ($this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
+                    $state = ($this->Topic->getUserId('id_user', 'id', $idMessage) == $this->getIdSession()) ? true : false;
+                }
+                if ($state) {
+                    if ($this->request->is('post')) {
+                        $newMessage = $this->request->data['content'];
+
+                        $this->Topic->updateMessage($idMessage, $newMessage);
+
+                        $content = $this->Topic->getUniqMessage($idMessage);
+
+                        //Si c'est le premier message du topic
+                        if ($content['first']) {
+                            $idTopic = $content['id_topic'];
+                            $title = $this->request->data['title'];
+
+                            if (($this->getIdSession() == $content['id_user'] && $this->ForumPermission->has('FORUM_RENAMEMY_TOPIC')) || $this->ForumPermission->has('FORUM_RENAME_TOPIC')) {
+                                $this->Topic->rename($idTopic, $title);
+                            }
+
+                            $newTags = "";
+
+                            if ($this->ForumPermission->has('FORUM_TAG_TOPIC') ) {
+                                foreach ($tags as $key => $tag) {
+                                    if (!empty($this->request->data['tag-'.$tag['Tag']['id']])) {
+                                        $newTags .= $tag['Tag']['id'].',';
+                                    }
+                                }
+                            } elseif (($this->getIdSession() == $content['id_user'] && $this->ForumPermission->has('FORUM_TAG_PUBLIC'))) {
+                                foreach ($tags as $key => $tag) {
+                                    if (!empty($this->request->data['tag-'.$tag['Tag']['id']])) {
+                                        foreach ($ranks as $key => $rank) {
+                                            if(in_array(explode(',', $tag['Tag']['used']), $rank['Group']['id'])) {
+                                                $can = true;
+                                                break;
+                                            }
+                                        }
+
+                                        if ($can) {
+                                            $newTags .= $tag['Tag']['id'].',';
+                                        }
+                                    }
+                                }
+                            }
+
+                            $this->Topic->updateTag($idTopic, $newTags);
+
+                        }
+
+                        $this->logforum($this->getIdSession(), 'add_message', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__EDIT__MSG').strip_tags(substr($title, 0, 30)), $title);
+                        $this->Session->setFlash($this->Lang->get('FORUM__MESSAGE__EDITED'), 'default.success');
+
+                        return $this->redirect('/topic/'.$title.'.'.$idTopic.'/');
+                    } else {
+                        $topic = "";
+                        $params = "";
+                        $params['isEdit']['title'] = $params['isEdit']['tag'] = $params['isEdit']['tagPublic'] = false;
+
+                        $content = $this->Topic->getUniqMessage($idMessage);
+
+                        if($content['first']) {
+                            $idTopic = $content['id_topic'];
+                            $params['title'] = $this->Topic->getTitleTopic($idTopic);
+
+                            if(($this->getIdSession() == $content['id_user']) || $this->ForumPermission->has('FORUM_MSG_EDIT')) {
+                                $params['isEdit']['title'] = true;
+                            }
+
+                            if($this->ForumPermission->has('FORUM_TAG_TOPIC')) {
+                                $params['isEdit']['tag'] = true;
+                            }
+
+                            if(($this->getIdSession() == $content['id_user']) && $this->ForumPermission->has('FORUM_TAG_PUBLIC')) {
+                                $params['isEdit']['tagPublic'] = true;
+                            }
+                        }
+
+                        $this->set(compact('content', 'theme', 'params', 'tags', 'ranks'));
+                    }
+                } else {
+                    throw new ForbiddenException();
+                }
+            }
+        } else {
+            throw new ForbiddenException();
+        }
+
     }
 
     public function report()
@@ -744,8 +926,8 @@ class ForumController extends ForumAppController
                     $this->Forum->addForum($this->getIdSession(), $this->request->data['name'], $this->request->data['position'], $this->request->data['image'], $this->request->data['description']);
 
                     foreach ($ranks as $key => $r) {
-                        if (isset($this->request->data[$key+1])) {
-                            $visible[$r['Group']['id']] = $this->request->data[$key+1];
+                        if (isset($this->request->data[$r['Group']['id']])) {
+                            $visible[$r['Group']['id']] = $this->request->data[$r['Group']['id']];
                         }
                     }
                     if (!empty($visible))  $visible = serialize($visible);
@@ -785,8 +967,8 @@ class ForumController extends ForumAppController
                     $this->Forum->addCategory($this->getIdSession(), $name, $position, $parent, $image, $lock, $automaticLock);
 
                     foreach ($ranks as $key => $r) {
-                        if (isset($this->request->data[$key+1])) {
-                            $visible[$r['Group']['id']] = $this->request->data[$key+1];
+                        if (isset($this->request->data[$r['Group']['id']])) {
+                            $visible[$r['Group']['id']] = $this->request->data[$r['Group']['id']];
                         }
                     }
                     if (!empty($visible))  $visible = serialize($visible);
@@ -830,7 +1012,6 @@ class ForumController extends ForumAppController
                         $this->logforum($this->getIdSession(), 'delete_word', $this->gUBY($this->getIdSession()).' vient de supprimer un mot interdit', $id);
                         $this->Insult->deleteWord($id);
                     } elseif ($type == 'rank') {
-                        $this->log($this->getIdSession());
                         $this->logforum($this->getIdSession(), 'delete_group', $this->gUBY($this->getIdSession()).' vient de supprimer un groupe', $id);
                         $this->Group->deleteGroup($id);
                         $this->ForumPermission->delete('groupsuser', 'id_group', $id);
@@ -887,8 +1068,8 @@ class ForumController extends ForumAppController
 
                     $ranks = $this->ForumPermission->getRanks();
                     foreach ($ranks as $key => $r){
-                        if (isset($this->request->data[$key+1])) {
-                            $visible[$r['Group']['id']] = $this->request->data[$key+1];
+                        if (isset($r['Group']['id'])) {
+                            $visible[$r['Group']['id']] = $this->request->data[$r['Group']['id']];
                         }
                     }
                     if (!empty($visible))  $visible = serialize($visible);
@@ -911,8 +1092,8 @@ class ForumController extends ForumAppController
 
                     $ranks = $this->ForumPermission->getRanks();
                     foreach ($ranks as $key => $r){
-                        if (isset($this->request->data[$key+1])) {
-                            $visible[$r['Group']['id']] = $this->request->data[$key+1];
+                        if (isset($r['Group']['id'])) {
+                            $visible[$r['Group']['id']] = $this->request->data[$r['Group']['id']];
                         }
                     }
                     if (!empty($visible))  $visible = serialize($visible);
@@ -1241,6 +1422,7 @@ class ForumController extends ForumAppController
                         $reason = $this->request->data['reason'];
                         $this->Punishment->addPunish($this->getIdSession(), $idto, $date, $reason);
                         $this->logforum($this->getIdSession(), 'add_punishment', $this->gUBY($this->getIdSession()).' vient d\'ajouter une sanction', $this->request->data['pseudo']);
+
                         $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__PUNISHMENT'))));
                     }else{
                         $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__USERUNKNOW'))));
@@ -1298,7 +1480,7 @@ class ForumController extends ForumAppController
             foreach ($topics as $key => $topic) {
                 $topics[$key]['Topic']['author'] = $this->gUBY($topic['Topic']['id_user']);
                 $topics[$key]['Topic']['date'] = $this->dateAndTime($topic['Topic']['date']);
-                $topics[$key]['Topic']['href'] = $this->replaceSpace($topic['Topic']['name']).'.'.$topic['Topic']['id'];
+                $topics[$key]['Topic']['href'] = $this->replaceSpace($topic['Topic']['name']).'.'.$topic['Topic']['id_topic'];
             }
 
             $this->set(compact('topics'));
@@ -1370,6 +1552,8 @@ class ForumController extends ForumAppController
 
             $this->loadModel('Forum.Tag');
 
+            $ranks = $this->ForumPermission->getRanks();
+
             if ($this->request->is('ajax')) {
 
                 $this->autoRender = false;
@@ -1381,7 +1565,19 @@ class ForumController extends ForumAppController
 
                 $color = str_replace('#', '', $color);
 
-                $this->Tag->add($label, $icon, $color, $position);
+                $used = '';
+
+                if (!empty($this->request->data['free'])) {
+
+                    foreach ($ranks as $key => $r) {
+                        if (isset($this->request->data[$r['Group']['id']])) {
+                            $used[$r['Group']['id']] = $this->request->data[$r['Group']['id']];
+                        }
+                    }
+                    if (!empty($used)) $used = serialize($used);
+                }
+
+                $this->Tag->add($label, $icon, $color, $position, $used);
 
                 return $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__LABEL'))));
 
@@ -1389,9 +1585,57 @@ class ForumController extends ForumAppController
                 $this->layout = 'admin';
 
                 $tags = $this->Tag->get();
-                $this->set(compact('tags'));
+
+                $this->set(compact('tags', 'ranks'));
             }
 
+        } else {
+            $this->redirect('/');
+        }
+    }
+
+    public function admin_cache()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
+            $this->layout = 'admin';
+
+            $config = $this->Config->is('cache');
+            $router = $this->explodeRouter(5);
+            $forums = $this->Forum->getForum();
+
+            if (!is_array($router)) {
+                if ($router == "active") {
+                    $this->Config->updateConfig('cache', 1);
+                } elseif ($router == "empty") {
+                    foreach ($forums as $key => $forum) {
+                        if($forum['Forum']['id_parent']) {
+                            $key = 'count_topic_category_'.$forum['Forum']['id'];
+                            Cache::delete($key);
+                        }
+                    }
+                } elseif ($router == "delete") {
+                    $id = $router = $this->explodeRouter(6);
+                    $key = 'count_topic_category_'.$id;
+                    Cache::delete($key);
+
+                } elseif ($router == "deactivate") {
+                    $this->Config->updateConfig('cache', 0);
+                }
+
+                $this->redirect(['plugin' => 'forum', 'controller' => 'forum', 'action' => 'admin_cache']);
+            }
+
+            foreach ($forums as $key => $forum) {
+                if($forum['Forum']['id_parent'] != 0) {
+                    $key = 'count_topic_category_'.$forum['Forum']['id'];
+                    $cache['count']['topicCatgory'][$key]['id'] = $forum['Forum']['id'];
+                    $cache['count']['topicCatgory'][$key]['key'] = $key;
+                    $cache['count']['topicCatgory'][$key]['title'] = $this->Forum->info('forum', $forum['Forum']['id'])[0]['Forum']['forum_name'];
+                    $cache['count']['topicCatgory'][$key]['value'] = Cache::read($key)[0];
+                }
+            }
+
+            $this->set(compact('config', 'cache'));
         } else {
             $this->redirect('/');
         }
@@ -1409,8 +1653,12 @@ class ForumController extends ForumAppController
 
             $this->layout = 'admin';
 
-            $list = [
+            $listDays = [
                 7, 6, 5, 4, 3, 2, 1, 0
+            ];
+
+            $listMonths = [
+                11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
             ];
 
             $stats['general'] = $this->Topic->stats();
@@ -1427,7 +1675,7 @@ class ForumController extends ForumAppController
                 $lastactivities[$key]['User']['forum-last_activity'] = $this->dateAndTime($l['User']['forum-last_activity']);
             }
 
-            foreach ($list as $key => $l) {
+            foreach ($listDays as $key => $l) {
                 $date = date('Y-m-d', strtotime('-'.$l.' day'));
 
                 $stats['x'][$key]['date'] = $this->date($date);
@@ -1436,7 +1684,219 @@ class ForumController extends ForumAppController
                 $stats['topic'][$key]['nb'] = $this->Topic->getNbTopic($date, false);
             }
 
+            foreach ($listMonths as $key => $l) {
+                $date = date('Y-m-01', strtotime('-'.$l.' month'));
+                $this->log($date);
+                $stats['month']['topic'][$key]['date'] = $this->date($date, false);
+                $stats['month']['topic'][$key]['view'] = $this->Vieww->getView($date, true, false);
+                $stats['month']['message'][$key]['nb'] = $this->Topic->getNbTopic($date, true, true);
+                $stats['month']['topic'][$key]['nb'] = $this->Topic->getNbTopic($date, false, true);
+            }
+
             $this->set(compact('stats', 'lastactivities'));
+        } else {
+            $this->redirect('/');
+        }
+    }
+
+    public function admin_stats_top()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
+
+            $this->loadModel('Forum.Conversation');
+            $this->loadModel('Forum.forums');
+            $this->loadModel('Forum.Note');
+            $this->loadModel('Forum.Topic');
+            $this->loadModel('Forum.Vieww');
+
+            $this->layout = 'admin';
+
+            $ranking['message']['nb'] = $this->Topic->statsTop();
+            foreach ($ranking['message']['nb'] as $key => $r) {
+                $ranking['message']['nb'][$key]['username'] = $this->gUBY($r['Topic']['id_user']);
+            }
+
+            $ranking['topic']['nb'] = $this->Topic->statsTop(true);
+            foreach ($ranking['topic']['nb'] as $key => $r) {
+                $ranking['topic']['nb'][$key]['username'] = $this->gUBY($r['Topic']['id_user']);
+            }
+
+            $ranking['view']['nb'] = $this->Vieww->statsTop();
+            foreach ($ranking['view']['nb'] as $key => $r) {
+                $ranking['view']['nb'][$key]['title'] = $this->Topic->getTitleTopic($r['Vieww']['id_topic']);
+            }
+
+            $ranking['mp']['nb'] = $this->Conversation->statsTop();
+            foreach ($ranking['mp']['nb'] as $key => $r) {
+                $ranking['mp']['nb'][$key]['username'] = $this->gUBY($r['Conversation']['author_id']);
+            }
+
+            $this->set(compact('ranking'));
+        } else {
+            $this->redirect('/');
+        }
+    }
+
+    public function admin_personalize()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
+
+            $this->loadModel('Forum.Internal');
+
+            $this->layout = 'admin';
+
+            $router = $this->explodeRouter(5);
+
+            switch ($router) {
+                case 'home':
+                    if ($this->request->is('ajax')) {
+                        $this->autoRender = false;
+
+                        if(!empty($this->request->data['background'])){
+                            switch ($this->request->data['background']) {
+                                case '[background][none]':
+                                    $array = [
+                                        'type' => 'default',
+                                        'value' => 'none'
+                                    ];
+                                    break;
+                                case '[background][color]':
+                                    $array = [
+                                        'type' => 'color',
+                                        'value' => $this->request->data['background-color']
+                                    ];
+                                    break;
+                                case '[background][image]':
+                                    $array = [
+                                        'type' => 'image',
+                                        'value' => $this->request->data['background-image']
+                                    ];
+                                    break;
+                            }
+
+                            $array = serialize($array);
+                            $this->Internal->update('background', $array);
+                        } elseif(!empty($this->request->data['description'])) {
+
+                            if ($this->request->data['description'] == "description-base") {
+                                $this->Internal->update('description', "description");
+                            }elseif ($this->request->data['description'] == "description-tooltip") {
+                                $this->Internal->update('description', "tooltip");
+                            }
+
+                        } elseif(!empty($this->request->data['type'])) {
+
+                            switch ($this->request->data['type']) {
+                                case 'icon':
+                                    $iHome = $this->request->data['icon-home'];
+                                    $iFlag = $this->request->data['icon-flag'];
+                                    $iEnvelope = $this->request->data['icon-envelope'];
+                                    $iUser = $this->request->data['icon-user'];
+                                    $iOut = $this->request->data['icon-out'];
+                                    $iIn = $this->request->data['icon-in'];
+
+                                    $array = [
+                                        'home' => $iHome,
+                                        'flag' => $iFlag,
+                                        'envelope' => $iEnvelope,
+                                        'user' => $iUser,
+                                        'out' => $iOut,
+                                        'in' => $iIn
+                                    ];
+
+                                    $array = serialize($array);
+                                    $this->Internal->update('icons', $array);
+
+                                    break;
+                                case 'arrow':
+                                    $color = $this->request->data['color'];
+                                    $this->Internal->update('chevron_color', $color);
+
+                                    break;
+
+                                case 'forum':
+                                    $color = $this->request->data['color'];
+                                    $this->Internal->update('forum_color', $color);
+
+                                    break;
+
+                                case 'home':
+                                    $colorStats = $this->request->data['stats'];
+                                    $colorUsers = $this->request->data['users'];
+
+                                    $array = [
+                                        'stats' => $colorStats,
+                                        'users' => $colorUsers
+                                    ];
+
+                                    $array = serialize($array);
+                                    $this->Internal->update('index_title', $array);
+
+                                    break;
+                            }
+
+                        } else {
+                            return $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
+                        }
+
+                        return $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
+                    } else {
+                        $configTheme['background'] = unserialize($this->Internal->get('background'));
+                        $configTheme['index_title'] = unserialize($this->Internal->get('index_title'));
+                        $configTheme['description'] = $this->Internal->get('description');
+                        $configTheme['icons'] = unserialize($this->Internal->get('icons'));
+                        $configTheme['forum_color'] = $this->Internal->get('forum_color');
+                        $configTheme['chevron_color'] = $this->Internal->get('chevron_color');
+                    }
+                    break;
+                case 'forum':
+                    if ($this->request->is('ajax')) {
+                        $this->autoRender = false;
+
+                        if (!empty($this->request->data['type'])) {
+                            switch ($this->request->data['type']) {
+                                case 'last':
+                                    $title = $this->request->data['title'];
+                                    $date  = $this->request->data['date'];
+
+                                    $this->Internal->update('lasttopic_titlecolor', $title);
+                                    $this->Internal->update('lasttopic_datecolor', $date);
+
+                                    break;
+                                case 'topic':
+                                    $color = $this->request->data['color'];
+
+                                    $this->Internal->update('topic_color', $color);
+
+                                    break;
+                            }
+                        } else {
+                            return $this->response->body(json_encode(array('statut' => false, 'msg' => $this->Lang->get('FORUM__ADD__FAILED'))));
+                        }
+
+                        return $this->response->body(json_encode(array('statut' => true, 'msg' => $this->Lang->get('FORUM__ADD__SUCCESS'))));
+                    } else {
+                        $configTheme['topic_color'] = $this->Internal->get('topic_color');
+                        $configTheme['last_colortitle'] = $this->Internal->get('lasttopic_titlecolor');
+                        $configTheme['last_colordate'] = $this->Internal->get('lasttopic_datecolor');
+                    }
+                    break;
+            }
+
+            $this->set(compact('router', 'configTheme'));
+        } else {
+            $this->redirect('/');
+        }
+    }
+
+    public function admin_help()
+    {
+        if ($this->isConnected AND $this->User->isAdmin()) {
+
+            $this->layout = 'admin';
+            $version = $this->version;
+
+            $this->set(compact('version'));
         } else {
             $this->redirect('/');
         }
@@ -1483,9 +1943,11 @@ class ForumController extends ForumAppController
     private function word($string)
     {
         $this->loadModel('Forum.Insult');
+
         $words = $this->Insult->get();
+
         foreach ($words as $word) {
-            $string = str_ireplace($word['Insult']['word'], $word['Insult']['replace'], $string);
+            $string = preg_replace('/\b'.$word['Insult']['word'].'\b/i', $word['Insult']['replace'], $string);
         }
 
         return $string;
@@ -1495,6 +1957,17 @@ class ForumController extends ForumAppController
     {
         $this->loadModel('Forum.Historie');
         $this->Historie->drop($this->Util->getIP(), $this->getIdSession());
+    }
+
+    private function explodeRouter($id){
+        $url = $this->request->here;
+        $explode = explode("/", $url);
+
+        if (isset($explode[$id])) {
+            return $explode[$id];
+        }
+
+        return $explode;
     }
 
     private function remoteAction($type, $value = false)
@@ -1674,21 +2147,127 @@ class ForumController extends ForumAppController
                 ['id_user' => 1, 'id_to_user'  => 1, 'id_message' => 1, 'type' => 1],
             ],
             'forum_permission' => [
-                ['group_id' => 1, 'name' => 'FORUM_MP_SEND', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MP_SEND', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MP_SEND', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_MP_SEND', 'value' => 1],
-                ['group_id' => 1, 'name' => 'FORUM_MP_REPLY', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MP_REPLY', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MP_REPLY', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_MP_REPLY', 'value' => 1],
-                ['group_id' => 1, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1],
-                ['group_id' => 1, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1],
-                ['group_id' => 1, 'name' => 'FORUM_TOPIC_STICK', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_TOPIC_STICK', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_TOPIC_STICK', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_TOPIC_STICK', 'value' => 0],
-                ['group_id' => 1, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 0], ['group_id' => 99, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 0],
-                ['group_id' => 1, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1],
-                ['group_id' => 1, 'name' => 'FORUM_MSG_EDIT', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MSG_EDIT', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MSG_EDIT', 'value' => 0], ['group_id' => 99, 'name' => 'FORUM_MSG_EDIT', 'value' => 0],
-                ['group_id' => 1, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1],
-                ['group_id' => 1, 'name' => 'FORUM_MSG_DELETE', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MSG_DELETE', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MSG_DELETE', 'value' => 0], ['group_id' => 99, 'name' => 'FORUM_MSG_DELETE', 'value' => 0],
-                ['group_id' => 1, 'name' => 'FORUM_MSG_REPORT', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MSG_REPORT', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MSG_REPORT', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_MSG_REPORT', 'value' => 1],
-                ['group_id' => 1, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 0],
-                ['group_id' => 1, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 0], ['group_id' => 99, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 0],
-                ['group_id' => 1, 'name' => 'FORUM_VIEW_REPORT', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_VIEW_REPORT', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_VIEW_REPORT', 'value' => 0], ['group_id' => 99, 'name' => 'FORUM_VIEW_REPORT', 'value' => 0],
-                ['group_id' => 1, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1], ['group_id' => 2, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1], ['group_id' => 3, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1], ['group_id' => 99, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_MP_SEND', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MP_SEND', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MP_SEND', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_MP_SEND', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_MP_REPLY', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MP_REPLY', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MP_REPLY', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_MP_REPLY', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TOPIC_SEND', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TOPIC_REPLY', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_TOPIC_STICK', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPIC_STICK', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPIC_STICK', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TOPIC_STICK', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_TOPIC_LOCK', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_MSGMY_EDIT', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_MSG_EDIT', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MSG_EDIT', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MSG_EDIT', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_MSG_EDIT', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_MSGMY_DELETE', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_MSG_DELETE', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MSG_DELETE', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MSG_DELETE', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_MSG_DELETE', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_MSG_REPORT', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MSG_REPORT', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MSG_REPORT', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_MSG_REPORT', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TOPICMY_DELETE', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_TOPIC_DELETE', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_VIEW_REPORT', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_VIEW_REPORT', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_VIEW_REPORT', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_VIEW_REPORT', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_MOOVE_TOPIC', 'value' => 0],
+
+                //1.3.0 ++
+                ['group_id' => 1, 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_TAG_TOPIC', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TAG_TOPIC', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TAG_TOPIC', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TAG_TOPIC', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_RENAMEMY_TOPIC', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_RENAMEMY_TOPIC', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_RENAMEMY_TOPIC', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_RENAMEMY_TOPIC', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_RENAME_TOPIC', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_RENAME_TOPIC', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_RENAME_TOPIC', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_RENAME_TOPIC', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_TOPIC_VISIBILY', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TOPIC_VISIBILY', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TOPIC_VISIBILY', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_TOPIC_VISIBILY', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_TAG_PUBLIC', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TAG_PUBLIC', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TAG_PUBLIC', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TAG_PUBLIC', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_CREATE_POLL', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_CREATE_POLL', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_CREATE_POLL', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_CREATE_POLL', 'value' => 1],
+
+                ['group_id' => 1, 'name' => 'FORUM_USE_PUNISHMENT', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_USE_PUNISHMENT', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_USE_PUNISHMENT', 'value' => 0],
+                ['group_id' => 99, 'name' => 'FORUM_USE_PUNISHMENT', 'value' => 0],
+
+                ['group_id' => 1, 'name' => 'FORUM_TAG_USER', 'value' => 1],
+                ['group_id' => 2, 'name' => 'FORUM_TAG_USER', 'value' => 1],
+                ['group_id' => 3, 'name' => 'FORUM_TAG_USER', 'value' => 1],
+                ['group_id' => 99, 'name' => 'FORUM_TAG_USER', 'value' => 0],
             ],
             'profile' => [
                 ['id_user' => 1, 'description' => 'Ceci est un description généré lors de l\'installation du plugin ']
@@ -1735,8 +2314,8 @@ class ForumController extends ForumAppController
                     case 'view':
                         $ranks = $this->ForumPermission->getRanks();
                         foreach ($ranks as $key => $r){
-                            if (isset($this->request->data[$key+1])) {
-                                $visible[$r['Group']['id']] = $this->request->data[$key+1];
+                            if (isset($this->request->data[$r['Group']['id']])) {
+                                $visible[$r['Group']['id']] = $this->request->data[$r['Group']['id']];
                             }
                         }
                         if (!empty($visible))  $visible = serialize($visible);
@@ -1835,18 +2414,32 @@ class ForumController extends ForumAppController
                 $categorys = $this->Forum->getForum('categorie', $id);
 
                 if(!empty($categorys)){
-                    foreach ($categorys as $key => $category){
+                    foreach ($categorys as $category){
                         $nb[0] += $this->countChildrenMessage('category', $category['Forum']['id']);
                     }
                 }
 
                 $topics = $this->Topic->getTopic($id);
 
-                if(!empty($topics)){
-                    foreach ($topics as $key => $topic){
-                        $nb[0] += $this->Topic->getNbMessage('topic', $topic['Topic']['id_topic']);
+                $key = 'count_topic_'.$type.'_'.$id;
+
+                if ($this->Config->is('cache')) {
+                    $nb = Cache::remember($key, function () use ($topics, $nb){
+                        if(!empty($topics)){
+                            foreach ($topics as $topic){
+                                $nb[0] += $this->Topic->getNbMessage('topic', $topic['Topic']['id_topic']);
+                            }
+                        }
+                        return $nb;
+                    });
+                } else {
+                    if(!empty($topics)){
+                        foreach ($topics as $topic){
+                            $nb[0] += $this->Topic->getNbMessage('topic', $topic['Topic']['id_topic']);
+                        }
                     }
                 }
+
                 break;
             case 'topic':
                 return $this->Topic->info('nb_msg', $id);
@@ -1902,6 +2495,10 @@ class ForumController extends ForumAppController
 
     private function explore($id, $test = false)
     {
+        if (!$test) {
+            $this->valueExplorer = null;
+            $this->valueTopic = null;
+        }
 
         $this->loadModel('Forum.Topic');
 
@@ -1911,42 +2508,52 @@ class ForumController extends ForumAppController
             $datas = $id;
         }
 
-        if (empty($datas)) {
+        $topics[] = $this->Topic->getTopic($id);
+
+        if (empty($datas) && empty($topics)) {
             return;
         }
 
-        foreach ($datas as $key => $d) {
-            if (is_array($d)){
-                return $this->explore($d, true);
-            } else {
-                if ($d) {
-                    $topics[] = $this->Topic->getTopic($d);
+        if (is_array($datas)) {
+            foreach ($datas as $key => $d) {
+                if (is_array($d)){
+                    if ($test) {
+                        return $this->explore($d, true);
+                    } else {
+                        $this->explore($d, true);
+                    }
+                } else {
+                    if ($d) {
+                        $topics[] = $this->Topic->getTopic($d);
+                    }
                 }
             }
-
         }
-
-        $newTopic = "";
 
         foreach ($topics as $key => $t) {
             if(!empty($t)) {
-                $newTopic = $t;
+                if (isset($t[1]['Topic'])) {
+                    foreach ($t as $index => $value) {
+                        $this->indexExplorer = $this->indexExplorer + 1;
+                        $this->valueExplorer[$this->indexExplorer] = $value;
+                    }
+                } else {
+                    $this->indexExplorer = $this->indexExplorer + 1;
+                    $this->valueExplorer[$this->indexExplorer] = $t[0];
+                }
             }
         }
 
-        if (!empty($newTopic)) {
-            foreach ($newTopic as $key => $n) {
-                $data[$key] = $n['Topic']['id_topic'];
+
+        if (is_array($this->valueExplorer)) {
+            foreach ($this->valueExplorer as $key => $n) {
+                $this->valueTopic[$key] = $n['Topic']['id_topic'];
             }
+        }
 
-            $var = "";
-            foreach ($data as $key => $d) {
-                $var .= "$d,";
-            }
+        $allTopics = $this->Topic->find('all', ['conditions' => ['id_topic' => $this->valueTopic], 'order' => ['date' => 'DESC']]);
 
-            $var = substr($var, 0, -1);
-
-            $allTopics = $this->Topic->find('all', ['conditions' => ['id_topic' => [$var]], 'order' => ['date' => 'DESC']]);
+        if (!empty($allTopics)) {
             $lastMessage = $allTopics[0]['Topic'];
             $lastTopic = $allTopics[0]['Topic']['id_topic'];
             $title = $this->Topic->getTitleTopic($lastTopic);
@@ -1961,6 +2568,7 @@ class ForumController extends ForumAppController
 
             return $return;
         }
+
     }
 
     private function inCategory($id){
@@ -2002,18 +2610,48 @@ class ForumController extends ForumAppController
         }
 
         if ($version != $this->version) {
-            $alertforum['update'] .= "<div class=\"row\">";
+            $alertforum['update'] .= "<div class=\"row mt20\">";
             $alertforum['update'] .= "<div class=\"col-md-12\">";
             $alertforum['update'] .= "<div class=\"alert alert-info\" role=\"alert\">";
-            $alertforum['update'] .= "<strong>Information !</strong> ";
-            $alertforum['update'] .= "Une mise à jour du plugin est disponible";
-            $alertforum['update'] .= "<a target=\"_blanks\" href=\"/admin/plugin\" class=\"alert-link\"> est disponible</a>";
+            $alertforum['update'] .= "<strong>".$this->Lang->get('FORUM__INFORMATION')."</strong> ";
+            $alertforum['update'] .= "Une mise à jour du plugin ";
+            $alertforum['update'] .= "<a target=\"_blanks\" href=\"".Router::url('/', true)."admin/plugin\" class=\"alert-link\">".$this->Lang->get('FORUM__ISAVAILAVLE')."</a>";
             $alertforum['update'] .= "</div>";
             $alertforum['update'] .= "</div>";
             $alertforum['update'] .= "</div>";
         }
 
         return $alertforum['update'];
+    }
+
+    private function ㅋㅋㅋㅋㅋ()
+    {
+
+        /*
+         * debug
+         */
+
+            /*$this->debug['IndexStart'] = microtime();
+            $this->debug['IndexAdMid'] = microtime();
+            $this->debug['IndexMid'] = microtime();
+            $this->debug['IndexEnd'] = microtime();
+            $this->log($this->debug);*/
+
+        /*
+         * end debug
+         */
+
+        $array = ['MineStorm', 'Kraken', 'Kuoo', 'Kuro', 'BravoureDark', 'Mineflat', 'KryptonFight', 'Master'];
+        /*
+         * Pourquoi ces thèmes sont bloqués ?
+         * Car ces thèmes sont soit abandonné, soit non mis à jour et donc manquent les dernières fonctions ou contiennent des failles de sécurités.
+         * Rien ne vous empêche de les débloquer, à vos risques et péril.
+         */
+
+        if (in_array($this->theme, $array)) {
+            echo "<script>alert('Ce thème n\'est pas compatible avec le forum')</script>";
+            throw new UnauthorizedException();
+        }
     }
 
 }

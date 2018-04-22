@@ -1,5 +1,5 @@
 .marge{
-    margin-bottom: 60px;
+    padding-bottom: 60px;
 }
 
 .marget{
@@ -265,6 +265,7 @@
 .forum-bloc{
     border: 1px solid #e7e7e7;
     border-radius: 2px;
+    background-color: #ffffff;
 }
 
 .p15{
@@ -293,6 +294,7 @@
 }
 
 .forum-h3{
+    margin: 10px 0;
     font-weight: bold;
     font-size: 21px;
 }
@@ -526,4 +528,20 @@ ol > .forum-left.last{
     font-size: 11px;
     display: inline-block;
     margin-left: 30px;
+}
+
+.btn-full{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.btn-half{
+    display: block;
+    width: 50%;
+    text-align: center;
+}
+
+.ml0{
+    margin-left: 0px;
 }

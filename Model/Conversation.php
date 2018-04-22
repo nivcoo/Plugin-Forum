@@ -43,4 +43,9 @@ class Conversation extends ForumAppModel
     {
         return $this->find('count');
     }
+
+    public function statsTop()
+    {
+        return $this->find('all', ['fields' => ['author_id', 'COUNT(author_id) as count'], 'group' => ['author_id'], 'order' => 'count DESC', 'limit' => 5]);
+    }
 }

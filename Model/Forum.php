@@ -122,5 +122,4 @@ class Forum extends ForumAppModel
                 break;
         }
     }
-
 }

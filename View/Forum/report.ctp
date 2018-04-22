@@ -1,4 +1,8 @@
-<div class="<?= $theme; ?> marge">
+<?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
+<?= $this->Html->css('Forum.custom.css') ?>
+
+<div class="background-forum">
+    <div class="<?= $theme; ?> marge">
     <?php if(!empty($alertforum['update'])) echo $alertforum['update']; ?>
     <div class="row">
         <div class="col-md-12">
@@ -44,4 +48,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

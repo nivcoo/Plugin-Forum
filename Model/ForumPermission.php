@@ -57,4 +57,21 @@ class ForumPermission extends ForumAppModel
     {
         return $this->find('count', ['conditions' => ['group_id' => 99]]);
     }
+
+    public function findIfInstall($permission)
+    {
+        $permissions = $this->find('all');
+        foreach ($permissions as $key => $p) {
+            if ($p['ForumPermission']['name'] == $permission) return false;
+        }
+
+        return true;
+    }
+
+    public function installNew($datas)
+    {
+        $this->create();
+        $this->set($datas);
+        return $this->save();
+    }
 }

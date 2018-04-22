@@ -38,6 +38,7 @@ class UserController extends ForumAppController
                     $lasts['Comment'][$key]['Topic']['title'] = $this->Topic->info('title_parent', $last['Topic']['id_topic']);
                     $lasts['Comment'][$key]['Topic']['href'] = $this->buildUri('topic', $lasts['Comment'][$key]['Topic']['title'], $lasts['Comment'][$key]['Topic']['id_topic']);
                 }
+
                 $lasts['Note'] = $this->Note->userLastNote($id);
                 foreach($lasts['Note'] as $key => $last){
                     $lasts['Note'][$key]['Note']['txt'] = ($last['Note']['type'] == 1) ? $this->Lang->get('FORUM__PHRASE__PROFILE__GREENTHUMB') : $this->Lang->get('FORUM__PHRASE__PROFILE__REDTHUMB');
@@ -45,7 +46,7 @@ class UserController extends ForumAppController
                     $lasts['Note'][$key]['Note']['fa'] = ($last['Note']['type'] == 1) ? 'up' : 'down';
                     $lasts['Note'][$key]['Note']['message'] = $this->Topic->getUniqMessage($last['Note']['id_message'])['content'];
                     $lasts['Note'][$key]['Note']['msg']['id'] = $this->Topic->info('id_topic', $last['Note']['id_message']);
-                    $lasts['Note'][$key]['Note']['msg']['title'] = $this->Topic->info('title_parent', $last['Note']['id_message']);
+                    $lasts['Note'][$key]['Note']['msg']['title'] = $this->Topic->info('title_parent', $lasts['Note'][$key]['Note']['msg']['id']);
                     $lasts['Note'][$key]['Note']['msg']['href'] = $this->buildUri('topic', $lasts['Note'][$key]['Note']['msg']['title'], $lasts['Note'][$key]['Note']['msg']['id'], $last['Note']['id_message']);
                 }
 

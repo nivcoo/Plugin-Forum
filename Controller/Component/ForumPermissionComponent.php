@@ -4,7 +4,9 @@ class ForumPermissionComponent extends Component
 {
 
     /*
-     *              LIST OF Permission
+     *
+     *             List of Permissions
+     *
      * FORUM_MP_SEND -> Envoyer des messages en mp
      * FORUM_MP_REPLY -> Répondre aux messages en mp
      *
@@ -12,18 +14,29 @@ class ForumPermissionComponent extends Component
      * FORUM_TOPIC_REPLY -> Répondre aux topics
      *
      * FORUM_TOPIC_LOCK -> Lock des topics
-     * FORUM_TOPICSTICk -> Epingler des topics
+     * FORUM_TOPIC_STICK -> Epingler des topics
      *
      * FORUM_MSGMY_EDIT -> Editer ses messages (seulement les chiens) ^^
      * FORUM_MSG_EDIT -> Editer les messages de tout le monde
-     * FORUM_MSGMY_DELETE -> Supprimer ses messages ^^ *
-     * FORUM_MSG_DELETE -> Supprimer les messages de tout le monde *
+     * FORUM_MSGMY_DELETE -> Supprimer ses messages
+     * FORUM_MSG_DELETE -> Supprimer les messages de tout le monde
      *
      * FORUM_MSG_REPORT -> Report des topics
      * FORUM_TOPICMY_DEL -> Supprimer ses propres topics
      * FORUM_TOPIC_DEL -> Supprimer les topics
      * FORUM_VIEW_REPORT -> Voir les signalement
      * FORUM_MOOVE_TOPIC -> Déplacer des sujets
+     *
+     * After 1.3.0
+     * FORUM_TOPICMY_LOCK -> Fermer ses topics
+     * FORUM_TAG_TOPIC -> Appliquer des tags à un topic
+     * FORUM_RENAMEMY_TOPIC -> Renommer ses topics
+     * FORUM_RENAME_TOPIC -> Renommer les topics
+     * FORUM_TOPIC_VISIBILY -> Modifier la visibilité des topics
+     * FORUM_TAG_PUBLIC -> Utilisation des tags publics.
+     * FORUM_CREATE_POLL -> Créer des sondages (after 1.4.0)
+     * FORUM_USE_PUNISHMENT -> Utilisez les sanctions pré-appliquées (after 1.4.0)
+     * FORUM_TAG_USER -> Tag les utilisateurs depuis un message. (after 1.4.0)
      */
 
     public $model;
@@ -154,5 +167,15 @@ class ForumPermissionComponent extends Component
     public function delete($table, $key, $value)
     {
         $this->model[$table]->_delete($key, $value);
+    }
+
+    public function findIfInstall($permission)
+    {
+        return $this->model['permission']->findIfInstall($permission);
+    }
+
+    public function installNew($datas)
+    {
+        return $this->model['permission']->installNew($datas);
     }
 }

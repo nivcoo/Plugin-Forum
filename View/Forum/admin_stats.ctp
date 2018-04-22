@@ -1,6 +1,8 @@
 <?= $this->Html->css('Forum.billboard.min.css') ?>
 <?= $this->Html->script('Forum.d3.v4.min.js'); ?>
 <?= $this->Html->script('Forum.billboard.min.js'); ?>
+<?= $this->Html->css('Forum.forum-style.css') ?>
+
 <section class="content">
     <div class="row">
         <div class="col-md-3 col-xs-12">
@@ -76,6 +78,25 @@
             </div>
         </div>
     </div>
+
+    <!-- Ranking of last seven days -->
+    <div class="row mt30">
+        <div class="col-md-5 col-xs-12">
+            <div class="info-box bg-aqua">
+                <span class="info-box-icon"><i class="fa fa-area-chart"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Statistiques des 8 derniers jours</span>
+                    <span class="info-box-number"></span>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 50%"></div>
+                    </div>
+                    <span class="progress-description">
+                  </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="box box-info">
@@ -108,6 +129,59 @@
             </div>
         </div>
     </div>
+
+    <!-- Ranking of last twelve months -->
+    <div class="row mt30">
+        <div class="col-md-5 col-xs-12">
+            <div class="info-box bg-aqua">
+                <span class="info-box-icon"><i class="fa fa-area-chart"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Statistiques des 12 derniers mois</span>
+                    <span class="info-box-number"></span>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 50%"></div>
+                    </div>
+                    <span class="progress-description">
+                  </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?= $Lang->get('FORUM__STATISTIC__VIEWTOPIC') ?></h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="chart-bb-spline-viewsmonth"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?= $Lang->get('FORUM__STATISTIC__TOPICCREATE') ?></h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="chart-bb-spline-nbmonth"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="box box-danger">
@@ -194,5 +268,58 @@
             }
         },
         "bindto": "#chart-bb-spline-nbtopic"
+    });
+    var chart = bb.generate({
+        "data": {
+            "x": "x",
+            "columns": [
+                ["x",
+                    <?php foreach ($stats['month']['topic'] as $s): ?>
+                        "<?= $s['date']; ?>",
+                    <?php endforeach; ?>
+                ],
+                ["Nombre de topics vue(s)",
+                    <?php foreach ($stats['month']['topic'] as $s): ?>
+                        <?= $s['view']; ?>,
+                    <?php endforeach; ?>
+                ]
+            ],
+            "type": "spline"
+        },
+        "axis": {
+            "x": {
+                "type": "category"
+            }
+        },
+        "bindto": "#chart-bb-spline-viewsmonth"
+    });
+    var chart = bb.generate({
+        "data": {
+            "x": "x",
+            "columns": [
+                ["x",
+                    <?php foreach ($stats['month']['topic'] as $s): ?>
+                        "<?= $s['date']; ?>",
+                    <?php endforeach; ?>
+                ],
+                ["Nombre de nouveau(x) messages(s)",
+                    <?php foreach ($stats['month']['message'] as $s): ?>
+                        <?= $s['nb']; ?>,
+                    <?php endforeach; ?>
+                ],
+                ["Nombre de nouveau(x) topic(s)",
+                    <?php foreach ($stats['month']['topic'] as $s): ?>
+                        <?= $s['nb']; ?>,
+                    <?php endforeach; ?>
+                ]
+            ],
+            "type": "spline"
+        },
+        "axis": {
+            "x": {
+                "type": "category"
+            }
+        },
+        "bindto": "#chart-bb-spline-nbmonth"
     });
 </script>

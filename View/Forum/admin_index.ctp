@@ -153,10 +153,6 @@
                     <?php foreach ($remoteMsg['nextupdate'] as $msg): ?>
                         <?= $msg; ?>
                     <?php endforeach; ?>
-                    <br />
-                    <div style="margin-right:auto;margin-left:auto;text-align:center">
-                        <iframe src="http://www.strawpoll.me/embed_1/13421966" style="width:680px;height:380px;border:0;">Loading poll...</iframe>
-                    </div>
                 </div>
             </div>
         </div>

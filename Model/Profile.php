@@ -18,6 +18,7 @@ class Profile extends ForumAppModel
     public function updateProfile($description, $idUser)
     {
         if ($this->hasAny(['id_user' => $idUser])) {
+            $description = htmlentities($description);
             $description = $this->getDataSource()->value($description, 'string');
             return $this->updateAll(['description' => $description], ['id_user' => $idUser]);
         } else {

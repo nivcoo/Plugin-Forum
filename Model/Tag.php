@@ -7,10 +7,10 @@ class Tag extends ForumAppModel
         return $this->find('all');
     }
 
-    public function add($label, $icon, $color, $position)
+    public function add($label, $icon, $color, $position, $used)
     {
         $this->create();
-        $this->set(['name' => $label, 'icon' => $icon, 'color' => $color, 'position' => $position]);
+        $this->set(['name' => $label, 'icon' => $icon, 'color' => $color, 'position' => $position, 'used' => $used]);
         return $this->save();
     }
 
