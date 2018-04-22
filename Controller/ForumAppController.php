@@ -10,9 +10,9 @@ class ForumAppController extends AppController
         'Forum.ForumBackup',
         'Forum.ForumPermission',
 
-        'DebugKit.Toolbar' => [
+        /*'DebugKit.Toolbar' => [
             'panels' => ['history' => false]
-        ]
+        ]*/
     ];
 
     public $atualTheme;
