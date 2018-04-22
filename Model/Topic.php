@@ -93,7 +93,7 @@ class Topic extends ForumAppModel
                 return $this->find('first', ['conditions' => ['id_topic' => $id, 'first' => 1]])['Topic']['name'];
                 break;
             case 'id_topic' :
-                return $this->find('first', ['conditions' => ['id' => $id, 'first' => 1]])['Topic']['id_topic'];
+                return $this->find('first', ['conditions' => ['id' => $id]])['Topic']['id_topic'];
                 break;
             case 'id_topic_alt' :
                 return $this->find('first', ['conditions' => ['id' => $id]])['Topic']['id_topic'];
@@ -220,9 +220,23 @@ class Topic extends ForumAppModel
     public function addTopic($idParent, $idUser, $title, $stick, $lock, $content)
     {
         $max = ($this->maxIdTopic()) + 1;
+
         $this->create();
-        $this->set(['id_parent' => $idParent, 'id_user' => $idUser, 'id_topic' => $max, 'name' => $title, 'first' => 1, 'stick' => $stick, 'lock' => $lock, 'content' => $content, 'date' => date('Y-m-d H:i:s')]);
+
+        $this->set([
+            'id_parent' => $idParent,
+            'id_user' => $idUser,
+            'id_topic' => $max,
+            'name' => $title,
+            'first' => 1,
+            'stick' => $stick,
+            'lock' => $lock,
+            'content' => $content,
+            'date' => date('Y-m-d H:i:s')
+        ]);
+
         $this->save();
+
         return ['title' => $title, 'id_topic' => $max];
     }
 
@@ -311,12 +325,27 @@ class Topic extends ForumAppModel
         return $this->updateAll(['tags' => $newTag], ['id_topic' => $id, 'first' => 1]);
     }
 
-    public function getNbTopic($date, $full = true)
+    public function getNbTopic($date, $full = true, $month = false, $year = false)
     {
-        $max = date("Y-m-d", strtotime("$date +1 day"));
+        if ($month) {
+            $max = date("Y-m-d", strtotime("$date +1 month"));
+        } elseif ($year) {
+            $max = date("Y-m-d", strtotime("$date +1 year"));
+        } else{
+            $max = date("Y-m-d", strtotime("$date +1 day"));
+        }
 
         if($full) return $this->find('count', ['conditions' => ['date >=' => $date, 'date <' => $max]]);
         else return $this->find('count', ['conditions' => ['first' => 1, 'date >=' => $date, 'date <' => $max]]);
+    }
+
+    public function statsTop($topic = false)
+    {
+        if ($topic) {
+            return $this->find('all', ['fields' => ['id_user', 'COUNT(id_user) as count'], 'group' => ['id_user'], 'order' => 'count DESC', 'conditions' => ['first' => 1], 'limit' => 5]);
+        } else {
+            return $this->find('all', ['fields' => ['id_user', 'COUNT(id_user) as count'], 'group' => ['id_user'], 'order' => 'count DESC', 'limit' => 5]);
+        }
     }
 
 }

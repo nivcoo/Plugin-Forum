@@ -1,5 +1,8 @@
 <?php if($type == 'propertiesTopic'): ?>
-    <?php if($perms['FORUM_TOPIC_LOCK'] || $perms['FORUM_TOPIC_STICK'] || $perms['FORUM_TOPIC_DELETE'] || $perms['FORUM_MOOVE_TOPIC'] || $perms['FORUM_MSG_EDIT']): ?>
+    <?php if($perms['FORUM_TOPIC_LOCK'] || $perms['FORUM_TOPIC_STICK'] ||
+                    $perms['FORUM_TOPIC_DELETE'] || $perms['FORUM_MOOVE_TOPIC'] ||
+                            $perms['FORUM_MSG_EDIT'] || $perms['FORUM_TOPIC_VISIBILY'] ||
+                                $perms['FORUM_RENAME_TOPIC']): ?>
     <div class="modal fade" id="ModalEdit-<?= $topic['Topic']['id_topic']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -43,7 +46,7 @@
                             </div>
                         <?php endif; ?>
                     </div>
-                    <?php if($perms['FORUM_MSG_EDIT']): ?>
+                    <?php if($perms['FORUM_RENAME_TOPIC']): ?>
                         <div class="row mt20">
                             <form action="<?= $this->Html->url('/forum/action/topic/rename/'.$topic['Topic']['id_topic']); ?>" method="post">
                                 <input name="data[_Token][key]" value="<?= $csrfToken ?>" type="hidden" />
@@ -73,7 +76,7 @@
                             </form>
                         </div>
                     <?php endif; ?>
-                    <?php if($perms['FORUM_MSG_EDIT']): ?>
+                    <?php if($perms['FORUM_TOPIC_VISIBILY']): ?>
                         <hr />
                         <h4 class="inline"><?= $Lang->get('FORUM__SEEBY'); ?></h4>
                         <?php if(empty($topic['Topic']['individualPermission'])): ?>

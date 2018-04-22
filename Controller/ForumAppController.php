@@ -8,17 +8,25 @@ class ForumAppController extends AppController
     public $components = [
         'Forum.ForumRender',
         'Forum.ForumBackup',
-        'Forum.ForumPermission'
+        'Forum.ForumPermission',
+
+        'DebugKit.Toolbar' => [
+            'panels' => ['history' => false]
+        ]
     ];
 
     public $atualTheme;
 
-    protected $version = '1.2.1';
+    protected $version = '1.4.1';
 
 
-    protected function date($date)
+    protected function date($date, $day = true)
     {
-        return $this->format(CakeTime::format($date, '%d %B %Y'));
+        if ($day) {
+            return $this->format(CakeTime::format($date, '%d %B %Y'));
+        } else {
+            return $this->format(CakeTime::format($date, '%B %Y'));
+        }
     }
 
     protected function time($time)
@@ -278,18 +286,67 @@ class ForumAppController extends AppController
 
         //1.1.10 : none
 
-        //1.2.0 & 1.2.1
+        //1.2.0 & 1.2.1 & 1.2.2
         $exist[5] = $db->query('SHOW TABLES LIKE "forum__internals"');
-        if (empty($exist[5])) {
+        $exist[6] = $db->query('SELECT * FROM forum__internals');
+        if (empty($exist[5]) || empty($exist[6])) {
             $db->query('
-                CREATE TABLE forum__internals(
+                CREATE TABLE IF NOT EXISTS forum__internals(
                   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
                   internal_name VARCHAR(255),
                   internal_value VARCHAR(255)
                 );
                 INSERT INTO forum__internals (internal_name, internal_value) VALUES ("start", NULL);
-                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("last_version", "1.2.0")
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("last_version", "'.$this->version.'")
            ');
+        }
+
+        //1.3.0
+        $exist[7] = $db->query('SELECT internal_name FROM forum__internals WHERE internal_name="description"');
+        if (empty($exist[7])) {
+            $db->query('
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("description", "description");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("background", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("background_effect", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("icons", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("index_title", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("forum_color", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("topic_color", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("lasttopic_titlecolor", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("lasttopic_datecolor", "");
+                INSERT INTO forum__internals (internal_name, internal_value) VALUES ("chevron_color", "");
+           ');
+        }
+
+        //1.4.0
+
+        $this->loadModel('Forum.Group');
+        $this->loadModel('Forum.Groups_user');
+
+        if ($this->ForumPermission->findIfInstall('FORUM_TOPICMY_LOCK')) {
+
+            $groups = $this->Group->get();
+
+            $groups[] = [
+                'Group' => [
+                    'id' => 99
+                ]
+            ];
+
+            foreach ($groups as $key => $g) {
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_TOPICMY_LOCK', 'value' => 1]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_TAG_TOPIC', 'value' => 0]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_RENAMEMY_TOPIC', 'value' => 1]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_RENAME_TOPIC', 'value' => 0]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_TOPIC_VISIBILY', 'value' => 0]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_TAG_PUBLIC', 'value' => 0]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_CREATE_POLL', 'value' => 0]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_USE_PUNISHMENT', 'value' => 0]);
+                $this->ForumPermission->installNew(['group_id' => $g['Group']['id'], 'name' => 'FORUM_TAG_USER', 'value' => 0]);
+            }
+
+            $db->query('ALTER TABLE forum__tags ADD used TEXT;');
+            $db->query('INSERT INTO forum__configs (config_name, config_value, lang) VALUES ("cache", 0, "Cache");');
         }
 
         return true;

@@ -1,10 +1,11 @@
 <?= $this->Html->css('Forum.forum-style.css?'.rand(1, 1000000)) ?>
-<div class="container">
+<?= $this->Html->css('Forum.custom.css') ?>
+
+<div class="background-forum">
+    <div class="container">
     <div class="mt10">
         <div class="row">
-            <div class="col-md-9">
-
-            </div>
+            <div class="col-md-9"></div>
             <div class="col-md-3">
                 <a href="<?= $this->Html->url('/message/new'); ?>" class="btn btn-theme mt30"><i class="fa fa-plus" aria-hidden="true"></i> <?= $Lang->get('FORUM__WRITE__MSG'); ?></a>
             </div>
@@ -42,4 +43,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>
