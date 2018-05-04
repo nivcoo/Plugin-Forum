@@ -2113,7 +2113,8 @@ class ForumController extends ForumAppController
                 ['config_name' => 'notemsg', 'config_value' => true, 'lang' => 'Noter les messages'],
                 ['config_name' => 'userpage', 'config_value' => true, 'lang' => 'Profil utilisateur du forum'],
                 ['config_name' => 'forum', 'config_value' => true, 'lang' => 'Forum'],
-                ['config_name' => 'socialnetwork', 'config_value' => true, 'lang' => 'Réseaux sociaux']
+                ['config_name' => 'socialnetwork', 'config_value' => true, 'lang' => 'Réseaux sociaux'],
+                ['config_name' => 'cache', 'config_value' => false, 'lang' => 'Cache'],
             ],
             'forum' => [
                 ['id_parent' => 0, 'id_user' => 1, 'position' => 1, 'forum_name' => 'Mineweb', 'forum_description' => 'Ceci est une description', 'forum_image' => 'folder-open'],
