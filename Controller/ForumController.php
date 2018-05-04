@@ -2460,7 +2460,7 @@ class ForumController extends ForumAppController
 
             $i = 0;
             $state = true;
-            $list = "";
+            $list = [];
 
             while ($state) {
                 if ($i == 0) {
@@ -2574,7 +2574,7 @@ class ForumController extends ForumAppController
     private function inCategory($id){
         $categorys = $this->Forum->getForum('categorie', $id);
 
-        $datas = "";
+        $datas = [];
 
         if (!empty($categorys)) {
             foreach ($categorys as $key => $category) {
