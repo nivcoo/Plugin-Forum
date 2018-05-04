@@ -1522,20 +1522,19 @@ class ForumController extends ForumAppController
             $this->layout = 'admin';
 
             $dir = '../Plugin/Forum/Core/database';
-            $lists = '';
-
+            $lists = [];
             if ($dh = opendir($dir)) {
                 $i = 0;
                 while (($file = readdir($dh)) !== false) {
-                    if ($file != '.' && $file != '..') {
+                    if ($file != '.' && $file != '..' && $file != '.gitkeep') {
                         $lists[$i]['name'] = $file;
                         $file = str_replace('backup_forum_', '', $file);
                         $file = str_replace('__', '-', $file);
                         $file = str_replace('_', ':', $file);
                         $file = str_replace('.zip', '', $file);
                         $lists[$i]['date'] = $this->dateAndTime($file);
+                        $i++;
                     }
-                    $i++;
                 }
                 closedir($dh);
             }
