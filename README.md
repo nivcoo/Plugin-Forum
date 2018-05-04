@@ -20,7 +20,7 @@ Thème comportant des problèmes d'affichage : DarkFlat, Grey, Justice, Omni
 
 Thème incompatible (utilisation non possible) : FlatColor
 
-Thème désactivé (failles de sécurités) : BravoureDark, Kraken, Kuro, Mineflat, MineStorm, KryptonFight, Kuoo, Master
+Thème désactivé (failles de sécurités) : BravoureDark, Kraken, Kuro, Mineflat, KryptonFight, Kuoo, Master
 
 
 ## API
