@@ -84,12 +84,12 @@
                                         <div class="panel box box-primary">
                                             <div class="box-header with-border">
                                                 <h4 class="box-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" class="collapsed">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" class="collapsed">
                                                         Je souhaiterais connaître l'avancement du développement du forum
                                                     </a>
                                                 </h4>
                                             </div>
-                                            <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                            <div id="collapseSix" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
                                                 <div class="box-body">
                                                     L'avancement est disponible à cette url : <a href="https://trello.com/b/JDpJ4md7/forum-d%C3%A9veloppement-mineweb" target="_blank">Lien</a>
                                                 </div>
