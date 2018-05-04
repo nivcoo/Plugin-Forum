@@ -14,13 +14,13 @@ Voir [ici](https://github.com/PHPierrre/forum-mineweb/blob/Mineweb1.2/Plaquette.
 
 ## Compatibilité avec les thèmes
 
-Thème compatible : Absolute, Awards, Bootstrap, Darker, Flat, Guide, Jupiter, Mars, Nova, Pluton, Royal, Universal, Unruly, Urban
+Thème compatible : Absolute, Awards, Bootstrap, Darker, Flat, Guide, Jupiter, Mars, Mineflat, MineStorm, Nova, Pluton, Royal, Universal, Unruly, Urban
 
 Thème comportant des problèmes d'affichage : DarkFlat, Grey, Justice, Omni
 
 Thème incompatible (utilisation non possible) : FlatColor
 
-Thème désactivé (failles de sécurités) : BravoureDark, Kraken, Kuro, Mineflat, KryptonFight, Kuoo, Master
+Thème désactivé (failles de sécurités) : BravoureDark, Kraken, Kuro, KryptonFight, Kuoo, Master
 
 
 ## API
