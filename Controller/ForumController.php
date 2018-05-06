@@ -1522,20 +1522,19 @@ class ForumController extends ForumAppController
             $this->layout = 'admin';
 
             $dir = '../Plugin/Forum/Core/database';
-            $lists = '';
-
+            $lists = [];
             if ($dh = opendir($dir)) {
                 $i = 0;
                 while (($file = readdir($dh)) !== false) {
-                    if ($file != '.' && $file != '..') {
+                    if ($file != '.' && $file != '..' && $file != '.gitkeep') {
                         $lists[$i]['name'] = $file;
                         $file = str_replace('backup_forum_', '', $file);
                         $file = str_replace('__', '-', $file);
                         $file = str_replace('_', ':', $file);
                         $file = str_replace('.zip', '', $file);
                         $lists[$i]['date'] = $this->dateAndTime($file);
+                        $i++;
                     }
-                    $i++;
                 }
                 closedir($dh);
             }
@@ -2113,7 +2112,8 @@ class ForumController extends ForumAppController
                 ['config_name' => 'notemsg', 'config_value' => true, 'lang' => 'Noter les messages'],
                 ['config_name' => 'userpage', 'config_value' => true, 'lang' => 'Profil utilisateur du forum'],
                 ['config_name' => 'forum', 'config_value' => true, 'lang' => 'Forum'],
-                ['config_name' => 'socialnetwork', 'config_value' => true, 'lang' => 'Réseaux sociaux']
+                ['config_name' => 'socialnetwork', 'config_value' => true, 'lang' => 'Réseaux sociaux'],
+                ['config_name' => 'cache', 'config_value' => false, 'lang' => 'Cache'],
             ],
             'forum' => [
                 ['id_parent' => 0, 'id_user' => 1, 'position' => 1, 'forum_name' => 'Mineweb', 'forum_description' => 'Ceci est une description', 'forum_image' => 'folder-open'],
@@ -2460,7 +2460,7 @@ class ForumController extends ForumAppController
 
             $i = 0;
             $state = true;
-            $list = "";
+            $list = [];
 
             while ($state) {
                 if ($i == 0) {
@@ -2574,7 +2574,7 @@ class ForumController extends ForumAppController
     private function inCategory($id){
         $categorys = $this->Forum->getForum('categorie', $id);
 
-        $datas = "";
+        $datas = [];
 
         if (!empty($categorys)) {
             foreach ($categorys as $key => $category) {
@@ -2641,7 +2641,7 @@ class ForumController extends ForumAppController
          * end debug
          */
 
-        $array = ['MineStorm', 'Kraken', 'Kuoo', 'Kuro', 'BravoureDark', 'Mineflat', 'KryptonFight', 'Master'];
+        $array = ['Kraken', 'Kuoo', 'Kuro', 'BravoureDark', 'KryptonFight', 'Master'];
         /*
          * Pourquoi ces thèmes sont bloqués ?
          * Car ces thèmes sont soit abandonné, soit non mis à jour et donc manquent les dernières fonctions ou contiennent des failles de sécurités.
