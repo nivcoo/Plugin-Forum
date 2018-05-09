@@ -211,9 +211,11 @@ class ForumAppController extends AppController
 
     protected function buildUri($type, $name, $id, $anchor =  '')
     {
-        if(!empty($anchor)){
+        $name = h($name);
+
+        if (!empty($anchor)) {
             return $this->base.'/'.$type.'/'.$this->replaceSpace($name).'.'.$id.'/#'.$anchor;
-        }else{
+        } else {
             return $this->base.'/'.$type.'/'.$this->replaceSpace($name).'.'.$id.'/';
         }
     }
