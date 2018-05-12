@@ -172,7 +172,7 @@
                                    endforeach; ?>
 
                                    <h3 class="forum-category-title inline">
-                                       <a style="color:<?php if(!empty($internal['topic_color'])) echo $internal['topic_color']; ?>" href="<?= h($topic['Topic']['href']); ?>"><?= $this->Text->truncate(h($topic['Topic']['name']), 50); ?></a>
+                                       <a style="color:<?php if(!empty($internal['topic_color'])) echo $internal['topic_color']; ?>" href="<?= $topic['Topic']['href']; ?>"><?= $this->Text->truncate(h($topic['Topic']['name']), 50); ?></a>
                                    </h3>
                                    <div class="forum-category-description">
                                        <a href="<?= $this->Html->url('/user/'.$topic['Topic']['author'].'.'.$topic['Topic']['id_user'].'/'); ?>"><?= $topic['Topic']['author']; ?></a>, <?= $topic['Topic']['date']; ?>

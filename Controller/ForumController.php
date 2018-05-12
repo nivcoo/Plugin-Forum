@@ -797,7 +797,7 @@ class ForumController extends ForumAppController
                 $msgreports[$key]['MsgReport']['user'] = $this->gUBY($msgreport['MsgReport']['id_user']);
                 $msgreports[$key]['MsgReport']['date'] = $this->dateAndTime($msgreport['MsgReport']['date']);
                 $idTopic = $this->Topic->getUniqMessage($msgreport['MsgReport']['id_msg'])['id_topic'];
-                $msgreports[$key]['MsgReport']['href'] = $this->replaceSpace($this->Topic->getTitleTopic($idTopic)).'.'.$this->Topic->getIdTopic($idTopic);
+                $msgreports[$key]['MsgReport']['href'] = $this->buildUri('topic', $this->Topic->getTitleTopic($idTopic), $idTopic);
             }
 
             $theme = $this->theme();
@@ -1461,7 +1461,7 @@ class ForumController extends ForumAppController
                 $msgreports[$key]['MsgReport']['user'] = $this->gUBY($msgreport['MsgReport']['id_user']);
                 $msgreports[$key]['MsgReport']['date'] = $this->dateAndTime($msgreport['MsgReport']['date']);
                 $idTopic = $this->Topic->getUniqMessage($msgreport['MsgReport']['id_msg'])['id_topic'];
-                $msgreports[$key]['MsgReport']['href'] = $this->replaceSpace($this->Topic->getTitleTopic($idTopic)).'.'.$this->Topic->getIdTopic($idTopic);
+                $msgreports[$key]['MsgReport']['href'] = $this->buildUri('topic', $this->Topic->getTitleTopic($idTopic), $idTopic);
             }
 
             $this->set(compact('msgreports'));
@@ -1480,7 +1480,7 @@ class ForumController extends ForumAppController
             foreach ($topics as $key => $topic) {
                 $topics[$key]['Topic']['author'] = $this->gUBY($topic['Topic']['id_user']);
                 $topics[$key]['Topic']['date'] = $this->dateAndTime($topic['Topic']['date']);
-                $topics[$key]['Topic']['href'] = $this->replaceSpace($topic['Topic']['name']).'.'.$topic['Topic']['id_topic'];
+                $topics[$key]['Topic']['href'] = $this->buildUri('topic', $topic['Topic']['name'], $topic['Topic']['id_topic']);
             }
 
             $this->set(compact('topics'));
