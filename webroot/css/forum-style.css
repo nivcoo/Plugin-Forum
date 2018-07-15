@@ -54,6 +54,7 @@
 .forum-category-title{
     margin: 10px 0 0 0;
     font-size: 16px;
+    line-height: 25px;
 }
 
 .forum-category-description{
@@ -549,4 +550,8 @@ ol > .forum-left.last{
 
 .ml0{
     margin-left: 0px;
+}
+
+.m0{
+    margin: 0 !important;
 }
