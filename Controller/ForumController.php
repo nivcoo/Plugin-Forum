@@ -2641,7 +2641,7 @@ class ForumController extends ForumAppController
          * end debug
          */
 
-        $array = ['Kraken', 'Kuoo', 'Kuro', 'BravoureDark', 'KryptonFight', 'Master'];
+        $array = ['Kraken', 'Kuoo', 'Kuro', 'BravoureDark', 'KryptonFight'];
         /*
          * Pourquoi ces thèmes sont bloqués ?
          * Car ces thèmes sont soit abandonné, soit non mis à jour et donc manquent les dernières fonctions ou contiennent des failles de sécurités.
