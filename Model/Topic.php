@@ -173,7 +173,7 @@ class Topic extends ForumAppModel
 
     public function getMessage($id, $params)
     {
-        return $this->find('all', ['conditions' => ['id_topic' => $id], 'order' => ['date' => 'ASC'], 'limit' => $this->nbMessage, 'page' => $params['page']]);
+        return $this->find('all', ['conditions' => ['id_topic' => $id], 'order' => ['date' => 'ASC'], 'limit' => $this->nbMessage, 'page' => $params]);
     }
 
     public function getUniqMessage($id)
