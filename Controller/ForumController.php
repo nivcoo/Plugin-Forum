@@ -745,7 +745,6 @@ class ForumController extends ForumAppController
                         return $this->redirect('/topic/'.$title.'.'.$idTopic.'/');
                     } else {
                         $topic = "";
-                        $params = "";
                         $params['isEdit']['title'] = $params['isEdit']['tag'] = $params['isEdit']['tagPublic'] = false;
 
                         $content = $this->Topic->getUniqMessage($idMessage);
