@@ -328,7 +328,8 @@ class ForumController extends ForumAppController
                         if (!empty($this->request->data['content'])) {
                             if (!$lock || $this->ForumPermission->has('FORUM_TOPIC_LOCK')) {
 
-                                $content = htmlspecialchars($this->word($this->request->data['content']));
+
+                                $content = $this->word($this->request->data['content']);
 
                                 $this->Topic->addMessage($this->Topic->info('id_parent', $id), $this->getIdSession(), $id, $content, date('Y-m-d H:i:s'));
                                 $this->logforum($this->getIdSession(), 'add_message', $this->gUBY($this->getIdSession()) . $this->Lang->get('FORUM__PHRASE__HISTORY__POST__MSG') . strip_tags(substr($content, 0, 30)), $content);
@@ -345,7 +346,7 @@ class ForumController extends ForumAppController
                             }
                         } elseif (!empty($this->request->data['content_update'])) {
                             $idMessage = $this->request->data['id'];
-                            $content = htmlspecialchars($this->request->data['content_update']);
+                            $content = $this->request->data['content_update'];
                             $content = $this->word($content);
 
                             if ($this->ForumPermission->has('FORUM_MSG_EDIT') OR $this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
@@ -370,7 +371,8 @@ class ForumController extends ForumAppController
                                     $idMessage = $this->request->data['id'];
                                     if ($this->Topic->getUserId('id_user', 'id', $idMessage) != $this->getIdSession()) {
                                         $reason = htmlspecialchars($this->request->data['reason']);
-                                        $content = htmlspecialchars($this->request->data['content_report']);
+                                        $content = $this->request->data['content_report'];
+                                        $content = $this->word($content);
                                         $this->MsgReport->report($this->getIdSession(), $idMessage, date('Y-m-d H:i:s'), $reason, $content);
                                         $this->logforum($this->getIdSession(), 'add_message', $this->gUBY($this->getIdSession()) . $this->Lang->get('FORUM__PHRASE__HISTORY__REPORT__MSG') . strip_tags(substr($content, 0, 30)) . $this->Lang->get('FORUM__PHRASE__HISTORY_FOR__REASON') . $reason, $content);
                                         $this->Session->setFlash($this->Lang->get('FORUM__REPORT__SEND'), 'default.success');
@@ -614,7 +616,7 @@ class ForumController extends ForumAppController
                         }
                     }
 
-                    $content = htmlspecialchars($this->word($this->request->data['content_insert']));
+                    $content = $this->word($this->request->data['content_insert']);
                     $title = $this->urlRew(trim($this->request->data['title']));
 
                     $param = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
@@ -695,7 +697,7 @@ class ForumController extends ForumAppController
                 }
                 if ($state) {
                     if ($this->request->is('post')) {
-                        $newMessage = htmlspecialchars($this->request->data['content']);
+                        $newMessage = $this->word($this->request->data['content']);
 
                         $this->Topic->updateMessage($idMessage, $newMessage);
 
@@ -1950,6 +1952,7 @@ class ForumController extends ForumAppController
         $this->loadModel('Forum.Insult');
 
         $words = $this->Insult->get();
+        $string = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $string);
 
         foreach ($words as $word) {
             $string = preg_replace('/\b' . $word['Insult']['word'] . '\b/i', $word['Insult']['replace'], $string);
