@@ -31,7 +31,7 @@ class MessageController extends ForumAppController
 
     public function index()
     {
-
+        var_dump("P:".$this->isConnected);
         if ($this->isConnected && $this->Config->is('privatemsg')) {
             $messages = $this->Conversation->get('first');
             if ($messages) {

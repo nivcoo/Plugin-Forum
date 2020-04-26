@@ -16,7 +16,7 @@
                                 <p class="forum-forum-title"> <i class="fa fa-id-card" aria-hidden="true"></i> <?= $Lang->get('FORUM__DESCRIPTION'); ?></p>
                             </div>
                             <div class="forum-category">
-                                <textarea name="description" class="form-control" rows="5"><?= $infos['description']; ?></textarea>
+                                <textarea name="description" class="form-control" rows="5"><?= h(strip_tags($infos['description'])); ?></textarea>
                                 <div class="pull-right font-min"> Max 167</div>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-facebook" aria-hidden="true"></i>
                                             </div>
-                                            <input class="form-control" type="text" name="facebook" placeholder="https://www.facebook.com/FacebookFrance" value="<?= $socialNetworks['facebook']; ?>" />
+                                            <input class="form-control" type="text" name="facebook" placeholder="https://www.facebook.com/FacebookFrance" value="<?= h(strip_tags($socialNetworks['facebook'])); ?>" />
                                         </div>
                                         <input class="form-control" type="hidden" name="social" value="social" />
                                     </div>
@@ -46,7 +46,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-twitter" aria-hidden="true"></i>
                                             </div>
-                                            <input class="form-control" type="text" name="twitter" placeholder="https://twitter.com/TwitterFrance" value="<?= $socialNetworks['twitter']; ?>" />
+                                            <input class="form-control" type="text" name="twitter" placeholder="https://twitter.com/TwitterFrance" value="<?= h(strip_tags($socialNetworks['twitter'])); ?>" />
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -55,7 +55,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-youtube-play" aria-hidden="true"></i>
                                             </div>
-                                            <input class="form-control" type="text" name="youtube" placeholder="https://www.youtube.com/user/GoogleFrance" value="<?= $socialNetworks['youtube']; ?>" />
+                                            <input class="form-control" type="text" name="youtube" placeholder="https://www.youtube.com/user/GoogleFrance" value="<?= h(strip_tags($socialNetworks['youtube'])); ?>" />
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -64,7 +64,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-google-plus" aria-hidden="true"></i>
                                             </div>
-                                            <input class="form-control" type="text" name="googleplus" placeholder="https://plus.google.com/+GoogleFrance" value="<?= $socialNetworks['googleplus']; ?>" />
+                                            <input class="form-control" type="text" name="googleplus" placeholder="https://plus.google.com/+GoogleFrance" value="<?= h(strip_tags($socialNetworks['googleplus'])); ?>" />
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -73,7 +73,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-snapchat-ghost" aria-hidden="true"></i>
                                             </div>
-                                            <input class="form-control" type="text" placeholder="snapchat" name="snapchat" value="<?= $socialNetworks['snapchat']; ?>" />
+                                            <input class="form-control" type="text" placeholder="snapchat" name="snapchat" value="<?= h(strip_tags($socialNetworks['snapchat'])); ?>" />
                                         </div>
                                     </div>
                                 </div>

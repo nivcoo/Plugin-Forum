@@ -56,7 +56,7 @@
                                     </h3>
                                     <div class="text-center">
                                         <?php if(!empty($socialNetworks['facebook'])): ?>
-                                            <a class="media media-facebook" target="_blank" onclick="el('<?= $socialNetworks['facebook']; ?>')">
+                                            <a class="media media-facebook" target="_blank" onclick="el('<?= h(strip_tags($socialNetworks['facebook'])); ?>')">
                                         <span class="fa-stack fa-lg">
                                               <i class="fa fa-square-o fa-stack-2x"></i>
                                               <i class="fa fa-facebook fa-stack-1x"></i>
@@ -64,7 +64,7 @@
                                             </a>
                                         <?php endif; ?>
                                         <?php if(!empty($socialNetworks['twitter'])): ?>
-                                            <a class="media media-twitter" target="_blank" onclick="el('<?= $socialNetworks['twitter']; ?>')">
+                                            <a class="media media-twitter" target="_blank" onclick="el('<?= h(strip_tags($socialNetworks['twitter'])); ?>')">
                                         <span class="fa-stack fa-lg">
                                               <i class="fa fa-square-o fa-stack-2x"></i>
                                               <i class="fa fa-twitter fa-stack-1x"></i>
@@ -72,7 +72,7 @@
                                             </a>
                                         <?php endif; ?>
                                         <?php if(!empty($socialNetworks['youtube'])): ?>
-                                            <a class="media media-youtube" target="_blank" onclick="el('<?= $socialNetworks['youtube']; ?>')">
+                                            <a class="media media-youtube" target="_blank" onclick="el('<?= h(strip_tags($socialNetworks['youtube'])); ?>')">
                                         <span class="fa-stack fa-lg">
                                               <i class="fa fa-square-o fa-stack-2x"></i>
                                               <i class="fa fa-youtube-play fa-stack-1x"></i>
@@ -80,7 +80,7 @@
                                             </a>
                                         <?php endif; ?>
                                         <?php if(!empty($socialNetworks['googleplus'])): ?>
-                                            <a class="media media-google-plus" target="_blank" onclick="el('<?= $socialNetworks['googleplus']; ?>')">
+                                            <a class="media media-google-plus" target="_blank" onclick="el('<?= h(strip_tags($socialNetworks['googleplus'])); ?>')">
                                         <span class="fa-stack fa-lg">
                                               <i class="fa fa-square-o fa-stack-2x"></i>
                                               <i class="fa fa-google-plus fa-stack-1x"></i>
@@ -88,7 +88,7 @@
                                             </a>
                                         <?php endif; ?>
                                         <?php if(!empty($socialNetworks['snapchat'])): ?>
-                                            <a class="media media-snapchat" data-toggle="tooltip" data-placement="top" title="<?= $socialNetworks['snapchat']; ?>">
+                                            <a class="media media-snapchat" data-toggle="tooltip" data-placement="top" title="<?= h(strip_tags($socialNetworks['snapchat'])); ?>">
                                         <span class="fa-stack fa-lg">
                                               <i class="fa fa-square-o fa-stack-2x"></i>
                                               <i class="fa fa-snapchat-ghost fa-stack-1x"></i>
@@ -180,7 +180,6 @@
     })
     <?php if($active['socialnetwork']): ?>
     function el(site) {
-        console.log(site);
         $('#myModal').modal('show');
 
         $('.js-link').attr('href', site);

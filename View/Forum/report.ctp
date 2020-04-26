@@ -28,8 +28,8 @@
                                     <tr>
                                         <td><?= $msgreport['MsgReport']['user']; ?></td>
                                         <td><?= $msgreport['MsgReport']['date']; ?></td>
-                                        <td><?= $msgreport['MsgReport']['reason']; ?></td>
-                                        <td><?= $msgreport['MsgReport']['content']; ?></td>
+                                        <td><?= h($msgreport['MsgReport']['reason']); ?></td>
+                                        <td><?= h($msgreport['MsgReport']['content']); ?></td>
                                         <td>
                                             <a  href="<?= $this->Html->url($msgreport['MsgReport']['href'].'/#'.$msgreport['MsgReport']['id_msg']); ?>" class="btn btn-info"><i class="fa fa-external-link" aria-hidden="true"></i></a>
                                             <form style="display: inline-block" action="" method="post">

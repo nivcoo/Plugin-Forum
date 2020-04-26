@@ -9,6 +9,7 @@ class ForumAppController extends AppController
         'Forum.ForumRender',
         'Forum.ForumBackup',
         'Forum.ForumPermission',
+        'Forum.ForumSecurity'
 
         /*'DebugKit.Toolbar' => [
             'panels' => ['history' => false]
@@ -450,6 +451,11 @@ class ForumAppController extends AppController
                 return false;
 
         }
+    }
+
+    public function removeScript($content)
+    {
+        return $this->ForumSecurity->removeScript($content);
     }
 
 }

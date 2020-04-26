@@ -327,8 +327,8 @@ class ForumController extends ForumAppController
                     if ($this->isConnected) {
                         if(!empty($this->request->data['content'])) {
                             if (!$lock || $this->ForumPermission->has('FORUM_TOPIC_LOCK')) {
-
-                                $content = $this->word($this->request->data['content']);
+                                $content = $this->removeScript($this->request->data['content']);
+                                $content = $this->word($content);
 
                                 $this->Topic->addMessage($this->Topic->info('id_parent', $id), $this->getIdSession(), $id, $content, date('Y-m-d H:i:s'));
                                 $this->logforum($this->getIdSession(), 'add_message', $this->gUBY($this->getIdSession()).$this->Lang->get('FORUM__PHRASE__HISTORY__POST__MSG').strip_tags(substr($content, 0, 30)), $content);
@@ -345,7 +345,8 @@ class ForumController extends ForumAppController
                             }
                         } elseif (!empty($this->request->data['content_update'])) {
                             $idMessage = $this->request->data['id'];
-                            $content = $this->request->data['content_update'];
+                            $content = $this->removeScript($this->request->data['content_update']);
+                            $this->log($content);
                             $content = $this->word($content);
 
                             if ($this->ForumPermission->has('FORUM_MSG_EDIT') OR $this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
@@ -614,7 +615,8 @@ class ForumController extends ForumAppController
                         }
                     }
 
-                    $content = $this->word($this->request->data['content_insert']);
+                    $content = $this->removeScript($this->request->data['content_insert']);
+                    $content = $this->word($content);
                     $title = $this->urlRew(trim($this->request->data['title']));
 
                     $param = $this->Topic->addTopic($idParent, $this->getIdSession(), $title, $stick, $lock, $content);
@@ -695,7 +697,8 @@ class ForumController extends ForumAppController
                 }
                 if ($state) {
                     if ($this->request->is('post')) {
-                        $newMessage = $this->request->data['content'];
+
+                        $newMessage = $this->removeScript($this->request->data['content']);
 
                         $this->Topic->updateMessage($idMessage, $newMessage);
 
@@ -2640,7 +2643,7 @@ class ForumController extends ForumAppController
          * end debug
          */
 
-        $array = ['Kraken', 'Kuoo', 'Kuro', 'BravoureDark', 'KryptonFight'];
+        $array = ['Kraken', 'Kuro'];
         /*
          * Pourquoi ces thèmes sont bloqués ?
          * Car ces thèmes sont soit abandonné, soit non mis à jour et donc manquent les dernières fonctions ou contiennent des failles de sécurités.
