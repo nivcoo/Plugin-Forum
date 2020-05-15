@@ -27,12 +27,13 @@
                             <script type="text/javascript">
                                 tinymce.init({
                                     external_plugins: {
-                                        "emoticons": "<?= $this->Html->url('/') ?>forum/js/plugins/emoticons/plugin.min.js"
+                                        "emoticons": "<?= $this->Html->url('/forum') ?>/js/plugins/emoticons/plugin.min.js"
                                     },
                                     selector: "textarea",
                                     height : 200,
                                     width : '100%',
                                     menubar: false,
+                                    relative_urls: false,
                                     plugins: "textcolor table code image link contextmenu emoticons",
                                     toolbar: "fontselect fontsizeselect | styleselect | insert | bold italic underline strikethrough | forecolor backcolort | alignleft aligncenter alignright alignjustifyt | cut copy paste | bullist numlist outdent | emoticons indent blockquote code table"
                                 });

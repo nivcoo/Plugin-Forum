@@ -53,7 +53,7 @@
                                 <script type="text/javascript">
                                     tinymce.init({
                                         external_plugins: {
-                                            "emoticons": "/forum/js/plugins/emoticons/plugin.min.js"
+                                            "emoticons": "<?= $this->Html->url('/forum') ?>/js/plugins/emoticons/plugin.min.js"
                                         },
                                         selector: "textarea",
                                         height : 200,
