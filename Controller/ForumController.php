@@ -346,7 +346,7 @@ class ForumController extends ForumAppController
                         } elseif (!empty($this->request->data['content_update'])) {
                             $idMessage = $this->request->data['id'];
                             $content = $this->removeScript($this->request->data['content_update']);
-                            $this->log($content);
+
                             $content = $this->word($content);
 
                             if ($this->ForumPermission->has('FORUM_MSG_EDIT') OR $this->ForumPermission->has('FORUM_MSGMY_EDIT')) {
@@ -1688,7 +1688,7 @@ class ForumController extends ForumAppController
 
             foreach ($listMonths as $key => $l) {
                 $date = date('Y-m-01', strtotime('-'.$l.' month'));
-                $this->log($date);
+
                 $stats['month']['topic'][$key]['date'] = $this->date($date, false);
                 $stats['month']['topic'][$key]['view'] = $this->Vieww->getView($date, true, false);
                 $stats['month']['message'][$key]['nb'] = $this->Topic->getNbTopic($date, true, true);
