@@ -134,6 +134,11 @@ class ForumPermissionComponent extends Component
         return $groups;
     }
 
+    public function deleteGroupPermission($idGroup)
+    {
+        return $this->model['permission']->deleteAll(['group_id' => $idGroup]);
+    }
+
     public function updateGroup($state, $domin, $idUser, $idGroup)
     {
         return $this->model['groupsuser']->updateGroup($state, $domin, $idUser, $idGroup);

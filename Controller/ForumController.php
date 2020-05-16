@@ -1017,6 +1017,7 @@ class ForumController extends ForumAppController
                         $this->logforum($this->getIdSession(), 'delete_group', $this->gUBY($this->getIdSession()).' vient de supprimer un groupe', $id);
                         $this->Group->deleteGroup($id);
                         $this->ForumPermission->delete('groupsuser', 'id_group', $id);
+                        $this->ForumPermission->deleteGroupPermission($id);
                     } elseif ($type == 'permission') {
                         $this->loadModel('Forum.ForumPermission');
 
