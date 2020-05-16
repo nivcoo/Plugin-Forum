@@ -149,6 +149,7 @@
   "FORUM__VALUE": "Valeur",
   "FORUM__TECHNICAL__NAME": "Nom technique",
   "FORUM__NEED__HELP": "Besoin d'aide ?",
+  "FORUM__INPUTSIZE_LIMIT": "Vous avez atteint la limite du nombre de caractères.",
 
   "FORUM__GENERAL": "Gestion du forum",
   "FORUM__CATEGORY": "Gestion des catégories",

@@ -3,6 +3,8 @@
 class UserController extends ForumAppController
 {
 
+    public static $profileCharLimit = 300;
+
     public $components = [
         'Security' => [
             'csrfExpires' => '+1 hour'
@@ -83,26 +85,31 @@ class UserController extends ForumAppController
                 if($active['userpage']) {
                     if ($this->request->is('post')) {
                         $description = $this->request->data['description'];
-                        $this->Profile->updateProfile($description, $this->getIdSession());
-                        $this->logforum($this->getIdSession(), 'edit_profile', $this->gUBY($this->getIdSession()) . ' vient d\'editer son profil ', $this->request->data['description']);
 
-                        if($active['socialnetwork']){
-                            $facebook = $this->request->data['facebook'];
-                            $twitter = $this->request->data['twitter'];
-                            $youtube = $this->request->data['youtube'];
-                            $googleplus = $this->request->data['googleplus'];
-                            $snapchat = $this->request->data['snapchat'];
-                            $socials = json_encode([
-                                'facebook' => $facebook,
-                                'twitter' => $twitter,
-                                'youtube' => $youtube,
-                                'googleplus' => $googleplus,
-                                'snapchat' => $snapchat
-                            ]);
-                            $this->Profile->updateSocials($id, $socials);
+                        if(strlen($description) <= UserController::$profileCharLimit){
+                            $this->Profile->updateProfile($description, $this->getIdSession());
+                            $this->logforum($this->getIdSession(), 'edit_profile', $this->gUBY($this->getIdSession()) . ' vient d\'editer son profil ', $this->request->data['description']);
+
+                            if($active['socialnetwork']){
+                                $facebook = $this->request->data['facebook'];
+                                $twitter = $this->request->data['twitter'];
+                                $youtube = $this->request->data['youtube'];
+                                $googleplus = $this->request->data['googleplus'];
+                                $snapchat = $this->request->data['snapchat'];
+                                $socials = json_encode([
+                                    'facebook' => $facebook,
+                                    'twitter' => $twitter,
+                                    'youtube' => $youtube,
+                                    'googleplus' => $googleplus,
+                                    'snapchat' => $snapchat
+                                ]);
+                                $this->Profile->updateSocials($id, $socials);
+                            }
+
+                            $this->Session->setFlash($this->Lang->get('FORUM__EDIT__PROFILE'), 'default.success');
+                        } else {
+                            $this->Session->setFlash($this->Lang->get('FORUM__INPUTSIZE_LIMIT'), 'default.error');
                         }
-
-                        $this->Session->setFlash($this->Lang->get('FORUM__EDIT__PROFILE'), 'default.success');
                     }
                     $infos = $this->Profile->get($id);
                     $socialNetworks = $this->socialNetwork($id);

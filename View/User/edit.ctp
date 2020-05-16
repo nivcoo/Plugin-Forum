@@ -17,7 +17,7 @@
                             </div>
                             <div class="forum-category">
                                 <textarea name="description" class="form-control" rows="5"><?= h(strip_tags($infos['description'])); ?></textarea>
-                                <div class="pull-right font-min"> Max 167</div>
+                                <div class="pull-right font-min"> Max 300</div>
                             </div>
                         </div>
                     </div>

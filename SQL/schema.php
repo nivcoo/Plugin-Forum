@@ -128,8 +128,8 @@ class ForumAppSchema extends CakeSchema
     public $forum__profiles = [
         'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'unsigned' => false, 'key' => 'primary'],
         'id_user' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 8, 'unsigned' => false],
-        //42*((42*42)^42/42))/(((42^42))*((42^42)))*42+42-42/42+42+42 = 167
-        'description' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 167, 'unsigned' => false],
+        //42*((42*42)^42/42))/(((42^42))*((42^42)))*42+42-42/42+42+42 = 167 -> 300 :)
+        'description' => ['type' => 'text', 'null' => true, 'default' => null, 'length' => 300, 'unsigned' => false],
         'social' => ['type' => 'text', 'null' => true, 'default' => null, 'length' => 2000, 'unsigned' => false],
     ];
 
