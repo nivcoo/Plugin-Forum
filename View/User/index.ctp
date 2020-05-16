@@ -19,9 +19,11 @@
                                 <?php endif; ?>
                             </div>
                         </div>
-                        <div class="forum-bloc mt15 p15">
-                            <a class="btn-theme btn-full ml0" href="<?= $this->Html->url('/message/new/'.$slug) ?>"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> <?= $Lang->get('FORUM__SEND__MP'); ?></a>
-                        </div>
+                        <?php if(isset($_SESSION['user']) && $_SESSION['user'] != $id): ?>
+                            <div class="forum-bloc mt15 p15">
+                                <a class="btn-theme btn-full ml0" href="<?= $this->Html->url('/message/new/'.$slug) ?>"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> <?= $Lang->get('FORUM__SEND__MP'); ?></a>
+                            </div>
+                        <?php endif; ?>
                         <div class="forum-bloc mt15">
                             <div class="forum-bloc-header p15">
                                 <h3 class="forum-h3"><i class="fa fa-info-circle" aria-hidden="true"></i> <?= $Lang->get('GLOBAL__INFORMATIONS'); ?></h3>
